@@ -381,7 +381,7 @@ onBeforeUnmount(() => {
 
   .charts-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
     gap: var(--spacing-md);
 
     .chart-card {
@@ -445,7 +445,7 @@ onBeforeUnmount(() => {
   }
 }
 
-@media (max-width: 1200px) {
+@container (max-width: 1200px) {
   .dashboard-container {
     .stats-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -457,7 +457,7 @@ onBeforeUnmount(() => {
   }
 }
 
-@media (max-width: 768px) {
+@container (max-width: 768px) {
   .dashboard-container {
     .welcome-panel {
       padding: 22px 18px;

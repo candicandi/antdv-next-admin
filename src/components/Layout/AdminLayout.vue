@@ -764,6 +764,7 @@ watch(
     flex: 1;
     min-width: 0;
     min-height: 0;
+    container-type: inline-size;
   }
 
   .page-workspace-ai {
