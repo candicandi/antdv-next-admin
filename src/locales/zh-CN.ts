@@ -1319,7 +1319,7 @@ export default {
       productName: '产品名称',
       price: '价格',
       stock: '库存',
-      description: '描述',
+      productDescription: '描述',
       selectProduct: '选择产品',
       advancedUsage: '高级用法',
       withI18nKeys: 'Key 国际化支持',

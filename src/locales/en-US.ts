@@ -1318,7 +1318,7 @@ export default {
       productName: 'Product Name',
       price: 'Price',
       stock: 'Stock',
-      description: 'Description',
+      productDescription: 'Description',
       selectProduct: 'Select Product',
 advancedUsage: 'Advanced Usage',
 withI18nKeys: 'Key Internationalization Support',
