@@ -260,24 +260,19 @@ const forwardedAttrs = computed(() => {
 })
 
 const managedModalStyle = computed<CSSProperties>(() => {
-  if (!isOpen.value || !rectReady.value) {
+  if (!isOpen.value || !isMoved.value || !rectReady.value) {
     return {}
   }
 
-  const style: CSSProperties = {
+  return {
+    position: 'fixed',
+    margin: '0',
     maxWidth: `${viewport.width}px`,
-    paddingBottom: '0'
+    paddingBottom: '0',
+    top: `${rect.top}px`,
+    left: `${rect.left}px`,
+    height: `${rect.height}px`
   }
-
-  if (isMoved.value) {
-    style.position = 'fixed'
-    style.margin = '0'
-    style.top = `${rect.top}px`
-    style.left = `${rect.left}px`
-    style.height = `${rect.height}px`
-  }
-
-  return style
 })
 
 const mergedModalStyle = computed(() => {
@@ -285,7 +280,7 @@ const mergedModalStyle = computed(() => {
 })
 
 const mergedModalBindings = computed(() => {
-  const controlledWidth = isOpen.value && rectReady.value
+  const controlledWidth = isMoved.value && rectReady.value
     ? rect.width
     : props.width
 
