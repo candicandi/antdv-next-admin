@@ -101,6 +101,12 @@
           </a-form-item>
         </a-form>
 
+        <div class="inline-config">
+          <span>{{ $t('exampleModal.dataCount') }}</span>
+          <a-slider v-model:value="dataCount" :min="1" :max="300" style="flex: 1" />
+          <a-input-number v-model:value="dataCount" :min="1" :max="300" size="small" style="width: 72px" />
+        </div>
+
         <div class="scroll-list">
           <div
             v-for="row in mockRows"
@@ -189,6 +195,13 @@ const handleConfirm = () => {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.inline-config {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
 }
 
 .scroll-list {
