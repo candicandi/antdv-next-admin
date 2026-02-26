@@ -8,7 +8,17 @@
     "build": "vite build",
     "build:check": "vue-tsc && vite build",
     "preview": "vite preview",
-    "type-check": "vue-tsc --noEmit"
+    "type-check": "vue-tsc --noEmit",
+    "test": "vitest",
+    "test:unit": "vitest",
+    "test:unit:coverage": "vitest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@ant-design/colors": "^8.0.1",
@@ -51,13 +61,36 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^7.6.1",
     "@faker-js/faker": "^8.3.1",
+    "@playwright/test": "^1.58.2",
     "@types/lodash-es": "^4.17.12",
+    "@types/node": "^22.0.0",
     "@vitejs/plugin-vue": "^5.0.0",
+    "@vitest/ui": "4.0.18",
+    "@vue/test-utils": "^2.4.6",
+    "commander": "^14.0.0",
+    "eslint": "^10.0.2",
+    "eslint-plugin-vue": "^10.8.0",
+    "handlebars": "^4.7.8",
+    "jsdom": "^28.1.0",
+    "playwright": "^1.58.2",
+    "prettier": "^3.8.1",
     "sass": "^1.69.7",
     "typescript": "^5.3.3",
     "vite": "^5.0.11",
     "vite-plugin-mock-dev-server": "^1.4.0",
+    "vitest": "^4.0.18",
+    "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^3.2.4"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,scss,md}": [
+      "prettier --write"
+    ]
   }
 }

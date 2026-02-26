@@ -1,0 +1,33 @@
+import request from '@/utils/request'
+import type { {{name}} } from '@/types/{{lowerName}}'
+
+export interface {{name}}ListParams {
+  page?: number
+  pageSize?: number
+  keyword?: string
+}
+
+export interface {{name}}ListResult {
+  list: {{name}}[]
+  total: number
+}
+
+export function get{{name}}List(params: {{name}}ListParams) {
+  return request.get<{{name}}ListResult>('{{apiPrefix}}/{{lowerName}}s', { params })
+}
+
+export function get{{name}}Detail(id: string) {
+  return request.get<{{name}}>(`{{apiPrefix}}/{{lowerName}}s/${id}`)
+}
+
+export function create{{name}}(data: Partial<{{name}}>) {
+  return request.post<{{name}}>('{{apiPrefix}}/{{lowerName}}s', data)
+}
+
+export function update{{name}}(id: string, data: Partial<{{name}}>) {
+  return request.put<{{name}}>(`{{apiPrefix}}/{{lowerName}}s/${id}`, data)
+}
+
+export function delete{{name}}(id: string) {
+  return request.delete(`{{apiPrefix}}/{{lowerName}}s/${id}`)
+}

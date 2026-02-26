@@ -1,0 +1,191 @@
+<template>
+  <div class="page-container">
+    <ProTable
+      :columns="columns"
+      :request="fetchData"
+      :search="searchConfig"
+      :toolbar="toolbarConfig"
+      row-key="id"
+    >
+      <template #toolbar>
+        <a-button type="primary" @click="handleCreate">
+          <PlusOutlined />
+          {{'{{'}} $t('{{lowerName}}.create') {{'}}'}}
+        </a-button>
+      </template>
+
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <a-space>
+            <a-button type="link" @click="handleEdit(record)">
+              {{'{{'}} $t('common.edit') {{'}}'}}
+            </a-button>
+            <a-popconfirm
+              :title="$t('common.confirmDelete')"
+              @confirm="handleDelete(record)"
+            >
+              <a-button type="link" danger>
+                {{'{{'}} $t('common.delete') {{'}}'}}
+              </a-button>
+            </a-popconfirm>
+          </a-space>
+        </template>
+      </template>
+    </ProTable>
+
+    <!-- Create/Edit Modal -->
+    <ProModal
+      v-model:visible="modalVisible"
+      :title="modalTitle"
+      :width="600"
+      @submit="handleSubmit"
+    >
+      <ProForm
+        ref="formRef"
+        :schema="formSchema"
+        :initial-values="formData"
+      />
+    </ProModal>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { message } from 'antdv-next'
+import { PlusOutlined } from '@antdv-next/icons'
+import { use{{name}}Store } from '@/stores/{{lowerName}}'
+import ProTable from '@/components/Pro/ProTable/index.vue'
+import ProForm from '@/components/Pro/ProForm/index.vue'
+import ProModal from '@/components/Pro/ProModal/index.vue'
+import { $t } from '@/locales'
+
+const {{lowerName}}Store = use{{name}}Store()
+
+// Table columns
+const columns = [
+  {
+    title: $t('{{lowerName}}.name'),
+    dataIndex: 'name',
+    valueType: 'text',
+    search: true
+  },
+  {
+    title: $t('{{lowerName}}.status'),
+    dataIndex: 'status',
+    valueType: 'tag',
+    enum: {
+      active: { text: $t('status.active'), color: 'green' },
+      inactive: { text: $t('status.inactive'), color: 'red' }
+    }
+  },
+  {
+    title: $t('{{lowerName}}.createdAt'),
+    dataIndex: 'createdAt',
+    valueType: 'dateTime'
+  },
+  {
+    title: $t('common.action'),
+    key: 'action',
+    fixed: 'right',
+    width: 200
+  }
+]
+
+// Search config
+const searchConfig = {
+  defaultCollapsed: false,
+  labelWidth: 100
+}
+
+// Toolbar config
+const toolbarConfig = {
+  actions: []
+}
+
+// Form schema
+const formSchema = [
+  {
+    label: $t('{{lowerName}}.name'),
+    name: 'name',
+    type: 'input',
+    required: true
+  },
+  {
+    label: $t('{{lowerName}}.status'),
+    name: 'status',
+    type: 'select',
+    options: [
+      { label: $t('status.active'), value: 'active' },
+      { label: $t('status.inactive'), value: 'inactive' }
+    ]
+  }
+]
+
+// Data fetching
+const fetchData = async (params: any) => {
+  const res = await {{lowerName}}Store.fetchList(params)
+  return {
+    data: res.list,
+    total: res.total
+  }
+}
+
+// Modal state
+const modalVisible = ref(false)
+const modalTitle = ref('')
+const formRef = ref()
+const formData = ref({})
+const isEdit = ref(false)
+const currentId = ref('')
+
+// Handlers
+const handleCreate = () => {
+  isEdit.value = false
+  modalTitle.value = $t('{{lowerName}}.create')
+  formData.value = {}
+  modalVisible.value = true
+}
+
+const handleEdit = (record: any) => {
+  isEdit.value = true
+  currentId.value = record.id
+  modalTitle.value = $t('{{lowerName}}.edit')
+  formData.value = { ...record }
+  modalVisible.value = true
+}
+
+const handleDelete = async (record: any) => {
+  try {
+    await {{lowerName}}Store.remove(record.id)
+    message.success($t('common.deleteSuccess'))
+    // Refresh table
+    location.reload()
+  } catch (error) {
+    message.error($t('common.deleteFailed'))
+  }
+}
+
+const handleSubmit = async () => {
+  const values = await formRef.value.validate()
+  try {
+    if (isEdit.value) {
+      await {{lowerName}}Store.update(currentId.value, values)
+      message.success($t('common.updateSuccess'))
+    } else {
+      await {{lowerName}}Store.create(values)
+      message.success($t('common.createSuccess'))
+    }
+    modalVisible.value = false
+    // Refresh table
+    location.reload()
+  } catch (error) {
+    message.error($t('common.saveFailed'))
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.page-container {
+  padding: var(--spacing-lg);
+}
+</style>

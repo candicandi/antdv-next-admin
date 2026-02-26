@@ -40,29 +40,34 @@
         :trend="$t('dashboard.compareYesterday', { value: card.trend })"
         :icon="card.icon"
         :tone="card.tone"
+        :loading="loading"
       />
     </section>
 
     <section class="charts-grid">
       <div class="card chart-card">
         <ProChart
-          :type="'bar'"
+          type="bar"
           :title="$t('dashboard.salesTrend')"
           :data="salesChartData"
           :height="280"
         >
           <template #extra>
-            <a-button type="link" size="small">{{ $t('dashboard.viewMore') }}</a-button>
+            <a-button type="link" size="small" @click="refreshData">
+              <ReloadOutlined />
+              {{ $t('common.refresh') }}
+            </a-button>
           </template>
         </ProChart>
       </div>
 
       <div class="card chart-card">
         <ProChart
-          :type="'donut'"
+          type="donut"
           :title="$t('dashboard.userDistribution')"
           :data="userDistributionChartData"
           :height="280"
+          :loading="loading"
         />
       </div>
     </section>
@@ -70,19 +75,24 @@
     <section class="card activities-card">
       <div class="card-header">
         <h3 class="card-title">{{ $t('dashboard.recentActivities') }}</h3>
-        <a-button type="link" size="small">{{ $t('dashboard.viewMore') }}</a-button>
+        <a-button type="link" size="small" @click="refreshData">
+          <ReloadOutlined />
+          {{ $t('common.refresh') }}
+        </a-button>
       </div>
 
-      <ul class="activity-list">
-        <li v-for="item in activities" :key="item.id" class="activity-item">
-          <a-avatar :src="item.avatar" :size="40" />
-          <div class="activity-content">
-            <p class="activity-title">{{ item.action }}</p>
-            <p class="activity-time">{{ item.time }}</p>
-          </div>
-          <a-tag :color="item.tagColor">{{ item.tag }}</a-tag>
-        </li>
-      </ul>
+      <a-spin :spinning="loading">
+        <ul class="activity-list">
+          <li v-for="item in activities" :key="item.id" class="activity-item">
+            <a-avatar :src="item.avatar" :size="40" />
+            <div class="activity-content">
+              <p class="activity-title">{{ item.action }}</p>
+              <p class="activity-time">{{ formatTime(item.timestamp) }}</p>
+            </div>
+            <a-tag :color="getTagColor(item.type)">{{ getTagText(item.type) }}</a-tag>
+          </li>
+        </ul>
+      </a-spin>
     </section>
   </div>
 </template>
@@ -94,17 +104,43 @@ import {
   ShoppingOutlined,
   DollarOutlined,
   RiseOutlined,
-  ClockCircleOutlined
+  ClockCircleOutlined,
+  ReloadOutlined
 } from '@antdv-next/icons'
+import { message } from 'antdv-next'
 import { useAuthStore } from '@/stores/auth'
 import ProChart from '@/components/Pro/ProChart/index.vue'
 import ProStatCard from '@/components/Pro/ProStatCard/index.vue'
 import i18n, { $t } from '@/locales'
+import {
+  getDashboardStats,
+  getSalesTrend,
+  getUserDistribution,
+  getRecentActivities,
+  type ActivityItem
+} from '@/api/dashboard'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+// Initialize dayjs plugin
+dayjs.extend(relativeTime)
 
 const authStore = useAuthStore()
 
 const now = ref(new Date())
 let timer: number | null = null
+const loading = ref(false)
+
+// Data from API
+const stats = ref({
+  totalUsers: 0,
+  totalOrders: 0,
+  totalRevenue: 0,
+  conversionRate: 0
+})
+const salesTrend = ref<Array<{ month: string; sales: number }>>([])
+const userDistribution = ref<Array<{ city: string; value: number }>>([])
+const activities = ref<ActivityItem[]>([])
 
 const displayName = computed(() => {
   return authStore.user?.realName || authStore.user?.username || 'Administrator'
@@ -149,94 +185,113 @@ const currentTimeText = computed(() => {
 const statCards = computed(() => [
   {
     key: 'users',
-    tone: 'blue',
+    tone: 'blue' as const,
     label: $t('dashboard.totalUsers'),
-    value: '12,458',
+    value: stats.value.totalUsers.toLocaleString(),
     trend: '+12.5%',
     icon: UserOutlined
   },
   {
     key: 'orders',
-    tone: 'green',
+    tone: 'green' as const,
     label: $t('dashboard.totalOrders'),
-    value: '8,946',
+    value: stats.value.totalOrders.toLocaleString(),
     trend: '+8.2%',
     icon: ShoppingOutlined
   },
   {
     key: 'revenue',
-    tone: 'orange',
+    tone: 'orange' as const,
     label: $t('dashboard.totalRevenue'),
-    value: '¥456,789',
+    value: `¥${stats.value.totalRevenue.toLocaleString()}`,
     trend: '+15.3%',
     icon: DollarOutlined
   },
   {
     key: 'conversion',
-    tone: 'purple',
+    tone: 'purple' as const,
     label: $t('dashboard.conversionRate'),
-    value: '3.24%',
+    value: `${stats.value.conversionRate}%`,
     trend: '+0.8%',
     icon: RiseOutlined
   }
 ])
 
-const salesChartData = computed(() => [
-  { name: $t('dashboard.months.jan'), value: 340 },
-  { name: $t('dashboard.months.feb'), value: 480 },
-  { name: $t('dashboard.months.mar'), value: 440 },
-  { name: $t('dashboard.months.apr'), value: 620 },
-  { name: $t('dashboard.months.may'), value: 580 },
-  { name: $t('dashboard.months.jun'), value: 700 },
-  { name: $t('dashboard.months.jul'), value: 660 },
-  { name: $t('dashboard.months.aug'), value: 720 }
-])
+const salesChartData = computed(() => {
+  return salesTrend.value.map(item => ({
+    name: item.month,
+    value: item.sales
+  }))
+})
 
-const userDistributionChartData = computed(() => [
-  { name: $t('dashboard.newUsers'), value: 46 },
-  { name: $t('dashboard.returningUsers'), value: 34 },
-  { name: $t('dashboard.enterpriseUsers'), value: 20 }
-])
+const userDistributionChartData = computed(() => {
+  return userDistribution.value.map(item => ({
+    name: item.city,
+    value: item.value
+  }))
+})
 
-const activities = computed(() => [
-  {
-    id: 1,
-    action: $t('dashboard.activities.permissionUpdated'),
-    time: $t('dashboard.minutesAgo', { value: 2 }),
-    tag: $t('dashboard.activityTags.system'),
-    tagColor: 'blue',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=admin'
-  },
-  {
-    id: 2,
-    action: $t('dashboard.activities.userCreated'),
-    time: $t('dashboard.minutesAgo', { value: 18 }),
-    tag: $t('dashboard.activityTags.user'),
-    tagColor: 'cyan',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=sunny'
-  },
-  {
-    id: 3,
-    action: $t('dashboard.activities.orderTaskDone'),
-    time: $t('dashboard.hoursAgo', { value: 1 }),
-    tag: $t('dashboard.activityTags.task'),
-    tagColor: 'green',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=job'
-  },
-  {
-    id: 4,
-    action: $t('dashboard.activities.riskPolicyReleased'),
-    time: $t('dashboard.hoursAgo', { value: 2 }),
-    tag: $t('dashboard.activityTags.release'),
-    tagColor: 'purple',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=release'
+// Helper functions
+const formatTime = (timestamp: string) => {
+  return dayjs(timestamp).fromNow()
+}
+
+const getTagColor = (type: string) => {
+  const colorMap: Record<string, string> = {
+    success: 'green',
+    info: 'blue',
+    warning: 'orange',
+    error: 'red'
   }
-])
+  return colorMap[type] || 'default'
+}
+
+const getTagText = (type: string) => {
+  const textMap: Record<string, string> = {
+    success: $t('dashboard.activityTags.success'),
+    info: $t('dashboard.activityTags.info'),
+    warning: $t('dashboard.activityTags.warning'),
+    error: $t('dashboard.activityTags.error')
+  }
+  return textMap[type] || type
+}
+
+// Fetch dashboard data
+const fetchDashboardData = async () => {
+  loading.value = true
+  try {
+    const [statsRes, salesRes, userRes, activitiesRes] = await Promise.all([
+      getDashboardStats(),
+      getSalesTrend(),
+      getUserDistribution(),
+      getRecentActivities()
+    ])
+
+    stats.value = statsRes
+    salesTrend.value = salesRes
+    userDistribution.value = userRes
+    activities.value = activitiesRes
+  } catch (error) {
+    console.error('Failed to fetch dashboard data:', error)
+    message.error($t('dashboard.fetchError'))
+  } finally {
+    loading.value = false
+  }
+}
+
+// Refresh data
+const refreshData = () => {
+  fetchDashboardData()
+  message.success($t('dashboard.refreshSuccess'))
+}
 
 onMounted(() => {
   timer = window.setInterval(() => {
     now.value = new Date()
   }, 60000)
+
+  // Fetch initial data
+  fetchDashboardData()
 })
 
 onBeforeUnmount(() => {
