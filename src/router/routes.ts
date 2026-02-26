@@ -47,6 +47,33 @@ export const staticRoutes: AppRouteRecordRaw[] = [
 ]
 
 /**
+ * Demo routes for component showcase (embedded in documentation)
+ */
+export const demoRoutes: AppRouteRecordRaw[] = [
+  {
+    path: '/demo',
+    name: 'Demo',
+    component: () => import('@/views/demo/DemoLayout.vue'),
+    meta: {
+      requiresAuth: false,
+      hidden: true
+    },
+    children: [
+      {
+        path: 'pro-table',
+        name: 'ProTableDemo',
+        component: () => import('@/views/demo/pro-table/index.vue'),
+        meta: {
+          title: 'ProTable Demo',
+          requiresAuth: false,
+          hidden: true
+        }
+      }
+    ]
+  }
+]
+
+/**
  * Basic routes that require authentication
  */
 export const basicRoutes: AppRouteRecordRaw[] = [

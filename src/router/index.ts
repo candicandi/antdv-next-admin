@@ -1,9 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { staticRoutes, basicRoutes, notFoundRoute } from './routes'
+import { staticRoutes, basicRoutes, notFoundRoute, demoRoutes } from './routes'
 import { setupRouterGuards } from './guards'
 
 // Combine static and basic routes
+// Combine static, demo and basic routes
 const routes = [
+  ...staticRoutes,
+  ...demoRoutes,
+  ...basicRoutes
+]
   ...staticRoutes,
   ...basicRoutes
 ]
