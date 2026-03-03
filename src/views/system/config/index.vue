@@ -240,14 +240,11 @@ loadAllConfigs()
 }
 
 .config-groups {
-  width: 200px;
-  flex-shrink: 0;
-  background: var(--color-bg-container);
-  border-radius: 8px;
-  padding: 20px 12px 16px;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  min-height: 0;
+  margin: -20px -16px -16px;  /* Counteract ProSplitLayout padding */
 
   .config-groups-header {
     padding: 0 8px;
@@ -257,6 +254,7 @@ loadAllConfigs()
 
   .config-groups-list {
     flex: 1;
+    overflow-y: auto;
 
     .config-group-item {
       display: flex;
