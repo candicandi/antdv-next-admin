@@ -5,7 +5,7 @@ import { useTabsStore } from '@/stores/tabs'
 import { useDictStore } from '@/stores/dict'
 import { isLoggedIn } from '@/utils/auth'
 import { resolveLocaleText } from '@/utils/i18n'
-import { basicRoutes } from './routes'
+import { basicRoutes } from './routes/index'
 
 const MENU_HISTORY_KEY = 'app-menu-history'
 const MAX_HISTORY_ITEMS = 10

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 import type { AppRouteRecordRaw, MenuItem } from '@/types/router'
 import type { Permission } from '@/types/auth'
-import { basicRoutes, asyncRoutes } from '@/router/routes'
+import { basicRoutes, asyncRoutes } from '@/router/routes/index'
 import { getUserPermissions } from '@/api/permission'
 import {
   filterRoutesByPermission,

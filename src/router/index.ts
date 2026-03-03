@@ -1,14 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { staticRoutes, basicRoutes, notFoundRoute, demoRoutes } from './routes'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { staticRoutes, basicRoutes, notFoundRoute, demoRoutes } from './routes/index'
 import { setupRouterGuards } from './guards'
 
-// Combine static and basic routes
 // Combine static, demo and basic routes
 const routes = [
   ...staticRoutes,
   ...demoRoutes,
   ...basicRoutes
-]
+] as RouteRecordRaw[]
 
 // Create router instance
 const router = createRouter({

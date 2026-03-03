@@ -147,7 +147,7 @@ import {
   StarOutlined,
   StarFilled
 } from '@antdv-next/icons'
-import { basicRoutes } from '@/router/routes'
+import { basicRoutes } from '@/router/routes/index'
 import { routesToMenuTree } from '@/router/utils'
 import { usePermissionStore } from '@/stores/permission'
 import { useTabsStore } from '@/stores/tabs'
