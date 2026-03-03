@@ -183,6 +183,9 @@ function insertLink() {
 onBeforeUnmount(() => {
   editor.value?.destroy()
 })
+
+// 高度 CSS 变量
+const heightCss = computed(() => `${props.height}px`)
 </script>
 
 <template>
@@ -383,7 +386,7 @@ onBeforeUnmount(() => {
 }
 
 .editor-content {
-  height: v-bind(`${height}px`);
+  height: v-bind(heightCss);
   overflow-y: auto;
 
   :deep(.ProseMirror) {

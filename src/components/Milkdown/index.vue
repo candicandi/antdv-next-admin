@@ -13,7 +13,7 @@ import { prism } from '@milkdown/plugin-prism'
 import { commonmark } from '@milkdown/preset-commonmark'
 import { gfm } from '@milkdown/preset-gfm'
 import { nord } from '@milkdown/theme-nord'
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 
 interface Props {
   modelValue?: string
@@ -117,6 +117,9 @@ watch(
     })
   }
 )
+
+// 高度 CSS 变量
+const heightCss = computed(() => `${props.height}px`)
 </script>
 
 <template>
@@ -157,7 +160,7 @@ watch(
 .milkdown-container {
   :deep(.milkdown) {
     padding: 16px;
-    min-height: v-bind(`${height}px`);
+    min-height: v-bind(heightCss);
 
     // 编辑器样式覆盖
     .editor {
