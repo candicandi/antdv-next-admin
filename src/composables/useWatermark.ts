@@ -100,7 +100,7 @@ export function useWatermark(options: WatermarkOptions = {}) {
     observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'childList') {
-          const removed = Array.from(mutation.removedNodes).includes(
+          const removed = watermarkDiv && Array.from(mutation.removedNodes).includes(
             watermarkDiv,
           )
           if (removed) {

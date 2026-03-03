@@ -56,17 +56,6 @@ async function loadLocaleMessages(locale: LocaleCode): Promise<MessageSchema | n
 }
 
 /**
- * Load locale synchronously (for initial render)
- */
-function loadLocaleSync(locale: LocaleCode): void {
-  if (loadedLocales.has(locale))
-    return
-
-  // For the initial locale, we need to load it synchronously
-  // This is handled by the sync imports below
-}
-
-/**
  * Set the current locale
  * @param locale - Target locale code
  * @param lazy - Whether to load asynchronously (default: true)
