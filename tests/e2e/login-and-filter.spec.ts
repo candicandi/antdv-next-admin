@@ -74,9 +74,9 @@ test.describe('Table Operations', () => {
     // Wait for page to load
     await page.waitForLoadState('networkidle')
 
-    // Should show user list (using URL or table presence)
+    // Should show user list - use first() to avoid strict mode violation
     await expect(
-      page.locator('table').or(page.locator('text=用户管理')).or(page.locator('text=User'))
+      page.locator('table').or(page.locator('text=用户管理')).or(page.locator('text=User')).first()
     ).toBeVisible({ timeout: 10000 })
   })
 
@@ -84,8 +84,8 @@ test.describe('Table Operations', () => {
     await page.goto('/examples/table')
     await page.waitForLoadState('networkidle')
 
-    // Wait for table to load
-    await expect(page.locator('table')).toBeVisible({ timeout: 10000 })
+    // Wait for table to load - use first() to avoid strict mode violation
+    await expect(page.locator('table').first()).toBeVisible({ timeout: 10000 })
 
     // Search for admin
     const searchInput = page.locator('input[type="text"]').first()
