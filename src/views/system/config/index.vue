@@ -42,7 +42,7 @@ const columns: ProTableColumn[] = [
   { title: computed(() => t('config.valueType')), dataIndex: 'valueType', key: 'valueType', width: 90 },
   { title: computed(() => t('config.builtIn')), dataIndex: 'builtIn', key: 'builtIn', width: 90 },
   { title: computed(() => t('config.description')), dataIndex: 'description', key: 'description', ellipsis: true },
-  { title: computed(() => t('common.actions')), key: 'action', width: 150, fixed: 'right' },
+  { title: computed(() => t('common.actions')), dataIndex: 'action', key: 'action', width: 150, fixed: 'right' },
 ]
 
 async function loadConfigList(params: any) {
