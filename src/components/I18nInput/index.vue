@@ -2,7 +2,7 @@
 import type { PropType } from 'vue'
 import { computed, ref, watch } from 'vue'
 import JsonInput from '@/components/JsonInput/index.vue'
-import { getLocale, SUPPORTED_LOCALES } from '@/locales'
+import { getLocale, SUPPORTED_LOCALES, type LocaleCode } from '@/locales'
 
 const props = defineProps({
   value: {
@@ -127,7 +127,7 @@ function normalizeValue(value: string | Record<string, string> | null | undefine
   // Remove locales not in available list when strict mode is enabled
   if (props.strictLocales) {
     Object.keys(parsed).forEach((key) => {
-      if (!availableLocaleSet.value.has(key)) {
+      if (!availableLocaleSet.value.has(key as LocaleCode)) {
         delete parsed[key]
       }
     })

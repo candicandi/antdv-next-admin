@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { GlobalOutlined } from '@antdv-next/icons'
 import { computed } from 'vue'
-import i18n, { LOCALE_NATIVE_LABELS, setLocale } from '@/locales'
+import i18n, { LOCALE_NATIVE_LABELS, setLocale, type LocaleCode } from '@/locales'
 
 const currentLocale = computed(() => String(i18n.global.locale.value))
 const localeOptions = computed(() => ([
@@ -19,7 +19,7 @@ function handleLanguageChange({ key }: { key: string | number }) {
   if (nextLocale === currentLocale.value) {
     return
   }
-  setLocale(nextLocale)
+  setLocale(nextLocale as LocaleCode)
 }
 
 const menuProps = computed(() => ({

@@ -28,6 +28,7 @@ export interface MenuItem {
   icon?: string
   path?: string
   badge?: string | number
+  hidden?: boolean
   requiredPermissions?: string[]
   requiredRoles?: string[]
   children?: MenuItem[]
