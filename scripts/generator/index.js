@@ -18,18 +18,18 @@ const templates = {
   'simple-list': {
     name: 'Simple List',
     description: 'Basic CRUD table with search and pagination',
-    files: ['view.hbs', 'api.hbs', 'store.hbs', 'locale.hbs', 'mock.hbs'],
+    files: ['view.hbs', 'api.hbs', 'store.hbs', 'locale.hbs', 'mock.hbs']
   },
   'complex-form': {
     name: 'Complex Form',
     description: 'Multi-step or dynamic form with validation',
-    files: ['view-complex.hbs', 'api.hbs', 'store.hbs', 'locale.hbs', 'mock.hbs'],
+    files: ['view-complex.hbs', 'api.hbs', 'store.hbs', 'locale.hbs', 'mock.hbs']
   },
   'master-detail': {
     name: 'Master Detail',
     description: 'Split layout with master table and detail panel',
-    files: ['view-master-detail.hbs', 'api.hbs', 'store.hbs', 'locale.hbs', 'mock.hbs'],
-  },
+    files: ['view-master-detail.hbs', 'api.hbs', 'store.hbs', 'locale.hbs', 'mock.hbs']
+  }
 }
 
 program
@@ -44,12 +44,14 @@ program
   .requiredOption('-m, --module <module>', 'Module name (e.g., system, business)')
   .option('-t, --template <template>', 'Template type', 'simple-list')
   .option('--api-prefix <prefix>', 'API prefix', '/api')
-  .action(async (options) => {
+  .action(async options => {
     console.log(`Generating ${options.template} scaffolding for ${options.name}...`)
 
     const templateConfig = templates[options.template]
     if (!templateConfig) {
-      console.error(`Template "${options.template}" not found. Available: ${Object.keys(templates).join(', ')}`)
+      console.error(
+        `Template "${options.template}" not found. Available: ${Object.keys(templates).join(', ')}`
+      )
       process.exit(1)
     }
 
@@ -59,7 +61,7 @@ program
       apiPrefix: options.apiPrefix,
       lowerName: options.name.toLowerCase(),
       pluralName: options.name.endsWith('s') ? options.name : `${options.name}s`,
-      kebabName: options.name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase(),
+      kebabName: options.name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
     }
 
     const outputDir = path.join(process.cwd(), 'src', 'views', context.module, context.kebabName)
@@ -71,10 +73,7 @@ program
     const generatedFiles = []
 
     // 1. Generate View
-    const viewTemplate = await fs.readFile(
-      path.join(__dirname, 'templates', 'view.hbs'),
-      'utf-8',
-    )
+    const viewTemplate = await fs.readFile(path.join(__dirname, 'templates', 'view.hbs'), 'utf-8')
     const viewCompiled = handlebars.compile(viewTemplate)
     const viewContent = viewCompiled(context)
     const viewPath = path.join(outputDir, 'index.vue')
@@ -84,10 +83,7 @@ program
     // 2. Generate API
     const apiDir = path.join(process.cwd(), 'src', 'api')
     await fs.ensureDir(apiDir)
-    const apiTemplate = await fs.readFile(
-      path.join(__dirname, 'templates', 'api.hbs'),
-      'utf-8',
-    )
+    const apiTemplate = await fs.readFile(path.join(__dirname, 'templates', 'api.hbs'), 'utf-8')
     const apiCompiled = handlebars.compile(apiTemplate)
     const apiContent = apiCompiled(context)
     const apiPath = path.join(apiDir, `${context.lowerName}.ts`)
@@ -96,10 +92,7 @@ program
 
     // 3. Generate Store (optional)
     const storeDir = path.join(process.cwd(), 'src', 'stores')
-    const storeTemplate = await fs.readFile(
-      path.join(__dirname, 'templates', 'store.hbs'),
-      'utf-8',
-    )
+    const storeTemplate = await fs.readFile(path.join(__dirname, 'templates', 'store.hbs'), 'utf-8')
     const storeCompiled = handlebars.compile(storeTemplate)
     const storeContent = storeCompiled(context)
     const storePath = path.join(storeDir, `${context.lowerName}.ts`)
@@ -109,10 +102,7 @@ program
     // 4. Generate Mock
     const mockDir = path.join(process.cwd(), 'mock', 'handlers')
     await fs.ensureDir(mockDir)
-    const mockTemplate = await fs.readFile(
-      path.join(__dirname, 'templates', 'mock.hbs'),
-      'utf-8',
-    )
+    const mockTemplate = await fs.readFile(path.join(__dirname, 'templates', 'mock.hbs'), 'utf-8')
     const mockCompiled = handlebars.compile(mockTemplate)
     const mockContent = mockCompiled(context)
     const mockPath = path.join(mockDir, `${context.lowerName}.mock.ts`)
@@ -121,10 +111,7 @@ program
 
     // 5. Generate i18n keys (append to existing)
     const i18nPath = path.join(process.cwd(), 'src', 'locales', 'zh-CN.ts')
-    const i18nTemplate = await fs.readFile(
-      path.join(__dirname, 'templates', 'locale.hbs'),
-      'utf-8',
-    )
+    const i18nTemplate = await fs.readFile(path.join(__dirname, 'templates', 'locale.hbs'), 'utf-8')
     const i18nCompiled = handlebars.compile(i18nTemplate)
     const i18nContent = i18nCompiled(context)
     console.log(`\nAppend the following to ${i18nPath}:`)
@@ -156,7 +143,7 @@ program
   .description('Generate from OpenAPI spec')
   .requiredOption('-s, --spec <path>', 'Path to OpenAPI spec file')
   .requiredOption('-m, --module <module>', 'Module name')
-  .action(async (options) => {
+  .action(async options => {
     console.log(`Generating from OpenAPI spec: ${options.spec}`)
     // TODO: Implement OpenAPI parsing
     console.log('⚠️  OpenAPI generation not yet implemented')

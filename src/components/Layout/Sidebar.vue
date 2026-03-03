@@ -50,19 +50,19 @@ const showMobileMask = computed(() => {
 
 const antMenuItems = computed<MenuProps['items']>(() => {
   const convert = (menus: MenuItemType[]): NonNullable<MenuProps['items']> => {
-    return menus.map((menu) => {
+    return menus.map(menu => {
       const iconComponent = resolveIcon(menu.icon)
       const item = {
         key: menu.path || menu.id,
         label: resolveLocaleText(menu.label, menu.id),
-        icon: iconComponent ? h(iconComponent) : undefined,
+        icon: iconComponent ? h(iconComponent) : undefined
       }
 
       if (menu.children && menu.children.length > 0) {
         return {
           ...item,
           key: menu.id,
-          children: convert(menu.children),
+          children: convert(menu.children)
         }
       }
 
@@ -76,12 +76,10 @@ const antMenuItems = computed<MenuProps['items']>(() => {
 function findMenuOpenKeys(
   menus: MenuItemType[],
   targetPath: string,
-  parents: string[] = [],
+  parents: string[] = []
 ): string[] {
   for (const item of menus) {
-    const menuKey = item.children && item.children.length > 0
-      ? item.id
-      : (item.path || item.id)
+    const menuKey = item.children && item.children.length > 0 ? item.id : item.path || item.id
     const currentParents = [...parents, menuKey]
 
     if ((item.path || item.id) === targetPath) {
@@ -127,8 +125,7 @@ function syncMenuState() {
   // Don't set selected state if current menu item is an external link
   if (currentMenuItem && currentMenuItem.path && isExternalLinkPath(currentMenuItem.path)) {
     selectedKeys.value = []
-  }
-  else {
+  } else {
     selectedKeys.value = [route.path]
   }
 
@@ -142,8 +139,7 @@ function closeMobileSidebar() {
 }
 
 function handleMenuClick({ key }: { key: string | number }) {
-  if (typeof key !== 'string')
-    return
+  if (typeof key !== 'string') return
 
   // External links: open in a new tab
   if (key.startsWith('http://') || key.startsWith('https://')) {
@@ -173,19 +169,16 @@ watch(
   () => {
     syncMenuState()
   },
-  { immediate: true, deep: true },
+  { immediate: true, deep: true }
 )
 </script>
 
 <template>
-  <div
-    v-if="showMobileMask"
-    class="sidebar-mask"
-    @click="closeMobileSidebar"
-  />
+  <div v-if="showMobileMask" class="sidebar-mask" @click="closeMobileSidebar" />
   <a-layout-sider
     v-model:collapsed="layoutStore.collapsed"
-    class="admin-sidebar" :class="[`theme-${effectiveSidebarTheme}`, { mobile: layoutStore.isMobile }]"
+    class="admin-sidebar"
+    :class="[`theme-${effectiveSidebarTheme}`, { mobile: layoutStore.isMobile }]"
     :width="layoutStore.sidebarWidth"
     :collapsed-width="siderCollapsedWidth"
     :trigger="null"
@@ -193,7 +186,7 @@ watch(
   >
     <!-- Logo -->
     <div class="sidebar-logo">
-      <img :src="logoImg" alt="Logo" class="logo-img">
+      <img :src="logoImg" alt="Logo" class="logo-img" />
       <transition name="fade">
         <span v-show="!layoutStore.collapsed" class="logo-title">
           {{ $t('common.appName') }}

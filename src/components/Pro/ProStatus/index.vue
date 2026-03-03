@@ -9,7 +9,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  mode: 'dot',
+  mode: 'dot'
 })
 
 const config = computed(() => props.statusMap[String(props.value)])
@@ -20,14 +20,13 @@ const dotStyle = computed(() => {
   const c = statusColor.value
   return {
     '--pro-status-color': c,
-    '--pro-status-bg': hexToRgba(c, 0.1),
+    '--pro-status-bg': hexToRgba(c, 0.1)
   }
 })
 
 function hexToRgba(hex: string, alpha: number): string {
   // Handle named colors by returning a light background
-  if (!hex.startsWith('#'))
-    return `color-mix(in srgb, ${hex} ${alpha * 100}%, transparent)`
+  if (!hex.startsWith('#')) return `color-mix(in srgb, ${hex} ${alpha * 100}%, transparent)`
   const r = Number.parseInt(hex.slice(1, 3), 16)
   const g = Number.parseInt(hex.slice(3, 5), 16)
   const b = Number.parseInt(hex.slice(5, 7), 16)

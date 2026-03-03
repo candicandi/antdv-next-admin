@@ -29,7 +29,7 @@ interface ImportSummary {
 const rows = ref<ProductRow[]>([
   { code: 'SKU-1001', name: 'Keyboard', category: 'Accessory', price: 299, stock: 120 },
   { code: 'SKU-1002', name: 'Mouse', category: 'Accessory', price: 159, stock: 200 },
-  { code: 'SKU-1003', name: 'Monitor', category: 'Display', price: 1299, stock: 45 },
+  { code: 'SKU-1003', name: 'Monitor', category: 'Display', price: 1299, stock: 45 }
 ])
 
 const importing = ref(false)
@@ -38,7 +38,7 @@ const lastSummary = ref<ImportSummary>({
   total: 0,
   success: 0,
   updated: 0,
-  failed: 0,
+  failed: 0
 })
 
 const dataColumns = computed(() => [
@@ -46,20 +46,20 @@ const dataColumns = computed(() => [
   { title: $t('examples.scaffold.importExport.colName'), dataIndex: 'name', width: 220 },
   { title: $t('examples.scaffold.importExport.colCategory'), dataIndex: 'category', width: 160 },
   { title: $t('examples.scaffold.importExport.colPrice'), dataIndex: 'price', width: 120 },
-  { title: $t('examples.scaffold.importExport.colStock'), dataIndex: 'stock', width: 120 },
+  { title: $t('examples.scaffold.importExport.colStock'), dataIndex: 'stock', width: 120 }
 ])
 
 const errorColumns = computed(() => [
   { title: $t('examples.scaffold.importExport.errorRowNo'), dataIndex: 'rowNo', width: 100 },
   { title: $t('examples.scaffold.importExport.errorReason'), dataIndex: 'reason', width: 260 },
-  { title: $t('examples.scaffold.importExport.errorRaw'), dataIndex: 'raw' },
+  { title: $t('examples.scaffold.importExport.errorRaw'), dataIndex: 'raw' }
 ])
 
 function downloadTemplate() {
   const header = ['code', 'name', 'category', 'price', 'stock']
   const examples = [
     ['SKU-2001', 'Laptop Stand', 'Accessory', '399', '80'],
-    ['SKU-2002', 'USB-C Hub', 'Accessory', '259', '150'],
+    ['SKU-2002', 'USB-C Hub', 'Accessory', '259', '150']
   ]
   downloadCsv([header, ...examples], 'import-template.csv')
 }
@@ -71,7 +71,7 @@ function exportCurrentData() {
     item.name,
     item.category,
     String(item.price),
-    String(item.stock),
+    String(item.stock)
   ])
   downloadCsv([header, ...body], 'products-export.csv')
 }
@@ -82,11 +82,7 @@ function exportErrorReceipt() {
   }
 
   const header = ['rowNo', 'reason', 'raw']
-  const body = importErrors.value.map(item => [
-    String(item.rowNo),
-    item.reason,
-    item.raw,
-  ])
+  const body = importErrors.value.map(item => [String(item.rowNo), item.reason, item.raw])
   downloadCsv([header, ...body], 'import-error-receipt.csv')
 }
 
@@ -107,7 +103,7 @@ async function handleImport(file: File) {
       name: header.indexOf('name'),
       category: header.indexOf('category'),
       price: header.indexOf('price'),
-      stock: header.indexOf('stock'),
+      stock: header.indexOf('stock')
     }
 
     if (Object.values(indexes).some(index => index < 0)) {
@@ -135,7 +131,7 @@ async function handleImport(file: File) {
           id: `${rowNo}-required`,
           rowNo,
           reason: $t('examples.scaffold.importExport.errorRequired'),
-          raw: line.join(' | '),
+          raw: line.join(' | ')
         })
         return
       }
@@ -145,7 +141,7 @@ async function handleImport(file: File) {
           id: `${rowNo}-price`,
           rowNo,
           reason: $t('examples.scaffold.importExport.errorPrice'),
-          raw: line.join(' | '),
+          raw: line.join(' | ')
         })
         return
       }
@@ -155,7 +151,7 @@ async function handleImport(file: File) {
           id: `${rowNo}-stock`,
           rowNo,
           reason: $t('examples.scaffold.importExport.errorStock'),
-          raw: line.join(' | '),
+          raw: line.join(' | ')
         })
         return
       }
@@ -165,7 +161,7 @@ async function handleImport(file: File) {
         name,
         category,
         price,
-        stock,
+        stock
       }
 
       const target = rows.value.find(item => item.code === row.code)
@@ -175,8 +171,7 @@ async function handleImport(file: File) {
         target.price = row.price
         target.stock = row.stock
         updatedCount += 1
-      }
-      else {
+      } else {
         validRows.push(row)
       }
     })
@@ -187,19 +182,19 @@ async function handleImport(file: File) {
       total: rowsInCsv.length - 1,
       success: validRows.length + updatedCount,
       updated: updatedCount,
-      failed: errors.length,
+      failed: errors.length
     }
 
-    message.success($t('examples.scaffold.importExport.importDone', {
-      success: lastSummary.value.success,
-      failed: lastSummary.value.failed,
-    }))
-  }
-  catch (error) {
+    message.success(
+      $t('examples.scaffold.importExport.importDone', {
+        success: lastSummary.value.success,
+        failed: lastSummary.value.failed
+      })
+    )
+  } catch (error) {
     console.error(error)
     message.error($t('examples.scaffold.importExport.parseFailed'))
-  }
-  finally {
+  } finally {
     importing.value = false
   }
 
@@ -229,8 +224,7 @@ function parseCsvLine(line: string) {
       if (inQuotes && nextChar === '"') {
         current += '"'
         i += 1
-      }
-      else {
+      } else {
         inQuotes = !inQuotes
       }
       continue
@@ -287,11 +281,7 @@ function downloadCsv(rowsForExport: string[][], fileName: string) {
           {{ $t('examples.scaffold.importExport.downloadTemplate') }}
         </a-button>
 
-        <a-upload
-          :show-upload-list="false"
-          accept=".csv"
-          :before-upload="handleImport"
-        >
+        <a-upload :show-upload-list="false" accept=".csv" :before-upload="handleImport">
           <a-button type="primary" :loading="importing">
             <UploadOutlined />
             {{ $t('examples.scaffold.importExport.importCsv') }}
@@ -311,16 +301,28 @@ function downloadCsv(rowsForExport: string[][], fileName: string) {
 
       <a-row :gutter="12" class="mb-lg">
         <a-col :xs="12" :md="6">
-          <a-statistic :title="$t('examples.scaffold.importExport.totalRows')" :value="lastSummary.total" />
+          <a-statistic
+            :title="$t('examples.scaffold.importExport.totalRows')"
+            :value="lastSummary.total"
+          />
         </a-col>
         <a-col :xs="12" :md="6">
-          <a-statistic :title="$t('examples.scaffold.importExport.successRows')" :value="lastSummary.success" />
+          <a-statistic
+            :title="$t('examples.scaffold.importExport.successRows')"
+            :value="lastSummary.success"
+          />
         </a-col>
         <a-col :xs="12" :md="6">
-          <a-statistic :title="$t('examples.scaffold.importExport.updatedRows')" :value="lastSummary.updated" />
+          <a-statistic
+            :title="$t('examples.scaffold.importExport.updatedRows')"
+            :value="lastSummary.updated"
+          />
         </a-col>
         <a-col :xs="12" :md="6">
-          <a-statistic :title="$t('examples.scaffold.importExport.failedRows')" :value="lastSummary.failed" />
+          <a-statistic
+            :title="$t('examples.scaffold.importExport.failedRows')"
+            :value="lastSummary.failed"
+          />
         </a-col>
       </a-row>
 

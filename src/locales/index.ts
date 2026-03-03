@@ -12,7 +12,7 @@ export const LOCALE_NATIVE_LABELS: Record<LocaleCode, string> = {
   'zh-CN': '简体中文',
   'en-US': 'English',
   'ja-JP': '日本語',
-  'ko-KR': '한국어',
+  'ko-KR': '한국어'
 }
 
 // Locale file importers (lazy loading)
@@ -20,7 +20,7 @@ const localeLoaders: Record<LocaleCode, () => Promise<{ default: MessageSchema }
   'zh-CN': () => import('./zh-CN'),
   'en-US': () => import('./en-US'),
   'ja-JP': () => import('./ja-JP'),
-  'ko-KR': () => import('./ko-KR'),
+  'ko-KR': () => import('./ko-KR')
 }
 
 // Track loaded locales
@@ -32,7 +32,7 @@ const i18n: I18n<MessageSchema, {}, {}, string, false> = createI18n({
   locale: 'zh-CN',
   fallbackLocale: 'zh-CN',
   messages: {},
-  globalInjection: true,
+  globalInjection: true
 })
 
 /**
@@ -48,8 +48,7 @@ async function loadLocaleMessages(locale: LocaleCode): Promise<MessageSchema | n
     i18n.global.setLocaleMessage(locale, messages.default)
     loadedLocales.add(locale)
     return messages.default
-  }
-  catch (error) {
+  } catch (error) {
     console.error(`Failed to load locale: ${locale}`, error)
     return null
   }

@@ -5,48 +5,48 @@ import {
   CaretRightOutlined,
   DeleteOutlined,
   HolderOutlined,
-  PlusOutlined,
+  PlusOutlined
 } from '@antdv-next/icons'
 import { computed } from 'vue'
 import draggable from 'vuedraggable'
 
 defineOptions({
-  name: 'JsonFieldTreeList',
+  name: 'JsonFieldTreeList'
 })
 
 const props = defineProps({
   path: {
     type: Array as PropType<string[]>,
-    required: true,
+    required: true
   },
   depth: {
     type: Number,
-    default: 0,
+    default: 0
   },
   allowAdd: {
     type: Boolean,
-    default: true,
+    default: true
   },
   allowDelete: {
     type: Boolean,
-    default: true,
+    default: true
   },
   allowSort: {
     type: Boolean,
-    default: true,
+    default: true
   },
   hoveredPathKey: {
     type: String,
-    default: '',
+    default: ''
   },
   draggingPathKey: {
     type: String,
-    default: '',
+    default: ''
   },
   api: {
     type: Object as PropType<JsonTreeEditorApi>,
-    required: true,
-  },
+    required: true
+  }
 })
 
 const emit = defineEmits<{
@@ -109,7 +109,7 @@ const currentObject = computed<JsonObject | null>(() => props.api.getObjectByPat
 
 const fieldOrder = computed<string[]>({
   get: () => props.api.getFieldOrderByPath(props.path),
-  set: order => props.api.setFieldOrderByPath(props.path, order),
+  set: order => props.api.setFieldOrderByPath(props.path, order)
 })
 
 function getFieldItemKey(key: string): string {
@@ -139,7 +139,7 @@ function toggleFieldExpand(key: string) {
 function removeField(key: string) {
   emit('remove-field', {
     path: [...props.path],
-    key,
+    key
   })
 }
 
@@ -154,7 +154,7 @@ function handleHover(pathKey: string) {
 function handleDragStart(event: { oldIndex?: number }) {
   emit('drag-start', {
     path: [...props.path],
-    oldIndex: event.oldIndex,
+    oldIndex: event.oldIndex
   })
 }
 
@@ -179,7 +179,7 @@ function handleDragEnd() {
             class="field-row"
             :class="{
               'is-dragging': draggingPathKey === getFieldPathKey(key),
-              'is-hovered': hoveredPathKey === getFieldPathKey(key),
+              'is-hovered': hoveredPathKey === getFieldPathKey(key)
             }"
             :style="{ paddingLeft: `${12 + depth * 20}px` }"
             @mouseenter="handleHover(getFieldPathKey(key))"
@@ -240,7 +240,11 @@ function handleDragEnd() {
                     :disabled="api.isFieldReadonlyByPath(path, key)"
                   />
                   <span class="switch-label">
-                    {{ currentObject[key] ? (api.getFieldConfigByPath(path, key)?.activeLabel || '已启用') : (api.getFieldConfigByPath(path, key)?.inactiveLabel || '已禁用') }}
+                    {{
+                      currentObject[key]
+                        ? api.getFieldConfigByPath(path, key)?.activeLabel || '已启用'
+                        : api.getFieldConfigByPath(path, key)?.inactiveLabel || '已禁用'
+                    }}
                   </span>
                 </div>
               </template>
@@ -296,7 +300,10 @@ function handleDragEnd() {
               </template>
             </div>
 
-            <div class="field-actions" :class="{ 'is-visible': hoveredPathKey === getFieldPathKey(key) }">
+            <div
+              class="field-actions"
+              :class="{ 'is-visible': hoveredPathKey === getFieldPathKey(key) }"
+            >
               <a-button
                 v-if="allowDelete && !api.isFieldReadonlyByPath(path, key)"
                 type="text"
@@ -329,7 +336,11 @@ function handleDragEnd() {
       </template>
     </draggable>
 
-    <div v-if="allowAdd && currentObject" class="add-field-section" :style="{ paddingLeft: `${12 + depth * 20}px` }">
+    <div
+      v-if="allowAdd && currentObject"
+      class="add-field-section"
+      :style="{ paddingLeft: `${12 + depth * 20}px` }"
+    >
       <a-button type="dashed" size="small" class="add-field-btn" @click="requestAddField">
         <PlusOutlined />
         新增字段

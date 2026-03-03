@@ -6,18 +6,17 @@ import {
   ReloadOutlined,
   RiseOutlined,
   ShoppingOutlined,
-  UserOutlined,
+  UserOutlined
 } from '@antdv-next/icons'
 import { message } from 'antdv-next'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import {
-
   getDashboardStats,
   getRecentActivities,
   getSalesTrend,
-  getUserDistribution,
+  getUserDistribution
 } from '@/api/dashboard'
 import ProChart from '@/components/Pro/ProChart/index.vue'
 import ProStatCard from '@/components/Pro/ProStatCard/index.vue'
@@ -38,10 +37,10 @@ const stats = ref({
   totalUsers: 0,
   totalOrders: 0,
   totalRevenue: 0,
-  conversionRate: 0,
+  conversionRate: 0
 })
-const salesTrend = ref<Array<{ month: string, sales: number }>>([])
-const userDistribution = ref<Array<{ city: string, value: number }>>([])
+const salesTrend = ref<Array<{ month: string; sales: number }>>([])
+const userDistribution = ref<Array<{ city: string; value: number }>>([])
 const activities = ref<ActivityItem[]>([])
 
 const displayName = computed(() => {
@@ -71,16 +70,15 @@ const currentTimeText = computed(() => {
       day: 'numeric',
       weekday: 'short',
       hour: '2-digit',
-      minute: '2-digit',
+      minute: '2-digit'
     }).format(now.value)
-  }
-  catch {
+  } catch {
     return new Intl.DateTimeFormat('en-US', {
       month: 'short',
       day: 'numeric',
       weekday: 'short',
       hour: '2-digit',
-      minute: '2-digit',
+      minute: '2-digit'
     }).format(now.value)
   }
 })
@@ -92,7 +90,7 @@ const statCards = computed(() => [
     label: $t('dashboard.totalUsers'),
     value: stats.value.totalUsers.toLocaleString(),
     trend: '+12.5%',
-    icon: UserOutlined,
+    icon: UserOutlined
   },
   {
     key: 'orders',
@@ -100,7 +98,7 @@ const statCards = computed(() => [
     label: $t('dashboard.totalOrders'),
     value: stats.value.totalOrders.toLocaleString(),
     trend: '+8.2%',
-    icon: ShoppingOutlined,
+    icon: ShoppingOutlined
   },
   {
     key: 'revenue',
@@ -108,7 +106,7 @@ const statCards = computed(() => [
     label: $t('dashboard.totalRevenue'),
     value: `¥${stats.value.totalRevenue.toLocaleString()}`,
     trend: '+15.3%',
-    icon: DollarOutlined,
+    icon: DollarOutlined
   },
   {
     key: 'conversion',
@@ -116,21 +114,21 @@ const statCards = computed(() => [
     label: $t('dashboard.conversionRate'),
     value: `${stats.value.conversionRate}%`,
     trend: '+0.8%',
-    icon: RiseOutlined,
-  },
+    icon: RiseOutlined
+  }
 ])
 
 const salesChartData = computed(() => {
   return salesTrend.value.map(item => ({
     name: item.month,
-    value: item.sales,
+    value: item.sales
   }))
 })
 
 const userDistributionChartData = computed(() => {
   return userDistribution.value.map(item => ({
     name: item.city,
-    value: item.value,
+    value: item.value
   }))
 })
 
@@ -144,7 +142,7 @@ function getTagColor(type: string) {
     success: 'green',
     info: 'blue',
     warning: 'orange',
-    error: 'red',
+    error: 'red'
   }
   return colorMap[type] || 'default'
 }
@@ -154,7 +152,7 @@ function getTagText(type: string) {
     success: $t('dashboard.activityTags.success'),
     info: $t('dashboard.activityTags.info'),
     warning: $t('dashboard.activityTags.warning'),
-    error: $t('dashboard.activityTags.error'),
+    error: $t('dashboard.activityTags.error')
   }
   return textMap[type] || type
 }
@@ -167,19 +165,17 @@ async function fetchDashboardData() {
       getDashboardStats(),
       getSalesTrend(),
       getUserDistribution(),
-      getRecentActivities(),
+      getRecentActivities()
     ])
 
     stats.value = statsRes.data
     salesTrend.value = salesRes.data
     userDistribution.value = userRes.data
     activities.value = activitiesRes.data
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Failed to fetch dashboard data:', error)
     message.error($t('dashboard.fetchError'))
-  }
-  finally {
+  } finally {
     loading.value = false
   }
 }
@@ -222,16 +218,16 @@ onBeforeUnmount(() => {
             <ClockCircleOutlined />
             <span>{{ currentTimeText }}</span>
           </p>
-          <h1 class="welcome-title">
-            {{ greetingText }}，{{ displayName }}
-          </h1>
+          <h1 class="welcome-title">{{ greetingText }}，{{ displayName }}</h1>
           <p class="welcome-subtitle">
             {{ $t('dashboard.subtitle') }}
           </p>
 
           <div class="welcome-metas">
             <span class="meta-chip meta-chip-primary">{{ $t('dashboard.systemStable') }}</span>
-            <span class="meta-chip">{{ $t('dashboard.todayFocus') }} · {{ $t('dashboard.totalRevenue') }}</span>
+            <span class="meta-chip"
+              >{{ $t('dashboard.todayFocus') }} · {{ $t('dashboard.totalRevenue') }}</span
+            >
           </div>
         </div>
       </div>
@@ -439,7 +435,11 @@ onBeforeUnmount(() => {
         width: 380px;
         height: 260px;
         border-radius: 42% 58% 56% 44% / 44% 44% 56% 56%;
-        background: radial-gradient(circle at 20% 30%, rgba(24, 119, 255, 0.16), rgba(24, 119, 255, 0.02));
+        background: radial-gradient(
+          circle at 20% 30%,
+          rgba(24, 119, 255, 0.16),
+          rgba(24, 119, 255, 0.02)
+        );
       }
     }
   }

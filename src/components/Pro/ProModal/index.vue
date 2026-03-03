@@ -14,7 +14,7 @@ import {
   ref,
   useAttrs,
   useSlots,
-  watch,
+  watch
 } from 'vue'
 import { $t } from '@/locales'
 
@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<ProModalProps>(), {
   resizable: true,
   fullscreenable: true,
   minWidth: 360,
-  minHeight: 260,
+  minHeight: 260
 })
 const emit = defineEmits<{
   (e: 'ok', event: MouseEvent): void
@@ -72,14 +72,14 @@ const instanceWrapClassName = `pro-modal-wrap-${Math.random().toString(36).slice
 
 const viewport = reactive({
   width: typeof window !== 'undefined' ? window.innerWidth : 0,
-  height: typeof window !== 'undefined' ? window.innerHeight : 0,
+  height: typeof window !== 'undefined' ? window.innerHeight : 0
 })
 
 const rect = reactive<ModalRect>({
   left: 0,
   top: 0,
   width: DEFAULT_WIDTH,
-  height: DEFAULT_HEIGHT,
+  height: DEFAULT_HEIGHT
 })
 
 const rectReady = ref(false)
@@ -139,7 +139,7 @@ const titleRenderComponent = defineComponent({
 
       return h('span', String(title))
     }
-  },
+  }
 })
 
 const modalPassThroughProps = computed<ModalProps>(() => {
@@ -165,7 +165,7 @@ const mergedWrapClassName = computed(() => {
     'pro-modal-wrap',
     instanceWrapClassName,
     isFullscreen.value ? 'pro-modal-fullscreen' : '',
-    isAnimating.value ? 'pro-modal-animating' : '',
+    isAnimating.value ? 'pro-modal-animating' : ''
   ]
     .filter(Boolean)
     .join(' ')
@@ -191,7 +191,7 @@ const managedModalStyle = computed<CSSProperties>(() => {
     paddingBottom: '0',
     top: `${rect.top}px`,
     left: `${rect.left}px`,
-    height: `${rect.height}px`,
+    height: `${rect.height}px`
   }
 })
 
@@ -200,16 +200,14 @@ const mergedModalStyle = computed(() => {
 })
 
 const mergedModalBindings = computed(() => {
-  const controlledWidth = isMoved.value && rectReady.value
-    ? rect.width
-    : props.width
+  const controlledWidth = isMoved.value && rectReady.value ? rect.width : props.width
 
   return {
     ...modalPassThroughProps.value,
     ...forwardedAttrs.value,
     width: controlledWidth,
     closable: false,
-    getContainer: resolvedGetContainer.value,
+    getContainer: resolvedGetContainer.value
   }
 })
 
@@ -222,14 +220,14 @@ const mergedSemanticStyles = computed<ModalProps['styles']>(() => {
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
-      minHeight: 0,
+      minHeight: 0
     },
     body: {
       ...inputStyles.body,
       flex: 1,
       minHeight: 0,
-      overflow: 'auto',
-    },
+      overflow: 'auto'
+    }
   }
 })
 
@@ -256,7 +254,9 @@ function getFullscreenTransitionDuration() {
     return FULLSCREEN_TRANSITION_DURATION
   }
 
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : FULLSCREEN_TRANSITION_DURATION
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ? 0
+    : FULLSCREEN_TRANSITION_DURATION
 }
 
 function scheduleFullscreenAnimationEnd(callback: () => void) {
@@ -273,7 +273,7 @@ function getFullscreenRect(): ModalRect {
     left: 0,
     top: 0,
     width: viewport.width,
-    height: viewport.height,
+    height: viewport.height
   }
 }
 
@@ -282,7 +282,7 @@ function cloneRect(target: ModalRect): ModalRect {
     left: target.left,
     top: target.top,
     width: target.width,
-    height: target.height,
+    height: target.height
   }
 }
 
@@ -311,7 +311,7 @@ function clampRect(target: ModalRect): ModalRect {
     left,
     top,
     width,
-    height,
+    height
   }
 }
 
@@ -326,7 +326,7 @@ function parsePreferredWidth(width: ModalProps['width'], fallback: number) {
     if (trimmed.endsWith('%')) {
       const ratio = Number.parseFloat(trimmed.slice(0, -1))
       if (Number.isFinite(ratio)) {
-        return viewport.width * ratio / 100
+        return (viewport.width * ratio) / 100
       }
     }
 
@@ -360,7 +360,7 @@ function syncRectFromDom(resetPosition = false) {
     left: domRect.left,
     top: domRect.top,
     width: domRect.width || DEFAULT_WIDTH,
-    height: domRect.height || DEFAULT_HEIGHT,
+    height: domRect.height || DEFAULT_HEIGHT
   }
 
   // Only if we need to force reset (e.g. on manual reset), we calculate center
@@ -414,8 +414,8 @@ function getResizeDirection(event: MouseEvent): ResizeDirection | null {
     return null
   }
 
-  const vertical = nearTop ? 'n' : (nearBottom ? 's' : '')
-  const horizontal = nearLeft ? 'w' : (nearRight ? 'e' : '')
+  const vertical = nearTop ? 'n' : nearBottom ? 's' : ''
+  const horizontal = nearLeft ? 'w' : nearRight ? 'e' : ''
 
   const direction = `${vertical}${horizontal}` as ResizeDirection
   return direction || null
@@ -429,7 +429,7 @@ const directionCursorMap: Record<ResizeDirection, string> = {
   ne: 'nesw-resize',
   sw: 'nesw-resize',
   nw: 'nwse-resize',
-  se: 'nwse-resize',
+  se: 'nwse-resize'
 }
 
 function updateModalCursor(direction: ResizeDirection | null) {
@@ -479,7 +479,11 @@ function applyResize(state: ResizeState, deltaX: number, deltaY: number) {
   }
 
   if (state.direction.includes('s')) {
-    height = clamp(state.startRect.height + deltaY, minHeight, viewport.height - state.startRect.top)
+    height = clamp(
+      state.startRect.height + deltaY,
+      minHeight,
+      viewport.height - state.startRect.top
+    )
   }
 
   if (state.direction.includes('w')) {
@@ -502,12 +506,15 @@ function handleDocumentMouseMove(event: MouseEvent) {
     const deltaX = event.clientX - dragState.value.startX
     const deltaY = event.clientY - dragState.value.startY
 
-    Object.assign(rect, clampRect({
-      left: dragState.value.startRect.left + deltaX,
-      top: dragState.value.startRect.top + deltaY,
-      width: dragState.value.startRect.width,
-      height: dragState.value.startRect.height,
-    }))
+    Object.assign(
+      rect,
+      clampRect({
+        left: dragState.value.startRect.left + deltaX,
+        top: dragState.value.startRect.top + deltaY,
+        width: dragState.value.startRect.width,
+        height: dragState.value.startRect.height
+      })
+    )
 
     return
   }
@@ -563,7 +570,7 @@ function handleModalMouseDown(event: MouseEvent) {
     direction,
     startX: event.clientX,
     startY: event.clientY,
-    startRect: cloneRect(rect),
+    startRect: cloneRect(rect)
   }
 
   startDocumentListen()
@@ -608,7 +615,7 @@ function handleTitleMouseDown(event: MouseEvent) {
   dragState.value = {
     startX: event.clientX,
     startY: event.clientY,
-    startRect: cloneRect(rect),
+    startRect: cloneRect(rect)
   }
 
   startDocumentListen()
@@ -627,8 +634,7 @@ async function toggleFullscreen() {
   }
 
   const element = getModalElement()
-  if (!element)
-    return
+  if (!element) return
 
   // Force reflow to ensure current state is captured
 
@@ -653,7 +659,7 @@ async function toggleFullscreen() {
     left: (viewport.width - DEFAULT_WIDTH) / 2,
     top: (viewport.height - DEFAULT_HEIGHT) / 2,
     width: DEFAULT_WIDTH,
-    height: DEFAULT_HEIGHT,
+    height: DEFAULT_HEIGHT
   }
 
   requestAnimationFrame(() => {
@@ -706,7 +712,7 @@ function handleUpdateOpen(open: boolean) {
 
 watch(
   isOpen,
-  (open) => {
+  open => {
     if (open) {
       clearFullscreenAnimationTimer()
       isAnimating.value = false
@@ -725,7 +731,7 @@ watch(
     stopDocumentListen()
     unbindModalResizeEvents()
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 watch(
@@ -737,7 +743,7 @@ watch(
 
     const nextWidth = parsePreferredWidth(props.width, rect.width)
     Object.assign(rect, clampRect({ ...cloneRect(rect), width: nextWidth }))
-  },
+  }
 )
 
 onMounted(() => {
@@ -784,12 +790,11 @@ onBeforeUnmount(() => {
             v-if="fullscreenable"
             :title="isFullscreen ? $t('layout.exitFullscreen') : $t('layout.fullscreen')"
           >
-            <button
-              type="button"
-              class="pro-modal-action-btn"
-              @click.stop="toggleFullscreen"
-            >
-              <component :is="isFullscreen ? FullscreenExitOutlined : FullscreenOutlined" :style="{ fontSize: '14px' }" />
+            <button type="button" class="pro-modal-action-btn" @click.stop="toggleFullscreen">
+              <component
+                :is="isFullscreen ? FullscreenExitOutlined : FullscreenOutlined"
+                :style="{ fontSize: '14px' }"
+              />
             </button>
           </a-tooltip>
 

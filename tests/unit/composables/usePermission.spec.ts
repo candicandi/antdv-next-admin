@@ -9,7 +9,10 @@ const mockAuthStore = {
   userPermissions: [] as string[],
   userRoles: [] as string[],
   hasPermission: vi.fn((permission: string) => {
-    return mockAuthStore.userPermissions.includes('*') || mockAuthStore.userPermissions.includes(permission)
+    return (
+      mockAuthStore.userPermissions.includes('*') ||
+      mockAuthStore.userPermissions.includes(permission)
+    )
   }),
   hasAnyPermission: vi.fn((permissions: string[]) => {
     return permissions.some(p => mockAuthStore.hasPermission(p))
@@ -25,11 +28,11 @@ const mockAuthStore = {
   }),
   hasAllRoles: vi.fn((roles: string[]) => {
     return roles.every(r => mockAuthStore.userRoles.includes(r))
-  }),
+  })
 }
 
 vi.mock('@/stores/auth', () => ({
-  useAuthStore: () => mockAuthStore,
+  useAuthStore: () => mockAuthStore
 }))
 
 describe('usePermission composable', () => {

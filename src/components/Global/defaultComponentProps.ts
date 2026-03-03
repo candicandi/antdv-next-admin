@@ -5,7 +5,11 @@ import { appDefaultSettings } from '@/settings'
 
 type AttrMap = Record<string, unknown>
 
-function withAllowClearDefault(name: string, component: Component, getDefaultAllowClear: () => boolean) {
+function withAllowClearDefault(
+  name: string,
+  component: Component,
+  getDefaultAllowClear: () => boolean
+) {
   return defineComponent({
     name,
     inheritAttrs: false,
@@ -16,26 +20,26 @@ function withAllowClearDefault(name: string, component: Component, getDefaultAll
 
         return h(component as any, { ...props, allowClear }, slots)
       }
-    },
+    }
   })
 }
 
 const SelectWithDefaults = withAllowClearDefault(
   'ASelectWithDefaults',
   Select,
-  () => appDefaultSettings.select.allowClear,
+  () => appDefaultSettings.select.allowClear
 )
 
 const DatePickerWithDefaults = withAllowClearDefault(
   'ADatePickerWithDefaults',
   DatePicker,
-  () => appDefaultSettings.datePicker.allowClear,
+  () => appDefaultSettings.datePicker.allowClear
 )
 
 const RangePickerWithDefaults = withAllowClearDefault(
   'ARangePickerWithDefaults',
   DateRangePicker,
-  () => appDefaultSettings.datePicker.allowClear,
+  () => appDefaultSettings.datePicker.allowClear
 )
 
 export function registerDefaultComponentProps(app: App) {

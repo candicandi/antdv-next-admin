@@ -12,12 +12,14 @@ export async function getDictTypes(): Promise<ApiResponse<DictType[]>> {
 /**
  * 获取字典类型列表（分页）
  */
-export async function getDictTypeList(params: DictTypeQueryParams): Promise<ApiResponse<{
-  list: DictType[]
-  total: number
-  page: number
-  pageSize: number
-}>> {
+export async function getDictTypeList(params: DictTypeQueryParams): Promise<
+  ApiResponse<{
+    list: DictType[]
+    total: number
+    page: number
+    pageSize: number
+  }>
+> {
   return request.get('/dict/type/list', { params })
 }
 
@@ -31,7 +33,10 @@ export async function createDictType(data: Partial<DictType>): Promise<ApiRespon
 /**
  * 更新字典类型
  */
-export async function updateDictType(id: string, data: Partial<DictType>): Promise<ApiResponse<DictType>> {
+export async function updateDictType(
+  id: string,
+  data: Partial<DictType>
+): Promise<ApiResponse<DictType>> {
   return request.put(`/dict/type/${id}`, data)
 }
 
@@ -59,12 +64,14 @@ export async function getDictDataByType(typeCode: string): Promise<ApiResponse<D
 /**
  * 获取字典数据列表（分页）
  */
-export async function getDictDataList(params: DictQueryParams): Promise<ApiResponse<{
-  list: DictData[]
-  total: number
-  page: number
-  pageSize: number
-}>> {
+export async function getDictDataList(params: DictQueryParams): Promise<
+  ApiResponse<{
+    list: DictData[]
+    total: number
+    page: number
+    pageSize: number
+  }>
+> {
   return request.get('/dict/data/list', { params })
 }
 
@@ -78,7 +85,10 @@ export async function createDictData(data: Partial<DictData>): Promise<ApiRespon
 /**
  * 更新字典数据
  */
-export async function updateDictData(id: string, data: Partial<DictData>): Promise<ApiResponse<DictData>> {
+export async function updateDictData(
+  id: string,
+  data: Partial<DictData>
+): Promise<ApiResponse<DictData>> {
   return request.put(`/dict/data/${id}`, data)
 }
 

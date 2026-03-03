@@ -13,7 +13,7 @@ import type {
   ProTableRequest,
   ProTableSearch,
   ProTableToolbar,
-  SearchType,
+  SearchType
 } from '@/types/pro'
 import {
   ColumnHeightOutlined,
@@ -23,7 +23,7 @@ import {
   SearchOutlined,
   SettingOutlined,
   VerticalLeftOutlined,
-  VerticalRightOutlined,
+  VerticalRightOutlined
 } from '@antdv-next/icons'
 import { message, Modal } from 'antdv-next'
 import { computed, h, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
@@ -92,9 +92,9 @@ const props = withDefaults(defineProps<Props>(), {
   pagination: () => ({
     showSizeChanger: true,
     showQuickJumper: true,
-    showTotal: (value: number) => $t('proTable.total', { total: value }),
+    showTotal: (value: number) => $t('proTable.total', { total: value })
   }),
-  formModalWidth: 640,
+  formModalWidth: 640
 })
 
 const emit = defineEmits(['refresh', 'form-submit'])
@@ -109,7 +109,7 @@ function normalizeDensity(size: ProTableDensity | undefined): TableSize {
 function cloneColumnState(state: ColumnState): ColumnState {
   return {
     ...state,
-    column: { ...state.column },
+    column: { ...state.column }
   }
 }
 
@@ -127,9 +127,11 @@ const tableSectionRef = ref<HTMLElement>()
 const dataSource = ref<any[]>([])
 const loading = ref(false)
 const searchForm = ref<Record<string, any>>({})
-const searchCollapsed = ref(props.search !== false ? (props.search?.defaultCollapsed ?? true) : true)
-const currentPage = ref(props.pagination !== false ? (props.pagination?.current || 1) : 1)
-const pageSize = ref(props.pagination !== false ? (props.pagination?.pageSize || 10) : 10)
+const searchCollapsed = ref(
+  props.search !== false ? (props.search?.defaultCollapsed ?? true) : true
+)
+const currentPage = ref(props.pagination !== false ? props.pagination?.current || 1 : 1)
+const pageSize = ref(props.pagination !== false ? props.pagination?.pageSize || 10 : 10)
 const total = ref(0)
 const tableSize = ref<TableSize>(normalizeDensity(props.size))
 const tableScrollY = ref<number>()
@@ -154,8 +156,8 @@ const tableComponents = computed(() => {
 
   return {
     header: {
-      cell: ResizableTitle,
-    },
+      cell: ResizableTitle
+    }
   }
 })
 
@@ -187,7 +189,7 @@ function normalizeTableFilters(filters: Record<string, any> | undefined) {
     return normalized
   }
 
-  Object.keys(filters).forEach((key) => {
+  Object.keys(filters).forEach(key => {
     const values = normalizeSelectedFilterValues(filters[key])
     normalized[key] = values.length > 0 ? values : null
   })
@@ -211,25 +213,25 @@ function getColumnCellValue(record: any, column: ProTableColumn) {
 const toolbarActions = computed(() => props.toolbar?.actions || [])
 
 const showRefreshAction = computed(() => {
-  if (!props.toolbar)
-    return true
+  if (!props.toolbar) return true
   return !toolbarActions.value.includes('!refresh')
 })
 
 const showColumnSettingAction = computed(() => {
-  if (!props.toolbar)
-    return true
+  if (!props.toolbar) return true
   return !toolbarActions.value.includes('!columnSetting')
 })
 
 const showDensityAction = computed(() => {
-  if (!props.toolbar)
-    return true
+  if (!props.toolbar) return true
   return !toolbarActions.value.includes('!density')
 })
 
 const headerFilterEntries = computed(() => {
-  const map = new Map<string, { key: string, column: ProTableColumn, headerFilter: ProTableHeaderFilter }>()
+  const map = new Map<
+    string,
+    { key: string; column: ProTableColumn; headerFilter: ProTableHeaderFilter }
+  >()
 
   columnStates.value.forEach((state, index) => {
     const column = state.column
@@ -241,7 +243,7 @@ const headerFilterEntries = computed(() => {
     const entry = {
       key,
       column,
-      headerFilter: column.headerFilter,
+      headerFilter: column.headerFilter
     }
 
     map.set(key, entry)
@@ -260,8 +262,9 @@ const hasBuiltInHeaderFilter = computed(() => {
 })
 
 const hasBuiltInKeywordHeaderFilter = computed(() => {
-  return Array.from(headerFilterEntries.value.values())
-    .some(entry => entry.headerFilter.type === 'keyword')
+  return Array.from(headerFilterEntries.value.values()).some(
+    entry => entry.headerFilter.type === 'keyword'
+  )
 })
 
 const effectiveResizable = computed(() => {
@@ -301,9 +304,10 @@ const tableRootStyle = computed<Record<string, string> | undefined>(() => {
     return { height: '100%' }
   }
 
-  const height = typeof effectiveHeight.value === 'number'
-    ? `${effectiveHeight.value}px`
-    : String(effectiveHeight.value)
+  const height =
+    typeof effectiveHeight.value === 'number'
+      ? `${effectiveHeight.value}px`
+      : String(effectiveHeight.value)
 
   return { height }
 })
@@ -317,8 +321,7 @@ const showSearchForm = computed(() => {
 })
 
 const searchLabelWidth = computed(() => {
-  if (props.search === false)
-    return 6
+  if (props.search === false) return 6
   return props.search?.labelWidth || 6
 })
 
@@ -333,11 +336,9 @@ const searchColumnsPerRow = computed(() => {
 })
 
 const collapsedSearchRows = computed(() => {
-  if (props.search === false)
-    return 1
+  if (props.search === false) return 1
   const rows = Number(props.search?.collapsedRows ?? 1)
-  if (!Number.isFinite(rows))
-    return 1
+  if (!Number.isFinite(rows)) return 1
   return Math.max(1, Math.floor(rows))
 })
 
@@ -382,7 +383,7 @@ const paginationConfig = computed(() => {
     ...pagination,
     current: currentPage.value,
     pageSize: pageSize.value,
-    total: total.value,
+    total: total.value
   }
 })
 
@@ -394,7 +395,7 @@ const displayColumns = computed<ProTableColumn[]>(() => {
       key: state.column.key || state.key,
       fixed: state.fixed,
       ellipsis: state.column.ellipsis ?? effectiveEllipsis.value,
-      resizable: state.column.resizable ?? effectiveResizable.value,
+      resizable: state.column.resizable ?? effectiveResizable.value
     }))
 
   if (!showIndexColumn.value) {
@@ -410,9 +411,9 @@ const displayColumns = computed<ProTableColumn[]>(() => {
       align: 'center',
       fixed: 'left',
       ellipsis: false,
-      resizable: false,
+      resizable: false
     },
-    ...columns,
+    ...columns
   ]
 })
 
@@ -454,10 +455,10 @@ function collectVisibleHeaderWidths() {
   }
 
   const headerCells = section.querySelectorAll(
-    '.ant-table-header thead th[data-pro-table-col-key]',
+    '.ant-table-header thead th[data-pro-table-col-key]'
   ) as NodeListOf<HTMLElement>
 
-  headerCells.forEach((cell) => {
+  headerCells.forEach(cell => {
     const key = cell.getAttribute('data-pro-table-col-key')
     if (!key) {
       return
@@ -482,15 +483,16 @@ function ensureColumnWidthsBeforeResize(activeKey: string, activeWidth: number) 
   const activeMeasuredWidth = parseColumnWidth(activeWidth)
   let changed = false
 
-  const nextStates = columnStates.value.map((state) => {
+  const nextStates = columnStates.value.map(state => {
     const currentWidth = parseColumnWidth(state.column.width)
     if (currentWidth != null) {
       return state
     }
 
-    const measuredWidth = state.key === activeKey
-      ? (activeMeasuredWidth ?? measuredWidths.get(state.key))
-      : measuredWidths.get(state.key)
+    const measuredWidth =
+      state.key === activeKey
+        ? (activeMeasuredWidth ?? measuredWidths.get(state.key))
+        : measuredWidths.get(state.key)
 
     if (measuredWidth == null) {
       return state
@@ -501,8 +503,8 @@ function ensureColumnWidthsBeforeResize(activeKey: string, activeWidth: number) 
       ...state,
       column: {
         ...state.column,
-        width: Math.max(MIN_COLUMN_WIDTH, Math.floor(measuredWidth)),
-      },
+        width: Math.max(MIN_COLUMN_WIDTH, Math.floor(measuredWidth))
+      }
     }
   })
 
@@ -547,12 +549,11 @@ function handleColumnWidthResize(key: string) {
     }
 
     const item = columnStates.value.find(state => state.key === key)
-    if (!item)
-      return
+    if (!item) return
 
     item.column = {
       ...item.column,
-      width: Math.max(MIN_COLUMN_WIDTH, Math.floor(size.width)),
+      width: Math.max(MIN_COLUMN_WIDTH, Math.floor(size.width))
     }
   }
 }
@@ -568,7 +569,9 @@ const canMeasureColumnWidth = computed(() => {
   if (displayColumns.value.length === 0) {
     return false
   }
-  return displayColumns.value.every(column => parseColumnWidth((column as ProTableColumn).width) != null)
+  return displayColumns.value.every(
+    column => parseColumnWidth((column as ProTableColumn).width) != null
+  )
 })
 
 const shouldUseHorizontalScroll = computed(() => {
@@ -583,7 +586,12 @@ const shouldUseHorizontalScroll = computed(() => {
   return columnTotalWidth.value > tableViewportWidth.value + 1
 })
 
-function applyKeywordClientFilter(value: any, record: any, column: ProTableColumn, headerFilter: ProTableHeaderFilter) {
+function applyKeywordClientFilter(
+  value: any,
+  record: any,
+  column: ProTableColumn,
+  headerFilter: ProTableHeaderFilter
+) {
   if (typeof headerFilter.clientFilter === 'function') {
     return headerFilter.clientFilter(value, record, column)
   }
@@ -610,7 +618,12 @@ function applyKeywordClientFilter(value: any, record: any, column: ProTableColum
   return terms.some(term => normalizedText.includes(term))
 }
 
-function applySelectClientFilter(value: any, record: any, column: ProTableColumn, headerFilter: ProTableHeaderFilter) {
+function applySelectClientFilter(
+  value: any,
+  record: any,
+  column: ProTableColumn,
+  headerFilter: ProTableHeaderFilter
+) {
   if (typeof headerFilter.clientFilter === 'function') {
     return headerFilter.clientFilter(value, record, column)
   }
@@ -628,44 +641,49 @@ const tableColumns = computed(() => {
     ? displayColumns.value
     : displayColumns.value.map(column => ({
         ...column,
-        fixed: undefined,
+        fixed: undefined
       }))
 
   return sourceColumns.map((column, index) => {
     const key = resolveColumnKey(column, index)
     const width = parseColumnWidth(column.width)
     const canResize = Boolean(
-      effectiveColumnResizable.value
-      && (column.resizable ?? effectiveResizable.value),
+      effectiveColumnResizable.value && (column.resizable ?? effectiveResizable.value)
     )
     const headerFilter = column.headerFilter
     const headerFilterMode = normalizeHeaderFilterMode(headerFilter?.mode)
     const selectedValues = normalizeSelectedFilterValues(
-      tableFilters.value[key]
-      ?? tableFilters.value[String(column.dataIndex)]
-      ?? (column.key ? tableFilters.value[String(column.key)] : undefined),
+      tableFilters.value[key] ??
+        tableFilters.value[String(column.dataIndex)] ??
+        (column.key ? tableFilters.value[String(column.key)] : undefined)
     )
-    const currentFilterIconType = headerFilter?.icon ?? (headerFilter?.type === 'keyword' ? 'search' : 'filter')
+    const currentFilterIconType =
+      headerFilter?.icon ?? (headerFilter?.type === 'keyword' ? 'search' : 'filter')
 
     const enhancedColumn: Record<string, any> = {
-      ...column,
+      ...column
     }
 
     if (headerFilter) {
       enhancedColumn.__proHeaderFilter = headerFilter
       enhancedColumn.__proHeaderFilterKey = key
       enhancedColumn.filteredValue = selectedValues.length > 0 ? selectedValues : null
-      enhancedColumn.filterIcon = enhancedColumn.filterIcon ?? ((filtered: boolean) => {
-        const IconComp = currentFilterIconType === 'search' ? SearchOutlined : FilterFilled
-        return h(IconComp, { style: { color: filtered ? '#1677ff' : undefined } })
-      })
+      enhancedColumn.filterIcon =
+        enhancedColumn.filterIcon ??
+        ((filtered: boolean) => {
+          const IconComp = currentFilterIconType === 'search' ? SearchOutlined : FilterFilled
+          return h(IconComp, { style: { color: filtered ? '#1677ff' : undefined } })
+        })
 
       if (headerFilter.type === 'keyword') {
         enhancedColumn.filterDropdown = enhancedColumn.filterDropdown ?? (() => null)
         if (!enhancedColumn.customFilterDropdown) {
           enhancedColumn.customFilterDropdown = true
         }
-        if (isClientHeaderFilterMode(headerFilterMode) && typeof enhancedColumn.onFilter !== 'function') {
+        if (
+          isClientHeaderFilterMode(headerFilterMode) &&
+          typeof enhancedColumn.onFilter !== 'function'
+        ) {
           enhancedColumn.onFilter = (value: any, record: any) =>
             applyKeywordClientFilter(value, record, column, headerFilter)
         }
@@ -675,13 +693,16 @@ const tableColumns = computed(() => {
         if (!Array.isArray(enhancedColumn.filters) || enhancedColumn.filters.length === 0) {
           enhancedColumn.filters = (headerFilter.options ?? []).map(item => ({
             text: item.label,
-            value: item.value,
+            value: item.value
           }))
         }
         if (enhancedColumn.filterMultiple === undefined) {
           enhancedColumn.filterMultiple = Boolean(headerFilter.multiple)
         }
-        if (isClientHeaderFilterMode(headerFilterMode) && typeof enhancedColumn.onFilter !== 'function') {
+        if (
+          isClientHeaderFilterMode(headerFilterMode) &&
+          typeof enhancedColumn.onFilter !== 'function'
+        ) {
           enhancedColumn.onFilter = (value: any, record: any) =>
             applySelectClientFilter(value, record, column, headerFilter)
         }
@@ -693,12 +714,13 @@ const tableColumns = computed(() => {
     return {
       ...enhancedColumn,
       onHeaderCell: (headerColumn: any) => {
-        const originalCell = typeof originalOnHeaderCell === 'function'
-          ? (originalOnHeaderCell(headerColumn) ?? {})
-          : {}
+        const originalCell =
+          typeof originalOnHeaderCell === 'function'
+            ? (originalOnHeaderCell(headerColumn) ?? {})
+            : {}
         const mergedCell: Record<string, any> = {
           ...originalCell,
-          'data-pro-table-col-key': key,
+          'data-pro-table-col-key': key
         }
 
         if (width != null) {
@@ -713,7 +735,7 @@ const tableColumns = computed(() => {
         }
 
         return mergedCell
-      },
+      }
     }
   })
 })
@@ -724,8 +746,7 @@ const tableScroll = computed(() => {
   if (hasFixedColumns.value && shouldUseHorizontalScroll.value) {
     if (canMeasureColumnWidth.value && tableViewportWidth.value > 0) {
       scroll.x = Math.max(columnTotalWidth.value, tableViewportWidth.value)
-    }
-    else {
+    } else {
       scroll.x = 'max-content'
     }
   }
@@ -741,22 +762,22 @@ const densityMenuProps = computed(() => ({
   items: [
     {
       key: 'large',
-      label: $t('proTable.densityLarge'),
+      label: $t('proTable.densityLarge')
     },
     {
       key: 'middle',
-      label: $t('proTable.densityMiddle'),
+      label: $t('proTable.densityMiddle')
     },
     {
       key: 'small',
-      label: $t('proTable.densitySmall'),
-    },
+      label: $t('proTable.densitySmall')
+    }
   ],
   selectedKeys: [tableSize.value],
   onClick: ({ key }: { key: string | number }) => {
     tableSize.value = normalizeDensity(String(key) as ProTableDensity)
     scheduleMeasureTable()
-  },
+  }
 }))
 
 // Methods
@@ -774,8 +795,8 @@ function initializeColumnStates() {
       defaultFixed: column.fixed,
       column: {
         ...column,
-        key: column.key || key,
-      },
+        key: column.key || key
+      }
     } as ColumnState
   })
 
@@ -784,7 +805,7 @@ function initializeColumnStates() {
   showIndexColumn.value = defaultShowIndexColumn.value
 
   const nextFilters: Record<string, any[] | null> = {}
-  states.forEach((state) => {
+  states.forEach(state => {
     const key = state.key
     const previous = normalizeSelectedFilterValues(previousFilters[key])
     if (previous.length > 0) {
@@ -799,14 +820,18 @@ function initializeColumnStates() {
     }
 
     if (state.column.key) {
-      const keyByColumnKey = normalizeSelectedFilterValues(previousFilters[String(state.column.key)])
+      const keyByColumnKey = normalizeSelectedFilterValues(
+        previousFilters[String(state.column.key)]
+      )
       if (keyByColumnKey.length > 0) {
         nextFilters[key] = keyByColumnKey
         return
       }
     }
 
-    const keyByDataIndex = normalizeSelectedFilterValues(previousFilters[String(state.column.dataIndex)])
+    const keyByDataIndex = normalizeSelectedFilterValues(
+      previousFilters[String(state.column.dataIndex)]
+    )
     if (keyByDataIndex.length > 0) {
       nextFilters[key] = keyByDataIndex
     }
@@ -824,8 +849,7 @@ function getRowIndex(index: number) {
 
 function toggleColumnChecked(key: string, checked: boolean) {
   const item = columnStates.value.find(state => state.key === key)
-  if (!item)
-    return
+  if (!item) return
 
   item.checked = checked
   scheduleMeasureTable()
@@ -837,8 +861,7 @@ function handleColumnCheckedChange(key: string, event: any) {
 
 function toggleColumnFixed(key: string, position: 'left' | 'right') {
   const item = columnStates.value.find(state => state.key === key)
-  if (!item)
-    return
+  if (!item) return
 
   item.fixed = item.fixed === position ? undefined : position
   scheduleMeasureTable()
@@ -847,12 +870,11 @@ function toggleColumnFixed(key: string, position: 'left' | 'right') {
 function handleToggleAllColumns() {
   const allChecked = columnStates.value.length > 0 && columnStates.value.every(item => item.checked)
   if (allChecked) {
-    columnStates.value.forEach((item) => {
+    columnStates.value.forEach(item => {
       item.checked = !item.checked
     })
-  }
-  else {
-    columnStates.value.forEach((item) => {
+  } else {
+    columnStates.value.forEach(item => {
       item.checked = true
     })
   }
@@ -880,13 +902,11 @@ function handleDragEnd() {
 
 function handleDrop(targetKey: string) {
   const sourceKey = draggingColumnKey.value
-  if (!sourceKey || sourceKey === targetKey)
-    return
+  if (!sourceKey || sourceKey === targetKey) return
 
   const sourceIndex = columnStates.value.findIndex(item => item.key === sourceKey)
   const targetIndex = columnStates.value.findIndex(item => item.key === targetKey)
-  if (sourceIndex === -1 || targetIndex === -1)
-    return
+  if (sourceIndex === -1 || targetIndex === -1) return
 
   const list = [...columnStates.value]
   const [dragItem] = list.splice(sourceIndex, 1)
@@ -909,45 +929,36 @@ function buildSelectPlaceholder(label: unknown) {
 }
 
 function resolveSearchType(col: ProTableColumn): SearchType {
-  if (col.searchType)
-    return col.searchType
+  if (col.searchType) return col.searchType
   if (col.options || col.searchOptions || col.valueEnum) {
     const vt = col.valueType
-    if (vt === 'tag' || vt === 'badge')
-      return 'select'
+    if (vt === 'tag' || vt === 'badge') return 'select'
   }
   const vt = col.valueType
-  if (vt === 'tag' || vt === 'badge')
-    return 'select'
-  if (vt === 'date' || vt === 'dateTime' || vt === 'time')
-    return 'datePicker'
-  if (vt === 'dateRange')
-    return 'dateRange'
-  if (vt === 'money' || vt === 'percent' || vt === 'progress')
-    return 'number'
+  if (vt === 'tag' || vt === 'badge') return 'select'
+  if (vt === 'date' || vt === 'dateTime' || vt === 'time') return 'datePicker'
+  if (vt === 'dateRange') return 'dateRange'
+  if (vt === 'money' || vt === 'percent' || vt === 'progress') return 'number'
   return 'input'
 }
 
 function resolveSearchOptions(col: ProTableColumn) {
-  if (col.searchOptions)
-    return col.searchOptions
-  if (col.options)
-    return col.options.map(o => ({ label: o.label, value: o.value }))
+  if (col.searchOptions) return col.searchOptions
+  if (col.options) return col.options.map(o => ({ label: o.label, value: o.value }))
   if (col.valueEnum) {
     return Object.entries(col.valueEnum).map(([value, config]) => ({
       label: config.text,
-      value,
+      value
     }))
   }
   return undefined
 }
 
 function resolveValueEnum(col: ProTableColumn) {
-  if (col.valueEnum)
-    return col.valueEnum
+  if (col.valueEnum) return col.valueEnum
   if (col.options) {
-    const enumMap: Record<string, { text: string, status?: string, color?: string }> = {}
-    col.options.forEach((o) => {
+    const enumMap: Record<string, { text: string; status?: string; color?: string }> = {}
+    col.options.forEach(o => {
       enumMap[String(o.value)] = { text: o.label, status: o.status, color: o.color }
     })
     return enumMap
@@ -965,21 +976,18 @@ function getHeaderFilterEntry(column: any) {
   if (directHeaderFilter) {
     return {
       key: String(directKey || column.key || column.dataIndex || ''),
-      headerFilter: directHeaderFilter,
+      headerFilter: directHeaderFilter
     }
   }
 
-  const keys = [
-    column.key,
-    column.dataIndex,
-  ].filter(Boolean).map(item => String(item))
+  const keys = [column.key, column.dataIndex].filter(Boolean).map(item => String(item))
 
   for (const key of keys) {
     const entry = headerFilterEntries.value.get(key)
     if (entry) {
       return {
         key: entry.key,
-        headerFilter: entry.headerFilter,
+        headerFilter: entry.headerFilter
       }
     }
   }
@@ -1018,8 +1026,7 @@ function getBuiltInKeywordFilterValue(selectedKeys: unknown) {
 }
 
 function handleBuiltInKeywordInput(value: string, setSelectedKeys?: (values: string[]) => void) {
-  if (!setSelectedKeys)
-    return
+  if (!setSelectedKeys) return
   setSelectedKeys(value ? [String(value)] : [])
 }
 
@@ -1027,7 +1034,11 @@ function handleBuiltInKeywordSearch(confirm?: (param?: any) => void) {
   confirm?.()
 }
 
-function handleBuiltInKeywordReset(setSelectedKeys?: (values: string[]) => void, clearFilters?: () => void, confirm?: (param?: any) => void) {
+function handleBuiltInKeywordReset(
+  setSelectedKeys?: (values: string[]) => void,
+  clearFilters?: () => void,
+  confirm?: (param?: any) => void
+) {
   clearFilters?.()
   setSelectedKeys?.([])
   confirm?.()
@@ -1039,7 +1050,7 @@ function buildHeaderFilterRequestParams() {
   const flatParams: Record<string, any> = {}
   const nestedParams: Record<string, any> = {}
 
-  Object.keys(tableFilters.value).forEach((tableFilterKey) => {
+  Object.keys(tableFilters.value).forEach(tableFilterKey => {
     const selectedValues = normalizeSelectedFilterValues(tableFilters.value[tableFilterKey])
     if (selectedValues.length === 0) {
       return
@@ -1061,8 +1072,7 @@ function buildHeaderFilterRequestParams() {
 
     if (entry.headerFilter.type === 'keyword') {
       requestValue = String(selectedValues[0] ?? '')
-    }
-    else {
+    } else {
       requestValue = isMultiple ? selectedValues : selectedValues[0]
     }
 
@@ -1071,10 +1081,10 @@ function buildHeaderFilterRequestParams() {
     }
 
     if (
-      requestValue === undefined
-      || requestValue === null
-      || requestValue === ''
-      || (Array.isArray(requestValue) && requestValue.length === 0)
+      requestValue === undefined ||
+      requestValue === null ||
+      requestValue === '' ||
+      (Array.isArray(requestValue) && requestValue.length === 0)
     ) {
       return
     }
@@ -1092,7 +1102,7 @@ function buildHeaderFilterRequestParams() {
       return {}
     }
     return {
-      [nestedKey]: nestedParams,
+      [nestedKey]: nestedParams
     }
   }
 
@@ -1113,8 +1123,8 @@ function buildSorterRequestParams() {
     return {
       sorter: activeSorters.map(item => ({
         field: item.field,
-        order: item.order,
-      })),
+        order: item.order
+      }))
     }
   }
 
@@ -1122,8 +1132,8 @@ function buildSorterRequestParams() {
     return {
       sorter: {
         field: sorter.field,
-        order: sorter.order,
-      },
+        order: sorter.order
+      }
     }
   }
 
@@ -1136,7 +1146,7 @@ async function loadData() {
     const params: Record<string, any> = {
       ...searchForm.value,
       ...buildHeaderFilterRequestParams(),
-      ...buildSorterRequestParams(),
+      ...buildSorterRequestParams()
     }
 
     if (paginationEnabled.value) {
@@ -1156,11 +1166,9 @@ async function loadData() {
       total.value = result.total || result.data.length
       scheduleMeasureTable()
     }
-  }
-  catch (error: any) {
+  } catch (error: any) {
     message.error(error.message || $t('proTable.loadDataFailed'))
-  }
-  finally {
+  } finally {
     loading.value = false
   }
 }
@@ -1209,7 +1217,7 @@ async function handleAction(action: ProTableAction, record: any) {
       onOk: async () => {
         await action.onClick?.(record)
         loadData()
-      },
+      }
     })
     return
   }
@@ -1222,29 +1230,25 @@ function getOuterHeight(el: HTMLElement) {
   const rect = el.getBoundingClientRect()
   const style = window.getComputedStyle(el)
   return (
-    rect.height
-    + Number.parseFloat(style.marginTop || '0')
-    + Number.parseFloat(style.marginBottom || '0')
+    rect.height +
+    Number.parseFloat(style.marginTop || '0') +
+    Number.parseFloat(style.marginBottom || '0')
   )
 }
 
 function getHeaderFallbackHeight() {
-  if (tableSize.value === 'large')
-    return 54
-  if (tableSize.value === 'small')
-    return 40
+  if (tableSize.value === 'large') return 54
+  if (tableSize.value === 'small') return 40
   return 48
 }
 
 function getPaginationFallbackHeight() {
-  if (!paginationEnabled.value)
-    return 0
+  if (!paginationEnabled.value) return 0
   return 56
 }
 
 function getTitleFallbackHeight() {
-  if (!props.toolbar)
-    return 0
+  if (!props.toolbar) return 0
   return 32
 }
 
@@ -1256,18 +1260,18 @@ function measureTableScroll() {
   }
 
   const section = tableSectionRef.value
-  if (!section)
-    return
+  if (!section) return
 
   const sectionHeight = section.clientHeight
-  if (!sectionHeight)
-    return
+  if (!sectionHeight) return
 
   const tableWrapperEl = section.querySelector('.ant-table-wrapper') as HTMLElement | null
   tableViewportWidth.value = Math.floor(tableWrapperEl?.clientWidth || section.clientWidth || 0)
 
   const paginationEl = section.querySelector('.ant-pagination') as HTMLElement | null
-  const paginationHeight = paginationEl ? getOuterHeight(paginationEl) : getPaginationFallbackHeight()
+  const paginationHeight = paginationEl
+    ? getOuterHeight(paginationEl)
+    : getPaginationFallbackHeight()
 
   const titleEl = section.querySelector('.ant-table-title') as HTMLElement | null
   const titleHeight = titleEl ? getOuterHeight(titleEl) : getTitleFallbackHeight()
@@ -1276,14 +1280,16 @@ function measureTableScroll() {
   const theadEl = section.querySelector('.ant-table-thead') as HTMLElement | null
   const headerHeight = headerEl
     ? headerEl.getBoundingClientRect().height
-    : (theadEl?.getBoundingClientRect().height || getHeaderFallbackHeight())
+    : theadEl?.getBoundingClientRect().height || getHeaderFallbackHeight()
 
   const nextY = Math.max(
     120,
-    Math.floor(sectionHeight - paginationHeight - titleHeight - headerHeight - 2),
+    Math.floor(sectionHeight - paginationHeight - titleHeight - headerHeight - 2)
   )
 
-  const bodyTableEl = section.querySelector('.ant-table-body table, .ant-table-content table') as HTMLElement | null
+  const bodyTableEl = section.querySelector(
+    '.ant-table-body table, .ant-table-content table'
+  ) as HTMLElement | null
   const bodyContentHeight = bodyTableEl ? bodyTableEl.getBoundingClientRect().height : 0
   shouldUseVerticalScroll.value = bodyContentHeight > nextY + 1
 
@@ -1324,14 +1330,10 @@ onMounted(() => {
       scheduleMeasureTable()
     })
 
-    if (proTableRef.value)
-      resizeObserver.observe(proTableRef.value)
-    if (toolbarRef.value)
-      resizeObserver.observe(toolbarRef.value)
-    if (searchRef.value)
-      resizeObserver.observe(searchRef.value)
-    if (tableSectionRef.value)
-      resizeObserver.observe(tableSectionRef.value)
+    if (proTableRef.value) resizeObserver.observe(proTableRef.value)
+    if (toolbarRef.value) resizeObserver.observe(toolbarRef.value)
+    if (searchRef.value) resizeObserver.observe(searchRef.value)
+    if (tableSectionRef.value) resizeObserver.observe(tableSectionRef.value)
   }
 
   scheduleMeasureTable()
@@ -1354,12 +1356,12 @@ watch(
     initializeColumnStates()
     scheduleMeasureTable()
   },
-  { deep: true },
+  { deep: true }
 )
 
 watch(
   () => props.pagination,
-  (value) => {
+  value => {
     if (value === false) {
       return
     }
@@ -1371,27 +1373,27 @@ watch(
       pageSize.value = Number(value.pageSize)
     }
   },
-  { deep: true },
+  { deep: true }
 )
 
 watch(
   () => props.size,
-  (value) => {
+  value => {
     tableSize.value = normalizeDensity(value)
     scheduleMeasureTable()
-  },
+  }
 )
 
 watch(
   () => props.height,
   () => {
     scheduleMeasureTable()
-  },
+  }
 )
 
 watch(
   () => props.search,
-  (value) => {
+  value => {
     if (value !== false) {
       searchCollapsed.value = value?.defaultCollapsed ?? true
       nextTick(() => {
@@ -1402,7 +1404,7 @@ watch(
     }
     scheduleMeasureTable()
   },
-  { deep: true },
+  { deep: true }
 )
 
 watch(
@@ -1413,7 +1415,7 @@ watch(
     }
     scheduleMeasureTable()
   },
-  { deep: true },
+  { deep: true }
 )
 
 // Built-in CRUD modal state
@@ -1442,16 +1444,14 @@ function openEditModal(record: any) {
 }
 
 async function handleCrudSubmit() {
-  if (!crudFormRef.value)
-    return
+  if (!crudFormRef.value) return
   const valid = await crudFormRef.value.validate()
-  if (!valid)
-    return
+  if (!valid) return
   const values = crudFormRef.value.getFieldsValue()
   emit('form-submit', {
     values,
     record: editingRecord.value,
-    isEdit: Boolean(editingRecord.value),
+    isEdit: Boolean(editingRecord.value)
   })
   crudModalOpen.value = false
 }
@@ -1464,31 +1464,17 @@ defineExpose({
     loadData()
   },
   openCreateModal,
-  openEditModal,
+  openEditModal
 })
 </script>
 
 <template>
-  <div
-    ref="proTableRef"
-    class="pro-table"
-    :style="tableRootStyle"
-  >
+  <div ref="proTableRef" class="pro-table" :style="tableRootStyle">
     <!-- Search Form -->
     <div v-if="showSearchForm" ref="searchRef" class="pro-table-search">
-      <a-form
-        :model="searchForm"
-        :label-col="{ span: searchLabelWidth }"
-        class="search-form"
-      >
+      <a-form :model="searchForm" :label-col="{ span: searchLabelWidth }" class="search-form">
         <a-row :gutter="16">
-          <a-col
-            v-for="col in visibleSearchColumns"
-            :key="col.dataIndex"
-            :xs="24"
-            :sm="12"
-            :lg="8"
-          >
+          <a-col v-for="col in visibleSearchColumns" :key="col.dataIndex" :xs="24" :sm="12" :lg="8">
             <a-form-item :label="col.title" :name="col.dataIndex">
               <a-input
                 v-if="resolveSearchType(col) === 'input'"
@@ -1561,7 +1547,7 @@ defineExpose({
       :class="{
         'main-scroll-mode': !effectiveFixedHeader && !isAutoHeight,
         'main-fill-mode': effectiveFixedHeader || isAutoHeight,
-        'no-vertical-scrollbar': isFillMode && !shouldUseVerticalScroll,
+        'no-vertical-scrollbar': isFillMode && !shouldUseVerticalScroll
       }"
     >
       <a-table
@@ -1606,18 +1592,19 @@ defineExpose({
                   </a-tooltip>
                 </a-dropdown>
 
-                <a-popover
-                  v-if="showColumnSettingAction"
-                  trigger="click"
-                  placement="bottomRight"
-                >
+                <a-popover v-if="showColumnSettingAction" trigger="click" placement="bottomRight">
                   <template #content>
                     <div class="column-setting-dropdown" @click.stop>
                       <div class="setting-actions">
                         <a-button size="small" type="link" @click.stop="handleToggleAllColumns">
                           {{ $t('proTable.checkAll') }}
                         </a-button>
-                        <a-button size="small" type="link" class="reset-btn" @click.stop="handleResetColumns">
+                        <a-button
+                          size="small"
+                          type="link"
+                          class="reset-btn"
+                          @click.stop="handleResetColumns"
+                        >
                           {{ $t('common.reset') }}
                         </a-button>
                       </div>
@@ -1625,11 +1612,10 @@ defineExpose({
                       <div class="setting-list">
                         <div class="setting-item index-column-item">
                           <div class="setting-item-left">
-                            <span class="drag-handle" style="opacity: 0; pointer-events: none;">::</span>
-                            <a-checkbox
-                              :checked="showIndexColumn"
-                              @change="toggleIndexColumn"
+                            <span class="drag-handle" style="opacity: 0; pointer-events: none"
+                              >::</span
                             >
+                            <a-checkbox :checked="showIndexColumn" @change="toggleIndexColumn">
                               {{ $t('proTable.indexColumn') }}
                             </a-checkbox>
                           </div>
@@ -1697,15 +1683,15 @@ defineExpose({
               v-if="getBuiltInFilterIconType(slotProps.column) === 'search'"
               :style="{ color: slotProps.filtered ? '#1677ff' : undefined }"
             />
-            <FilterFilled
-              v-else
-              :style="{ color: slotProps.filtered ? '#1677ff' : undefined }"
-            />
+            <FilterFilled v-else :style="{ color: slotProps.filtered ? '#1677ff' : undefined }" />
           </template>
           <slot v-else-if="$slots.filterIcon" name="filterIcon" v-bind="slotProps" />
         </template>
 
-        <template v-if="$slots.filterDropdown || hasBuiltInKeywordHeaderFilter" #filterDropdown="slotProps">
+        <template
+          v-if="$slots.filterDropdown || hasBuiltInKeywordHeaderFilter"
+          #filterDropdown="slotProps"
+        >
           <template v-if="isBuiltInKeywordFilterColumn(slotProps.column)">
             <div class="pro-table-keyword-filter-panel" @keydown.stop>
               <div class="pro-table-keyword-filter-field">
@@ -1728,7 +1714,13 @@ defineExpose({
                 </a-button>
                 <a-button
                   class="pro-table-keyword-filter-btn"
-                  @click="handleBuiltInKeywordReset(slotProps.setSelectedKeys, slotProps.clearFilters, slotProps.confirm)"
+                  @click="
+                    handleBuiltInKeywordReset(
+                      slotProps.setSelectedKeys,
+                      slotProps.clearFilters,
+                      slotProps.confirm
+                    )
+                  "
                 >
                   {{ $t('common.reset') }}
                 </a-button>

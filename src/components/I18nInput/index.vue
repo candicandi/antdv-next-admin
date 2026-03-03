@@ -8,24 +8,24 @@ import { getLocale, SUPPORTED_LOCALES } from '@/locales'
 const props = defineProps({
   value: {
     type: [String, Object] as PropType<string | Record<string, string>>,
-    default: () => ({}),
+    default: () => ({})
   },
   locale: {
     type: String,
-    default: () => getLocale(),
+    default: () => getLocale()
   },
   placeholder: {
     type: String,
-    default: '',
+    default: ''
   },
   modalTitle: {
     type: String,
-    default: '',
+    default: ''
   },
   strictLocales: {
     type: Boolean,
-    default: false,
-  },
+    default: false
+  }
 })
 
 const emit = defineEmits(['update:value', 'change'])
@@ -39,18 +39,18 @@ const localeMetaMap: Record<string, LocaleMeta> = {
   'zh-CN': { display: '简体中文', flag: '🇨🇳' },
   'en-US': { display: 'English', flag: '🇺🇸' },
   'ja-JP': { display: '日本語', flag: '🇯🇵' },
-  'ko-KR': { display: '한국어', flag: '🇰🇷' },
+  'ko-KR': { display: '한국어', flag: '🇰🇷' }
 }
 
 const availableLocales = computed(() =>
-  SUPPORTED_LOCALES.map((locale) => {
+  SUPPORTED_LOCALES.map(locale => {
     const meta = localeMetaMap[locale]
     return {
       locale,
       display: meta?.display || locale,
-      flag: meta?.flag || '🌐',
+      flag: meta?.flag || '🌐'
     }
-  }),
+  })
 )
 
 const availableLocaleSet = computed(() => new Set(availableLocales.value.map(item => item.locale)))
@@ -66,7 +66,7 @@ const displayLocale = computed(() => {
 // Generate label map for locales
 const localeLabelMap = computed(() => {
   const map: Record<string, string> = {}
-  availableLocales.value.forEach((item) => {
+  availableLocales.value.forEach(item => {
     map[item.locale] = `${item.flag} ${item.display}`
   })
   return map
@@ -79,7 +79,7 @@ const syncingFromProps = ref(false)
 // Initialize default value with all locales
 function getDefaultValue(): Record<string, string> {
   const defaultValue: Record<string, string> = {}
-  availableLocales.value.forEach((item) => {
+  availableLocales.value.forEach(item => {
     defaultValue[item.locale] = ''
   })
   return defaultValue
@@ -97,29 +97,28 @@ function isRecordEqual(a: Record<string, string>, b: Record<string, string>): bo
 }
 
 // Parse and normalize value
-function normalizeValue(value: string | Record<string, string> | null | undefined): Record<string, string> {
+function normalizeValue(
+  value: string | Record<string, string> | null | undefined
+): Record<string, string> {
   let parsed: Record<string, string> = {}
 
   if (!value) {
     parsed = getDefaultValue()
-  }
-  else if (typeof value === 'string') {
+  } else if (typeof value === 'string') {
     try {
       parsed = JSON.parse(value)
       if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
         parsed = getDefaultValue()
       }
-    }
-    catch {
+    } catch {
       parsed = getDefaultValue()
     }
-  }
-  else if (typeof value === 'object') {
+  } else if (typeof value === 'object') {
     parsed = { ...value }
   }
 
   // Fill missing locales with empty string
-  availableLocales.value.forEach((item) => {
+  availableLocales.value.forEach(item => {
     if (!parsed[item.locale]) {
       parsed[item.locale] = ''
     }
@@ -127,7 +126,7 @@ function normalizeValue(value: string | Record<string, string> | null | undefine
 
   // Remove locales not in available list when strict mode is enabled
   if (props.strictLocales) {
-    Object.keys(parsed).forEach((key) => {
+    Object.keys(parsed).forEach(key => {
       if (!availableLocaleSet.value.has(key as LocaleCode)) {
         delete parsed[key]
       }
@@ -140,7 +139,7 @@ function normalizeValue(value: string | Record<string, string> | null | undefine
 // Watch for external value changes
 watch(
   () => props.value,
-  (newValue) => {
+  newValue => {
     valueType.value = typeof newValue === 'string' ? 'string' : 'object'
     const normalized = normalizeValue(newValue)
 
@@ -151,13 +150,13 @@ watch(
     syncingFromProps.value = true
     innerValue.value = normalized
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 // Watch for internal value changes and emit
 watch(
   () => innerValue.value,
-  (newValue) => {
+  newValue => {
     if (syncingFromProps.value) {
       syncingFromProps.value = false
       return
@@ -171,7 +170,7 @@ watch(
     emit('update:value', returnValue)
     emit('change', returnValue)
   },
-  { deep: true },
+  { deep: true }
 )
 </script>
 

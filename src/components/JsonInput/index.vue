@@ -7,58 +7,58 @@ import { computed, ref, watch } from 'vue'
 import JsonFieldTreeList from './JsonFieldTreeList.vue'
 
 defineOptions({
-  name: 'JsonInput',
+  name: 'JsonInput'
 })
 
 const props = defineProps({
   value: {
     type: Object as PropType<JsonObject | null>,
-    default: null,
+    default: null
   },
   displayKey: {
     type: String,
-    default: '',
+    default: ''
   },
   labelMap: {
     type: Object as PropType<LabelMap>,
-    default: () => ({}),
+    default: () => ({})
   },
   fieldConfig: {
     type: Object as PropType<FieldConfigMap>,
-    default: () => ({}),
+    default: () => ({})
   },
   disabledFields: {
     type: Array as PropType<string[]>,
-    default: () => [],
+    default: () => []
   },
   readonlyFields: {
     type: Array as PropType<string[]>,
-    default: () => [],
+    default: () => []
   },
   allowAdd: {
     type: Boolean,
-    default: true,
+    default: true
   },
   allowDelete: {
     type: Boolean,
-    default: true,
+    default: true
   },
   allowSort: {
     type: Boolean,
-    default: true,
+    default: true
   },
   placeholder: {
     type: String,
-    default: '',
+    default: ''
   },
   modalTitle: {
     type: String,
-    default: '',
+    default: ''
   },
   modalWidth: {
     type: String,
-    default: '900px',
-  },
+    default: '900px'
+  }
 })
 
 const emit = defineEmits(['update:value', 'change'])
@@ -94,17 +94,17 @@ const hoveredFieldPathKey = ref('')
 const draggingFieldPathKey = ref('')
 const showAddFieldDialog = ref(false)
 const addFieldTargetPath = ref<string[]>([])
-const newField = ref<{ name: string, type: FieldType }>({ name: '', type: 'string' })
+const newField = ref<{ name: string; type: FieldType }>({ name: '', type: 'string' })
 
 const okText = '确定'
 const cancelText = '取消'
-const fieldTypeOptions: Array<{ label: string, value: FieldType }> = [
+const fieldTypeOptions: Array<{ label: string; value: FieldType }> = [
   { label: '文本', value: 'string' },
   { label: '数字', value: 'number' },
   { label: '布尔值', value: 'boolean' },
   { label: '标签', value: 'tags' },
   { label: '数组', value: 'array' },
-  { label: '对象', value: 'object' },
+  { label: '对象', value: 'object' }
 ]
 
 const displayValue = computed(() => {
@@ -144,8 +144,7 @@ function parsePath(pathKey: string): string[] {
     if (Array.isArray(parsed) && parsed.every(item => typeof item === 'string')) {
       return parsed
     }
-  }
-  catch {
+  } catch {
     return []
   }
   return []
@@ -274,7 +273,11 @@ function isFieldDisabledByPath(path: string[], key: string): boolean {
 
 function isFieldReadonlyByPath(path: string[], key: string): boolean {
   const fullPathKey = getFieldPath(path, key).join('.')
-  return isFieldDisabledByPath(path, key) || props.readonlyFields.includes(fullPathKey) || props.readonlyFields.includes(key)
+  return (
+    isFieldDisabledByPath(path, key) ||
+    props.readonlyFields.includes(fullPathKey) ||
+    props.readonlyFields.includes(key)
+  )
 }
 
 function getFieldOrderByPath(path: string[]): string[] {
@@ -292,15 +295,18 @@ function getFieldOrderByPath(path: string[]): string[] {
     return fieldOrderMap.value[pathKey]
   }
 
-  const normalizedOrder = currentOrder.filter(key => Object.prototype.hasOwnProperty.call(target, key))
-  keys.forEach((key) => {
+  const normalizedOrder = currentOrder.filter(key =>
+    Object.prototype.hasOwnProperty.call(target, key)
+  )
+  keys.forEach(key => {
     if (!normalizedOrder.includes(key)) {
       normalizedOrder.push(key)
     }
   })
 
   const isSameLength = normalizedOrder.length === currentOrder.length
-  const isSameOrder = isSameLength && normalizedOrder.every((key, index) => key === currentOrder[index])
+  const isSameOrder =
+    isSameLength && normalizedOrder.every((key, index) => key === currentOrder[index])
   if (!isSameOrder) {
     fieldOrderMap.value[pathKey] = normalizedOrder
     return normalizedOrder
@@ -397,8 +403,7 @@ function commitArrayBuffer(path: string[]): boolean {
     parent[fieldKey] = parsed
     delete arrayTextBuffer.value[pathKey]
     return true
-  }
-  catch {
+  } catch {
     errorMessage.value = `${getFieldLabelByPath(parentPath, fieldKey)}: 无效的数组格式`
     return false
   }
@@ -438,7 +443,7 @@ function getOrderedObjectKeys(path: string[], target: JsonObject): string[] {
   }
 
   const ordered = customOrder.filter(key => Object.prototype.hasOwnProperty.call(target, key))
-  defaultKeys.forEach((key) => {
+  defaultKeys.forEach(key => {
     if (!ordered.includes(key)) {
       ordered.push(key)
     }
@@ -454,7 +459,7 @@ function collectObjectPathKeys(value: unknown, path: string[] = []): string[] {
   const keys: string[] = []
   const orderedKeys = getOrderedObjectKeys(path, value)
 
-  orderedKeys.forEach((key) => {
+  orderedKeys.forEach(key => {
     const childPath = [...path, key]
     const childValue = value[key]
     if (isPlainObject(childValue)) {
@@ -487,7 +492,7 @@ function togglePathExpanded(path: string[]) {
 }
 
 function clearExpandedPathKeysByPrefix(path: string[]) {
-  expandedPathKeys.value = expandedPathKeys.value.filter((pathKey) => {
+  expandedPathKeys.value = expandedPathKeys.value.filter(pathKey => {
     const targetPath = parsePath(pathKey)
     return !isPathPrefix(path, targetPath)
   })
@@ -513,7 +518,7 @@ function buildOrderedValue(value: unknown, path: string[] = []): unknown {
   const orderedKeys = getFieldOrderByPath(path)
   const result: JsonObject = {}
 
-  orderedKeys.forEach((key) => {
+  orderedKeys.forEach(key => {
     if (Object.prototype.hasOwnProperty.call(value, key)) {
       result[key] = buildOrderedValue(value[key], [...path, key])
     }
@@ -564,8 +569,7 @@ function handleOk() {
       emit('update:value', parsed)
       emit('change', parsed)
       modalVisible.value = false
-    }
-    catch {
+    } catch {
       errorMessage.value = 'JSON 格式错误'
     }
     return
@@ -606,8 +610,7 @@ function toggleEditMode() {
     resetEditorState(parsed)
     errorMessage.value = ''
     useRawEdit.value = false
-  }
-  catch {
+  } catch {
     errorMessage.value = 'JSON 格式错误'
   }
 }
@@ -689,7 +692,10 @@ function onRemoveField(payload: RemoveFieldPayload) {
   }
 
   delete target[payload.key]
-  setFieldOrderByPath(payload.path, getFieldOrderByPath(payload.path).filter(key => key !== payload.key))
+  setFieldOrderByPath(
+    payload.path,
+    getFieldOrderByPath(payload.path).filter(key => key !== payload.key)
+  )
 
   const removedPath = [...payload.path, payload.key]
   clearArrayBufferByPrefix(removedPath)
@@ -742,12 +748,12 @@ const treeEditorApi: JsonTreeEditorApi = {
   onArrayTextChangeByPath,
   validateArrayByPath,
   isPathExpanded,
-  togglePathExpanded,
+  togglePathExpanded
 }
 
 watch(
   () => props.value,
-  (newVal) => {
+  newVal => {
     if (modalVisible.value) {
       return
     }
@@ -760,7 +766,7 @@ watch(
     getFieldOrderByPath([])
     expandedPathKeys.value = collectObjectPathKeys(normalized)
   },
-  { deep: true },
+  { deep: true }
 )
 </script>
 
@@ -804,9 +810,7 @@ watch(
             <div class="editor-toolbar">
               <a-space>
                 <span class="panel-title">结构列表</span>
-                <a-tag color="blue">
-                  {{ rootFieldCount }} 个字段
-                </a-tag>
+                <a-tag color="blue"> {{ rootFieldCount }} 个字段 </a-tag>
               </a-space>
               <a-space size="small">
                 <a-button type="link" size="small" @click="expandAllObjectFields">

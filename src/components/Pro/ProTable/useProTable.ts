@@ -9,7 +9,7 @@ import type {
   ProTableRequest,
   ProTableSearch,
   ProTableToolbar,
-  SearchType,
+  SearchType
 } from '@/types/pro'
 import { message } from 'antdv-next'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
@@ -125,7 +125,9 @@ export interface UseProTableReturn {
   showDensityAction: ComputedRef<boolean>
   hasBuiltInHeaderFilter: ComputedRef<boolean>
   hasBuiltInKeywordHeaderFilter: ComputedRef<boolean>
-  headerFilterEntries: ComputedRef<Map<string, { key: string, column: ProTableColumn, headerFilter: ProTableHeaderFilter }>>
+  headerFilterEntries: ComputedRef<
+    Map<string, { key: string; column: ProTableColumn; headerFilter: ProTableHeaderFilter }>
+  >
 
   // Methods
   refresh: () => void
@@ -133,7 +135,12 @@ export interface UseProTableReturn {
   handleSearch: () => void
   handleReset: () => void
   handleRefresh: () => void
-  handleTableChange: (pagination: any, filters: Record<string, any>, sorter: any, extra: any) => void
+  handleTableChange: (
+    pagination: any,
+    filters: Record<string, any>,
+    sorter: any,
+    extra: any
+  ) => void
   handleAction: (action: any, record: any) => Promise<void>
   getRowIndex: (index: number) => number
   toggleColumnChecked: (key: string, checked: boolean) => void
@@ -171,7 +178,7 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
     columnResizable = defaultColumnResizable,
     ellipsis = defaultEllipsis,
     bordered = defaultBordered,
-    fixedHeader = defaultFixedHeader,
+    fixedHeader = defaultFixedHeader
   } = options
 
   // Refs for DOM elements
@@ -184,9 +191,11 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
   const dataSource = ref<any[]>([])
   const loading = ref(false)
   const searchForm = ref<Record<string, any>>({})
-  const searchCollapsed = ref(search.value !== false ? (search.value?.defaultCollapsed ?? true) : true)
-  const currentPage = ref(pagination.value !== false ? (pagination.value?.current || 1) : 1)
-  const pageSize = ref(pagination.value !== false ? (pagination.value?.pageSize || 10) : 10)
+  const searchCollapsed = ref(
+    search.value !== false ? (search.value?.defaultCollapsed ?? true) : true
+  )
+  const currentPage = ref(pagination.value !== false ? pagination.value?.current || 1 : 1)
+  const pageSize = ref(pagination.value !== false ? pagination.value?.pageSize || 10 : 10)
   const total = ref(0)
   const tableSize = ref<TableSize>(normalizeDensity(size.value))
   const tableScrollY = ref<number>()
@@ -214,7 +223,7 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
   function cloneColumnState(state: ColumnState): ColumnState {
     return {
       ...state,
-      column: { ...state.column },
+      column: { ...state.column }
     }
   }
 
@@ -236,34 +245,30 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
     if (isAutoHeight.value) {
       return { height: '100%' }
     }
-    const h = typeof effectiveHeight.value === 'number'
-      ? `${effectiveHeight.value}px`
-      : String(effectiveHeight.value)
+    const h =
+      typeof effectiveHeight.value === 'number'
+        ? `${effectiveHeight.value}px`
+        : String(effectiveHeight.value)
     return { height: h }
   })
 
   const searchColumns = computed(() => columns.value.filter(col => col.search))
   const showSearchForm = computed(() => search.value !== false && searchColumns.value.length > 0)
   const searchLabelWidth = computed(() => {
-    if (search.value === false)
-      return 6
+    if (search.value === false) return 6
     return search.value?.labelWidth || 6
   })
 
   const searchColumnsPerRow = computed(() => {
-    if (viewportWidth.value >= 992)
-      return 3
-    if (viewportWidth.value >= 576)
-      return 2
+    if (viewportWidth.value >= 992) return 3
+    if (viewportWidth.value >= 576) return 2
     return 1
   })
 
   const collapsedSearchRows = computed(() => {
-    if (search.value === false)
-      return 1
+    if (search.value === false) return 1
     const rows = Number(search.value?.collapsedRows ?? 1)
-    if (!Number.isFinite(rows))
-      return 1
+    if (!Number.isFinite(rows)) return 1
     return Math.max(1, Math.floor(rows))
   })
 
@@ -293,8 +298,7 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
   const paginationEnabled = computed(() => pagination.value !== false)
 
   const paginationConfig = computed(() => {
-    if (!paginationEnabled.value)
-      return false
+    if (!paginationEnabled.value) return false
     return {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -302,7 +306,7 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
       ...(pagination.value || {}),
       current: currentPage.value,
       pageSize: pageSize.value,
-      total: total.value,
+      total: total.value
     }
   })
 
@@ -314,11 +318,10 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
         key: state.column.key || state.key,
         fixed: state.fixed,
         ellipsis: state.column.ellipsis ?? effectiveEllipsis.value,
-        resizable: state.column.resizable ?? effectiveResizable.value,
+        resizable: state.column.resizable ?? effectiveResizable.value
       }))
 
-    if (!showIndexColumn.value)
-      return cols
+    if (!showIndexColumn.value) return cols
 
     return [
       {
@@ -329,9 +332,9 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
         align: 'center',
         fixed: 'left',
         ellipsis: false,
-        resizable: false,
+        resizable: false
       },
-      ...cols,
+      ...cols
     ]
   })
 
@@ -341,50 +344,60 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
 
   // Header filter
   const headerFilterEntries = computed(() => {
-    const map = new Map<string, { key: string, column: ProTableColumn, headerFilter: ProTableHeaderFilter }>()
+    const map = new Map<
+      string,
+      { key: string; column: ProTableColumn; headerFilter: ProTableHeaderFilter }
+    >()
     columnStates.value.forEach((state, index) => {
       const column = state.column
-      if (!column.headerFilter)
-        return
+      if (!column.headerFilter) return
       const key = resolveColumnKey(column, index)
       const entry = { key, column, headerFilter: column.headerFilter }
       map.set(key, entry)
       map.set(String(column.dataIndex), entry)
-      if (column.key)
-        map.set(String(column.key), entry)
+      if (column.key) map.set(String(column.key), entry)
     })
     return map
   })
 
   const hasBuiltInHeaderFilter = computed(() => headerFilterEntries.value.size > 0)
   const hasBuiltInKeywordHeaderFilter = computed(() => {
-    return Array.from(headerFilterEntries.value.values())
-      .some(entry => entry.headerFilter.type === 'keyword')
+    return Array.from(headerFilterEntries.value.values()).some(
+      entry => entry.headerFilter.type === 'keyword'
+    )
   })
 
   // Toolbar actions
   const toolbarActions = computed(() => toolbar?.value?.actions || [])
-  const showRefreshAction = computed(() => !toolbar.value || !toolbarActions.value.includes('!refresh'))
-  const showColumnSettingAction = computed(() => !toolbar.value || !toolbarActions.value.includes('!columnSetting'))
-  const showDensityAction = computed(() => !toolbar.value || !toolbarActions.value.includes('!density'))
+  const showRefreshAction = computed(
+    () => !toolbar.value || !toolbarActions.value.includes('!refresh')
+  )
+  const showColumnSettingAction = computed(
+    () => !toolbar.value || !toolbarActions.value.includes('!columnSetting')
+  )
+  const showDensityAction = computed(
+    () => !toolbar.value || !toolbarActions.value.includes('!density')
+  )
 
   // Table columns with header filter
   const tableColumns = computed(() => {
     return displayColumns.value.map((column, index) => {
       const key = resolveColumnKey(column, index)
-      const canResize = Boolean(effectiveColumnResizable.value && (column.resizable ?? effectiveResizable.value))
+      const canResize = Boolean(
+        effectiveColumnResizable.value && (column.resizable ?? effectiveResizable.value)
+      )
 
       return {
         ...column,
         onHeaderCell: (_headerColumn: any) => {
           const mergedCell: Record<string, any> = {
-            'data-pro-table-col-key': key,
+            'data-pro-table-col-key': key
           }
           if (canResize) {
             mergedCell.resizable = true
           }
           return mergedCell
-        },
+        }
       }
     })
   })
@@ -406,23 +419,22 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
     items: [
       { key: 'large', label: $t('proTable.densityLarge') },
       { key: 'middle', label: $t('proTable.densityMiddle') },
-      { key: 'small', label: $t('proTable.densitySmall') },
+      { key: 'small', label: $t('proTable.densitySmall') }
     ],
     selectedKeys: [tableSize.value],
     onClick: ({ key }: { key: string | number }) => {
       tableSize.value = normalizeDensity(String(key) as ProTableDensity)
       scheduleMeasureTable()
-    },
+    }
   }))
 
   // Table components for resizable columns
   const tableComponents = computed(() => {
-    if (!effectiveColumnResizable.value)
-      return undefined
+    if (!effectiveColumnResizable.value) return undefined
     return {
       header: {
-        cell: null, // Will be set by the component
-      },
+        cell: null // Will be set by the component
+      }
     }
   })
 
@@ -441,31 +453,38 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
     }
 
     const section = tableSectionRef.value
-    if (!section)
-      return
+    if (!section) return
 
     const sectionHeight = section.clientHeight
-    if (!sectionHeight)
-      return
+    if (!sectionHeight) return
 
     const tableWrapperEl = section.querySelector('.ant-table-wrapper') as HTMLElement | null
     tableViewportWidth.value = Math.floor(tableWrapperEl?.clientWidth || section.clientWidth || 0)
 
     const paginationEl = section.querySelector('.ant-pagination') as HTMLElement | null
-    const paginationHeight = paginationEl ? getOuterHeight(paginationEl) : (paginationEnabled.value ? 56 : 0)
+    const paginationHeight = paginationEl
+      ? getOuterHeight(paginationEl)
+      : paginationEnabled.value
+        ? 56
+        : 0
 
     const titleEl = section.querySelector('.ant-table-title') as HTMLElement | null
-    const titleHeight = titleEl ? getOuterHeight(titleEl) : (toolbar?.value ? 32 : 0)
+    const titleHeight = titleEl ? getOuterHeight(titleEl) : toolbar?.value ? 32 : 0
 
     const headerEl = section.querySelector('.ant-table-header') as HTMLElement | null
     const theadEl = section.querySelector('.ant-table-thead') as HTMLElement | null
     const headerHeight = headerEl
       ? headerEl.getBoundingClientRect().height
-      : (theadEl?.getBoundingClientRect().height || getHeaderFallbackHeight())
+      : theadEl?.getBoundingClientRect().height || getHeaderFallbackHeight()
 
-    const nextY = Math.max(120, Math.floor(sectionHeight - paginationHeight - titleHeight - headerHeight - 2))
+    const nextY = Math.max(
+      120,
+      Math.floor(sectionHeight - paginationHeight - titleHeight - headerHeight - 2)
+    )
 
-    const bodyTableEl = section.querySelector('.ant-table-body table, .ant-table-content table') as HTMLElement | null
+    const bodyTableEl = section.querySelector(
+      '.ant-table-body table, .ant-table-content table'
+    ) as HTMLElement | null
     const bodyContentHeight = bodyTableEl ? bodyTableEl.getBoundingClientRect().height : 0
     shouldUseVerticalScroll.value = bodyContentHeight > nextY + 1
 
@@ -477,14 +496,16 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
   const getOuterHeight = (el: HTMLElement) => {
     const rect = el.getBoundingClientRect()
     const style = window.getComputedStyle(el)
-    return rect.height + Number.parseFloat(style.marginTop || '0') + Number.parseFloat(style.marginBottom || '0')
+    return (
+      rect.height +
+      Number.parseFloat(style.marginTop || '0') +
+      Number.parseFloat(style.marginBottom || '0')
+    )
   }
 
   const getHeaderFallbackHeight = () => {
-    if (tableSize.value === 'large')
-      return 54
-    if (tableSize.value === 'small')
-      return 40
+    if (tableSize.value === 'large') return 54
+    if (tableSize.value === 'small') return 40
     return 48
   }
 
@@ -499,7 +520,7 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
         fixed: column.fixed,
         defaultChecked: checked,
         defaultFixed: column.fixed,
-        column: { ...column, key: column.key || key },
+        column: { ...column, key: column.key || key }
       } as ColumnState
     })
 
@@ -514,7 +535,7 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
       const params: Record<string, any> = {
         ...searchForm.value,
         ...buildHeaderFilterRequestParams(),
-        ...buildSorterRequestParams(),
+        ...buildSorterRequestParams()
       }
 
       if (paginationEnabled.value) {
@@ -529,11 +550,9 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
         total.value = result.total || result.data.length
         scheduleMeasureTable()
       }
-    }
-    catch (error: any) {
+    } catch (error: any) {
       message.error(error.message || $t('proTable.loadDataFailed'))
-    }
-    finally {
+    } finally {
       loading.value = false
     }
   }
@@ -544,33 +563,28 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
     const flatParams: Record<string, any> = {}
     const nestedParams: Record<string, any> = {}
 
-    Object.keys(tableFilters.value).forEach((tableFilterKey) => {
+    Object.keys(tableFilters.value).forEach(tableFilterKey => {
       const selectedValues = normalizeSelectedFilterValues(tableFilters.value[tableFilterKey])
-      if (selectedValues.length === 0)
-        return
+      if (selectedValues.length === 0) return
 
       const entry = headerFilterEntries.value.get(tableFilterKey)
-      if (!entry)
-        return
+      if (!entry) return
 
       const mode = normalizeHeaderFilterMode(entry.headerFilter.mode)
-      if (!isServerHeaderFilterMode(mode))
-        return
+      if (!isServerHeaderFilterMode(mode)) return
 
       const paramKey = entry.headerFilter.paramKey || String(entry.column.dataIndex)
       const requestValue: any = selectedValues[0]
 
       if (payloadMode === 'nested') {
         nestedParams[paramKey] = requestValue
-      }
-      else {
+      } else {
         flatParams[paramKey] = requestValue
       }
     })
 
     if (payloadMode === 'nested') {
-      if (Object.keys(nestedParams).length === 0)
-        return {}
+      if (Object.keys(nestedParams).length === 0) return {}
       return { [nestedKey]: nestedParams }
     }
     return flatParams
@@ -578,8 +592,7 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
 
   const buildSorterRequestParams = () => {
     const sorter = tableSorter.value
-    if (!sorter)
-      return {}
+    if (!sorter) return {}
 
     if (sorter?.field && sorter?.order) {
       return { sorter: { field: sorter.field, order: sorter.order } }
@@ -644,15 +657,13 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
   }
 
   const getRowIndex = (index: number) => {
-    if (!paginationEnabled.value)
-      return index + 1
+    if (!paginationEnabled.value) return index + 1
     return (currentPage.value - 1) * pageSize.value + index + 1
   }
 
   const toggleColumnChecked = (key: string, checked: boolean) => {
     const item = columnStates.value.find(state => state.key === key)
-    if (!item)
-      return
+    if (!item) return
     item.checked = checked
     scheduleMeasureTable()
   }
@@ -663,15 +674,15 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
 
   const toggleColumnFixed = (key: string, position: 'left' | 'right') => {
     const item = columnStates.value.find(state => state.key === key)
-    if (!item)
-      return
+    if (!item) return
     item.fixed = item.fixed === position ? undefined : position
     scheduleMeasureTable()
   }
 
   const handleToggleAllColumns = () => {
-    const allChecked = columnStates.value.length > 0 && columnStates.value.every(item => item.checked)
-    columnStates.value.forEach((item) => {
+    const allChecked =
+      columnStates.value.length > 0 && columnStates.value.every(item => item.checked)
+    columnStates.value.forEach(item => {
       item.checked = !allChecked
     })
     scheduleMeasureTable()
@@ -698,13 +709,11 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
 
   const handleDrop = (targetKey: string) => {
     const sourceKey = draggingColumnKey.value
-    if (!sourceKey || sourceKey === targetKey)
-      return
+    if (!sourceKey || sourceKey === targetKey) return
 
     const sourceIndex = columnStates.value.findIndex(item => item.key === sourceKey)
     const targetIndex = columnStates.value.findIndex(item => item.key === targetKey)
-    if (sourceIndex === -1 || targetIndex === -1)
-      return
+    if (sourceIndex === -1 || targetIndex === -1) return
 
     const list = [...columnStates.value]
     const [dragItem] = list.splice(sourceIndex, 1)
@@ -715,45 +724,36 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
   }
 
   const resolveSearchType = (col: ProTableColumn): SearchType => {
-    if (col.searchType)
-      return col.searchType
+    if (col.searchType) return col.searchType
     if (col.options || col.searchOptions || col.valueEnum) {
       const vt = col.valueType
-      if (vt === 'tag' || vt === 'badge')
-        return 'select'
+      if (vt === 'tag' || vt === 'badge') return 'select'
     }
     const vt = col.valueType
-    if (vt === 'tag' || vt === 'badge')
-      return 'select'
-    if (vt === 'date' || vt === 'dateTime' || vt === 'time')
-      return 'datePicker'
-    if (vt === 'dateRange')
-      return 'dateRange'
-    if (vt === 'money' || vt === 'percent' || vt === 'progress')
-      return 'number'
+    if (vt === 'tag' || vt === 'badge') return 'select'
+    if (vt === 'date' || vt === 'dateTime' || vt === 'time') return 'datePicker'
+    if (vt === 'dateRange') return 'dateRange'
+    if (vt === 'money' || vt === 'percent' || vt === 'progress') return 'number'
     return 'input'
   }
 
   const resolveSearchOptions = (col: ProTableColumn) => {
-    if (col.searchOptions)
-      return col.searchOptions
-    if (col.options)
-      return col.options.map(o => ({ label: o.label, value: o.value }))
+    if (col.searchOptions) return col.searchOptions
+    if (col.options) return col.options.map(o => ({ label: o.label, value: o.value }))
     if (col.valueEnum) {
       return Object.entries(col.valueEnum).map(([value, config]) => ({
         label: config.text,
-        value,
+        value
       }))
     }
     return undefined
   }
 
   const resolveValueEnum = (col: ProTableColumn) => {
-    if (col.valueEnum)
-      return col.valueEnum
+    if (col.valueEnum) return col.valueEnum
     if (col.options) {
-      const enumMap: Record<string, { text: string, status?: string, color?: string }> = {}
-      col.options.forEach((o) => {
+      const enumMap: Record<string, { text: string; status?: string; color?: string }> = {}
+      col.options.forEach(o => {
         enumMap[String(o.value)] = { text: o.label, status: o.status, color: o.color }
       })
       return enumMap
@@ -787,14 +787,10 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
       resizeObserver = new ResizeObserver(() => {
         scheduleMeasureTable()
       })
-      if (proTableRef.value)
-        resizeObserver.observe(proTableRef.value)
-      if (toolbarRef.value)
-        resizeObserver.observe(toolbarRef.value)
-      if (searchRef.value)
-        resizeObserver.observe(searchRef.value)
-      if (tableSectionRef.value)
-        resizeObserver.observe(tableSectionRef.value)
+      if (proTableRef.value) resizeObserver.observe(proTableRef.value)
+      if (toolbarRef.value) resizeObserver.observe(toolbarRef.value)
+      if (searchRef.value) resizeObserver.observe(searchRef.value)
+      if (tableSectionRef.value) resizeObserver.observe(tableSectionRef.value)
     }
 
     scheduleMeasureTable()
@@ -802,28 +798,32 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
 
   onBeforeUnmount(() => {
     window.removeEventListener('resize', handleWindowResize)
-    if (rafId)
-      cancelAnimationFrame(rafId)
+    if (rafId) cancelAnimationFrame(rafId)
     resizeObserver?.disconnect()
     resizeObserver = null
   })
 
   // Watchers
-  watch(columns, () => {
-    initializeColumnStates()
-    scheduleMeasureTable()
-  }, { deep: true })
+  watch(
+    columns,
+    () => {
+      initializeColumnStates()
+      scheduleMeasureTable()
+    },
+    { deep: true }
+  )
 
-  watch(pagination, (value) => {
-    if (value === false)
-      return
-    if (value?.current != null)
-      currentPage.value = Number(value.current)
-    if (value?.pageSize != null)
-      pageSize.value = Number(value.pageSize)
-  }, { deep: true })
+  watch(
+    pagination,
+    value => {
+      if (value === false) return
+      if (value?.current != null) currentPage.value = Number(value.current)
+      if (value?.pageSize != null) pageSize.value = Number(value.pageSize)
+    },
+    { deep: true }
+  )
 
-  watch(size, (value) => {
+  watch(size, value => {
     tableSize.value = normalizeDensity(value)
     scheduleMeasureTable()
   })
@@ -832,12 +832,16 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
     scheduleMeasureTable()
   })
 
-  watch(search, (value) => {
-    if (value !== false) {
-      searchCollapsed.value = value?.defaultCollapsed ?? true
-    }
-    scheduleMeasureTable()
-  }, { deep: true })
+  watch(
+    search,
+    value => {
+      if (value !== false) {
+        searchCollapsed.value = value?.defaultCollapsed ?? true
+      }
+      scheduleMeasureTable()
+    },
+    { deep: true }
+  )
 
   return {
     // Refs
@@ -923,6 +927,6 @@ export function useProTable(options: UseProTableOptions): UseProTableReturn {
     buildEnterPlaceholder,
     buildSelectPlaceholder,
     scheduleMeasureTable,
-    initializeColumnStates,
+    initializeColumnStates
   }
 }

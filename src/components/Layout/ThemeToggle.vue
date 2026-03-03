@@ -31,8 +31,8 @@ function handleThemeToggle(event: MouseEvent) {
   themeStore.setTheme(themeStore.isDark ? 'light' : 'dark', {
     origin: {
       x: event.clientX,
-      y: event.clientY,
-    },
+      y: event.clientY
+    }
   })
 }
 

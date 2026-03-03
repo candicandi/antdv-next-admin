@@ -11,11 +11,8 @@ const breadcrumbs = computed(() => {
     .filter(item => item.path !== '/')
 
   return matched.map(item => ({
-    label: resolveLocaleText(
-      item.meta.title as string,
-      String(item.name || item.path || '-'),
-    ),
-    path: item.path,
+    label: resolveLocaleText(item.meta.title as string, String(item.name || item.path || '-')),
+    path: item.path
   }))
 })
 </script>

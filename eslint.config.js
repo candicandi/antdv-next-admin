@@ -11,19 +11,11 @@ export default antfu({
   formatters: {
     css: true,
     html: true,
-    markdown: 'prettier',
+    markdown: 'prettier'
   },
 
   // Ignore patterns
-  ignores: [
-    'dist',
-    'node_modules',
-    '*.d.ts',
-    'coverage',
-    'tests/e2e',
-    '.github',
-    '**/*.md',
-  ],
+  ignores: ['dist', 'node_modules', '*.d.ts', 'coverage', 'tests/e2e', '.github', '**/*.md'],
 
   // Rules
   rules: {
@@ -59,6 +51,6 @@ export default antfu({
     'no-useless-return': 'off',
     'no-prototype-builtins': 'off',
     'no-new': 'off',
-    'no-throw-literal': 'off',
-  },
+    'no-throw-literal': 'off'
+  }
 })

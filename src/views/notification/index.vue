@@ -8,7 +8,7 @@ import {
   MailOutlined,
   RocketOutlined,
   SafetyCertificateOutlined,
-  SearchOutlined,
+  SearchOutlined
 } from '@antdv-next/icons'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -36,7 +36,9 @@ const notifications = computed(() => {
 })
 
 const unreadCount = computed(() => notifications.value.filter(item => !item.read).length)
-const todayCount = computed(() => notifications.value.filter(item => dayjs(item.timestamp).isSame(dayjs(), 'day')).length)
+const todayCount = computed(
+  () => notifications.value.filter(item => dayjs(item.timestamp).isSame(dayjs(), 'day')).length
+)
 
 const selectedNotificationId = computed(() => {
   const queryValue = route.query.id
@@ -68,18 +70,14 @@ function resolveTone(notification: Notification): NotificationTone {
 const filteredNotifications = computed(() => {
   const query = normalizeText(keyword.value)
 
-  return notifications.value.filter((notification) => {
-    if (readFilter.value === 'unread' && notification.read)
-      return false
-    if (readFilter.value === 'read' && !notification.read)
-      return false
+  return notifications.value.filter(notification => {
+    if (readFilter.value === 'unread' && notification.read) return false
+    if (readFilter.value === 'read' && !notification.read) return false
 
     const tone = resolveTone(notification)
-    if (toneFilter.value !== 'all' && tone !== toneFilter.value)
-      return false
+    if (toneFilter.value !== 'all' && tone !== toneFilter.value) return false
 
-    if (!query)
-      return true
+    if (!query) return true
 
     const merged = `${notification.title} ${notification.message}`.toLowerCase()
     return merged.includes(query)
@@ -102,37 +100,28 @@ const selectedTone = computed<NotificationTone>(() => {
 
 watch(
   selectedNotification,
-  (notification) => {
+  notification => {
     if (notification && !notification.read) {
       notificationStore.markAsRead(notification.id)
     }
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 function getToneIcon(tone: NotificationTone) {
-  if (tone === 'system')
-    return RocketOutlined
-  if (tone === 'message')
-    return MailOutlined
-  if (tone === 'security')
-    return SafetyCertificateOutlined
-  if (tone === 'task')
-    return CheckCircleOutlined
-  if (tone === 'error')
-    return ExclamationCircleOutlined
+  if (tone === 'system') return RocketOutlined
+  if (tone === 'message') return MailOutlined
+  if (tone === 'security') return SafetyCertificateOutlined
+  if (tone === 'task') return CheckCircleOutlined
+  if (tone === 'error') return ExclamationCircleOutlined
   return BellOutlined
 }
 
 function getToneLabel(tone: NotificationTone) {
-  if (tone === 'system')
-    return $t('notificationCenter.filters.system')
-  if (tone === 'message')
-    return $t('notificationCenter.filters.message')
-  if (tone === 'security')
-    return $t('notificationCenter.filters.security')
-  if (tone === 'task')
-    return $t('notificationCenter.filters.task')
+  if (tone === 'system') return $t('notificationCenter.filters.system')
+  if (tone === 'message') return $t('notificationCenter.filters.message')
+  if (tone === 'security') return $t('notificationCenter.filters.security')
+  if (tone === 'task') return $t('notificationCenter.filters.task')
   return $t('notificationCenter.filters.error')
 }
 
@@ -150,7 +139,7 @@ function handleSelectNotification(notification: Notification) {
 
   router.replace({
     path: '/notifications',
-    query: { id: notification.id },
+    query: { id: notification.id }
   })
 }
 
@@ -287,12 +276,13 @@ function handleOpenRelated(notification: Notification) {
             v-for="notification in filteredNotifications"
             :key="notification.id"
             type="button"
-            class="notice-item" :class="[
+            class="notice-item"
+            :class="[
               `tone-${resolveTone(notification)}`,
               {
                 active: selectedNotificationId === notification.id,
-                unread: !notification.read,
-              },
+                unread: !notification.read
+              }
             ]"
             @click="handleSelectNotification(notification)"
           >
@@ -340,7 +330,10 @@ function handleOpenRelated(notification: Notification) {
             </div>
 
             <div class="detail-header-actions">
-              <a-tooltip v-if="!selectedNotification.read" :title="$t('notificationCenter.actions.markAsRead')">
+              <a-tooltip
+                v-if="!selectedNotification.read"
+                :title="$t('notificationCenter.actions.markAsRead')"
+              >
                 <a-button
                   type="text"
                   size="small"
@@ -378,7 +371,9 @@ function handleOpenRelated(notification: Notification) {
               </div>
               <div class="meta-item">
                 <span class="meta-label">{{ $t('notificationCenter.meta.receivedAt') }}</span>
-                <span class="meta-value">{{ formatAbsoluteTime(selectedNotification.timestamp) }}</span>
+                <span class="meta-value">{{
+                  formatAbsoluteTime(selectedNotification.timestamp)
+                }}</span>
               </div>
             </div>
           </div>

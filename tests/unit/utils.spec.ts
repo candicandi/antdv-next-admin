@@ -25,22 +25,28 @@ describe('utility Functions', () => {
 
     it('should group by key', () => {
       const groupBy = <T, K extends keyof T>(arr: T[], key: K) =>
-        arr.reduce((acc, item) => {
-          const group = String(item[key])
-          acc[group] = acc[group] || []
-          acc[group].push(item)
-          return acc
-        }, {} as Record<string, T[]>)
+        arr.reduce(
+          (acc, item) => {
+            const group = String(item[key])
+            acc[group] = acc[group] || []
+            acc[group].push(item)
+            return acc
+          },
+          {} as Record<string, T[]>
+        )
 
       const data = [
         { type: 'A', value: 1 },
         { type: 'B', value: 2 },
-        { type: 'A', value: 3 },
+        { type: 'A', value: 3 }
       ]
 
       expect(groupBy(data, 'type')).toEqual({
-        A: [{ type: 'A', value: 1 }, { type: 'A', value: 3 }],
-        B: [{ type: 'B', value: 2 }],
+        A: [
+          { type: 'A', value: 1 },
+          { type: 'A', value: 3 }
+        ],
+        B: [{ type: 'B', value: 2 }]
       })
     })
   })

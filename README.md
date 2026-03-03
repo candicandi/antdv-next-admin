@@ -23,6 +23,7 @@ A modern, feature-rich admin dashboard scaffold built with Vue 3 + TypeScript + 
 ## Features
 
 ### Core Features
+
 - Modern tech stack: Vue 3 + Vite + TypeScript + Pinia
 - UI Components: Ant Design Vue (antdv-next)
 - Layout System: Responsive layout with vertical/horizontal modes
@@ -33,6 +34,7 @@ A modern, feature-rich admin dashboard scaffold built with Vue 3 + TypeScript + 
 - Mock Data: Complete mock data support for development
 
 ### Advanced Features
+
 - Preferences:
   - 6 preset theme colors (Dawn Blue, Aurora Green, Purple, Dusk Red, Sunset Orange, Cyan)
   - Sidebar theme switching (dark/light)
@@ -47,6 +49,7 @@ A modern, feature-rich admin dashboard scaffold built with Vue 3 + TypeScript + 
   - Consistent design language
 
 ### Pro Components
+
 - ProTable: Advanced table component
   - Auto-generated search forms
   - Configurable columns (show/hide, sort, fixed)
@@ -65,6 +68,7 @@ A modern, feature-rich admin dashboard scaffold built with Vue 3 + TypeScript + 
   - Unified confirm/cancel logic
 
 ### Business Components
+
 - Rich Text Editor: Based on TipTap with image, link, and formatting support
 - Captcha Components: Slider, Puzzle, Point-click, Rotate
 - Icon Picker: Iconify library search and selection
@@ -142,26 +146,31 @@ antdv-next-admin/
 ## Tech Stack
 
 ### Core Framework
+
 - Vue 3.4+ - Progressive JavaScript framework
 - TypeScript 5+ - JavaScript superset
 - Vite 5+ - Next-generation frontend build tool
 
 ### UI & Styling
+
 - Ant Design Vue - Enterprise UI component library
 - CSS Variables - Modern theme system
 - SCSS - CSS preprocessor
 
 ### State & Routing
+
 - Pinia 2+ - Vue official state management
 - Vue Router 4+ - Vue official router
 
 ### Utilities
+
 - vue-i18n - Internationalization
 - Axios - HTTP client
 - dayjs - Date handling
 - lodash-es - Utility library
 
 ### Dev Tools
+
 - vite-plugin-mock-dev-server - Mock server
 - ESLint - Code linting
 - Prettier - Code formatting
@@ -176,12 +185,14 @@ antdv-next-admin/
 ### Environment Variables
 
 **Development (.env.development):**
+
 ```bash
 VITE_USE_MOCK=true
 VITE_API_BASE_URL=/api
 ```
 
 **Production (.env.production):**
+
 ```bash
 VITE_USE_MOCK=false
 VITE_API_BASE_URL=https://your-api-domain.com/api
@@ -190,6 +201,7 @@ VITE_API_BASE_URL=https://your-api-domain.com/api
 ### Permission Usage
 
 **Directive:**
+
 ```vue
 <a-button v-permission="'user.create'">Create User</a-button>
 <a-button v-permission="['user.edit', 'user.delete']">Actions</a-button>
@@ -197,6 +209,7 @@ VITE_API_BASE_URL=https://your-api-domain.com/api
 ```
 
 **Composable:**
+
 ```ts
 const { can, canAll } = usePermission()
 
@@ -210,6 +223,7 @@ if (canAll(['user.edit', 'user.approve'])) {
 ```
 
 **Component:**
+
 ```vue
 <PermissionButton permission="user.create">
   <a-button>Create User</a-button>
@@ -242,23 +256,28 @@ The project includes a complete mock data system, automatically enabled in devel
 ## Highlights
 
 ### Multi-theme Support
+
 6 preset colors × 3 modes (light/dark/auto) = 18 theme combinations
 
 ### Flexible Layout
+
 - Vertical layout (sidebar on left)
 - Horizontal layout (menu on top)
 - Responsive mobile adaptation
 
 ### Multi-tab System
+
 - Tab caching (KeepAlive)
 - Pinned tabs (affix)
 - Context menu (refresh, pin, close, close others, close left/right, close all)
 - Persistent storage
 
 ### Global Search
+
 Keyboard shortcut `Ctrl/Cmd + K` to open global menu search.
 
 ### Internationalization
+
 Complete Chinese/English translations with runtime switching.
 
 ## Contributing

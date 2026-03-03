@@ -9,7 +9,7 @@ export const commonRules = {
    */
   required: (message = $t('validation.required')) => ({
     required: true,
-    message,
+    message
   }),
 
   /**
@@ -17,14 +17,13 @@ export const commonRules = {
    */
   email: (message = $t('validation.email')) => ({
     validator: (_: any, value: any) => {
-      if (!value)
-        return Promise.resolve()
+      if (!value) return Promise.resolve()
       const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/
       if (emailRegex.test(value)) {
         return Promise.resolve()
       }
       return Promise.reject(new Error(message))
-    },
+    }
   }),
 
   /**
@@ -32,13 +31,12 @@ export const commonRules = {
    */
   phone: (message = $t('validation.phone')) => ({
     validator: (_: any, value: any) => {
-      if (!value)
-        return Promise.resolve()
+      if (!value) return Promise.resolve()
       if (/^1[3-9]\d{9}$/.test(value)) {
         return Promise.resolve()
       }
       return Promise.reject(new Error(message))
-    },
+    }
   }),
 
   /**
@@ -46,7 +44,7 @@ export const commonRules = {
    */
   idCard: (message = $t('validation.idCard')) => ({
     pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}([\dX])$)/i,
-    message,
+    message
   }),
 
   /**
@@ -54,7 +52,7 @@ export const commonRules = {
    */
   url: (message = $t('validation.url')) => ({
     type: 'url' as const,
-    message,
+    message
   }),
 
   /**
@@ -63,7 +61,7 @@ export const commonRules = {
   length: (min: number, max: number, message?: string) => ({
     min,
     max,
-    message: message || $t('validation.lengthRange', { min, max }),
+    message: message || $t('validation.lengthRange', { min, max })
   }),
 
   /**
@@ -73,7 +71,7 @@ export const commonRules = {
     type: 'number' as const,
     min,
     max,
-    message: message || $t('validation.numberRange', { min, max }),
+    message: message || $t('validation.numberRange', { min, max })
   }),
 
   /**
@@ -81,14 +79,14 @@ export const commonRules = {
    */
   pattern: (pattern: RegExp, message: string) => ({
     pattern,
-    message,
+    message
   }),
 
   /**
    * Custom validator
    */
   validator: (validatorFn: (rule: any, value: any) => Promise<void>) => ({
-    validator: validatorFn,
+    validator: validatorFn
   }),
 
   /**
@@ -96,13 +94,12 @@ export const commonRules = {
    */
   username: (message = $t('validation.usernamePattern')) => ({
     validator: (_: any, value: any) => {
-      if (!value)
-        return Promise.resolve()
+      if (!value) return Promise.resolve()
       if (/^\w+$/.test(value)) {
         return Promise.resolve()
       }
       return Promise.reject(new Error(message))
-    },
+    }
   }),
 
   /**
@@ -110,26 +107,28 @@ export const commonRules = {
    */
   password: (message = $t('validation.passwordPattern')) => ({
     validator: (_: any, value: any) => {
-      if (!value)
-        return Promise.resolve()
+      if (!value) return Promise.resolve()
       if (/^(?=.*[A-Z])(?=.*\d)[A-Z\d]{8,}$/i.test(value)) {
         return Promise.resolve()
       }
       return Promise.reject(new Error(message))
-    },
+    }
   }),
 
   /**
    * Confirm password validation
    */
-  confirmPassword: (getFieldValue: (field: string) => any, message = $t('validation.confirmPassword')) => ({
+  confirmPassword: (
+    getFieldValue: (field: string) => any,
+    message = $t('validation.confirmPassword')
+  ) => ({
     validator: (_: any, value: any) => {
       if (!value || getFieldValue('password') === value) {
         return Promise.resolve()
       }
       return Promise.reject(new Error(message))
-    },
-  }),
+    }
+  })
 }
 
 /**
@@ -137,7 +136,7 @@ export const commonRules = {
  */
 export function createRule(
   validator: (value: any, formValues: any) => boolean | Promise<boolean>,
-  message: string,
+  message: string
 ) {
   return {
     validator: async (_: any, value: any, formValues: any) => {
@@ -146,6 +145,6 @@ export function createRule(
         return Promise.resolve()
       }
       return Promise.reject(new Error(message))
-    },
+    }
   }
 }

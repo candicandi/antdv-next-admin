@@ -5,7 +5,9 @@ import { request } from '@/utils/request'
 /**
  * Get permission list
  */
-export async function getPermissionList(params?: Record<string, any>): Promise<ApiResponse<Permission[]>> {
+export async function getPermissionList(
+  params?: Record<string, any>
+): Promise<ApiResponse<Permission[]>> {
   return request.get('/permissions', { params })
 }
 
@@ -26,14 +28,19 @@ export async function getPermissionById(id: string): Promise<ApiResponse<Permiss
 /**
  * Create permission
  */
-export async function createPermission(data: Partial<Permission>): Promise<ApiResponse<Permission>> {
+export async function createPermission(
+  data: Partial<Permission>
+): Promise<ApiResponse<Permission>> {
   return request.post('/permissions', data)
 }
 
 /**
  * Update permission
  */
-export async function updatePermission(id: string, data: Partial<Permission>): Promise<ApiResponse<Permission>> {
+export async function updatePermission(
+  id: string,
+  data: Partial<Permission>
+): Promise<ApiResponse<Permission>> {
   return request.put(`/permissions/${id}`, data)
 }
 

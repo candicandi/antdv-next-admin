@@ -16,12 +16,12 @@ const formData = ref({})
 
 const genderOptions = computed(() => [
   { label: $t('user.male'), value: 'male' },
-  { label: $t('user.female'), value: 'female' },
+  { label: $t('user.female'), value: 'female' }
 ])
 
-const genderValueEnum = computed<Record<string, { text: string, color?: string }>>(() => ({
+const genderValueEnum = computed<Record<string, { text: string; color?: string }>>(() => ({
   male: { text: $t('user.male'), color: 'blue' },
-  female: { text: $t('user.female'), color: 'pink' },
+  female: { text: $t('user.female'), color: 'pink' }
 }))
 
 // Table columns configuration
@@ -36,25 +36,25 @@ const columns = computed<ProTableColumn[]>(() => [
       mode: 'server',
       icon: 'search',
       placeholder: `搜索${$t('user.username')}`,
-      matchAllKeywords: true,
-    },
+      matchAllKeywords: true
+    }
   },
   {
     title: $t('user.email'),
     dataIndex: 'email',
     search: true,
     searchType: 'input',
-    copyable: true,
+    copyable: true
   },
   {
     title: $t('user.realName'),
     dataIndex: 'realName',
     search: true,
-    searchType: 'input',
+    searchType: 'input'
   },
   {
     title: $t('user.phone'),
-    dataIndex: 'phone',
+    dataIndex: 'phone'
   },
   {
     title: $t('user.gender'),
@@ -67,10 +67,10 @@ const columns = computed<ProTableColumn[]>(() => [
       mode: 'server',
       icon: 'filter',
       multiple: true,
-      options: genderOptions.value,
+      options: genderOptions.value
     },
     valueType: 'tag',
-    valueEnum: genderValueEnum.value,
+    valueEnum: genderValueEnum.value
   },
   {
     title: $t('common.status'),
@@ -83,9 +83,9 @@ const columns = computed<ProTableColumn[]>(() => [
       multiple: false,
       options: [
         { label: $t('user.active'), value: 'active' },
-        { label: $t('user.inactive'), value: 'inactive' },
-      ],
-    },
+        { label: $t('user.inactive'), value: 'inactive' }
+      ]
+    }
   },
   {
     title: $t('common.createTime'),
@@ -93,7 +93,7 @@ const columns = computed<ProTableColumn[]>(() => [
     valueType: 'dateTime',
     search: true,
     searchType: 'dateRange',
-    sorter: true,
+    sorter: true
   },
   {
     title: $t('common.actions'),
@@ -104,17 +104,17 @@ const columns = computed<ProTableColumn[]>(() => [
       {
         label: $t('common.edit'),
         icon: EditOutlined,
-        onClick: record => handleEdit(record),
+        onClick: record => handleEdit(record)
       },
       {
         label: $t('common.delete'),
         icon: DeleteOutlined,
         danger: true,
         confirm: $t('user.confirmDelete'),
-        onClick: record => handleDelete(record),
-      },
-    ],
-  },
+        onClick: record => handleDelete(record)
+      }
+    ]
+  }
 ])
 
 // Form items configuration
@@ -124,40 +124,33 @@ const formItems = computed<ProFormItem[]>(() => [
     label: $t('user.username'),
     type: 'input',
     required: true,
-    rules: [
-      commonRules.required(),
-      commonRules.length(3, 20),
-      commonRules.username(),
-    ],
+    rules: [commonRules.required(), commonRules.length(3, 20), commonRules.username()]
   },
   {
     name: 'email',
     label: $t('user.email'),
     type: 'input',
     required: true,
-    rules: [
-      commonRules.required(),
-      commonRules.email(),
-    ],
+    rules: [commonRules.required(), commonRules.email()]
   },
   {
     name: 'realName',
     label: $t('user.realName'),
     type: 'input',
-    required: true,
+    required: true
   },
   {
     name: 'phone',
     label: $t('user.phone'),
     type: 'input',
-    rules: [commonRules.phone()],
+    rules: [commonRules.phone()]
   },
   {
     name: 'gender',
     label: $t('user.gender'),
     type: 'radio',
     required: true,
-    options: genderOptions.value,
+    options: genderOptions.value
   },
   {
     name: 'status',
@@ -167,8 +160,8 @@ const formItems = computed<ProFormItem[]>(() => [
     initialValue: 'active',
     options: [
       { label: $t('user.active'), value: 'active' },
-      { label: $t('user.inactive'), value: 'inactive' },
-    ],
+      { label: $t('user.inactive'), value: 'inactive' }
+    ]
   },
   {
     name: 'bio',
@@ -178,9 +171,9 @@ const formItems = computed<ProFormItem[]>(() => [
     props: {
       rows: 4,
       maxLength: 200,
-      showCount: true,
-    },
-  },
+      showCount: true
+    }
+  }
 ])
 
 // Methods
@@ -189,7 +182,7 @@ async function fetchData(params: any) {
   return {
     data: res.data.list,
     total: res.data.total,
-    success: true,
+    success: true
   }
 }
 
@@ -199,8 +192,7 @@ async function handleStatusChange(record: any, checked: boolean) {
     await updateUser(record.id, { ...record, status: newStatus })
     record.status = newStatus
     message.success($t('exampleTable.updateSuccess'))
-  }
-  catch (error: any) {
+  } catch (error: any) {
     message.error(error.message || $t('common.error'))
   }
 }
@@ -224,8 +216,7 @@ async function handleDelete(record: any) {
 
 async function handleSubmit() {
   const valid = await formRef.value?.validate()
-  if (!valid)
-    return
+  if (!valid) return
 
   const values = formRef.value?.getFieldsValue()
 
@@ -233,14 +224,12 @@ async function handleSubmit() {
     if (editingId.value) {
       await updateUser(editingId.value, values)
       message.success($t('exampleTable.updateSuccess'))
-    }
-    else {
+    } else {
       await createUser(values)
       message.success($t('exampleTable.createSuccess'))
     }
     modalVisible.value = false
-  }
-  catch (error: any) {
+  } catch (error: any) {
     message.error(error.message || $t('common.error'))
   }
 }
@@ -254,15 +243,15 @@ async function handleSubmit() {
       :toolbar="{
         title: $t('exampleTable.userList'),
         subTitle: $t('exampleTable.subTitle'),
-        actions: ['!refresh', '!columnSetting'],
+        actions: ['!refresh', '!columnSetting']
       }"
       :search="{
         labelWidth: 80,
-        defaultCollapsed: true,
+        defaultCollapsed: true
       }"
       :header-filter="{
         defaultMode: 'server',
-        requestPayload: 'flat',
+        requestPayload: 'flat'
       }"
       row-key="id"
     >

@@ -6,7 +6,7 @@ import ProDescriptions from '../ProDescriptions/index.vue'
 interface Props {
   title?: string
   subTitle?: string
-  tags?: Array<{ text: string, color?: string }>
+  tags?: Array<{ text: string; color?: string }>
   descriptions?: ProDescriptionItem[]
   data?: Record<string, any>
   descriptionColumn?: number
@@ -15,19 +15,21 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  descriptionColumn: 2,
+  descriptionColumn: 2
 })
 
 const emit = defineEmits(['update:activeTab'])
 
 const currentTab = ref(props.activeTab || props.tabs?.[0]?.key || '')
 
-watch(() => props.activeTab, (val) => {
-  if (val)
-    currentTab.value = val
-})
+watch(
+  () => props.activeTab,
+  val => {
+    if (val) currentTab.value = val
+  }
+)
 
-watch(currentTab, (val) => {
+watch(currentTab, val => {
   emit('update:activeTab', val)
 })
 </script>

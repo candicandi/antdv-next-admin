@@ -8,7 +8,7 @@ import {
   MessageOutlined,
   MoreOutlined,
   SearchOutlined,
-  SettingOutlined,
+  SettingOutlined
 } from '@antdv-next/icons'
 import { computed, h, onBeforeUnmount, onMounted, ref } from 'vue'
 import { $t, LOCALE_NATIVE_LABELS, setLocale } from '@/locales'
@@ -30,7 +30,7 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   showBreadcrumb: true,
-  showCollapseButton: true,
+  showCollapseButton: true
 })
 
 const layoutStore = useLayoutStore()
@@ -50,8 +50,7 @@ function openSettings() {
 function toggleFullscreen() {
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen()
-  }
-  else {
+  } else {
     if (document.exitFullscreen) {
       document.exitFullscreen()
     }
@@ -98,21 +97,23 @@ const moreMenuProps = computed(() => {
     {
       key: 'fullscreen',
       label: $t('layout.fullscreen'),
-      icon: h(FullscreenOutlined),
-    },
+      icon: h(FullscreenOutlined)
+    }
   ]
 
   if (layoutStore.aiEntryVisible) {
     items.push({
       key: 'ai-collab',
-      label: layoutStore.aiCollabEnabled ? $t('layout.aiCollabDisable') : $t('layout.aiCollabEnable'),
-      icon: h(MessageOutlined),
+      label: layoutStore.aiCollabEnabled
+        ? $t('layout.aiCollabDisable')
+        : $t('layout.aiCollabEnable'),
+      icon: h(MessageOutlined)
     })
   }
 
   items.push(
     {
-      type: 'divider',
+      type: 'divider'
     },
     {
       key: 'theme',
@@ -121,17 +122,17 @@ const moreMenuProps = computed(() => {
       children: [
         {
           key: 'theme-light',
-          label: $t('layout.themeLight'),
+          label: $t('layout.themeLight')
         },
         {
           key: 'theme-dark',
-          label: $t('layout.themeDark'),
+          label: $t('layout.themeDark')
         },
         {
           key: 'theme-auto',
-          label: $t('layout.themeAuto'),
-        },
-      ],
+          label: $t('layout.themeAuto')
+        }
+      ]
     },
     {
       key: 'language',
@@ -140,30 +141,30 @@ const moreMenuProps = computed(() => {
       children: [
         {
           key: 'lang-zh',
-          label: LOCALE_NATIVE_LABELS['zh-CN'],
+          label: LOCALE_NATIVE_LABELS['zh-CN']
         },
         {
           key: 'lang-en',
-          label: LOCALE_NATIVE_LABELS['en-US'],
+          label: LOCALE_NATIVE_LABELS['en-US']
         },
         {
           key: 'lang-ja',
-          label: LOCALE_NATIVE_LABELS['ja-JP'],
+          label: LOCALE_NATIVE_LABELS['ja-JP']
         },
         {
           key: 'lang-ko',
-          label: LOCALE_NATIVE_LABELS['ko-KR'],
-        },
-      ],
+          label: LOCALE_NATIVE_LABELS['ko-KR']
+        }
+      ]
     },
     {
-      type: 'divider',
+      type: 'divider'
     },
     {
       key: 'settings',
       label: $t('settings.title'),
-      icon: h(SettingOutlined),
-    },
+      icon: h(SettingOutlined)
+    }
   )
 
   return { items, onClick: handleMoreMenuClick }
@@ -221,7 +222,12 @@ onBeforeUnmount(() => {
 
       <!-- Desktop: Show all actions -->
       <template v-if="!layoutStore.isMobile">
-        <a-tooltip v-if="layoutStore.aiEntryVisible" :title="layoutStore.aiCollabEnabled ? $t('layout.aiCollabDisable') : $t('layout.aiCollabEnable')">
+        <a-tooltip
+          v-if="layoutStore.aiEntryVisible"
+          :title="
+            layoutStore.aiCollabEnabled ? $t('layout.aiCollabDisable') : $t('layout.aiCollabEnable')
+          "
+        >
           <a-button
             type="text"
             class="header-action ai-toggle-btn"
@@ -252,7 +258,7 @@ onBeforeUnmount(() => {
         </a-tooltip>
 
         <!-- Divider -->
-        <a-divider type="vertical" style="height: 20px; margin: 0 4px;" />
+        <a-divider type="vertical" style="height: 20px; margin: 0 4px" />
       </template>
 
       <!-- Mobile: More menu (three dots) -->

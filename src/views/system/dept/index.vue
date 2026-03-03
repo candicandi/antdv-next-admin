@@ -15,7 +15,7 @@ const { t } = useI18n()
 
 const deptStatusMap = computed<ProStatusMap>(() => ({
   enabled: { text: t('dept.enabled'), color: '#52c41a' },
-  disabled: { text: t('dept.disabled'), color: '#bfbfbf' },
+  disabled: { text: t('dept.disabled'), color: '#bfbfbf' }
 }))
 
 const searchText = ref('')
@@ -24,27 +24,33 @@ const flatList = ref<Department[]>([])
 const selectedKeys = ref<string[]>([])
 
 const selectedDept = computed(() => {
-  if (!selectedKeys.value.length)
-    return null
+  if (!selectedKeys.value.length) return null
   return flatList.value.find(d => d.id === selectedKeys.value[0]) || null
 })
 
 const childDepts = computed(() => {
-  if (!selectedDept.value)
-    return []
+  if (!selectedDept.value) return []
   return flatList.value
     .filter(d => d.parentId === selectedDept.value!.id)
     .sort((a, b) => a.sort - b.sort)
 })
 
 const parentTreeData = computed(() => {
-  const root: Department = { id: '', name: t('dept.noneTopLevelDept'), parentId: null, sort: 0, status: 'enabled', createTime: '', updateTime: '' }
+  const root: Department = {
+    id: '',
+    name: t('dept.noneTopLevelDept'),
+    parentId: null,
+    sort: 0,
+    status: 'enabled',
+    createTime: '',
+    updateTime: ''
+  }
   return [{ ...root, children: treeData.value }]
 })
 
 // modal
 const modalVisible = ref(false)
-const modalTitle = computed(() => form.value.id ? t('dept.editDept') : t('dept.createDept'))
+const modalTitle = computed(() => (form.value.id ? t('dept.editDept') : t('dept.createDept')))
 const form = ref<Partial<Department>>({
   name: '',
   parentId: null,
@@ -53,7 +59,7 @@ const form = ref<Partial<Department>>({
   email: '',
   sort: 0,
   status: 'enabled',
-  remark: '',
+  remark: ''
 })
 
 const childColumns = computed<ProTableColumn[]>(() => [
@@ -61,7 +67,7 @@ const childColumns = computed<ProTableColumn[]>(() => [
   { title: t('dept.leader'), dataIndex: 'leader', key: 'leader', width: 100 },
   { title: t('dept.sort'), dataIndex: 'sort', key: 'sort', width: 70 },
   { title: t('dept.status'), dataIndex: 'status', key: 'status', width: 80 },
-  { title: t('common.actions'), dataIndex: 'action', key: 'action', width: 120 },
+  { title: t('common.actions'), dataIndex: 'action', key: 'action', width: 120 }
 ])
 
 const deptDescColumns = computed<ProDescriptionItem[]>(() => [
@@ -73,21 +79,19 @@ const deptDescColumns = computed<ProDescriptionItem[]>(() => [
   { label: t('dept.sort'), dataIndex: 'sort' },
   { label: t('dept.createTime'), dataIndex: 'createTime' },
   { label: t('dept.updateTime'), dataIndex: 'updateTime' },
-  { label: t('dept.remark'), dataIndex: 'remark', span: 2 },
+  { label: t('dept.remark'), dataIndex: 'remark', span: 2 }
 ])
 
 const deptDescData = computed(() => {
-  if (!selectedDept.value)
-    return {}
+  if (!selectedDept.value) return {}
   return {
     ...selectedDept.value,
-    parentName: getParentName(selectedDept.value.parentId),
+    parentName: getParentName(selectedDept.value.parentId)
   }
 })
 
 function getParentName(parentId: string | null) {
-  if (!parentId)
-    return t('dept.noneTopLevel')
+  if (!parentId) return t('dept.noneTopLevel')
   return flatList.value.find(d => d.id === parentId)?.name || '-'
 }
 
@@ -99,36 +103,28 @@ async function loadChildDepts() {
   return {
     data: childDepts.value,
     total: childDepts.value.length,
-    success: true,
+    success: true
   }
 }
 
 async function loadDeptTree() {
   try {
     const params: any = {}
-    if (searchText.value)
-      params.name = searchText.value
-    const [treeRes, listRes] = await Promise.all([
-      getDeptTree(params) as any,
-      getDeptList() as any,
-    ])
-    if (treeRes.code === 200)
-      treeData.value = treeRes.data
-    if (listRes.code === 200)
-      flatList.value = listRes.data
+    if (searchText.value) params.name = searchText.value
+    const [treeRes, listRes] = await Promise.all([getDeptTree(params) as any, getDeptList() as any])
+    if (treeRes.code === 200) treeData.value = treeRes.data
+    if (listRes.code === 200) flatList.value = listRes.data
     // select first by default
     if (!selectedKeys.value.length && treeData.value.length) {
       selectedKeys.value = [treeData.value[0].id]
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error(t('dept.loadDataFailed'), error)
   }
 }
 
 function handleTreeSelect(keys: string[]) {
-  if (keys.length)
-    selectedKeys.value = keys
+  if (keys.length) selectedKeys.value = keys
 }
 
 function handleAdd(parentId: string | null) {
@@ -140,7 +136,7 @@ function handleAdd(parentId: string | null) {
     email: '',
     sort: 0,
     status: 'enabled',
-    remark: '',
+    remark: ''
   }
   modalVisible.value = true
 }
@@ -161,20 +157,18 @@ function handleDelete(dept: Department) {
     content: t('dept.confirmDeleteContent', { name: dept.name }),
     onOk: async () => {
       try {
-        const response = await deleteDept(dept.id) as any
+        const response = (await deleteDept(dept.id)) as any
         if (response.code === 200) {
           message.success(t('dept.deleteSuccess'))
           selectedKeys.value = []
           loadDeptTree()
-        }
-        else {
+        } else {
           message.error(response.message || t('dept.deleteFailed'))
         }
-      }
-      catch (error) {
+      } catch (error) {
         message.error(t('dept.deleteFailed'))
       }
-    },
+    }
   })
 }
 
@@ -185,23 +179,21 @@ async function handleSubmit() {
   }
   try {
     if (form.value.id) {
-      const response = await updateDept(form.value.id, form.value) as any
+      const response = (await updateDept(form.value.id, form.value)) as any
       if (response.code === 200) {
         message.success(t('dept.updateSuccess'))
         modalVisible.value = false
         loadDeptTree()
       }
-    }
-    else {
-      const response = await createDept(form.value) as any
+    } else {
+      const response = (await createDept(form.value)) as any
       if (response.code === 200) {
         message.success(t('dept.createSuccess'))
         modalVisible.value = false
         loadDeptTree()
       }
     }
-  }
-  catch (error) {
+  } catch (error) {
     message.error(t('dept.operateFailed'))
   }
 }
@@ -245,7 +237,9 @@ loadDeptTree()
             <template #title="{ name, status }">
               <div class="tree-node">
                 <span class="tree-node-name">{{ name }}</span>
-                <span v-if="status === 'disabled'" class="tree-node-badge">{{ t('dept.disabled') }}</span>
+                <span v-if="status === 'disabled'" class="tree-node-badge">{{
+                  t('dept.disabled')
+                }}</span>
               </div>
             </template>
           </a-tree>
@@ -300,7 +294,7 @@ loadDeptTree()
               :search="false"
               :pagination="false"
               :toolbar="{
-                title: `${t('dept.childDepts')} (${childDepts.length})`,
+                title: `${t('dept.childDepts')} (${childDepts.length})`
               }"
             >
               <template #bodyCell="{ column, record }">
@@ -328,12 +322,7 @@ loadDeptTree()
     </ProSplitLayout>
 
     <!-- add/edit modal -->
-    <a-modal
-      v-model:open="modalVisible"
-      :title="modalTitle"
-      :width="520"
-      @ok="handleSubmit"
-    >
+    <a-modal v-model:open="modalVisible" :title="modalTitle" :width="520" @ok="handleSubmit">
       <a-form :model="form" :label-col="{ span: 6 }" style="margin-top: 16px">
         <a-form-item :label="t('dept.parentDept')">
           <a-tree-select
@@ -371,7 +360,11 @@ loadDeptTree()
           </a-radio-group>
         </a-form-item>
         <a-form-item :label="t('dept.remark')">
-          <a-textarea v-model:value="form.remark" :placeholder="t('dept.pleaseEnterRemark')" :rows="3" />
+          <a-textarea
+            v-model:value="form.remark"
+            :placeholder="t('dept.pleaseEnterRemark')"
+            :rows="3"
+          />
         </a-form-item>
       </a-form>
     </a-modal>

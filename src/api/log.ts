@@ -1,28 +1,37 @@
 import type { ApiResponse } from '@/types/api'
-import type { LoginLog, LoginLogQueryParams, OperationLog, OperationLogQueryParams } from '@/types/log'
+import type {
+  LoginLog,
+  LoginLogQueryParams,
+  OperationLog,
+  OperationLogQueryParams
+} from '@/types/log'
 import { request } from '@/utils/request'
 
 /**
  * 获取操作日志列表
  */
-export async function getOperationLogList(params: OperationLogQueryParams): Promise<ApiResponse<{
-  list: OperationLog[]
-  total: number
-  page: number
-  pageSize: number
-}>> {
+export async function getOperationLogList(params: OperationLogQueryParams): Promise<
+  ApiResponse<{
+    list: OperationLog[]
+    total: number
+    page: number
+    pageSize: number
+  }>
+> {
   return request.get('/log/operation/list', { params })
 }
 
 /**
  * 获取登录日志列表
  */
-export async function getLoginLogList(params: LoginLogQueryParams): Promise<ApiResponse<{
-  list: LoginLog[]
-  total: number
-  page: number
-  pageSize: number
-}>> {
+export async function getLoginLogList(params: LoginLogQueryParams): Promise<
+  ApiResponse<{
+    list: LoginLog[]
+    total: number
+    page: number
+    pageSize: number
+  }>
+> {
   return request.get('/log/login/list', { params })
 }
 

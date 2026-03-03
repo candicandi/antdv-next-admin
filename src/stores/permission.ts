@@ -5,17 +5,13 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getUserPermissions } from '@/api/permission'
 import { asyncRoutes, basicRoutes } from '@/router/routes/index'
-import {
-  filterRoutesByPermission,
-  filterRoutesByRole,
-  routesToMenuTree,
-} from '@/router/utils'
+import { filterRoutesByPermission, filterRoutesByRole, routesToMenuTree } from '@/router/utils'
 
 function cloneRoutes(routes: AppRouteRecordRaw[]): AppRouteRecordRaw[] {
   return routes.map(route => ({
     ...route,
     meta: route.meta ? { ...route.meta } : undefined,
-    children: route.children ? cloneRoutes(route.children) : undefined,
+    children: route.children ? cloneRoutes(route.children) : undefined
   }))
 }
 
@@ -23,7 +19,7 @@ function collectPermissionCodes(permissionTree: Permission[]): string[] {
   const codes = new Set<string>()
 
   const traverse = (permissions: Permission[]) => {
-    permissions.forEach((permission) => {
+    permissions.forEach(permission => {
       if (permission.code) {
         codes.add(permission.code)
       }
@@ -44,7 +40,10 @@ export const usePermissionStore = defineStore('permission', () => {
   const isRoutesGenerated = ref(false)
 
   // Actions
-  const generateRoutes = async (roles: string[], permissions: string[]): Promise<RouteRecordRaw[]> => {
+  const generateRoutes = async (
+    roles: string[],
+    permissions: string[]
+  ): Promise<RouteRecordRaw[]> => {
     let permissionCodes = permissions
     try {
       const permissionResponse = await getUserPermissions()
@@ -52,24 +51,18 @@ export const usePermissionStore = defineStore('permission', () => {
       if (apiPermissionCodes.length > 0) {
         permissionCodes = apiPermissionCodes
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.warn('Failed to load permissions from API, fallback to user info permissions.', error)
     }
 
     const clonedAsyncRoutes = cloneRoutes(asyncRoutes)
-    const clonedBasicChildren = cloneRoutes(
-      basicRoutes.flatMap(route => route.children || []),
-    )
+    const clonedBasicChildren = cloneRoutes(basicRoutes.flatMap(route => route.children || []))
 
     let accessedRoutes = filterRoutesByPermission(clonedAsyncRoutes, permissionCodes)
     accessedRoutes = filterRoutesByRole(accessedRoutes, roles)
 
     routes.value = accessedRoutes as unknown as RouteRecordRaw[]
-    menuTree.value = routesToMenuTree([
-      ...clonedBasicChildren,
-      ...accessedRoutes,
-    ])
+    menuTree.value = routesToMenuTree([...clonedBasicChildren, ...accessedRoutes])
     isRoutesGenerated.value = true
 
     return routes.value
@@ -81,7 +74,7 @@ export const usePermissionStore = defineStore('permission', () => {
     // Filter menu tree based on permissions
     const filterMenu = (menus: MenuItem[]): MenuItem[] => {
       return menus
-        .filter((menu) => {
+        .filter(menu => {
           if (hasAllPermission) {
             return true
           }
@@ -91,11 +84,11 @@ export const usePermissionStore = defineStore('permission', () => {
           }
           return menu.requiredPermissions.some(perm => permissions.includes(perm))
         })
-        .map((menu) => {
+        .map(menu => {
           if (menu.children) {
             return {
               ...menu,
-              children: filterMenu(menu.children),
+              children: filterMenu(menu.children)
             }
           }
           return menu
@@ -129,6 +122,6 @@ export const usePermissionStore = defineStore('permission', () => {
     getAccessibleMenus,
     setRoutes,
     setMenuTree,
-    resetPermission,
+    resetPermission
   }
 })

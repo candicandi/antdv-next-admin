@@ -17,8 +17,8 @@ const antdThemeConfig = computed<ThemeConfig>(() => ({
   algorithm: themeStore.isDark ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
   token: {
     colorPrimary: settingsStore.primaryColorHex,
-    colorLink: settingsStore.primaryColorHex,
-  },
+    colorLink: settingsStore.primaryColorHex
+  }
 }))
 
 const inputConfig = computed(() => appDefaultSettings.input)

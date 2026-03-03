@@ -66,10 +66,7 @@ const maxAiPanelWidth = computed(() => {
 })
 
 const effectiveAiPanelWidth = computed(() => {
-  return Math.max(
-    MIN_AI_PANEL_WIDTH,
-    Math.min(layoutStore.aiPanelWidth, maxAiPanelWidth.value),
-  )
+  return Math.max(MIN_AI_PANEL_WIDTH, Math.min(layoutStore.aiPanelWidth, maxAiPanelWidth.value))
 })
 
 const fallbackMenuItems = computed(() => {
@@ -84,31 +81,35 @@ const menuItems = computed(() => {
   return fallbackMenuItems.value
 })
 
-function convertHorizontalMenus(menus: MenuItemType[], showCustomSubmenuArrow: boolean): HorizontalMenuItems {
+function convertHorizontalMenus(
+  menus: MenuItemType[],
+  showCustomSubmenuArrow: boolean
+): HorizontalMenuItems {
   const convert = (list: MenuItemType[]): HorizontalMenuItems => {
-    return list.map((menu) => {
+    return list.map(menu => {
       const iconComponent = resolveIcon(menu.icon)
       const text = resolveLocaleText(menu.label, menu.id)
       const childMenus = menu.children || []
       const hasChildren = childMenus.length > 0
-      const label = hasChildren && showCustomSubmenuArrow
-        ? h('span', { class: 'horizontal-submenu-label' }, [
-            h('span', { class: 'horizontal-submenu-text' }, text),
-            h(DownOutlined, { class: 'horizontal-submenu-arrow' }),
-          ])
-        : text
+      const label =
+        hasChildren && showCustomSubmenuArrow
+          ? h('span', { class: 'horizontal-submenu-label' }, [
+              h('span', { class: 'horizontal-submenu-text' }, text),
+              h(DownOutlined, { class: 'horizontal-submenu-arrow' })
+            ])
+          : text
 
       const item = {
         key: menu.path || menu.id,
         label,
-        icon: iconComponent ? h(iconComponent) : undefined,
+        icon: iconComponent ? h(iconComponent) : undefined
       }
 
       if (hasChildren) {
         return {
           ...item,
           key: menu.id,
-          children: convert(childMenus),
+          children: convert(childMenus)
         }
       }
 
@@ -171,8 +172,7 @@ const overflowHorizontalMenuItems = computed<HorizontalMenuItems>(() => {
 })
 
 function handleHorizontalMenuClick({ key }: { key: string | number }) {
-  if (typeof key !== 'string')
-    return
+  if (typeof key !== 'string') return
 
   // External links: open in a new tab
   // No need to change selectedKeys as horizontalSelectedKeys is a computed property
@@ -191,7 +191,7 @@ function handleHorizontalMenuClick({ key }: { key: string | number }) {
 const overflowMenuProps = computed(() => ({
   items: overflowHorizontalMenuItems.value,
   triggerSubMenuAction: 'hover' as const,
-  onClick: handleHorizontalMenuClick,
+  onClick: handleHorizontalMenuClick
 }))
 
 function updateWorkspaceWidth() {
@@ -205,7 +205,7 @@ function syncAiPanelWidth() {
 
   const clamped = Math.max(
     MIN_AI_PANEL_WIDTH,
-    Math.min(layoutStore.aiPanelWidth, maxAiPanelWidth.value),
+    Math.min(layoutStore.aiPanelWidth, maxAiPanelWidth.value)
   )
   if (clamped !== layoutStore.aiPanelWidth) {
     layoutStore.setAiPanelWidth(clamped)
@@ -227,10 +227,7 @@ function handleAiResizeMove(event: MouseEvent) {
 
   const rect = workspaceRef.value.getBoundingClientRect()
   const nextWidth = rect.right - event.clientX
-  const clampedWidth = Math.max(
-    MIN_AI_PANEL_WIDTH,
-    Math.min(nextWidth, maxAiPanelWidth.value),
-  )
+  const clampedWidth = Math.max(MIN_AI_PANEL_WIDTH, Math.min(nextWidth, maxAiPanelWidth.value))
   layoutStore.setAiPanelWidth(clampedWidth)
 }
 
@@ -251,8 +248,10 @@ function measureHorizontalMenuItemWidths() {
     return
   }
 
-  const itemElements = wrap.querySelectorAll('.ant-menu-root > .ant-menu-item, .ant-menu-root > .ant-menu-submenu')
-  measuredTopMenuWidths.value = Array.from(itemElements).map((element) => {
+  const itemElements = wrap.querySelectorAll(
+    '.ant-menu-root > .ant-menu-item, .ant-menu-root > .ant-menu-submenu'
+  )
+  measuredTopMenuWidths.value = Array.from(itemElements).map(element => {
     return Math.ceil((element as HTMLElement).getBoundingClientRect().width)
   })
 }
@@ -286,7 +285,7 @@ function recalculateVisibleMenuCount() {
   let used = 0
   let count = 0
 
-  widths.forEach((width) => {
+  widths.forEach(width => {
     if (used + width <= maxWidth) {
       used += width
       count += 1
@@ -327,12 +326,9 @@ onMounted(() => {
       syncAiPanelWidth()
     })
 
-    if (menuAreaRef.value)
-      resizeObserver.observe(menuAreaRef.value)
-    if (measureMenuWrapRef.value)
-      resizeObserver.observe(measureMenuWrapRef.value)
-    if (workspaceRef.value)
-      workspaceResizeObserver.observe(workspaceRef.value)
+    if (menuAreaRef.value) resizeObserver.observe(menuAreaRef.value)
+    if (measureMenuWrapRef.value) resizeObserver.observe(measureMenuWrapRef.value)
+    if (workspaceRef.value) workspaceResizeObserver.observe(workspaceRef.value)
   }
 })
 
@@ -355,7 +351,7 @@ watch(
   () => {
     scheduleMenuLayout()
   },
-  { deep: true },
+  { deep: true }
 )
 
 watch(
@@ -372,53 +368,55 @@ watch(
       updateWorkspaceWidth()
       syncAiPanelWidth()
     })
-  },
+  }
 )
 
 watch(
   () => route.path,
   () => {
     scheduleMenuLayout()
-  },
+  }
 )
 
 watch(
   () => layoutStore.isMobile,
-  (isMobile) => {
+  isMobile => {
     if (isMobile && layoutStore.aiCollabEnabled) {
       layoutStore.setAiCollabEnabled(false)
     }
-  },
+  }
 )
 
 watch(
   () => layoutStore.pageFullscreen,
-  (isFullscreen) => {
+  isFullscreen => {
     if (isFullscreen && layoutStore.aiCollabEnabled) {
       layoutStore.setAiCollabEnabled(false)
     }
-  },
+  }
 )
 
 watch(
   () => layoutStore.aiCollabEnabled,
-  (enabled) => {
+  enabled => {
     if (enabled) {
       nextTick(() => {
         updateWorkspaceWidth()
         syncAiPanelWidth()
       })
-    }
-    else {
+    } else {
       stopAiResize()
     }
-  },
+  }
 )
 </script>
 
 <template>
   <a-watermark v-bind="watermarkStore.watermarkProps" class="global-watermark">
-    <a-layout class="admin-layout" :class="[settingsStore.layoutMode, { mobile: layoutStore.isMobile }]">
+    <a-layout
+      class="admin-layout"
+      :class="[settingsStore.layoutMode, { mobile: layoutStore.isMobile }]"
+    >
       <!-- Vertical Layout -->
       <template v-if="settingsStore.layoutMode === 'vertical'">
         <!-- Sidebar -->
@@ -427,7 +425,12 @@ watch(
         <!-- Main Content -->
         <a-layout
           class="layout-main"
-          :style="{ marginLeft: layoutStore.isMobile || layoutStore.pageFullscreen ? '0px' : `${layoutStore.getCurrentSidebarWidth()}px` }"
+          :style="{
+            marginLeft:
+              layoutStore.isMobile || layoutStore.pageFullscreen
+                ? '0px'
+                : `${layoutStore.getCurrentSidebarWidth()}px`
+          }"
         >
           <!-- Header -->
           <Header v-if="!layoutStore.pageFullscreen" />
@@ -437,7 +440,11 @@ watch(
 
           <!-- Page Content -->
           <a-layout-content class="page-content" :class="{ 'is-iframe-page': isIframePage }">
-            <div ref="workspaceRef" class="page-workspace" :class="{ 'is-ai-active': isAICollabActive }">
+            <div
+              ref="workspaceRef"
+              class="page-workspace"
+              :class="{ 'is-ai-active': isAICollabActive }"
+            >
               <div class="page-workspace-main">
                 <div class="page-scroll">
                   <router-view v-slot="{ Component }">
@@ -451,7 +458,11 @@ watch(
               </div>
 
               <Transition name="ai-panel">
-                <div v-if="isAICollabActive" class="page-workspace-side" :style="{ '--ai-side-width': `${effectiveAiPanelWidth + 14}px` }">
+                <div
+                  v-if="isAICollabActive"
+                  class="page-workspace-side"
+                  :style="{ '--ai-side-width': `${effectiveAiPanelWidth + 14}px` }"
+                >
                   <div
                     class="page-workspace-resizer"
                     role="separator"
@@ -475,7 +486,7 @@ watch(
         <a-layout-header v-if="!layoutStore.pageFullscreen" class="horizontal-header">
           <div class="header-left">
             <div class="logo">
-              <img :src="logoImg" alt="Logo">
+              <img :src="logoImg" alt="Logo" />
               <span class="logo-title">{{ $t('common.appName') || 'Antdv Next Admin' }}</span>
             </div>
 
@@ -521,7 +532,11 @@ watch(
 
             <!-- Page Content -->
             <div class="page-content" :class="{ 'is-iframe-page': isIframePage }">
-              <div ref="workspaceRef" class="page-workspace" :class="{ 'is-ai-active': isAICollabActive }">
+              <div
+                ref="workspaceRef"
+                class="page-workspace"
+                :class="{ 'is-ai-active': isAICollabActive }"
+              >
                 <div class="page-workspace-main">
                   <div class="page-scroll">
                     <router-view v-slot="{ Component }">
@@ -535,7 +550,11 @@ watch(
                 </div>
 
                 <Transition name="ai-panel">
-                  <div v-if="isAICollabActive" class="page-workspace-side" :style="{ '--ai-side-width': `${effectiveAiPanelWidth + 14}px` }">
+                  <div
+                    v-if="isAICollabActive"
+                    class="page-workspace-side"
+                    :style="{ '--ai-side-width': `${effectiveAiPanelWidth + 14}px` }"
+                  >
                     <div
                       class="page-workspace-resizer"
                       role="separator"

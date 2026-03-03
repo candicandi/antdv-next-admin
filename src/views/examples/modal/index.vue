@@ -146,15 +146,17 @@ function handleConfirm() {
         <div class="inline-config">
           <span>{{ $t('exampleModal.dataCount') }}</span>
           <a-slider v-model:value="dataCount" :min="1" :max="300" style="flex: 1" />
-          <a-input-number v-model:value="dataCount" :min="1" :max="300" size="small" style="width: 72px" />
+          <a-input-number
+            v-model:value="dataCount"
+            :min="1"
+            :max="300"
+            size="small"
+            style="width: 72px"
+          />
         </div>
 
         <div class="scroll-list">
-          <div
-            v-for="row in mockRows"
-            :key="row"
-            class="scroll-row"
-          >
+          <div v-for="row in mockRows" :key="row" class="scroll-row">
             {{ $t('exampleModal.rowText', { index: row }) }}
           </div>
         </div>

@@ -18,15 +18,13 @@ const activeIcon = computed(() => pickedIcon.value || defaultIcon)
 
 const activeSourceText = computed(() => {
   const value = activeIcon.value.trim()
-  if (value.startsWith('svg:'))
-    return $t('exampleIcon.sourceSvg')
+  if (value.startsWith('svg:')) return $t('exampleIcon.sourceSvg')
   if (value.startsWith('antdv-next:') || value.startsWith('antd:'))
     return $t('exampleIcon.sourceAntdv')
   if (value.startsWith('ri:') || value.startsWith('mdi:') || value.startsWith('ion:')) {
     return $t('exampleIcon.sourceIconify')
   }
-  if (value.includes(':'))
-    return $t('exampleIcon.sourceOnline')
+  if (value.includes(':')) return $t('exampleIcon.sourceOnline')
   return $t('exampleIcon.sourceUnknown')
 })
 
@@ -39,8 +37,8 @@ const showcaseGroups = computed(() => [
     items: [
       { icon: `svg:${svgOrbitId}`, name: 'orbit' },
       { icon: `svg:${svgPulseId}`, name: 'pulse' },
-      { icon: `svg:${svgSparkId}`, name: 'spark' },
-    ],
+      { icon: `svg:${svgSparkId}`, name: 'spark' }
+    ]
   },
   {
     key: 'antdv',
@@ -52,8 +50,8 @@ const showcaseGroups = computed(() => [
       { icon: 'antdv-next:AppstoreOutlined', name: 'AppstoreOutlined' },
       { icon: 'antdv-next:SettingOutlined', name: 'SettingOutlined' },
       { icon: 'antdv-next:BellOutlined', name: 'BellOutlined' },
-      { icon: 'antdv-next:SafetyOutlined', name: 'SafetyOutlined' },
-    ],
+      { icon: 'antdv-next:SafetyOutlined', name: 'SafetyOutlined' }
+    ]
   },
   {
     key: 'iconify',
@@ -65,9 +63,9 @@ const showcaseGroups = computed(() => [
       { icon: 'ri:compass-3-line', name: 'ri:compass-3-line' },
       { icon: 'mdi:account-circle-outline', name: 'mdi:account-circle-outline' },
       { icon: 'mdi:email-outline', name: 'mdi:email-outline' },
-      { icon: 'ion:planet-outline', name: 'ion:planet-outline' },
-    ],
-  },
+      { icon: 'ion:planet-outline', name: 'ion:planet-outline' }
+    ]
+  }
 ])
 
 const svgGuideCode = `<svg aria-hidden="true" style="position:absolute;width:0;height:0">
@@ -106,18 +104,15 @@ async function copyIconValue() {
   try {
     if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(value)
-    }
-    else {
+    } else {
       copyFallback(value)
     }
     message.success($t('exampleIcon.copySuccess'))
-  }
-  catch (error) {
+  } catch (error) {
     try {
       copyFallback(value)
       message.success($t('exampleIcon.copySuccess'))
-    }
-    catch {
+    } catch {
       message.error($t('exampleIcon.copyFailed'))
     }
   }
@@ -144,7 +139,16 @@ function resetIconValue() {
       </symbol>
 
       <symbol id="icon-demo-pulse" viewBox="0 0 1024 1024">
-        <rect x="176" y="176" width="672" height="672" rx="156" fill="none" stroke="currentColor" stroke-width="68" />
+        <rect
+          x="176"
+          y="176"
+          width="672"
+          height="672"
+          rx="156"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="68"
+        />
         <path
           d="M224 552h160l90-188 96 292 76-148h152"
           fill="none"
@@ -344,7 +348,8 @@ function resetIconValue() {
   border-color: rgba(22, 119, 255, 0.16);
   background:
     radial-gradient(circle at 14% -20%, rgba(22, 119, 255, 0.2), transparent 44%),
-    radial-gradient(circle at 100% 120%, rgba(245, 158, 11, 0.22), transparent 30%), var(--color-bg-container);
+    radial-gradient(circle at 100% 120%, rgba(245, 158, 11, 0.22), transparent 30%),
+    var(--color-bg-container);
 }
 
 .intro-main {

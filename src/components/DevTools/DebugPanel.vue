@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import {
-  DeleteOutlined,
-  ReloadOutlined,
-} from '@antdv-next/icons'
+import { DeleteOutlined, ReloadOutlined } from '@antdv-next/icons'
 import { message } from 'antdv-next'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -30,7 +27,7 @@ const routeInfo = computed(() => ({
   name: route.name as string,
   meta: route.meta,
   query: Object.keys(route.query).length > 0 ? route.query : undefined,
-  params: Object.keys(route.params).length > 0 ? route.params : undefined,
+  params: Object.keys(route.params).length > 0 ? route.params : undefined
 }))
 
 // Auth info
@@ -39,14 +36,14 @@ const authInfo = computed(() => ({
   username: authStore.user?.username || '-',
   roles: authStore.userRoles,
   permissions: authStore.userPermissions.slice(0, 10),
-  totalPermissions: authStore.userPermissions.length,
+  totalPermissions: authStore.userPermissions.length
 }))
 
 // Theme info
 const themeInfo = computed(() => ({
   mode: themeStore.mode,
   primaryColor: '', // Placeholder - theme store doesn't have this property
-  isDark: themeStore.isDark,
+  isDark: themeStore.isDark
 }))
 
 // Layout info
@@ -54,13 +51,13 @@ const layoutInfo = computed(() => ({
   mode: 'vertical', // Placeholder - layout store doesn't have this property
   collapsed: layoutStore.collapsed,
   sidebarCollapsed: layoutStore.collapsed,
-  isMobile: layoutStore.isMobile,
+  isMobile: layoutStore.isMobile
 }))
 
 // Mock users for quick role switch
 const mockUsers = [
   { label: 'Admin (all permissions)', value: 'admin' },
-  { label: 'User (limited permissions)', value: 'user' },
+  { label: 'User (limited permissions)', value: 'user' }
 ]
 
 const selectedUser = ref<string>('')
@@ -77,8 +74,7 @@ function reloadPage() {
 }
 
 async function switchUser(username: string) {
-  if (!username)
-    return
+  if (!username) return
 
   // In demo mode, re-login with selected user
   try {
@@ -96,13 +92,32 @@ async function switchUser(username: string) {
         avatar: '',
         phone: '',
         status: 'active',
-        roles: [{ id: '1', name: 'Admin', code: 'admin', description: '', permissions: [], createdAt: '', updatedAt: '' }],
-        permissions: [{ id: '1', name: 'All', code: '*', description: '', resource: '*', action: '*', type: 'api' }],
+        roles: [
+          {
+            id: '1',
+            name: 'Admin',
+            code: 'admin',
+            description: '',
+            permissions: [],
+            createdAt: '',
+            updatedAt: ''
+          }
+        ],
+        permissions: [
+          {
+            id: '1',
+            name: 'All',
+            code: '*',
+            description: '',
+            resource: '*',
+            action: '*',
+            type: 'api'
+          }
+        ],
         createdAt: '',
-        updatedAt: '',
+        updatedAt: ''
       })
-    }
-    else {
+    } else {
       authStore.setToken('mock-user-token')
       authStore.setUserInfo({
         id: '2',
@@ -112,20 +127,45 @@ async function switchUser(username: string) {
         avatar: '',
         phone: '',
         status: 'active',
-        roles: [{ id: '2', name: 'User', code: 'user', description: '', permissions: [], createdAt: '', updatedAt: '' }],
+        roles: [
+          {
+            id: '2',
+            name: 'User',
+            code: 'user',
+            description: '',
+            permissions: [],
+            createdAt: '',
+            updatedAt: ''
+          }
+        ],
         permissions: [
-          { id: '1', name: 'View', code: 'dashboard.view', description: '', resource: 'dashboard', action: 'view', type: 'api' },
-          { id: '2', name: 'View', code: 'user.view', description: '', resource: 'user', action: 'view', type: 'api' },
+          {
+            id: '1',
+            name: 'View',
+            code: 'dashboard.view',
+            description: '',
+            resource: 'dashboard',
+            action: 'view',
+            type: 'api'
+          },
+          {
+            id: '2',
+            name: 'View',
+            code: 'user.view',
+            description: '',
+            resource: 'user',
+            action: 'view',
+            type: 'api'
+          }
         ],
         createdAt: '',
-        updatedAt: '',
+        updatedAt: ''
       })
     }
 
     message.success(`Switched to ${username}`)
     router.push('/dashboard')
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Failed to switch user:', error)
   }
 }
@@ -212,10 +252,7 @@ const formatJson = (obj: any) => JSON.stringify(obj, null, 2)
           </a-descriptions-item>
           <a-descriptions-item label="Primary Color">
             <a-space>
-              <span
-                class="color-preview"
-                :style="{ backgroundColor: themeInfo.primaryColor }"
-              />
+              <span class="color-preview" :style="{ backgroundColor: themeInfo.primaryColor }" />
               <code>{{ themeInfo.primaryColor }}</code>
             </a-space>
           </a-descriptions-item>
@@ -253,11 +290,7 @@ const formatJson = (obj: any) => JSON.stringify(obj, null, 2)
               placeholder="Select user to switch"
               @change="switchUser"
             >
-              <a-select-option
-                v-for="user in mockUsers"
-                :key="user.value"
-                :value="user.value"
-              >
+              <a-select-option v-for="user in mockUsers" :key="user.value" :value="user.value">
                 {{ user.label }}
               </a-select-option>
             </a-select>

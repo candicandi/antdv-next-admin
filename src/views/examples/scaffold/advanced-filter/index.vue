@@ -7,18 +7,18 @@ import { $t } from '@/locales'
 type Relation = 'AND' | 'OR'
 type FieldKey = 'username' | 'status' | 'role' | 'score' | 'createdAt'
 type FieldType = 'string' | 'select' | 'number' | 'date'
-type Operator
-  = | 'contains'
-    | 'equals'
-    | 'notEquals'
-    | 'in'
-    | 'gt'
-    | 'gte'
-    | 'lt'
-    | 'lte'
-    | 'between'
-    | 'before'
-    | 'after'
+type Operator =
+  | 'contains'
+  | 'equals'
+  | 'notEquals'
+  | 'in'
+  | 'gt'
+  | 'gte'
+  | 'lt'
+  | 'lte'
+  | 'between'
+  | 'before'
+  | 'after'
 
 interface Condition {
   id: string
@@ -46,7 +46,7 @@ interface DemoRow {
 
 interface FieldConfig {
   type: FieldType
-  options?: Array<{ label: string, value: string }>
+  options?: Array<{ label: string; value: string }>
 }
 
 const FIELD_CONFIG: Record<FieldKey, FieldConfig> = {
@@ -56,26 +56,26 @@ const FIELD_CONFIG: Record<FieldKey, FieldConfig> = {
     options: [
       { label: $t('examples.scaffold.advancedFilter.statusActive'), value: 'active' },
       { label: $t('examples.scaffold.advancedFilter.statusInactive'), value: 'inactive' },
-      { label: $t('examples.scaffold.advancedFilter.statusPending'), value: 'pending' },
-    ],
+      { label: $t('examples.scaffold.advancedFilter.statusPending'), value: 'pending' }
+    ]
   },
   role: {
     type: 'select',
     options: [
       { label: $t('examples.scaffold.advancedFilter.adminRole'), value: 'admin' },
       { label: $t('examples.scaffold.advancedFilter.operatorRole'), value: 'operator' },
-      { label: $t('examples.scaffold.advancedFilter.auditorRole'), value: 'auditor' },
-    ],
+      { label: $t('examples.scaffold.advancedFilter.auditorRole'), value: 'auditor' }
+    ]
   },
   score: { type: 'number' },
-  createdAt: { type: 'date' },
+  createdAt: { type: 'date' }
 }
 
 const OPERATOR_MAP: Record<FieldType, Operator[]> = {
   string: ['contains', 'equals', 'notEquals'],
   select: ['equals', 'notEquals', 'in'],
   number: ['equals', 'gt', 'gte', 'lt', 'lte', 'between'],
-  date: ['equals', 'before', 'after', 'between'],
+  date: ['equals', 'before', 'after', 'between']
 }
 
 const relation = ref<Relation>('AND')
@@ -93,7 +93,7 @@ const fieldOptions = computed(() => [
   { label: $t('common.status'), value: 'status' },
   { label: $t('menu.role'), value: 'role' },
   { label: $t('examples.scaffold.advancedFilter.score'), value: 'score' },
-  { label: $t('common.createTime'), value: 'createdAt' },
+  { label: $t('common.createTime'), value: 'createdAt' }
 ])
 
 const columns = computed(() => [
@@ -102,7 +102,7 @@ const columns = computed(() => [
   { title: $t('common.status'), dataIndex: 'status', width: 120 },
   { title: $t('menu.role'), dataIndex: 'role', width: 120 },
   { title: $t('examples.scaffold.advancedFilter.score'), dataIndex: 'score', width: 120 },
-  { title: $t('common.createTime'), dataIndex: 'createdAt', width: 180 },
+  { title: $t('common.createTime'), dataIndex: 'createdAt', width: 180 }
 ])
 
 const filteredRows = computed(() => {
@@ -111,7 +111,7 @@ const filteredRows = computed(() => {
     return allRows.value
   }
 
-  return allRows.value.filter((row) => {
+  return allRows.value.filter(row => {
     if (relation.value === 'AND') {
       return activeConditions.every(condition => evaluateCondition(row, condition))
     }
@@ -136,7 +136,7 @@ function createRows() {
       status: statusList[i % statusList.length],
       role: roleList[i % roleList.length],
       score: 50 + (i % 50),
-      createdAt: `2025-${month}-${day}`,
+      createdAt: `2025-${month}-${day}`
     }
   })
 }
@@ -149,7 +149,7 @@ function createCondition(field: FieldKey): Condition {
     id: `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
     field,
     operator,
-    value: type === 'number' ? 0 : '',
+    value: type === 'number' ? 0 : ''
   }
 }
 
@@ -169,7 +169,7 @@ function getOperatorOptions(field: FieldKey) {
   const type = FIELD_CONFIG[field].type
   return OPERATOR_MAP[type].map(operator => ({
     label: getOperatorLabel(operator),
-    value: operator,
+    value: operator
   }))
 }
 
@@ -185,7 +185,7 @@ function getOperatorLabel(operator: Operator) {
     lte: $t('examples.scaffold.advancedFilter.opLte'),
     between: $t('examples.scaffold.advancedFilter.opBetween'),
     before: $t('examples.scaffold.advancedFilter.opBefore'),
-    after: $t('examples.scaffold.advancedFilter.opAfter'),
+    after: $t('examples.scaffold.advancedFilter.opAfter')
   }
 
   return map[operator]
@@ -225,8 +225,12 @@ function onOperatorChange(condition: Condition, operator: Operator) {
 
 function hasValue(condition: Condition) {
   if (condition.operator === 'between') {
-    return condition.value !== '' && condition.value !== null
-      && condition.value2 !== '' && condition.value2 !== null
+    return (
+      condition.value !== '' &&
+      condition.value !== null &&
+      condition.value2 !== '' &&
+      condition.value2 !== null
+    )
   }
 
   if (condition.operator === 'in') {
@@ -301,7 +305,7 @@ function saveCurrentScheme() {
     id: `${Date.now()}`,
     name,
     relation: relation.value,
-    conditions: JSON.parse(JSON.stringify(conditions.value)),
+    conditions: JSON.parse(JSON.stringify(conditions.value))
   }
 
   savedSchemes.value = [newScheme, ...savedSchemes.value]
@@ -347,12 +351,8 @@ function removeScheme(id: string) {
       <div class="toolbar">
         <a-space wrap>
           <a-radio-group v-model:value="relation" button-style="solid">
-            <a-radio-button value="AND">
-              AND
-            </a-radio-button>
-            <a-radio-button value="OR">
-              OR
-            </a-radio-button>
+            <a-radio-button value="AND"> AND </a-radio-button>
+            <a-radio-button value="OR"> OR </a-radio-button>
           </a-radio-group>
           <a-button type="dashed" @click="addCondition">
             <PlusOutlined />
@@ -375,11 +375,7 @@ function removeScheme(id: string) {
           <a-empty :description="$t('examples.scaffold.advancedFilter.emptyConditions')" />
         </div>
 
-        <div
-          v-for="(condition, index) in conditions"
-          :key="condition.id"
-          class="condition-row"
-        >
+        <div v-for="(condition, index) in conditions" :key="condition.id" class="condition-row">
           <div class="condition-index">
             {{ index + 1 }}
           </div>
@@ -442,12 +438,7 @@ function removeScheme(id: string) {
             </template>
           </div>
 
-          <a-button
-            type="text"
-            danger
-            class="remove-btn"
-            @click="removeCondition(condition.id)"
-          >
+          <a-button type="text" danger class="remove-btn" @click="removeCondition(condition.id)">
             <DeleteOutlined />
           </a-button>
         </div>
@@ -455,7 +446,9 @@ function removeScheme(id: string) {
 
       <div class="scheme-bar">
         <a-space wrap>
-          <span class="text-secondary">{{ $t('examples.scaffold.advancedFilter.savedSchemes') }}</span>
+          <span class="text-secondary">{{
+            $t('examples.scaffold.advancedFilter.savedSchemes')
+          }}</span>
           <a-tag v-if="savedSchemes.length === 0">
             {{ $t('examples.scaffold.advancedFilter.noSchemes') }}
           </a-tag>

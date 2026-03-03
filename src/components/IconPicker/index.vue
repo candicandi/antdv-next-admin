@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: '',
   pageSize: 36,
   svgPrefix: 'icon-',
-  onlineLimit: 120,
+  onlineLimit: 120
 })
 
 const emit = defineEmits<{
@@ -45,19 +45,19 @@ const inputSnapshot = ref(editableValue.value)
 
 watch(
   boundValue,
-  (value) => {
+  value => {
     if (!open.value) {
       editableValue.value = value ?? ''
     }
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 const inputValue = computed<string>({
   get: () => editableValue.value,
-  set: (value) => {
+  set: value => {
     editableValue.value = value
-  },
+  }
 })
 
 const inputName = `iconpicker_${Math.random().toString(36).slice(2)}`
@@ -70,10 +70,7 @@ const page = ref(1)
 const searchRef = ref<{ focus?: () => void } | null>(null)
 
 function iconifyNames(prefix: string, json: IconsJson) {
-  const names = [
-    ...Object.keys(json.icons || {}),
-    ...Object.keys(json.aliases || {}),
-  ]
+  const names = [...Object.keys(json.icons || {}), ...Object.keys(json.aliases || {})]
   return names.map(name => `${prefix}:${name}`)
 }
 
@@ -106,7 +103,7 @@ const ionAll = computed(() => iconifyNames('ion', ion as IconsJson))
 const antdvAll = computed(() =>
   Object.keys(AntdvIcons)
     .filter(name => /(Outlined|Filled|TwoTone)$/.test(name))
-    .map(name => `antdv-next:${name}`),
+    .map(name => `antdv-next:${name}`)
 )
 
 const svgAll = computed(() => {
@@ -115,9 +112,7 @@ const svgAll = computed(() => {
     .filter(Boolean)
     .map(normalizeSvgName)
 
-  const fromProps = (props.svgIcons || [])
-    .map(normalizeSvgName)
-    .filter(Boolean)
+  const fromProps = (props.svgIcons || []).map(normalizeSvgName).filter(Boolean)
 
   return dedupe([...fromProps, ...fromLocal])
 })
@@ -128,34 +123,29 @@ const allOfflineIcons = computed(() => {
     ...mdiAll.value,
     ...ionAll.value,
     ...antdvAll.value,
-    ...svgAll.value,
+    ...svgAll.value
   ])
 })
 
-const iconMetaConfig: Record<string, { label: string, color: string }> = {
-  'ri': { label: 'Remix', color: '#3b82f6' },
-  'mdi': { label: 'MDI', color: '#10b981' },
-  'ion': { label: 'Ion', color: '#8b5cf6' },
+const iconMetaConfig: Record<string, { label: string; color: string }> = {
+  ri: { label: 'Remix', color: '#3b82f6' },
+  mdi: { label: 'MDI', color: '#10b981' },
+  ion: { label: 'Ion', color: '#8b5cf6' },
   'antdv-next': { label: 'Antdv', color: '#ef4444' },
-  'svg': { label: 'SVG', color: '#f59e0b' },
-  'online': { label: 'Online', color: '#64748b' },
-  'unknown': { label: 'Unknown', color: '#9ca3af' },
+  svg: { label: 'SVG', color: '#f59e0b' },
+  online: { label: 'Online', color: '#64748b' },
+  unknown: { label: 'Unknown', color: '#9ca3af' }
 }
 
 function getIconMeta(iconName: string) {
   const value = iconName.trim()
-  if (value.startsWith('ri:'))
-    return iconMetaConfig.ri
-  if (value.startsWith('mdi:'))
-    return iconMetaConfig.mdi
-  if (value.startsWith('ion:'))
-    return iconMetaConfig.ion
-  if (value.startsWith('svg:'))
-    return iconMetaConfig.svg
+  if (value.startsWith('ri:')) return iconMetaConfig.ri
+  if (value.startsWith('mdi:')) return iconMetaConfig.mdi
+  if (value.startsWith('ion:')) return iconMetaConfig.ion
+  if (value.startsWith('svg:')) return iconMetaConfig.svg
   if (value.startsWith('antdv-next:') || value.startsWith('antd:'))
     return iconMetaConfig['antdv-next']
-  if (value.includes(':'))
-    return iconMetaConfig.online
+  if (value.includes(':')) return iconMetaConfig.online
   return iconMetaConfig.unknown
 }
 
@@ -224,15 +214,15 @@ async function fetchOnlineIcons(query: string) {
       return
     }
     onlineIcons.value = icons
-  }
-  catch (error: any) {
+  } catch (error: any) {
     if (controller.signal.aborted) {
       return
     }
-    onlineError.value = error?.message ? $t('iconPicker.onlineSearchFailedDetail', { message: error.message }) : $t('iconPicker.onlineSearchFailed')
+    onlineError.value = error?.message
+      ? $t('iconPicker.onlineSearchFailedDetail', { message: error.message })
+      : $t('iconPicker.onlineSearchFailed')
     onlineIcons.value = []
-  }
-  finally {
+  } finally {
     if (onlineAbortController.value === controller) {
       onlineAbortController.value = null
     }
@@ -313,13 +303,13 @@ const pageItems = computed(() => {
 
 const allCount = computed(() => allOfflineIcons.value.length)
 
-const categoryBadgeConfig: Record<string, { name: string, dotColor: string }> = {
-  'all': { name: 'ALL', dotColor: '#64748b' },
-  'ri': { name: 'RI', dotColor: '#3b82f6' },
-  'mdi': { name: 'MDI', dotColor: '#10b981' },
-  'ion': { name: 'ION', dotColor: '#8b5cf6' },
+const categoryBadgeConfig: Record<string, { name: string; dotColor: string }> = {
+  all: { name: 'ALL', dotColor: '#64748b' },
+  ri: { name: 'RI', dotColor: '#3b82f6' },
+  mdi: { name: 'MDI', dotColor: '#10b981' },
+  ion: { name: 'ION', dotColor: '#8b5cf6' },
   'antdv-next': { name: 'Ant', dotColor: '#ef4444' },
-  'svg': { name: 'SVG', dotColor: '#f59e0b' },
+  svg: { name: 'SVG', dotColor: '#f59e0b' }
 }
 
 function renderCategoryLabel(key: string, count: number) {
@@ -328,11 +318,11 @@ function renderCategoryLabel(key: string, count: number) {
     h('div', { class: 'ip-seg-line1' }, [
       h('span', {
         class: 'ip-seg-dot',
-        style: { backgroundColor: config.dotColor },
+        style: { backgroundColor: config.dotColor }
       }),
-      h('span', { class: 'ip-seg-name' }, config.name),
+      h('span', { class: 'ip-seg-name' }, config.name)
     ]),
-    h('div', { class: 'ip-seg-line2' }, String(count)),
+    h('div', { class: 'ip-seg-line2' }, String(count))
   ])
 }
 
@@ -342,7 +332,7 @@ const categoryOptions = computed(() => [
   { value: 'mdi', label: renderCategoryLabel('mdi', mdiAll.value.length) },
   { value: 'ion', label: renderCategoryLabel('ion', ionAll.value.length) },
   { value: 'antdv-next', label: renderCategoryLabel('antdv-next', antdvAll.value.length) },
-  { value: 'svg', label: renderCategoryLabel('svg', svgAll.value.length) },
+  { value: 'svg', label: renderCategoryLabel('svg', svgAll.value.length) }
 ])
 
 const effectiveValue = computed(() => boundValue.value)
@@ -363,16 +353,11 @@ function detectCategoryByIcon(iconName: string): Category {
   if (!iconName) {
     return 'all'
   }
-  if (iconName.startsWith('ri:'))
-    return 'ri'
-  if (iconName.startsWith('mdi:'))
-    return 'mdi'
-  if (iconName.startsWith('ion:'))
-    return 'ion'
-  if (iconName.startsWith('svg:'))
-    return 'svg'
-  if (iconName.startsWith('antdv-next:') || iconName.startsWith('antd:'))
-    return 'antdv-next'
+  if (iconName.startsWith('ri:')) return 'ri'
+  if (iconName.startsWith('mdi:')) return 'mdi'
+  if (iconName.startsWith('ion:')) return 'ion'
+  if (iconName.startsWith('svg:')) return 'svg'
+  if (iconName.startsWith('antdv-next:') || iconName.startsWith('antd:')) return 'antdv-next'
   return 'all'
 }
 
@@ -406,8 +391,7 @@ function onOpenChange(next: boolean) {
     category.value = detectCategoryByIcon(boundValue.value.trim())
     page.value = 1
     focusSearch()
-  }
-  else {
+  } else {
     editableValue.value = inputSnapshot.value
   }
   open.value = next

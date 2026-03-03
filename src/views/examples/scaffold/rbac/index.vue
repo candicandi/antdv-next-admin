@@ -9,7 +9,7 @@ import { useAuthStore } from '@/stores/auth'
 const authStore = useAuthStore()
 const { can, hasAnyRole } = usePermission()
 
-const apiResult = ref<{ type: 'success' | 'error', message: string } | null>(null)
+const apiResult = ref<{ type: 'success' | 'error'; message: string } | null>(null)
 
 onMounted(() => {
   authStore.initAuth()
@@ -25,23 +25,26 @@ const displayPermissions = computed(() => {
   if (permissions.length <= 8) {
     return permissions
   }
-  return [...permissions.slice(0, 8), $t('examples.scaffold.rbac.permissionTotal', { count: permissions.length })]
+  return [
+    ...permissions.slice(0, 8),
+    $t('examples.scaffold.rbac.permissionTotal', { count: permissions.length })
+  ]
 })
 
 const pageChecks = computed(() => {
   return [
     {
       title: $t('examples.scaffold.rbac.checkUserManage'),
-      pass: can('system.user.view'),
+      pass: can('system.user.view')
     },
     {
       title: $t('examples.scaffold.rbac.checkMenuManage'),
-      pass: can('system.permission.view'),
+      pass: can('system.permission.view')
     },
     {
       title: $t('examples.scaffold.rbac.checkAdminRole'),
-      pass: hasAnyRole(['admin']),
-    },
+      pass: hasAnyRole(['admin'])
+    }
   ]
 })
 
@@ -76,8 +79,7 @@ async function switchAccount(username: 'admin' | 'user') {
     await authStore.login(username, '123456')
     apiResult.value = null
     message.success($t('examples.scaffold.rbac.switchSuccess', { username }))
-  }
-  catch (error: any) {
+  } catch (error: any) {
     message.error(error?.message || $t('examples.scaffold.rbac.switchFailed'))
   }
 }
@@ -92,13 +94,15 @@ async function callApiWithPermission(permission: string, actionName: string) {
 
     apiResult.value = {
       type: 'success',
-      message: $t('examples.scaffold.rbac.apiSuccess', { action: actionName }),
+      message: $t('examples.scaffold.rbac.apiSuccess', { action: actionName })
     }
-  }
-  catch (error: any) {
+  } catch (error: any) {
     apiResult.value = {
       type: 'error',
-      message: $t('examples.scaffold.rbac.apiFailed', { action: actionName, error: error.message || $t('examples.scaffold.rbac.noPermission') }),
+      message: $t('examples.scaffold.rbac.apiFailed', {
+        action: actionName,
+        error: error.message || $t('examples.scaffold.rbac.noPermission')
+      })
     }
   }
 }
@@ -120,7 +124,12 @@ async function callApiWithPermission(permission: string, actionName: string) {
             {{ $t('examples.scaffold.rbac.currentSession') }}
           </div>
           <div class="meta">
-            {{ $t('examples.scaffold.rbac.accountInfo', { username: authStore.user?.username || '-', role: roleText }) }}
+            {{
+              $t('examples.scaffold.rbac.accountInfo', {
+                username: authStore.user?.username || '-',
+                role: roleText
+              })
+            }}
           </div>
         </div>
         <a-space>
@@ -151,7 +160,11 @@ async function callApiWithPermission(permission: string, actionName: string) {
               {{ check.title }}
             </div>
             <a-tag :color="check.pass ? 'success' : 'error'">
-              {{ check.pass ? $t('examples.scaffold.rbac.passed') : $t('examples.scaffold.rbac.denied') }}
+              {{
+                check.pass
+                  ? $t('examples.scaffold.rbac.passed')
+                  : $t('examples.scaffold.rbac.denied')
+              }}
             </a-tag>
           </div>
         </div>
@@ -210,13 +223,31 @@ async function callApiWithPermission(permission: string, actionName: string) {
           {{ $t('examples.scaffold.rbac.section4Title') }}
         </div>
         <a-space wrap>
-          <a-button @click="callApiWithPermission('system.user.view', $t('examples.scaffold.rbac.viewUserAction'))">
+          <a-button
+            @click="
+              callApiWithPermission('system.user.view', $t('examples.scaffold.rbac.viewUserAction'))
+            "
+          >
             {{ $t('examples.scaffold.rbac.callViewApi') }}
           </a-button>
-          <a-button @click="callApiWithPermission('system.user.export', $t('examples.scaffold.rbac.exportUserAction'))">
+          <a-button
+            @click="
+              callApiWithPermission(
+                'system.user.export',
+                $t('examples.scaffold.rbac.exportUserAction')
+              )
+            "
+          >
             {{ $t('examples.scaffold.rbac.callExportApi') }}
           </a-button>
-          <a-button @click="callApiWithPermission('system.user.delete', $t('examples.scaffold.rbac.deleteUserAction'))">
+          <a-button
+            @click="
+              callApiWithPermission(
+                'system.user.delete',
+                $t('examples.scaffold.rbac.deleteUserAction')
+              )
+            "
+          >
             {{ $t('examples.scaffold.rbac.callDeleteApi') }}
           </a-button>
         </a-space>

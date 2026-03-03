@@ -11,9 +11,7 @@ function goHome() {
 <template>
   <div class="error-page">
     <div class="error-content">
-      <div class="error-code">
-        500
-      </div>
+      <div class="error-code">500</div>
       <h1 class="error-title">
         {{ $t('error.500') }}
       </h1>

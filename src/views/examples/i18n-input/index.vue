@@ -7,22 +7,24 @@ const formState = reactive({
     'zh-CN': '苹果手机',
     'en-US': 'iPhone',
     'ja-JP': 'iPhone',
-    'ko-KR': '아이폰',
+    'ko-KR': '아이폰'
   },
   productDescription: {
     'zh-CN': '这是最新款的智能手机，拥有强大的性能和优秀的拍照功能。',
-    'en-US': 'This is the latest smartphone with powerful performance and excellent camera capabilities.',
+    'en-US':
+      'This is the latest smartphone with powerful performance and excellent camera capabilities.',
     'ja-JP': 'これは最新のスマートフォンで、強力な性能と優れたカメラ機能を備えています。',
-    'ko-KR': '강력한 성능과 뛰어난 카메라 기능을 갖춘 최신 스마트폰입니다.',
+    'ko-KR': '강력한 성능과 뛰어난 카메라 기능을 갖춘 최신 스마트폰입니다.'
   },
-  stringFormat: '{"zh-CN": "字符串格式", "en-US": "String Format", "ja-JP": "文字列形式", "ko-KR": "문자열 형식"}',
+  stringFormat:
+    '{"zh-CN": "字符串格式", "en-US": "String Format", "ja-JP": "文字列形式", "ko-KR": "문자열 형식"}',
   withLocale: {
     'zh-CN': '指定显示日语',
     'en-US': 'Show Japanese value',
     'ja-JP': '日本語表示を指定',
-    'ko-KR': '일본어 표시 지정',
+    'ko-KR': '일본어 표시 지정'
   },
-  emptyValue: undefined as Record<string, string> | string | undefined,
+  emptyValue: undefined as Record<string, string> | string | undefined
 })
 
 const showAsString = ref(false)
@@ -108,7 +110,11 @@ function toggleValueType() {
 
       <a-space>
         <a-button @click="toggleValueType">
-          {{ showAsString ? $t('examples.i18nInput.showAsObject') : $t('examples.i18nInput.showAsString') }}
+          {{
+            showAsString
+              ? $t('examples.i18nInput.showAsObject')
+              : $t('examples.i18nInput.showAsString')
+          }}
         </a-button>
       </a-space>
 

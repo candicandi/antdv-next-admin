@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { defaultValueCtx, Editor, editorViewCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
+import {
+  defaultValueCtx,
+  Editor,
+  editorViewCtx,
+  editorViewOptionsCtx,
+  rootCtx
+} from '@milkdown/core'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { history } from '@milkdown/plugin-history'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
@@ -20,12 +26,12 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
   placeholder: '',
   readonly: false,
-  height: 400,
+  height: 400
 })
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
-  'change': [value: string]
+  change: [value: string]
 }>()
 
 const editorRef = ref<HTMLElement>()
@@ -38,8 +44,7 @@ function checkDarkTheme() {
 }
 
 onMounted(async () => {
-  if (!editorRef.value)
-    return
+  if (!editorRef.value) return
 
   checkDarkTheme()
 
@@ -51,7 +56,7 @@ onMounted(async () => {
       // 配置编辑器视图
       ctx.update(editorViewOptionsCtx, (prev: any) => ({
         ...prev,
-        editable: () => !props.readonly,
+        editable: () => !props.readonly
       }))
 
       // 监听内容变化
@@ -80,28 +85,38 @@ onUnmounted(() => {
 })
 
 // 监听外部值变化
-watch(() => props.modelValue, (newValue) => {
-  if (editorInstance.value && newValue !== editorInstance.value.action((ctx) => {
-    return ctx.get(defaultValueCtx)
-  })) {
-    editorInstance.value.action((ctx) => {
-      const view = ctx.get(editorViewCtx)
-      const state = view.state
-      const tr = state.tr.replaceWith(0, state.doc.content.size, state.schema.text(newValue))
-      view.dispatch(tr)
-    })
+watch(
+  () => props.modelValue,
+  newValue => {
+    if (
+      editorInstance.value &&
+      newValue !==
+        editorInstance.value.action(ctx => {
+          return ctx.get(defaultValueCtx)
+        })
+    ) {
+      editorInstance.value.action(ctx => {
+        const view = ctx.get(editorViewCtx)
+        const state = view.state
+        const tr = state.tr.replaceWith(0, state.doc.content.size, state.schema.text(newValue))
+        view.dispatch(tr)
+      })
+    }
   }
-})
+)
 
 // 监听只读状态
-watch(() => props.readonly, (readonly) => {
-  editorInstance.value?.action((ctx) => {
-    ctx.update(editorViewOptionsCtx, prev => ({
-      ...prev,
-      editable: () => !readonly,
-    }))
-  })
-})
+watch(
+  () => props.readonly,
+  readonly => {
+    editorInstance.value?.action(ctx => {
+      ctx.update(editorViewOptionsCtx, prev => ({
+        ...prev,
+        editable: () => !readonly
+      }))
+    })
+  }
+)
 </script>
 
 <template>

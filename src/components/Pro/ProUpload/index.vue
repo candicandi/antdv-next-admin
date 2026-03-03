@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type { ProUploadMode } from '@/types/pro'
-import { CameraOutlined, InboxOutlined, PlusOutlined, UploadOutlined, UserOutlined } from '@antdv-next/icons'
+import {
+  CameraOutlined,
+  InboxOutlined,
+  PlusOutlined,
+  UploadOutlined,
+  UserOutlined
+} from '@antdv-next/icons'
 import { message } from 'antdv-next'
 import { computed, ref, watch } from 'vue'
 import { $t } from '@/locales'
@@ -28,28 +34,26 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   mode: 'button',
-  maxSize: 10,
+  maxSize: 10
 })
 
 const emit = defineEmits(['update:value', 'change'])
 
 const fileList = ref<UploadFile[]>(props.value ?? [])
 
-watch(() => props.value, (val) => {
-  if (val)
-    fileList.value = val
-})
+watch(
+  () => props.value,
+  val => {
+    if (val) fileList.value = val
+  }
+)
 
 const avatarUrl = computed(() => {
   const file = fileList.value[0]
-  if (!file)
-    return ''
-  if (file.thumbUrl)
-    return file.thumbUrl
-  if (file.url)
-    return file.url
-  if (file.originFileObj)
-    return URL.createObjectURL(file.originFileObj)
+  if (!file) return ''
+  if (file.thumbUrl) return file.thumbUrl
+  if (file.url) return file.url
+  if (file.originFileObj) return URL.createObjectURL(file.originFileObj)
   return ''
 })
 
@@ -65,11 +69,9 @@ function handleBeforeUpload(file: File) {
     const acceptList = props.accept.split(',').map(s => s.trim())
     const ext = `.${file.name.split('.').pop()?.toLowerCase()}`
     const mime = file.type
-    const match = acceptList.some((a) => {
-      if (a.startsWith('.'))
-        return ext === a.toLowerCase()
-      if (a.endsWith('/*'))
-        return mime.startsWith(a.replace('/*', '/'))
+    const match = acceptList.some(a => {
+      if (a.startsWith('.')) return ext === a.toLowerCase()
+      if (a.endsWith('/*')) return mime.startsWith(a.replace('/*', '/'))
       return mime === a
     })
     if (!match) {

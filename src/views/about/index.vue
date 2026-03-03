@@ -13,7 +13,7 @@ import {
   MailOutlined,
   ProfileOutlined,
   SafetyOutlined,
-  TableOutlined,
+  TableOutlined
 } from '@antdv-next/icons'
 import logoImg from '@/assets/images/logo.png'
 import { $t } from '@/locales'
@@ -24,7 +24,7 @@ const heroBadges = [
   { label: 'Vue 3', bg: 'rgba(66, 184, 131, 0.25)' },
   { label: 'TypeScript', bg: 'rgba(49, 120, 198, 0.25)' },
   { label: 'Vite', bg: 'rgba(100, 108, 255, 0.25)' },
-  { label: 'Ant Design Vue', bg: 'rgba(255, 255, 255, 0.15)' },
+  { label: 'Ant Design Vue', bg: 'rgba(255, 255, 255, 0.15)' }
 ]
 
 const techList = [
@@ -39,18 +39,58 @@ const techList = [
   { name: 'ECharts', version: '5.4', color: '#e43961', url: 'https://echarts.apache.org' },
   { name: 'Iconify', version: '5.0', color: '#1769aa', url: 'https://iconify.design' },
   { name: 'Tiptap', version: '3.19', color: '#68cef8', url: 'https://tiptap.dev' },
-  { name: 'Day.js', version: '1.11', color: '#ff6f61', url: 'https://day.js.org' },
+  { name: 'Day.js', version: '1.11', color: '#ff6f61', url: 'https://day.js.org' }
 ]
 
 const features = [
-  { title: $t('about.feature1'), desc: $t('about.feature1Desc'), icon: ApiOutlined, color: '#42b883' },
-  { title: $t('about.feature2'), desc: $t('about.feature2Desc'), icon: SafetyOutlined, color: '#3178c6' },
-  { title: $t('about.feature3'), desc: $t('about.feature3Desc'), icon: SafetyOutlined, color: '#e43961' },
-  { title: $t('about.feature4'), desc: $t('about.feature4Desc'), icon: ApartmentOutlined, color: '#646cff' },
-  { title: $t('about.feature5'), desc: $t('about.feature5Desc'), icon: GlobalOutlined, color: '#1677ff' },
-  { title: $t('about.feature6'), desc: $t('about.feature6Desc'), icon: BgColorsOutlined, color: '#fa8c16' },
-  { title: $t('about.feature7'), desc: $t('about.feature7Desc'), icon: TableOutlined, color: '#13c2c2' },
-  { title: $t('about.feature8'), desc: $t('about.feature8Desc'), icon: CloudOutlined, color: '#722ed1' },
+  {
+    title: $t('about.feature1'),
+    desc: $t('about.feature1Desc'),
+    icon: ApiOutlined,
+    color: '#42b883'
+  },
+  {
+    title: $t('about.feature2'),
+    desc: $t('about.feature2Desc'),
+    icon: SafetyOutlined,
+    color: '#3178c6'
+  },
+  {
+    title: $t('about.feature3'),
+    desc: $t('about.feature3Desc'),
+    icon: SafetyOutlined,
+    color: '#e43961'
+  },
+  {
+    title: $t('about.feature4'),
+    desc: $t('about.feature4Desc'),
+    icon: ApartmentOutlined,
+    color: '#646cff'
+  },
+  {
+    title: $t('about.feature5'),
+    desc: $t('about.feature5Desc'),
+    icon: GlobalOutlined,
+    color: '#1677ff'
+  },
+  {
+    title: $t('about.feature6'),
+    desc: $t('about.feature6Desc'),
+    icon: BgColorsOutlined,
+    color: '#fa8c16'
+  },
+  {
+    title: $t('about.feature7'),
+    desc: $t('about.feature7Desc'),
+    icon: TableOutlined,
+    color: '#13c2c2'
+  },
+  {
+    title: $t('about.feature8'),
+    desc: $t('about.feature8Desc'),
+    icon: CloudOutlined,
+    color: '#722ed1'
+  }
 ]
 </script>
 
@@ -73,16 +113,19 @@ const features = [
       </div>
       <div class="hero-content">
         <div class="hero-icon">
-          <img :src="logoImg" alt="Logo" class="hero-logo">
+          <img :src="logoImg" alt="Logo" class="hero-logo" />
         </div>
-        <h1 class="hero-title">
-          Antdv Next Admin
-        </h1>
+        <h1 class="hero-title">Antdv Next Admin</h1>
         <p class="hero-desc">
           {{ $t('about.description') }}
         </p>
         <div class="hero-badges">
-          <span v-for="b in heroBadges" :key="b.label" class="hero-badge" :style="{ '--badge-bg': b.bg }">
+          <span
+            v-for="b in heroBadges"
+            :key="b.label"
+            class="hero-badge"
+            :style="{ '--badge-bg': b.bg }"
+          >
             {{ b.label }}
           </span>
         </div>
@@ -239,7 +282,11 @@ const features = [
   padding: 56px 32px;
   margin-bottom: 16px;
   text-align: center;
-  background: linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 65%, #000) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    color-mix(in srgb, var(--color-primary) 65%, #000) 100%
+  );
   color: #fff;
 }
 

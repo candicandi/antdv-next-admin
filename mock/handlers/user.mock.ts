@@ -7,7 +7,7 @@ export default defineMock([
   {
     url: '/api/users',
     method: 'GET',
-    body: (req) => {
+    body: req => {
       const { current = 1, pageSize = 10, username, email, status, gender } = req.query
 
       // Filter users
@@ -15,13 +15,13 @@ export default defineMock([
 
       if (username) {
         filteredUsers = filteredUsers.filter(user =>
-          user.username.toLowerCase().includes(username.toLowerCase()),
+          user.username.toLowerCase().includes(username.toLowerCase())
         )
       }
 
       if (email) {
         filteredUsers = filteredUsers.filter(user =>
-          user.email.toLowerCase().includes(email.toLowerCase()),
+          user.email.toLowerCase().includes(email.toLowerCase())
         )
       }
 
@@ -32,7 +32,10 @@ export default defineMock([
       if (gender) {
         const genderValues = Array.isArray(gender)
           ? gender.map(item => String(item))
-          : String(gender).split(',').map(item => item.trim()).filter(Boolean)
+          : String(gender)
+              .split(',')
+              .map(item => item.trim())
+              .filter(Boolean)
         if (genderValues.length > 0) {
           filteredUsers = filteredUsers.filter(user => genderValues.includes(String(user.gender)))
         }
@@ -50,18 +53,18 @@ export default defineMock([
           list,
           total: filteredUsers.length,
           current: Number(current),
-          pageSize: Number(pageSize),
+          pageSize: Number(pageSize)
         },
-        success: true,
+        success: true
       }
-    },
+    }
   },
 
   // Get user by ID
   {
     url: '/api/users/:id',
     method: 'GET',
-    body: (req) => {
+    body: req => {
       const { id } = req.params
       const user = mockUsers.find(u => u.id === id)
 
@@ -70,25 +73,24 @@ export default defineMock([
           code: 200,
           message: 'Success',
           data: user,
-          success: true,
+          success: true
         }
-      }
-      else {
+      } else {
         return {
           code: 404,
           message: 'User not found',
           data: null,
-          success: false,
+          success: false
         }
       }
-    },
+    }
   },
 
   // Create user
   {
     url: '/api/users',
     method: 'POST',
-    body: (req) => {
+    body: req => {
       const userData = req.body
 
       const newUser = {
@@ -99,13 +101,15 @@ export default defineMock([
         avatar: userData.avatar || faker.image.avatar(),
         phone: userData.phone || `1${faker.string.numeric(10)}`,
         gender: userData.gender || 'male',
-        birthDate: userData.birthDate || faker.date.birthdate({ min: 18, max: 65, mode: 'age' }).toISOString().split('T')[0],
+        birthDate:
+          userData.birthDate ||
+          faker.date.birthdate({ min: 18, max: 65, mode: 'age' }).toISOString().split('T')[0],
         bio: userData.bio || '',
         status: userData.status || 'active',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         roles: userData.roles || [],
-        permissions: userData.permissions || [],
+        permissions: userData.permissions || []
       }
 
       mockUsers.push(newUser)
@@ -114,16 +118,16 @@ export default defineMock([
         code: 200,
         message: 'User created successfully',
         data: newUser,
-        success: true,
+        success: true
       }
-    },
+    }
   },
 
   // Update user
   {
     url: '/api/users/:id',
     method: 'PUT',
-    body: (req) => {
+    body: req => {
       const { id } = req.params
       const userData = req.body
 
@@ -133,32 +137,31 @@ export default defineMock([
         mockUsers[index] = {
           ...mockUsers[index],
           ...userData,
-          updatedAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
         }
 
         return {
           code: 200,
           message: 'User updated successfully',
           data: mockUsers[index],
-          success: true,
+          success: true
         }
-      }
-      else {
+      } else {
         return {
           code: 404,
           message: 'User not found',
           data: null,
-          success: false,
+          success: false
         }
       }
-    },
+    }
   },
 
   // Delete user
   {
     url: '/api/users/:id',
     method: 'DELETE',
-    body: (req) => {
+    body: req => {
       const { id } = req.params
       const index = mockUsers.findIndex(u => u.id === id)
 
@@ -169,17 +172,16 @@ export default defineMock([
           code: 200,
           message: 'User deleted successfully',
           data: null,
-          success: true,
+          success: true
         }
-      }
-      else {
+      } else {
         return {
           code: 404,
           message: 'User not found',
           data: null,
-          success: false,
+          success: false
         }
       }
-    },
-  },
+    }
+  }
 ])

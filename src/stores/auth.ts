@@ -25,8 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = newToken
     if (newToken) {
       localStorage.setItem(TOKEN_KEY, newToken)
-    }
-    else {
+    } else {
       localStorage.removeItem(TOKEN_KEY)
     }
 
@@ -34,8 +33,7 @@ export const useAuthStore = defineStore('auth', () => {
       refreshTokenValue.value = newRefreshToken
       if (newRefreshToken) {
         localStorage.setItem(REFRESH_TOKEN_KEY, newRefreshToken)
-      }
-      else {
+      } else {
         localStorage.removeItem(REFRESH_TOKEN_KEY)
       }
     }
@@ -47,8 +45,7 @@ export const useAuthStore = defineStore('auth', () => {
       roles.value = userInfo.roles || []
       permissions.value = userInfo.permissions || []
       localStorage.setItem(USER_KEY, JSON.stringify(userInfo))
-    }
-    else {
+    } else {
       roles.value = []
       permissions.value = []
       localStorage.removeItem(USER_KEY)
@@ -86,7 +83,7 @@ export const useAuthStore = defineStore('auth', () => {
       // Set token with refresh token
       setToken(
         `demo-token-${isAdmin ? '1' : '2'}-${Date.now()}`,
-        `demo-refresh-token-${isAdmin ? '1' : '2'}-${Date.now()}`,
+        `demo-refresh-token-${isAdmin ? '1' : '2'}-${Date.now()}`
       )
 
       // Set user info
@@ -104,24 +101,28 @@ export const useAuthStore = defineStore('auth', () => {
             status: 'active',
             createdAt: '2023-01-01T00:00:00.000Z',
             updatedAt: new Date().toISOString(),
-            roles: [{
-              id: '1',
-              name: 'Administrator',
-              code: 'admin',
-              description: 'System Administrator',
-              permissions: [],
-              createdAt: '2023-01-01T00:00:00.000Z',
-              updatedAt: '2023-01-01T00:00:00.000Z',
-            }],
-            permissions: [{
-              id: '1',
-              name: 'All Permissions',
-              code: '*',
-              description: 'Has all permissions',
-              resource: '*',
-              action: '*',
-              type: 'api',
-            }],
+            roles: [
+              {
+                id: '1',
+                name: 'Administrator',
+                code: 'admin',
+                description: 'System Administrator',
+                permissions: [],
+                createdAt: '2023-01-01T00:00:00.000Z',
+                updatedAt: '2023-01-01T00:00:00.000Z'
+              }
+            ],
+            permissions: [
+              {
+                id: '1',
+                name: 'All Permissions',
+                code: '*',
+                description: 'Has all permissions',
+                resource: '*',
+                action: '*',
+                type: 'api'
+              }
+            ]
           }
         : {
             id: '2',
@@ -136,29 +137,32 @@ export const useAuthStore = defineStore('auth', () => {
             status: 'active',
             createdAt: '2023-01-01T00:00:00.000Z',
             updatedAt: new Date().toISOString(),
-            roles: [{
-              id: '2',
-              name: 'User',
-              code: 'user',
-              description: 'Regular User',
-              permissions: [],
-              createdAt: '2023-01-01T00:00:00.000Z',
-              updatedAt: '2023-01-01T00:00:00.000Z',
-            }],
-            permissions: [{
-              id: '2',
-              name: 'View Dashboard',
-              code: 'dashboard.view',
-              description: 'Can view dashboard',
-              resource: 'dashboard',
-              action: 'view',
-              type: 'menu',
-            }],
+            roles: [
+              {
+                id: '2',
+                name: 'User',
+                code: 'user',
+                description: 'Regular User',
+                permissions: [],
+                createdAt: '2023-01-01T00:00:00.000Z',
+                updatedAt: '2023-01-01T00:00:00.000Z'
+              }
+            ],
+            permissions: [
+              {
+                id: '2',
+                name: 'View Dashboard',
+                code: 'dashboard.view',
+                description: 'Can view dashboard',
+                resource: 'dashboard',
+                action: 'view',
+                type: 'menu'
+              }
+            ]
           }
 
       setUserInfo(userInfo)
-    }
-    else {
+    } else {
       throw new Error('Invalid username or password')
     }
   }
@@ -229,8 +233,7 @@ export const useAuthStore = defineStore('auth', () => {
       try {
         const userInfo = JSON.parse(savedUser)
         setUserInfo(userInfo)
-      }
-      catch (error) {
+      } catch (error) {
         console.error('Failed to parse saved user info:', error)
         localStorage.removeItem(USER_KEY)
       }
@@ -260,6 +263,6 @@ export const useAuthStore = defineStore('auth', () => {
     hasPermission,
     hasAnyPermission,
     hasAllPermissions,
-    initAuth,
+    initAuth
   }
 })

@@ -19,12 +19,12 @@ const captchaRef = ref<InstanceType<typeof SliderCaptcha>>()
 const formState = reactive({
   username: 'admin',
   password: '123456',
-  remember: false,
+  remember: false
 })
 
 const rules = {
   username: [{ required: true, message: $t('login.usernameRequired') }],
-  password: [{ required: true, message: $t('login.passwordRequired') }],
+  password: [{ required: true, message: $t('login.passwordRequired') }]
 }
 
 function onCaptchaSuccess() {
@@ -41,13 +41,11 @@ async function handleSubmit() {
     await authStore.login(formState.username, formState.password)
     message.success($t('login.loginSuccess'))
     router.push('/')
-  }
-  catch (error: any) {
+  } catch (error: any) {
     message.error(error.message || $t('login.loginFailed'))
     captchaVerified.value = false
     captchaRef.value?.reset()
-  }
-  finally {
+  } finally {
     loading.value = false
   }
 }
@@ -68,25 +66,16 @@ async function handleSubmit() {
       <div class="login-header">
         <!-- Keep consistent with the in-app (top-left) logo style -->
         <div class="logo-wrap">
-          <img :src="logoImg" alt="Logo" class="logo">
+          <img :src="logoImg" alt="Logo" class="logo" />
         </div>
-        <p class="eyebrow">
-          Antdv Next Admin
-        </p>
+        <p class="eyebrow">Antdv Next Admin</p>
         <h1 class="title">
           {{ $t('login.title') }}
         </h1>
-        <p class="subtitle">
-          Secure workspace entrance
-        </p>
+        <p class="subtitle">Secure workspace entrance</p>
       </div>
 
-      <a-form
-        :model="formState"
-        :rules="rules"
-        class="login-form"
-        @finish="handleSubmit"
-      >
+      <a-form :model="formState" :rules="rules" class="login-form" @finish="handleSubmit">
         <a-form-item name="username">
           <a-input
             v-model:value="formState.username"
@@ -204,7 +193,11 @@ async function handleSubmit() {
     height: 420px;
     left: -160px;
     top: -120px;
-    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.88), rgba(80, 174, 255, 0.22));
+    background: radial-gradient(
+      circle at 35% 35%,
+      rgba(255, 255, 255, 0.88),
+      rgba(80, 174, 255, 0.22)
+    );
   }
 
   .ambient-right {
@@ -212,7 +205,11 @@ async function handleSubmit() {
     height: 460px;
     right: -170px;
     top: -90px;
-    background: radial-gradient(circle at 45% 45%, rgba(210, 243, 255, 0.9), rgba(105, 173, 255, 0.2));
+    background: radial-gradient(
+      circle at 45% 45%,
+      rgba(210, 243, 255, 0.9),
+      rgba(105, 173, 255, 0.2)
+    );
     animation-delay: -2.2s;
   }
 
@@ -221,7 +218,11 @@ async function handleSubmit() {
     height: 500px;
     right: 12%;
     bottom: -300px;
-    background: radial-gradient(circle at 45% 30%, rgba(167, 210, 255, 0.4), rgba(134, 170, 255, 0.08));
+    background: radial-gradient(
+      circle at 45% 30%,
+      rgba(167, 210, 255, 0.4),
+      rgba(134, 170, 255, 0.08)
+    );
     animation-delay: -4.5s;
   }
 
@@ -527,15 +528,27 @@ async function handleSubmit() {
 
 :root.dark .login-shell {
   .ambient-left {
-    background: radial-gradient(circle at 38% 36%, rgba(91, 163, 255, 0.4), rgba(42, 94, 198, 0.08));
+    background: radial-gradient(
+      circle at 38% 36%,
+      rgba(91, 163, 255, 0.4),
+      rgba(42, 94, 198, 0.08)
+    );
   }
 
   .ambient-right {
-    background: radial-gradient(circle at 45% 45%, rgba(61, 213, 255, 0.34), rgba(64, 102, 210, 0.08));
+    background: radial-gradient(
+      circle at 45% 45%,
+      rgba(61, 213, 255, 0.34),
+      rgba(64, 102, 210, 0.08)
+    );
   }
 
   .ambient-bottom {
-    background: radial-gradient(circle at 45% 30%, rgba(112, 136, 255, 0.35), rgba(62, 72, 130, 0.08));
+    background: radial-gradient(
+      circle at 45% 30%,
+      rgba(112, 136, 255, 0.35),
+      rgba(62, 72, 130, 0.08)
+    );
   }
 
   .login-tools {

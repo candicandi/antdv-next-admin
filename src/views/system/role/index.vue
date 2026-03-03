@@ -33,7 +33,7 @@ const permissionTree = ref<Permission[]>([])
 const toolbarConfig = computed<ProTableToolbar>(() => ({
   title: $t('role.title'),
   subTitle: 'ProTable + ProForm',
-  actions: ['!refresh', '!density', '!columnSetting'],
+  actions: ['!refresh', '!density', '!columnSetting']
 }))
 
 const permissionOptions = computed<PermissionOption[]>(() => {
@@ -41,7 +41,7 @@ const permissionOptions = computed<PermissionOption[]>(() => {
     return nodes.map(node => ({
       label: `${node.name} (${node.code})`,
       value: node.id,
-      children: node.children && node.children.length > 0 ? buildOptions(node.children) : undefined,
+      children: node.children && node.children.length > 0 ? buildOptions(node.children) : undefined
     }))
   }
   return buildOptions(permissionTree.value)
@@ -50,10 +50,10 @@ const permissionOptions = computed<PermissionOption[]>(() => {
 const permissionMap = computed(() => {
   const map = new Map<string, Permission>()
   const traverse = (nodes: Permission[]) => {
-    nodes.forEach((node) => {
+    nodes.forEach(node => {
       map.set(node.id, {
         ...node,
-        children: node.children ? [...node.children] : undefined,
+        children: node.children ? [...node.children] : undefined
       })
       if (node.children && node.children.length > 0) {
         traverse(node.children)
@@ -70,29 +70,29 @@ const columns = computed<ProTableColumn[]>(() => [
     dataIndex: 'name',
     search: true,
     searchType: 'input',
-    width: 200,
+    width: 200
   },
   {
     title: $t('role.code'),
     dataIndex: 'code',
     search: true,
     searchType: 'input',
-    width: 200,
+    width: 200
   },
   {
     title: $t('role.description'),
-    dataIndex: 'description',
+    dataIndex: 'description'
   },
   {
     title: $t('role.permissions'),
     dataIndex: 'permissionCount',
-    width: 120,
+    width: 120
   },
   {
     title: $t('common.updateTime'),
     dataIndex: 'updatedAt',
     width: 200,
-    valueType: 'dateTime',
+    valueType: 'dateTime'
   },
   {
     title: $t('common.actions'),
@@ -103,17 +103,17 @@ const columns = computed<ProTableColumn[]>(() => [
       {
         label: $t('common.edit'),
         icon: EditOutlined,
-        onClick: (record: Role) => openEdit(record, 'id'),
+        onClick: (record: Role) => openEdit(record, 'id')
       },
       {
         label: $t('common.delete'),
         icon: DeleteOutlined,
         danger: true,
         confirm: $t('role.confirmDelete'),
-        onClick: (record: Role) => handleDelete(record, 'id'),
-      },
-    ],
-  },
+        onClick: (record: Role) => handleDelete(record, 'id')
+      }
+    ]
+  }
 ])
 
 // Use the CRUD modal composable
@@ -127,20 +127,20 @@ const {
   openEdit,
   closeModal,
   handleSubmit,
-  handleDelete,
+  handleDelete
 } = useCrudModal<Role, RoleFormValues>({
   defaultFormValues: () => ({
     name: '',
     code: '',
     description: '',
-    permissionIds: [],
+    permissionIds: []
   }),
   formItems: computed<ProFormItem[]>(() => [
     {
       name: 'name',
       label: $t('role.name'),
       type: 'input',
-      required: true,
+      required: true
     },
     {
       name: 'code',
@@ -148,12 +148,12 @@ const {
       type: 'input',
       required: true,
       props: {
-        disabled: false, // Will be set dynamically based on editing state
+        disabled: false // Will be set dynamically based on editing state
       },
       rules: [
         { required: true, message: $t('role.codeRequired') },
-        { pattern: /^[\w.-]+$/, message: $t('role.codePattern') },
-      ],
+        { pattern: /^[\w.-]+$/, message: $t('role.codePattern') }
+      ]
     },
     {
       name: 'description',
@@ -161,8 +161,8 @@ const {
       type: 'textarea',
       colSpan: 2,
       props: {
-        rows: 3,
-      },
+        rows: 3
+      }
     },
     {
       name: 'permissionIds',
@@ -175,12 +175,12 @@ const {
         allowClear: true,
         treeDefaultExpandAll: true,
         showCheckedStrategy: 'SHOW_PARENT',
-        maxTagCount: 2,
+        maxTagCount: 2
       },
-      rules: [{ type: 'array', required: true, message: $t('role.selectPermissions') }],
-    },
+      rules: [{ type: 'array', required: true, message: $t('role.selectPermissions') }]
+    }
   ]),
-  createApi: async (data) => {
+  createApi: async data => {
     const result = await createRole(data)
     return { success: result.success, message: $t('role.createSuccess') }
   },
@@ -188,11 +188,11 @@ const {
     const result = await updateRole(id, data)
     return { success: result.success, message: $t('role.updateSuccess') }
   },
-  deleteApi: async (id) => {
+  deleteApi: async id => {
     const result = await deleteRole(id)
     return { success: result.success }
   },
-  transformFormValues: (values) => {
+  transformFormValues: values => {
     const permissionIds: string[] = values.permissionIds || []
     const selectedPermissions = permissionIds
       .map(id => permissionMap.value.get(id))
@@ -202,21 +202,21 @@ const {
       name: values.name?.trim(),
       code: values.code?.trim(),
       description: values.description?.trim(),
-      permissions: selectedPermissions,
+      permissions: selectedPermissions
     }
   },
   transformRecordToForm: record => ({
     name: record.name,
     code: record.code,
     description: record.description || '',
-    permissionIds: (record.permissions || []).map(permission => permission.id),
+    permissionIds: (record.permissions || []).map(permission => permission.id)
   }),
   createTitle: $t('role.createRole'),
   editTitle: $t('role.editRole'),
   deleteConfirmMessage: $t('role.confirmDelete'),
   onCreated: () => tableRef.value?.reload(),
   onUpdated: () => tableRef.value?.refresh(),
-  onDeleted: () => tableRef.value?.reload(),
+  onDeleted: () => tableRef.value?.reload()
 })
 
 async function fetchPermissionTreeData() {
@@ -229,18 +229,18 @@ async function fetchTableData(params: Record<string, any>) {
     current: Number(params.current || 1),
     pageSize: Number(params.pageSize || 10),
     name: params.name?.trim() || undefined,
-    code: params.code?.trim() || undefined,
+    code: params.code?.trim() || undefined
   })
 
   const list = response.data.list.map(item => ({
     ...item,
-    permissionCount: item.permissions?.length || 0,
+    permissionCount: item.permissions?.length || 0
   }))
 
   return {
     data: list,
     total: response.data.total,
-    success: true,
+    success: true
   }
 }
 
@@ -258,7 +258,7 @@ onMounted(async () => {
       :toolbar="toolbarConfig"
       :search="{
         labelWidth: 6,
-        defaultCollapsed: true,
+        defaultCollapsed: true
       }"
       row-key="id"
     >

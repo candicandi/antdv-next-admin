@@ -24,13 +24,13 @@ interface TicketRecord {
 const statusTextMap: Record<TicketStatus, string> = computed(() => ({
   open: $t('examples.scaffold.masterDetail.statusOpen'),
   processing: $t('examples.scaffold.masterDetail.statusProcessing'),
-  closed: $t('examples.scaffold.masterDetail.statusClosed'),
+  closed: $t('examples.scaffold.masterDetail.statusClosed')
 })).value
 
 const statusColorMap: Record<TicketStatus, string> = {
   open: 'blue',
   processing: 'processing',
-  closed: 'default',
+  closed: 'default'
 }
 
 const listData = ref<TicketRecord[]>(
@@ -40,7 +40,10 @@ const listData = ref<TicketRecord[]>(
     return {
       id: `T${String(i).padStart(4, '0')}`,
       title: $t('examples.scaffold.masterDetail.ticketTitle', { index: i }),
-      owner: i % 2 === 0 ? $t('examples.scaffold.masterDetail.ownerZhang') : $t('examples.scaffold.masterDetail.ownerLi'),
+      owner:
+        i % 2 === 0
+          ? $t('examples.scaffold.masterDetail.ownerZhang')
+          : $t('examples.scaffold.masterDetail.ownerLi'),
       priority: i % 5 === 0 ? 'P0' : i % 2 === 0 ? 'P1' : 'P2',
       status: i % 4 === 0 ? 'closed' : i % 3 === 0 ? 'processing' : 'open',
       createdAt: new Date(Date.now() - i * 3600 * 1000).toLocaleString(),
@@ -49,16 +52,16 @@ const listData = ref<TicketRecord[]>(
         {
           action: $t('examples.scaffold.masterDetail.actionCreate'),
           operator: $t('examples.scaffold.masterDetail.operatorSystem'),
-          time: new Date(Date.now() - i * 3600 * 1000).toLocaleString(),
+          time: new Date(Date.now() - i * 3600 * 1000).toLocaleString()
         },
         {
           action: $t('examples.scaffold.masterDetail.actionAssign'),
           operator: $t('examples.scaffold.masterDetail.operatorDispatch'),
-          time: new Date(Date.now() - i * 1800 * 1000).toLocaleString(),
-        },
-      ],
+          time: new Date(Date.now() - i * 1800 * 1000).toLocaleString()
+        }
+      ]
     }
-  }),
+  })
 )
 
 const columns = computed(() => [
@@ -67,19 +70,19 @@ const columns = computed(() => [
   { title: $t('examples.scaffold.masterDetail.colOwner'), dataIndex: 'owner', width: 120 },
   { title: $t('examples.scaffold.masterDetail.colPriority'), dataIndex: 'priority', width: 100 },
   { title: $t('examples.scaffold.masterDetail.colStatus'), dataIndex: 'status', width: 120 },
-  { title: $t('examples.scaffold.masterDetail.colCreatedAt'), dataIndex: 'createdAt', width: 190 },
+  { title: $t('examples.scaffold.masterDetail.colCreatedAt'), dataIndex: 'createdAt', width: 190 }
 ])
 
 const detailColumns = computed<ProDescriptionItem[]>(() => [
   { label: $t('examples.scaffold.masterDetail.titleLabel'), dataIndex: 'title' },
   { label: $t('examples.scaffold.masterDetail.ownerLabel'), dataIndex: 'owner' },
   { label: $t('examples.scaffold.masterDetail.priorityLabel'), dataIndex: 'priority' },
-  { label: $t('examples.scaffold.masterDetail.createdAtLabel'), dataIndex: 'createdAt' },
+  { label: $t('examples.scaffold.masterDetail.createdAtLabel'), dataIndex: 'createdAt' }
 ])
 
 const drawerTabs = computed<ProDetailTab[]>(() => [
   { key: 'desc', label: $t('examples.scaffold.masterDetail.descTab') },
-  { key: 'logs', label: $t('examples.scaffold.masterDetail.logsTab') },
+  { key: 'logs', label: $t('examples.scaffold.masterDetail.logsTab') }
 ])
 
 const drawerOpen = ref(false)
@@ -93,7 +96,7 @@ function buildRowProps(record: TicketRecord) {
       activeRecord.value = record
       activeTab.value = 'desc'
       drawerOpen.value = true
-    },
+    }
   }
 }
 
@@ -144,7 +147,9 @@ function getStatusColor(status: unknown) {
           v-model:active-tab="activeTab"
           :title="`#${activeRecord.id}`"
           :sub-title="$t('examples.scaffold.masterDetail.ticketNumber')"
-          :tags="[{ text: getStatusText(activeRecord.status), color: getStatusColor(activeRecord.status) }]"
+          :tags="[
+            { text: getStatusText(activeRecord.status), color: getStatusColor(activeRecord.status) }
+          ]"
           :descriptions="detailColumns"
           :data="activeRecord"
           :description-column="1"
@@ -159,9 +164,7 @@ function getStatusColor(status: unknown) {
             <a-timeline>
               <a-timeline-item v-for="log in activeRecord.logs" :key="log.time + log.action">
                 <strong>{{ log.action }}</strong>
-                <div class="text-secondary">
-                  {{ log.operator }} · {{ log.time }}
-                </div>
+                <div class="text-secondary">{{ log.operator }} · {{ log.time }}</div>
               </a-timeline-item>
             </a-timeline>
           </template>

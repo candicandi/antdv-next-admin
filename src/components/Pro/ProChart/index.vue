@@ -6,7 +6,7 @@ import {
   LegendComponent,
   RadarComponent,
   TitleComponent,
-  TooltipComponent,
+  TooltipComponent
 } from 'echarts/components'
 import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
@@ -16,7 +16,7 @@ import { useThemeStore } from '@/stores/theme'
 
 const props = withDefaults(defineProps<Props>(), {
   height: 300,
-  loading: false,
+  loading: false
 })
 
 use([
@@ -29,7 +29,7 @@ use([
   TooltipComponent,
   LegendComponent,
   GridComponent,
-  RadarComponent,
+  RadarComponent
 ])
 
 interface Props {
@@ -56,14 +56,16 @@ const generatedOption = computed(() => {
     return {
       tooltip: { trigger: 'item' },
       legend: { bottom: 0 },
-      series: [{
-        type: 'pie',
-        radius: type === 'donut' ? ['45%', '70%'] : '70%',
-        data: data.map(item => ({ name: item.name, value: item.value })),
-        emphasis: {
-          itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' },
-        },
-      }],
+      series: [
+        {
+          type: 'pie',
+          radius: type === 'donut' ? ['45%', '70%'] : '70%',
+          data: data.map(item => ({ name: item.name, value: item.value })),
+          emphasis: {
+            itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' }
+          }
+        }
+      ]
     }
   }
 
@@ -72,10 +74,12 @@ const generatedOption = computed(() => {
     return {
       tooltip: {},
       radar: { indicator },
-      series: [{
-        type: 'radar',
-        data: [{ value: data.map(item => item.value) }],
-      }],
+      series: [
+        {
+          type: 'radar',
+          data: [{ value: data.map(item => item.value) }]
+        }
+      ]
     }
   }
 
@@ -88,12 +92,14 @@ const generatedOption = computed(() => {
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
     xAxis: { type: 'category', data: categories },
     yAxis: { type: 'value' },
-    series: [{
-      type: type === 'area' ? 'line' : type,
-      data: values,
-      smooth: type === 'line' || type === 'area',
-      areaStyle: type === 'area' ? {} : undefined,
-    }],
+    series: [
+      {
+        type: type === 'area' ? 'line' : type,
+        data: values,
+        smooth: type === 'line' || type === 'area',
+        areaStyle: type === 'area' ? {} : undefined
+      }
+    ]
   }
 })
 

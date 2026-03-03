@@ -21,8 +21,8 @@ export const useWatermarkStore = defineStore('watermark', () => {
       rotate: rotate.value,
       font: {
         fontSize: fontSize.value,
-        color: `rgba(0, 0, 0, ${opacity.value})`,
-      },
+        color: `rgba(0, 0, 0, ${opacity.value})`
+      }
     }
   })
 
@@ -65,24 +65,19 @@ export const useWatermarkStore = defineStore('watermark', () => {
     const savedFontSize = localStorage.getItem('app-watermark-fontSize')
     const savedOpacity = localStorage.getItem('app-watermark-opacity')
 
-    if (savedEnabled)
-      setEnabled(savedEnabled === 'true')
-    if (savedContent)
-      setContent(savedContent)
+    if (savedEnabled) setEnabled(savedEnabled === 'true')
+    if (savedContent) setContent(savedContent)
     if (savedGap) {
       try {
         const parsed = JSON.parse(savedGap)
-        if (Array.isArray(parsed) && parsed.length === 2)
-          setGap(parsed as [number, number])
+        if (Array.isArray(parsed) && parsed.length === 2) setGap(parsed as [number, number])
+      } catch {
+        /* ignore */
       }
-      catch { /* ignore */ }
     }
-    if (savedRotate)
-      setRotate(Number(savedRotate))
-    if (savedFontSize)
-      setFontSize(Number(savedFontSize))
-    if (savedOpacity)
-      setOpacity(Number(savedOpacity))
+    if (savedRotate) setRotate(Number(savedRotate))
+    if (savedFontSize) setFontSize(Number(savedFontSize))
+    if (savedOpacity) setOpacity(Number(savedOpacity))
   }
 
   return {
@@ -102,6 +97,6 @@ export const useWatermarkStore = defineStore('watermark', () => {
     setRotate,
     setFontSize,
     setOpacity,
-    initWatermark,
+    initWatermark
   }
 })

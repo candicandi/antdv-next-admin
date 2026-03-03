@@ -56,7 +56,7 @@ export default defineConfig({
       '/api': {
         target: 'http://your-backend-server.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        rewrite: path => path.replace(/^\/api/, '')
       }
     }
   }
@@ -80,19 +80,17 @@ Modify `src/utils/request.ts` to adapt to your backend's response format:
 
 ```typescript
 // Response interceptor
-service.interceptors.response.use(
-  (response) => {
-    const res = response.data
+service.interceptors.response.use(response => {
+  const res = response.data
 
-    // Customize this logic for your backend
-    if (res.code !== 200) {
-      // Handle business errors
-      return Promise.reject(new Error(res.message || 'Error'))
-    }
-
-    return res
+  // Customize this logic for your backend
+  if (res.code !== 200) {
+    // Handle business errors
+    return Promise.reject(new Error(res.message || 'Error'))
   }
-)
+
+  return res
+})
 ```
 
 ---
@@ -113,6 +111,7 @@ Alternatively, modify directly in the database if you have backend access.
 ### How do I use permission checking in components?
 
 **Directive method:**
+
 ```vue
 <a-button v-permission="'user.create'">Create User</a-button>
 <a-button v-permission="['user.edit', 'user.delete']">Actions</a-button>
@@ -120,6 +119,7 @@ Alternatively, modify directly in the database if you have backend access.
 ```
 
 **Composable method:**
+
 ```typescript
 import { usePermission } from '@/composables/usePermission'
 
@@ -139,6 +139,7 @@ if (hasRole('admin')) {
 ```
 
 **Component method:**
+
 ```vue
 <PermissionButton permission="user.create">
   <a-button>Create User</a-button>
@@ -210,7 +211,7 @@ export const staticRoutes: AppRouteRecordRaw[] = [
     component: () => import('@/views/public/index.vue'),
     meta: {
       title: 'Public Page',
-      requiresAuth: false  // No authentication required
+      requiresAuth: false // No authentication required
     }
   }
 ]
@@ -253,7 +254,7 @@ themeStore.setPrimaryColor('#1890ff')
 
 ```typescript
 const PRESET_COLORS = [
-  { name: 'Custom', value: '#ff6b6b' },
+  { name: 'Custom', value: '#ff6b6b' }
   // ... existing colors
 ]
 ```
@@ -268,7 +269,7 @@ Dark mode uses CSS variables and Ant Design's `darkAlgorithm`. The theme is togg
 import { useThemeStore } from '@/stores/theme'
 
 const themeStore = useThemeStore()
-themeStore.setThemeMode('dark')  // 'light' | 'dark' | 'auto'
+themeStore.setThemeMode('dark') // 'light' | 'dark' | 'auto'
 ```
 
 The `auto` mode follows the system preference.
@@ -333,7 +334,7 @@ Common causes:
 
 ```typescript
 export default defineConfig({
-  base: '/',  // Or '/your-subdirectory/' for subdirectory deployment
+  base: '/' // Or '/your-subdirectory/' for subdirectory deployment
 })
 ```
 
@@ -361,7 +362,7 @@ This opens a visual representation of your bundle composition.
 
 ```typescript
 export default defineConfig({
-  base: '/admin/',  // Your subdirectory
+  base: '/admin/' // Your subdirectory
 })
 ```
 
@@ -369,7 +370,7 @@ export default defineConfig({
 
 ```typescript
 const router = createRouter({
-  history: createWebHistory('/admin/'),  // Match the base path
+  history: createWebHistory('/admin/'), // Match the base path
   routes
 })
 ```
@@ -420,9 +421,9 @@ Follow the prompts to create the necessary files.
 export default {
   common: {
     confirm: 'Confirm',
-    cancel: 'Cancel',
+    cancel: 'Cancel'
     // ... translations
-  },
+  }
   // ... other sections
 }
 ```

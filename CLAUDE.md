@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 **antdv-next-admin** is a modern Vue 3 + TypeScript admin scaffold built on:
+
 - **antdv-next** (Ant Design Vue) - UI component library
 - **Pinia** - State management
 - **Vue Router** - Routing with dynamic route generation
@@ -60,12 +61,14 @@ Routes are organized in three categories (`src/router/routes.ts`):
 3. **asyncRoutes** - Require specific permissions (system management, etc.)
 
 **Dynamic Route Generation**:
+
 - Routes are generated in `src/router/guards.ts` during navigation
 - Permission store (`generateRoutes`) filters async routes based on user roles/permissions
 - Routes are added dynamically with `router.addRoute()` after successful login
 - First navigation to dynamic route may redirect to 404, then recover by regenerating routes
 
 **Route Meta Fields**:
+
 ```typescript
 {
   title: string           // i18n key for page title
@@ -84,6 +87,7 @@ Routes are organized in three categories (`src/router/routes.ts`):
 Three ways to check permissions:
 
 1. **Directive** (`src/directives/permission.ts`):
+
    ```vue
    <a-button v-permission="'user.create'">Create</a-button>
    <a-button v-permission="['user.edit', 'user.delete']">Actions</a-button>
@@ -91,10 +95,15 @@ Three ways to check permissions:
    ```
 
 2. **Composable** (`src/composables/usePermission.ts`):
+
    ```typescript
    const { can, canAll } = usePermission()
-   if (can('user.create')) { /* ... */ }
-   if (canAll(['user.edit', 'user.approve'])) { /* ... */ }
+   if (can('user.create')) {
+     /* ... */
+   }
+   if (canAll(['user.edit', 'user.approve'])) {
+     /* ... */
+   }
    ```
 
 3. **Component** (`src/components/Permission/PermissionButton.vue`):
@@ -114,6 +123,7 @@ Three ways to check permissions:
 - All API calls use the `request` helper with typed responses
 
 **Mock System** (`mock/` directory):
+
 - Enabled via `VITE_USE_MOCK=true` in `.env.development`
 - Two-layer structure: `data/` (mock data sources) + `handlers/` (request handlers)
 - Available mock APIs: auth, users, roles, permissions, dashboard
@@ -122,6 +132,7 @@ Three ways to check permissions:
 ### Pro Components
 
 **ProTable** (`src/components/Pro/ProTable/`):
+
 - Configuration-based table with search form, toolbar, pagination
 - Column types defined via `ProTableColumn` interface (see `src/types/pro.ts`)
 - Supports value types: text, date, dateTime, tag, badge, money, percent, avatar, etc.
@@ -133,6 +144,7 @@ Three ways to check permissions:
   - `fill-mode`: Parent container scrolls, table fills height with `fixedHeader`
 
 **ProForm** (`src/components/Pro/ProForm/`):
+
 - Configuration-based form with validation
 - Form item types: input, password, textarea, number, select, radio, checkbox, switch, datePicker, etc.
 - Grid layout support with `colSpan` and responsive `cols`
@@ -146,6 +158,7 @@ Three ways to check permissions:
 Two icon systems are available:
 
 1. **Ant Design Icons** (`@antdv-next/icons`):
+
    ```vue
    import { UserOutlined } from '@antdv-next/icons'
    ```
@@ -242,9 +255,9 @@ const columns: ProTableColumn[] = [
   {
     title: 'Name',
     dataIndex: 'name',
-    search: true,           // Enable search
-    searchType: 'input',    // Search field type
-    valueType: 'text'       // Display type
+    search: true, // Enable search
+    searchType: 'input', // Search field type
+    valueType: 'text' // Display type
   },
   {
     title: 'Status',
@@ -259,6 +272,7 @@ const columns: ProTableColumn[] = [
 ```
 
 **Known Issue**: ProTable had scrollbar alignment bugs that were fixed by:
+
 - Using CSS variables for dynamic scrollbar width (`--actual-scrollbar-width`)
 - Scrollbar detection utility in `src/utils/scrollbar.ts`
 - When modifying table layout, verify scrollbar placeholder alignment
@@ -266,11 +280,13 @@ const columns: ProTableColumn[] = [
 ### Authentication Flow
 
 **Demo Mode** (development):
+
 - Credentials: `admin/123456` or `user/123456`
 - No real backend, uses mock data from auth store
 - Token stored in localStorage
 
 **Production Mode**:
+
 - Set `VITE_USE_MOCK=false` and `VITE_API_BASE_URL` in `.env.production`
 - Uses real API calls via `src/api/auth.ts`
 
@@ -309,10 +325,10 @@ console.log(route.meta.title)
 import { useTabsStore } from '@/stores/tabs'
 const tabsStore = useTabsStore()
 
-tabsStore.closeTab(path)        // Close specific tab
-tabsStore.closeOtherTabs(path)  // Close all except this
-tabsStore.closeAllTabs()        // Close all closeable tabs
-tabsStore.refreshTab(path)      // Refresh tab content
+tabsStore.closeTab(path) // Close specific tab
+tabsStore.closeOtherTabs(path) // Close all except this
+tabsStore.closeAllTabs() // Close all closeable tabs
+tabsStore.refreshTab(path) // Refresh tab content
 ```
 
 ### Theme Changes
@@ -321,8 +337,8 @@ tabsStore.refreshTab(path)      // Refresh tab content
 import { useThemeStore } from '@/stores/theme'
 const themeStore = useThemeStore()
 
-themeStore.setThemeMode('dark')           // 'light' | 'dark' | 'auto'
-themeStore.setPrimaryColor('#1890ff')     // Any valid color
+themeStore.setThemeMode('dark') // 'light' | 'dark' | 'auto'
+themeStore.setPrimaryColor('#1890ff') // Any valid color
 ```
 
 ## Important Notes

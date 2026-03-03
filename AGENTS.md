@@ -30,6 +30,7 @@ tests/
 ## Build, Test, and Development Commands
 
 ### Essential Commands
+
 ```bash
 npm install              # Install all dependencies
 npm run dev              # Start dev server at http://localhost:3000 (with mock APIs)
@@ -39,12 +40,15 @@ npm run type-check       # Run vue-tsc --noEmit (NO auto-fix)
 ```
 
 ### Pre-commit Requirements
+
 **BEFORE any commit or PR:**
+
 1. Run `npm run type-check` - must exit 0 with no errors
 2. Run `npm run build` - must complete successfully
 3. For RBAC/auth changes: manually verify login with `admin/123456` and `user/123456`
 
 ### Testing Notes
+
 - **No test runner configured yet** - Playwright/Vitest dependencies are NOT installed
 - Test files in `tests/` are **templates** for future setup
 - To add tests later: install test framework first, update package.json scripts, then write tests
@@ -52,6 +56,7 @@ npm run type-check       # Run vue-tsc --noEmit (NO auto-fix)
 ## Code Style Guidelines
 
 ### Formatting (EditorConfig)
+
 - **Indentation**: 2 spaces (NO tabs)
 - **Line endings**: LF (Unix-style)
 - **Encoding**: UTF-8
@@ -59,6 +64,7 @@ npm run type-check       # Run vue-tsc --noEmit (NO auto-fix)
 - **Trailing whitespace**: trimmed (except in .md files)
 
 ### TypeScript
+
 - **Strict mode enabled** (`tsconfig.json`): all strict checks ON
 - **Path aliases**: use `@/` for `src/` (e.g., `import { useAuthStore } from '@/stores/auth'`)
 - **Type annotations**: explicit return types for public functions/composables
@@ -66,11 +72,14 @@ npm run type-check       # Run vue-tsc --noEmit (NO auto-fix)
 - **No type suppression**: NEVER use `as any`, `@ts-ignore`, or `@ts-expect-error`
 
 ### Vue Component Style
+
 **Component naming:**
+
 - **Files**: PascalCase for reusable components (`NotificationPanel.vue`, `ThemeToggle.vue`)
 - **Views**: route-based folders with `index.vue` (`src/views/dashboard/index.vue`)
 
 **Component structure (Composition API only):**
+
 ```vue
 <template>
   <!-- Template using script setup's reactive state -->
@@ -113,7 +122,9 @@ function handleSave() {
 ```
 
 ### Import Ordering
+
 Group imports in this order (blank line between groups):
+
 ```ts
 // 1. Vue core
 import { ref, computed, onMounted } from 'vue'
@@ -130,19 +141,22 @@ import type { User, LoginParams } from '@/types/auth'
 ```
 
 ### Naming Conventions
-| Type | Convention | Example |
-|------|-----------|---------|
-| Components | PascalCase | `NotificationPanel.vue`, `TabBar.vue` |
-| Composables | `useXxx.ts` | `usePermission.ts`, `useFullscreen.ts` |
-| Stores | Domain-based | `auth.ts`, `permission.ts`, `theme.ts` |
-| Types/Interfaces | PascalCase | `User`, `LoginParams`, `ApiResponse<T>` |
-| Functions | camelCase | `getUserInfo()`, `checkPermission()` |
-| Constants | SCREAMING_SNAKE_CASE | `TOKEN_KEY`, `API_BASE_URL` |
+
+| Type             | Convention           | Example                                 |
+| ---------------- | -------------------- | --------------------------------------- |
+| Components       | PascalCase           | `NotificationPanel.vue`, `TabBar.vue`   |
+| Composables      | `useXxx.ts`          | `usePermission.ts`, `useFullscreen.ts`  |
+| Stores           | Domain-based         | `auth.ts`, `permission.ts`, `theme.ts`  |
+| Types/Interfaces | PascalCase           | `User`, `LoginParams`, `ApiResponse<T>` |
+| Functions        | camelCase            | `getUserInfo()`, `checkPermission()`    |
+| Constants        | SCREAMING_SNAKE_CASE | `TOKEN_KEY`, `API_BASE_URL`             |
 
 ### Error Handling
+
 - **Try/catch**: wrap all async operations with meaningful error messages
 - **Axios interceptors**: global error handling in `src/utils/request.ts`
 - **User feedback**: use `message.error()` or `notification.error()` from antdv-next
+
 ```ts
 try {
   const response = await getUserInfo()
@@ -154,9 +168,11 @@ try {
 ```
 
 ### State Management (Pinia)
+
 - **Setup stores only** (NOT options API)
 - **One store per domain** - no god-objects
 - **Store structure pattern:**
+
 ```ts
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
@@ -164,21 +180,23 @@ import { ref, computed } from 'vue'
 export const useAuthStore = defineStore('auth', () => {
   // State (ref)
   const token = ref<string | null>(null)
-  
+
   // Getters (computed)
   const isLoggedIn = computed(() => !!token.value)
-  
+
   // Actions (functions)
   const setToken = (newToken: string | null) => {
     token.value = newToken
   }
-  
+
   return { token, isLoggedIn, setToken }
 })
 ```
 
 ### Permission System Usage
+
 **Directive (in templates):**
+
 ```vue
 <!-- Single permission (OR logic by default) -->
 <a-button v-permission="'user.create'">Create</a-button>
@@ -191,6 +209,7 @@ export const useAuthStore = defineStore('auth', () => {
 ```
 
 **Composable (in script):**
+
 ```ts
 const { can, canAll, hasRole } = usePermission()
 
@@ -206,11 +225,13 @@ if (canAll(['user.edit', 'user.approve'])) {
 ## Configuration & Environment
 
 ### Environment Variables
+
 - **Development** (`.env.development`): `VITE_USE_MOCK=true`, `VITE_API_BASE_URL=/api`
 - **Production** (`.env.production`): `VITE_USE_MOCK=false`, set real API URL
 - **Never commit secrets** - use `.env.local` for sensitive values (gitignored)
 
 ### Mock API System
+
 - **Auto-enabled in dev** via `vite-plugin-mock-dev-server`
 - **Handlers**: `mock/handlers/*.mock.ts` define endpoints
 - **Data**: `mock/data/*.data.ts` contain sample datasets
@@ -228,6 +249,7 @@ if (canAll(['user.edit', 'user.approve'])) {
 ## Commit Guidelines
 
 **Use Conventional Commits:**
+
 ```
 type(scope): summary
 

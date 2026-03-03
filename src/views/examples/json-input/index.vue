@@ -9,38 +9,38 @@ const formState = reactive({
     age: 28,
     isActive: true,
     tags: ['developer', 'admin'],
-    address: '123 Main St, City',
+    address: '123 Main St, City'
   },
   productInfo: {
     name: 'MacBook Pro',
     price: 1999,
     stock: 50,
-    description: 'High-performance laptop for professionals',
+    description: 'High-performance laptop for professionals'
   },
   i18nConfig: {
     name: '张三',
     email: 'zhangsan@example.com',
     age: 30,
     department: '技术部',
-    position: '高级工程师',
+    position: '高级工程师'
   },
   systemConfig: {
     id: 'sys-001',
     apiKey: 'sk-1234567890abcdef',
     endpoint: 'https://api.example.com',
-    timeout: 30,
+    timeout: 30
   },
   nestedData: {
     user: {
       name: 'Jane Smith',
-      email: 'jane@example.com',
+      email: 'jane@example.com'
     },
     settings: {
       theme: 'dark',
-      language: 'zh-CN',
-    },
+      language: 'zh-CN'
+    }
   },
-  newConfig: null as Record<string, any> | null,
+  newConfig: null as Record<string, any> | null
 })
 </script>
 
@@ -61,7 +61,7 @@ const formState = reactive({
           <JsonInput
             v-model:value="formState.userConfig"
             :field-config="{
-              address: { component: 'textarea', maxLength: 500 },
+              address: { component: 'textarea', maxLength: 500 }
             }"
             :placeholder="$t('examples.jsonInput.clickToEdit')"
             :modal-title="$t('examples.jsonInput.editUserConfig')"
@@ -73,7 +73,7 @@ const formState = reactive({
             v-model:value="formState.productInfo"
             display-key="name"
             :field-config="{
-              description: { component: 'textarea', maxLength: 500 },
+              description: { component: 'textarea', maxLength: 500 }
             }"
             :placeholder="$t('examples.jsonInput.selectProduct')"
           />
@@ -94,7 +94,7 @@ const formState = reactive({
               email: $t('user.email'),
               age: $t('user.age'),
               department: $t('user.department'),
-              position: $t('user.position'),
+              position: $t('user.position')
             }"
             :placeholder="$t('examples.jsonInput.clickToEdit')"
           />

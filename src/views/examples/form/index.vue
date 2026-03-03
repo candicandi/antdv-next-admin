@@ -14,31 +14,24 @@ const formItems: ProFormItem[] = [
     label: $t('user.username'),
     type: 'input',
     required: true,
-    rules: [
-      commonRules.length(3, 20),
-      commonRules.username(),
-    ],
+    rules: [commonRules.length(3, 20), commonRules.username()],
     props: {
-      placeholder: $t('login.usernamePlaceholder'),
-    },
+      placeholder: $t('login.usernamePlaceholder')
+    }
   },
   {
     name: 'email',
     label: $t('user.email'),
     type: 'input',
     required: true,
-    rules: [
-      commonRules.email(),
-    ],
+    rules: [commonRules.email()]
   },
   {
     name: 'password',
     label: $t('login.password'),
     type: 'password',
     required: true,
-    rules: [
-      commonRules.password(),
-    ],
+    rules: [commonRules.password()]
   },
   {
     name: 'confirmPassword',
@@ -47,26 +40,25 @@ const formItems: ProFormItem[] = [
     required: true,
     dependencies: ['password'],
     rules: [
-      ({ getFieldValue }: { getFieldValue: (field: string) => any }) => commonRules.confirmPassword(getFieldValue),
-    ],
+      ({ getFieldValue }: { getFieldValue: (field: string) => any }) =>
+        commonRules.confirmPassword(getFieldValue)
+    ]
   },
   {
     name: 'phone',
     label: $t('user.phone'),
     type: 'input',
-    rules: [commonRules.phone()],
+    rules: [commonRules.phone()]
   },
   {
     name: 'age',
     label: $t('exampleForm.age'),
     type: 'number',
-    rules: [
-      commonRules.range(1, 150, $t('exampleForm.ageRange')),
-    ],
+    rules: [commonRules.range(1, 150, $t('exampleForm.ageRange'))],
     props: {
       min: 1,
-      max: 150,
-    },
+      max: 150
+    }
   },
   {
     name: 'gender',
@@ -75,8 +67,8 @@ const formItems: ProFormItem[] = [
     required: true,
     options: [
       { label: $t('user.male'), value: 'male' },
-      { label: $t('user.female'), value: 'female' },
-    ],
+      { label: $t('user.female'), value: 'female' }
+    ]
   },
   {
     name: 'role',
@@ -86,8 +78,8 @@ const formItems: ProFormItem[] = [
     options: [
       { label: $t('exampleForm.roles.admin'), value: 'admin' },
       { label: $t('exampleForm.roles.user'), value: 'user' },
-      { label: $t('exampleForm.roles.guest'), value: 'guest' },
-    ],
+      { label: $t('exampleForm.roles.guest'), value: 'guest' }
+    ]
   },
   {
     name: 'interests',
@@ -97,29 +89,29 @@ const formItems: ProFormItem[] = [
       { label: $t('exampleForm.interestOptions.reading'), value: 'reading' },
       { label: $t('exampleForm.interestOptions.sports'), value: 'sports' },
       { label: $t('exampleForm.interestOptions.music'), value: 'music' },
-      { label: $t('exampleForm.interestOptions.travel'), value: 'travel' },
-    ],
+      { label: $t('exampleForm.interestOptions.travel'), value: 'travel' }
+    ]
   },
   {
     name: 'birthDate',
     label: $t('exampleForm.birthDate'),
     type: 'datePicker',
     props: {
-      format: 'YYYY-MM-DD',
-    },
+      format: 'YYYY-MM-DD'
+    }
   },
   {
     name: 'status',
     label: $t('common.status'),
     type: 'switch',
     valuePropName: 'checked',
-    initialValue: true,
+    initialValue: true
   },
   {
     name: 'score',
     label: $t('exampleForm.score'),
     type: 'rate',
-    initialValue: 3,
+    initialValue: 3
   },
   {
     name: 'progress',
@@ -128,8 +120,8 @@ const formItems: ProFormItem[] = [
     initialValue: 50,
     props: {
       min: 0,
-      max: 100,
-    },
+      max: 100
+    }
   },
   {
     name: 'bio',
@@ -140,9 +132,9 @@ const formItems: ProFormItem[] = [
       rows: 4,
       maxLength: 500,
       showCount: true,
-      placeholder: $t('exampleForm.bioPlaceholder'),
-    },
-  },
+      placeholder: $t('exampleForm.bioPlaceholder')
+    }
+  }
 ]
 
 function handleSubmit(values: any) {

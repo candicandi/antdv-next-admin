@@ -13,7 +13,7 @@ import {
   StarFilled,
   StarOutlined,
   VerticalLeftOutlined,
-  VerticalRightOutlined,
+  VerticalRightOutlined
 } from '@antdv-next/icons'
 import { Dropdown } from 'antdv-next'
 import { computed, h } from 'vue'
@@ -35,19 +35,19 @@ function toggleFullscreen() {
   layoutStore.togglePageFullscreen()
 }
 
-type TabMenuKey
-  = | 'close'
-    | 'pin'
-    | 'favorite'
-    | 'refresh'
-    | 'closeLeft'
-    | 'closeRight'
-    | 'closeOthers'
-    | 'closeAll'
+type TabMenuKey =
+  | 'close'
+  | 'pin'
+  | 'favorite'
+  | 'refresh'
+  | 'closeLeft'
+  | 'closeRight'
+  | 'closeOthers'
+  | 'closeAll'
 
 const activeKey = computed({
   get: () => tabsStore.activeTabPath,
-  set: value => tabsStore.setActiveTab(value),
+  set: value => tabsStore.setActiveTab(value)
 })
 
 const currentTab = computed(() => {
@@ -70,8 +70,9 @@ const tabItems = computed(() => {
           trigger: ['contextmenu'],
           menu: {
             items: getTabMenuItems(tab),
-            onClick: ({ key }: { key: string | number }) => handleContextMenu({ key: String(key) }, tab),
-          } as any,
+            onClick: ({ key }: { key: string | number }) =>
+              handleContextMenu({ key: String(key) }, tab)
+          } as any
         },
         {
           default: () => {
@@ -80,12 +81,12 @@ const tabItems = computed(() => {
               icon ? h(icon, { class: 'tab-menu-icon' }) : null,
               h('span', { class: 'tab-text' }, getTabLabel(tab)),
               tab.favorite ? h(StarFilled, { class: 'tab-favorite-icon' }) : null,
-              isTabFixed(tab) ? h(PushpinFilled, { class: 'tab-pin-icon' }) : null,
+              isTabFixed(tab) ? h(PushpinFilled, { class: 'tab-pin-icon' }) : null
             ])
-          },
-        },
-      ),
-    ]),
+          }
+        }
+      )
+    ])
   }))
 })
 
@@ -105,15 +106,13 @@ function handleChange(key: string) {
 
 function hasClosableLeftTabs(tab: Tab) {
   const index = tabsStore.tabs.findIndex(item => item.path === tab.path)
-  if (index <= 0)
-    return false
+  if (index <= 0) return false
   return tabsStore.tabs.slice(0, index).some(item => item.closable)
 }
 
 function hasClosableRightTabs(tab: Tab) {
   const index = tabsStore.tabs.findIndex(item => item.path === tab.path)
-  if (index < 0 || index >= tabsStore.tabs.length - 1)
-    return false
+  if (index < 0 || index >= tabsStore.tabs.length - 1) return false
   return tabsStore.tabs.slice(index + 1).some(item => item.closable)
 }
 
@@ -134,56 +133,57 @@ function getTabMenuItems(tab: Tab) {
       key: 'close',
       icon: h(CloseOutlined),
       label: t('layout.tabs.close'),
-      disabled: !latestTab.closable,
+      disabled: !latestTab.closable
     },
     {
       key: 'pin',
       icon: h(latestTab.pinned ? PushpinFilled : PushpinOutlined),
       label: latestTab.pinned ? t('layout.tabs.unpin') : t('layout.tabs.pin'),
-      disabled: Boolean(latestTab.affix),
+      disabled: Boolean(latestTab.affix)
     },
     {
       key: 'favorite',
       icon: h(latestTab.favorite ? StarFilled : StarOutlined),
-      label: latestTab.favorite ? t('layout.tabs.unfavorite') : t('layout.tabs.favorite'),
+      label: latestTab.favorite ? t('layout.tabs.unfavorite') : t('layout.tabs.favorite')
     },
     {
       key: 'refresh',
       icon: h(ReloadOutlined),
-      label: t('layout.tabs.refresh'),
+      label: t('layout.tabs.refresh')
     },
     {
-      type: 'divider',
+      type: 'divider'
     },
     {
       key: 'closeLeft',
       icon: h(VerticalLeftOutlined),
       label: t('layout.tabs.closeLeft'),
-      disabled: !hasClosableLeftTabs(tab),
+      disabled: !hasClosableLeftTabs(tab)
     },
     {
       key: 'closeRight',
       icon: h(VerticalRightOutlined),
       label: t('layout.tabs.closeRight'),
-      disabled: !hasClosableRightTabs(tab),
+      disabled: !hasClosableRightTabs(tab)
     },
     {
       key: 'closeOthers',
       icon: h(CloseCircleOutlined),
       label: t('layout.tabs.closeOthers'),
-      disabled: !hasClosableOtherTabs(tab),
+      disabled: !hasClosableOtherTabs(tab)
     },
     {
       key: 'closeAll',
       icon: h(CloseSquareOutlined),
       label: t('layout.tabs.closeAll'),
-      disabled: !hasClosableTabs.value,
-    },
+      disabled: !hasClosableTabs.value
+    }
   ]
 }
 
 function syncRouteWithActiveTab() {
-  const active = tabsStore.tabs.find(tab => tab.path === tabsStore.activeTabPath) || tabsStore.tabs[0]
+  const active =
+    tabsStore.tabs.find(tab => tab.path === tabsStore.activeTabPath) || tabsStore.tabs[0]
   if (!active) {
     if (route.path !== '/dashboard') {
       router.push('/dashboard')
@@ -243,14 +243,13 @@ const activeTabMenuProps = computed(() => {
       if (tab) {
         handleContextMenu({ key: String(key) }, tab)
       }
-    },
+    }
   }
 })
 
 function refreshCurrentTab() {
   const tab = currentTab.value
-  if (!tab)
-    return
+  if (!tab) return
   tabsStore.refreshTab(tab.path)
 }
 

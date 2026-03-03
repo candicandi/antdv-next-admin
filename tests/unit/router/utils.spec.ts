@@ -3,11 +3,14 @@ import { describe, expect, it } from 'vitest'
 import { filterRoutesByPermission } from '@/router/utils'
 
 // Mock route type with meta
-function createMockRoute(name: string, options: {
-  permissions?: string[]
-  roles?: string[]
-  children?: AppRouteRecordRaw[]
-} = {}): AppRouteRecordRaw {
+function createMockRoute(
+  name: string,
+  options: {
+    permissions?: string[]
+    roles?: string[]
+    children?: AppRouteRecordRaw[]
+  } = {}
+): AppRouteRecordRaw {
   return {
     path: `/${name}`,
     name,
@@ -15,9 +18,9 @@ function createMockRoute(name: string, options: {
     meta: {
       title: name,
       requiredPermissions: options.permissions,
-      requiredRoles: options.roles,
+      requiredRoles: options.roles
     },
-    children: options.children,
+    children: options.children
   }
 }
 
@@ -27,7 +30,7 @@ describe('route Utils', () => {
       const routes: AppRouteRecordRaw[] = [
         createMockRoute('dashboard', { permissions: ['dashboard.view'] }),
         createMockRoute('users', { permissions: ['user.view'] }),
-        createMockRoute('settings', { permissions: ['settings.view'] }),
+        createMockRoute('settings', { permissions: ['settings.view'] })
       ]
 
       const result = filterRoutesByPermission(routes, ['*'])
@@ -39,7 +42,7 @@ describe('route Utils', () => {
       const routes: AppRouteRecordRaw[] = [
         createMockRoute('dashboard', { permissions: ['dashboard.view'] }),
         createMockRoute('users', { permissions: ['user.view'] }),
-        createMockRoute('settings', { permissions: ['settings.view'] }),
+        createMockRoute('settings', { permissions: ['settings.view'] })
       ]
 
       const result = filterRoutesByPermission(routes, ['dashboard.view', 'user.view'])
@@ -53,7 +56,7 @@ describe('route Utils', () => {
     it('should include routes without permission requirements', () => {
       const routes: AppRouteRecordRaw[] = [
         createMockRoute('public'),
-        createMockRoute('users', { permissions: ['user.view'] }),
+        createMockRoute('users', { permissions: ['user.view'] })
       ]
 
       const result = filterRoutesByPermission(routes, [])
@@ -68,9 +71,9 @@ describe('route Utils', () => {
           children: [
             createMockRoute('users', { permissions: ['user.view'] }),
             createMockRoute('roles', { permissions: ['role.view'] }),
-            createMockRoute('public'),
-          ],
-        }),
+            createMockRoute('public')
+          ]
+        })
       ]
 
       const result = filterRoutesByPermission(routes, ['user.view'])
@@ -84,7 +87,7 @@ describe('route Utils', () => {
     it('should return empty array when no routes match', () => {
       const routes: AppRouteRecordRaw[] = [
         createMockRoute('users', { permissions: ['user.view'] }),
-        createMockRoute('roles', { permissions: ['role.view'] }),
+        createMockRoute('roles', { permissions: ['role.view'] })
       ]
 
       const result = filterRoutesByPermission(routes, ['dashboard.view'])
@@ -94,7 +97,7 @@ describe('route Utils', () => {
 
     it('should handle OR logic for permissions (any match)', () => {
       const routes: AppRouteRecordRaw[] = [
-        createMockRoute('users', { permissions: ['user.view', 'user.edit'] }),
+        createMockRoute('users', { permissions: ['user.view', 'user.edit'] })
       ]
 
       // Route should be included if user has ANY of the required permissions
@@ -111,9 +114,9 @@ describe('route Utils', () => {
             title: 'Users',
             icon: 'UserOutlined',
             requiredPermissions: ['user.view'],
-            order: 1,
-          },
-        },
+            order: 1
+          }
+        }
       ]
 
       const result = filterRoutesByPermission(routes, ['user.view'])

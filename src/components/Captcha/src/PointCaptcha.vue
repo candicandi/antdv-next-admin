@@ -10,16 +10,16 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   width: '100%',
   height: 160,
-  src: 'https://picsum.photos/320/160',
+  src: 'https://picsum.photos/320/160'
 })
 
 const emit = defineEmits(['success', 'fail'])
 
 const containerRef = ref<HTMLElement | null>(null)
 const canvasRef = ref<HTMLCanvasElement | null>(null)
-const clicks = ref<{ x: number, y: number }[]>([])
+const clicks = ref<{ x: number; y: number }[]>([])
 const checkPoints = ref<string[]>([])
-const points = ref<{ x: number, y: number, text: string }[]>([])
+const points = ref<{ x: number; y: number; text: string }[]>([])
 const isSuccess = ref(false)
 const currentWidth = ref(320)
 const currentHeight = ref(160)
@@ -39,11 +39,9 @@ function init() {
   checkPoints.value = []
   isSuccess.value = false
 
-  if (!canvasRef.value)
-    return
+  if (!canvasRef.value) return
   const ctx = canvasRef.value.getContext('2d')
-  if (!ctx)
-    return
+  if (!ctx) return
 
   // Calculate dimensions based on container width
   const ratio = 160 / 320 // Default aspect ratio
@@ -53,8 +51,7 @@ function init() {
       currentWidth.value = w
       if (typeof props.height === 'number') {
         currentHeight.value = props.height
-      }
-      else {
+      } else {
         currentHeight.value = Math.floor(w * ratio)
       }
     }
@@ -80,7 +77,7 @@ function init() {
 
       ctx.save()
       ctx.translate(x, y)
-      ctx.rotate(deg * Math.PI / 180)
+      ctx.rotate((deg * Math.PI) / 180)
       ctx.fillStyle = randomColor(50, 160)
       ctx.font = `bold ${fontSize}px sans-serif`
       ctx.fillText(text, 0, 0)
@@ -110,8 +107,7 @@ onBeforeUnmount(() => {
 })
 
 function handleClick(e: MouseEvent) {
-  if (isSuccess.value || clicks.value.length >= 3)
-    return
+  if (isSuccess.value || clicks.value.length >= 3) return
 
   const rect = (e.target as HTMLElement).getBoundingClientRect()
   const x = e.clientX - rect.left
@@ -128,8 +124,7 @@ function verify() {
   const isCorrect = clicks.value.every((click, index) => {
     const targetChar = checkPoints.value[index]
     const targetPoint = points.value.find(p => p.text === targetChar)
-    if (!targetPoint)
-      return false
+    if (!targetPoint) return false
 
     const dx = click.x - targetPoint.x
     const dy = click.y - targetPoint.y
@@ -140,8 +135,7 @@ function verify() {
   if (isCorrect) {
     isSuccess.value = true
     emit('success')
-  }
-  else {
+  } else {
     emit('fail')
     setTimeout(() => {
       clicks.value = []
@@ -157,10 +151,19 @@ defineExpose({ reset })
 </script>
 
 <template>
-  <div ref="containerRef" class="point-captcha" :style="{ width: typeof width === 'number' ? `${width}px` : width }">
+  <div
+    ref="containerRef"
+    class="point-captcha"
+    :style="{ width: typeof width === 'number' ? `${width}px` : width }"
+  >
     <div class="point-img-wrapper" :style="{ height: `${currentHeight}px` }">
       <canvas ref="canvasRef" :width="currentWidth" :height="currentHeight" @click="handleClick" />
-      <div v-for="(point, index) in clicks" :key="index" class="point-mark" :style="{ left: `${point.x}px`, top: `${point.y}px` }">
+      <div
+        v-for="(point, index) in clicks"
+        :key="index"
+        class="point-mark"
+        :style="{ left: `${point.x}px`, top: `${point.y}px` }"
+      >
         {{ index + 1 }}
       </div>
       <div v-if="isSuccess" class="success-mask">

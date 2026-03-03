@@ -7,15 +7,14 @@
  */
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
-  wait: number,
+  wait: number
 ): (...args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null
 
   return function (this: any, ...args: Parameters<T>) {
     const context = this
 
-    if (timeout)
-      clearTimeout(timeout)
+    if (timeout) clearTimeout(timeout)
 
     timeout = setTimeout(() => {
       func.apply(context, args)
@@ -28,7 +27,7 @@ export function debounce<T extends (...args: any[]) => any>(
  */
 export function throttle<T extends (...args: any[]) => any>(
   func: T,
-  wait: number,
+  wait: number
 ): (...args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null
   let previous = 0
@@ -44,13 +43,15 @@ export function throttle<T extends (...args: any[]) => any>(
       }
       func.apply(context, args)
       previous = now
-    }
-    else if (!timeout) {
-      timeout = setTimeout(() => {
-        func.apply(context, args)
-        previous = Date.now()
-        timeout = null
-      }, wait - (now - previous))
+    } else if (!timeout) {
+      timeout = setTimeout(
+        () => {
+          func.apply(context, args)
+          previous = Date.now()
+          timeout = null
+        },
+        wait - (now - previous)
+      )
     }
   }
 }
@@ -88,8 +89,7 @@ export function deepClone<T>(obj: T): T {
  * Format file size
  */
 export function formatFileSize(bytes: number): string {
-  if (bytes === 0)
-    return '0 B'
+  if (bytes === 0) return '0 B'
 
   const k = 1024
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB']
@@ -121,7 +121,7 @@ export function randomString(length: number = 8): string {
  * Generate UUID
  */
 export function uuid(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     const r = (Math.random() * 16) | 0
     const v = c === 'x' ? r : (r & 0x3) | 0x8
     return v.toString(16)
@@ -132,14 +132,10 @@ export function uuid(): string {
  * Check if value is empty
  */
 export function isEmpty(value: any): boolean {
-  if (value === null || value === undefined)
-    return true
-  if (typeof value === 'string')
-    return value.trim().length === 0
-  if (Array.isArray(value))
-    return value.length === 0
-  if (typeof value === 'object')
-    return Object.keys(value).length === 0
+  if (value === null || value === undefined) return true
+  if (typeof value === 'string') return value.trim().length === 0
+  if (Array.isArray(value)) return value.length === 0
+  if (typeof value === 'object') return Object.keys(value).length === 0
   return false
 }
 
@@ -150,10 +146,9 @@ export function parseQuery(url: string): Record<string, string> {
   const query: Record<string, string> = {}
   const queryString = url.split('?')[1]
 
-  if (!queryString)
-    return query
+  if (!queryString) return query
 
-  queryString.split('&').forEach((param) => {
+  queryString.split('&').forEach(param => {
     const [key, value] = param.split('=')
     query[decodeURIComponent(key)] = decodeURIComponent(value || '')
   })
@@ -195,8 +190,7 @@ export async function copyToClipboard(text: string): Promise<boolean> {
     if (navigator.clipboard) {
       await navigator.clipboard.writeText(text)
       return true
-    }
-    else {
+    } else {
       // Fallback for older browsers
       const textarea = document.createElement('textarea')
       textarea.value = text
@@ -208,8 +202,7 @@ export async function copyToClipboard(text: string): Promise<boolean> {
       document.body.removeChild(textarea)
       return success
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Failed to copy to clipboard:', error)
     return false
   }
@@ -228,14 +221,12 @@ export function sleep(ms: number): Promise<void> {
 export async function retry<T>(
   fn: () => Promise<T>,
   retries: number = 3,
-  delay: number = 1000,
+  delay: number = 1000
 ): Promise<T> {
   try {
     return await fn()
-  }
-  catch (error) {
-    if (retries === 0)
-      throw error
+  } catch (error) {
+    if (retries === 0) throw error
     await sleep(delay)
     return retry(fn, retries - 1, delay * 2)
   }
@@ -271,8 +262,7 @@ export function isValidURL(url: string): boolean {
   try {
     new URL(url)
     return true
-  }
-  catch {
+  } catch {
     return false
   }
 }
@@ -281,8 +271,7 @@ export function isValidURL(url: string): boolean {
  * Truncate text with ellipsis
  */
 export function truncate(text: string, length: number, suffix: string = '...'): string {
-  if (text.length <= length)
-    return text
+  if (text.length <= length) return text
   return text.slice(0, length) + suffix
 }
 
@@ -307,9 +296,7 @@ export function kebabCase(text: string): string {
  * Convert to camelCase
  */
 export function camelCase(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''))
+  return text.toLowerCase().replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''))
 }
 
 /**

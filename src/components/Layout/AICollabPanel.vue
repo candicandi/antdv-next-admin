@@ -46,23 +46,23 @@ const quickActions = computed<QuickActionItem[]>(() => {
     {
       id: 'explain',
       label: $t('layout.aiActionExplain'),
-      prompt: $t('layout.aiActionExplain'),
+      prompt: $t('layout.aiActionExplain')
     },
     {
       id: 'summary',
       label: $t('layout.aiActionSummary'),
-      prompt: $t('layout.aiActionSummary'),
+      prompt: $t('layout.aiActionSummary')
     },
     {
       id: 'risk',
       label: $t('layout.aiActionRisk'),
-      prompt: $t('layout.aiActionRisk'),
+      prompt: $t('layout.aiActionRisk')
     },
     {
       id: 'next-step',
       label: $t('layout.aiActionNextStep'),
-      prompt: $t('layout.aiActionNextStep'),
-    },
+      prompt: $t('layout.aiActionNextStep')
+    }
   ]
 })
 
@@ -76,7 +76,7 @@ function appendMessage(role: MessageRole, content: string) {
   messages.value.push({
     id: messageId,
     role,
-    content,
+    content
   })
   return messageId
 }
@@ -184,9 +184,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="context-row">
-      <a-tag color="blue">
-        {{ $t('layout.aiCurrentPage') }}: {{ currentPageTitle }}
-      </a-tag>
+      <a-tag color="blue"> {{ $t('layout.aiCurrentPage') }}: {{ currentPageTitle }} </a-tag>
       <a-tag>{{ route.path }}</a-tag>
     </div>
 
@@ -212,7 +210,10 @@ onBeforeUnmount(() => {
           v-for="message in messages"
           :key="message.id"
           class="message-item"
-          :class="[`is-${message.role}`, { 'is-streaming': isStreaming && streamingMessageId === message.id }]"
+          :class="[
+            `is-${message.role}`,
+            { 'is-streaming': isStreaming && streamingMessageId === message.id }
+          ]"
         >
           <div class="message-role">
             {{ message.role === 'assistant' ? 'AI' : 'You' }}
@@ -240,12 +241,19 @@ onBeforeUnmount(() => {
         @keydown.enter="handleEnter"
       />
       <div class="input-actions">
-        <span class="hint">{{ isStreaming ? $t('common.loading') : $t('layout.aiEnterHint') }}</span>
+        <span class="hint">{{
+          isStreaming ? $t('common.loading') : $t('layout.aiEnterHint')
+        }}</span>
         <a-space size="small">
           <a-button size="small" @click="clearMessages">
             {{ $t('common.clear') }}
           </a-button>
-          <a-button type="primary" size="small" :disabled="!draft.trim() || isStreaming" @click="sendMessage">
+          <a-button
+            type="primary"
+            size="small"
+            :disabled="!draft.trim() || isStreaming"
+            @click="sendMessage"
+          >
             {{ $t('common.submit') }}
           </a-button>
         </a-space>

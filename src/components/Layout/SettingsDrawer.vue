@@ -12,20 +12,20 @@ const settingsStore = useSettingsStore()
 const layoutStore = useLayoutStore()
 const customColor = ref(settingsStore.customPrimaryColor || '#1890ff')
 
-const PRESET_COLORS: Array<{ value: PrimaryColor, hex: string }> = [
+const PRESET_COLORS: Array<{ value: PrimaryColor; hex: string }> = [
   { value: 'blue', hex: '#1890ff' },
   { value: 'green', hex: '#52c41a' },
   { value: 'purple', hex: '#722ed1' },
   { value: 'red', hex: '#f5222d' },
   { value: 'orange', hex: '#fa8c16' },
-  { value: 'cyan', hex: '#13c2c2' },
+  { value: 'cyan', hex: '#13c2c2' }
 ]
 
 const colorPresets = [
   {
     label: 'Preset Colors',
-    colors: PRESET_COLORS.map(c => c.hex),
-  },
+    colors: PRESET_COLORS.map(c => c.hex)
+  }
 ]
 
 const pageAnimationOptions = computed(() => [
@@ -36,7 +36,7 @@ const pageAnimationOptions = computed(() => [
   { label: $t('settings.slideDown'), value: 'slide-down' },
   { label: $t('settings.zoom'), value: 'zoom' },
   { label: $t('settings.zoomBig'), value: 'zoom-big' },
-  { label: $t('settings.none'), value: 'none' },
+  { label: $t('settings.none'), value: 'none' }
 ])
 
 function handleCustomColorChange(value: any) {
@@ -45,25 +45,40 @@ function handleCustomColorChange(value: any) {
 }
 
 // Watch store changes and save to localStorage
-watch(() => settingsStore.sidebarTheme, (value) => {
-  settingsStore.setSidebarTheme(value)
-})
+watch(
+  () => settingsStore.sidebarTheme,
+  value => {
+    settingsStore.setSidebarTheme(value)
+  }
+)
 
-watch(() => settingsStore.layoutMode, (value) => {
-  settingsStore.setLayoutMode(value)
-})
+watch(
+  () => settingsStore.layoutMode,
+  value => {
+    settingsStore.setLayoutMode(value)
+  }
+)
 
-watch(() => settingsStore.pageAnimation, (value) => {
-  settingsStore.setPageAnimation(value)
-})
+watch(
+  () => settingsStore.pageAnimation,
+  value => {
+    settingsStore.setPageAnimation(value)
+  }
+)
 
-watch(() => settingsStore.grayMode, (value) => {
-  settingsStore.setGrayMode(value)
-})
+watch(
+  () => settingsStore.grayMode,
+  value => {
+    settingsStore.setGrayMode(value)
+  }
+)
 
-watch(() => settingsStore.rememberTabState, (value) => {
-  settingsStore.setRememberTabState(value)
-})
+watch(
+  () => settingsStore.rememberTabState,
+  value => {
+    settingsStore.setRememberTabState(value)
+  }
+)
 
 function handleReset() {
   Modal.confirm({
@@ -73,7 +88,7 @@ function handleReset() {
       layoutStore.setAiEntryVisible(true)
       layoutStore.setAiCollabEnabled(false)
       customColor.value = '#1890ff'
-    },
+    }
   })
 }
 
@@ -93,12 +108,7 @@ defineExpose({ open, close })
 </script>
 
 <template>
-  <a-drawer
-    v-model:open="visible"
-    :title="$t('settings.title')"
-    placement="right"
-    :size="320"
-  >
+  <a-drawer v-model:open="visible" :title="$t('settings.title')" placement="right" :size="320">
     <div class="settings-drawer">
       <!-- Theme Color -->
       <div class="settings-section">
@@ -107,18 +117,29 @@ defineExpose({ open, close })
           <div
             v-for="color in PRESET_COLORS"
             :key="color.value"
-            class="color-item" :class="[{ active: settingsStore.primaryColor === color.value && !settingsStore.customPrimaryColor }]"
+            class="color-item"
+            :class="[
+              {
+                active:
+                  settingsStore.primaryColor === color.value && !settingsStore.customPrimaryColor
+              }
+            ]"
             :style="{ backgroundColor: color.hex }"
             @click="settingsStore.setPrimaryColor(color.value)"
           >
-            <CheckOutlined v-if="settingsStore.primaryColor === color.value && !settingsStore.customPrimaryColor" />
+            <CheckOutlined
+              v-if="settingsStore.primaryColor === color.value && !settingsStore.customPrimaryColor"
+            />
           </div>
           <a-color-picker
             v-model:value="customColor"
             :presets="colorPresets"
             @change="handleCustomColorChange"
           >
-            <div class="color-item color-picker-trigger" :class="[{ active: !!settingsStore.customPrimaryColor }]">
+            <div
+              class="color-item color-picker-trigger"
+              :class="[{ active: !!settingsStore.customPrimaryColor }]"
+            >
               <CheckOutlined v-if="settingsStore.customPrimaryColor" />
               <span v-else class="picker-icon">+</span>
             </div>
@@ -189,7 +210,9 @@ defineExpose({ open, close })
           @change="handleAiEntryChange"
         />
         <div class="hint">
-          {{ layoutStore.isMobile ? $t('settings.aiCollabHintMobile') : $t('settings.aiCollabHint') }}
+          {{
+            layoutStore.isMobile ? $t('settings.aiCollabHintMobile') : $t('settings.aiCollabHint')
+          }}
         </div>
       </div>
 

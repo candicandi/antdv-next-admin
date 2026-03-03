@@ -8,7 +8,7 @@ import {
   MailOutlined,
   RightOutlined,
   RocketOutlined,
-  SafetyCertificateOutlined,
+  SafetyCertificateOutlined
 } from '@antdv-next/icons'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -51,16 +51,11 @@ function getNotificationTone(notification: Notification) {
 function getNotificationIcon(notification: Notification) {
   const tone = getNotificationTone(notification)
 
-  if (tone === 'system')
-    return RocketOutlined
-  if (tone === 'message')
-    return MailOutlined
-  if (tone === 'security')
-    return SafetyCertificateOutlined
-  if (tone === 'task')
-    return CheckCircleOutlined
-  if (tone === 'error')
-    return ExclamationCircleOutlined
+  if (tone === 'system') return RocketOutlined
+  if (tone === 'message') return MailOutlined
+  if (tone === 'security') return SafetyCertificateOutlined
+  if (tone === 'task') return CheckCircleOutlined
+  if (tone === 'error') return ExclamationCircleOutlined
   return BellOutlined
 }
 
@@ -70,8 +65,8 @@ function handleNotificationClick(notification: Notification) {
   router.push({
     path: '/notifications',
     query: {
-      id: notification.id,
-    },
+      id: notification.id
+    }
   })
 }
 
@@ -141,10 +136,8 @@ function handleViewAll() {
             <div
               v-for="notification in displayedNotifications"
               :key="notification.id"
-              class="notification-item" :class="[
-                { unread: !notification.read },
-                `tone-${getNotificationTone(notification)}`,
-              ]"
+              class="notification-item"
+              :class="[{ unread: !notification.read }, `tone-${getNotificationTone(notification)}`]"
               @click="handleNotificationClick(notification)"
             >
               <div class="notification-icon" aria-hidden="true">

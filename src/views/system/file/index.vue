@@ -10,7 +10,7 @@ import {
   FileTextOutlined,
   FileWordOutlined,
   FileZipOutlined,
-  VideoCameraOutlined,
+  VideoCameraOutlined
 } from '@antdv-next/icons'
 import { message, Modal } from 'antdv-next'
 import { computed, ref } from 'vue'
@@ -43,60 +43,79 @@ function getExtColor(ext: string) {
     zip: '#faad14',
     rar: '#faad14',
     mp4: '#722ed1',
-    txt: '#8c8c8c',
+    txt: '#8c8c8c'
   }
   return colors[ext] || '#8c8c8c'
 }
 
 function formatSize(bytes: number) {
-  if (bytes < 1024)
-    return `${bytes} B`
-  if (bytes < 1024 * 1024)
-    return `${(bytes / 1024).toFixed(1)} KB`
-  if (bytes < 1024 * 1024 * 1024)
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
   return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} GB`
 }
 
 const columns = computed<ProTableColumn[]>(() => [
-  { title: t('file.fileName'), dataIndex: 'originalName', key: 'originalName', search: true, searchType: 'input', ellipsis: true },
-  { title: t('file.ext'), dataIndex: 'ext', key: 'ext', width: 90, search: true, searchType: 'select', searchOptions: [
-    { label: t('file.extType.imageJpg'), value: 'jpg' },
-    { label: t('file.extType.imagePng'), value: 'png' },
-    { label: t('file.extType.pdf'), value: 'pdf' },
-    { label: t('file.extType.word'), value: 'docx' },
-    { label: t('file.extType.excel'), value: 'xlsx' },
-    { label: t('file.extType.zip'), value: 'zip' },
-    { label: t('file.extType.video'), value: 'mp4' },
-    { label: t('file.extType.text'), value: 'txt' },
-    { label: t('file.extType.ppt'), value: 'pptx' },
-    { label: t('file.extType.svg'), value: 'svg' },
-  ] },
+  {
+    title: t('file.fileName'),
+    dataIndex: 'originalName',
+    key: 'originalName',
+    search: true,
+    searchType: 'input',
+    ellipsis: true
+  },
+  {
+    title: t('file.ext'),
+    dataIndex: 'ext',
+    key: 'ext',
+    width: 90,
+    search: true,
+    searchType: 'select',
+    searchOptions: [
+      { label: t('file.extType.imageJpg'), value: 'jpg' },
+      { label: t('file.extType.imagePng'), value: 'png' },
+      { label: t('file.extType.pdf'), value: 'pdf' },
+      { label: t('file.extType.word'), value: 'docx' },
+      { label: t('file.extType.excel'), value: 'xlsx' },
+      { label: t('file.extType.zip'), value: 'zip' },
+      { label: t('file.extType.video'), value: 'mp4' },
+      { label: t('file.extType.text'), value: 'txt' },
+      { label: t('file.extType.ppt'), value: 'pptx' },
+      { label: t('file.extType.svg'), value: 'svg' }
+    ]
+  },
   { title: t('file.size'), dataIndex: 'size', key: 'size', width: 120 },
-  { title: t('file.storage'), dataIndex: 'storage', key: 'storage', width: 100, search: true, searchType: 'select', searchOptions: [
-    { label: t('file.storageType.local'), value: 'local' },
-    { label: t('file.storageType.oss'), value: 'oss' },
-    { label: t('file.storageType.cos'), value: 'cos' },
-  ] },
+  {
+    title: t('file.storage'),
+    dataIndex: 'storage',
+    key: 'storage',
+    width: 100,
+    search: true,
+    searchType: 'select',
+    searchOptions: [
+      { label: t('file.storageType.local'), value: 'local' },
+      { label: t('file.storageType.oss'), value: 'oss' },
+      { label: t('file.storageType.cos'), value: 'cos' }
+    ]
+  },
   { title: t('file.uploader'), dataIndex: 'uploader', key: 'uploader', width: 100 },
   { title: t('file.uploadTime'), dataIndex: 'createTime', key: 'createTime', width: 180 },
-  { title: t('file.action'), dataIndex: 'action', key: 'action', width: 100, fixed: 'right' },
+  { title: t('file.action'), dataIndex: 'action', key: 'action', width: 100, fixed: 'right' }
 ])
 
 async function loadFileList(params: any) {
   try {
-    const response = await getFileList({
+    const response = (await getFileList({
       name: params.originalName,
       ext: params.ext,
       storage: params.storage,
       page: params.current,
-      pageSize: params.pageSize,
-    }) as any
+      pageSize: params.pageSize
+    })) as any
     if (response.code === 200) {
       return { data: response.data.list, total: response.data.total, success: true }
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error(t('file.loadFailed'), error)
   }
   return { data: [], total: 0, success: false }
@@ -108,17 +127,17 @@ function handleDelete(record: SysFile) {
     content: t('file.confirmDeleteContent', { name: record.originalName }),
     onOk: async () => {
       try {
-        const response = await deleteFile(record.id) as any
+        const response = (await deleteFile(record.id)) as any
         if (response.code === 200) {
           message.success(t('file.deleteSuccess'))
           refreshKey.value++
-        }
-        else {
+        } else {
           message.error(response.message || t('file.deleteFailed'))
         }
+      } catch {
+        message.error(t('file.deleteFailed'))
       }
-      catch { message.error(t('file.deleteFailed')) }
-    },
+    }
   })
 }
 </script>
@@ -131,7 +150,7 @@ function handleDelete(record: SysFile) {
       :request="loadFileList"
       :toolbar="{
         title: t('file.title'),
-        actions: [],
+        actions: []
       }"
     >
       <template #bodyCell="{ column, record }">

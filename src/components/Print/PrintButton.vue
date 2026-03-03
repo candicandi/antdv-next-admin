@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
   text: 'Print',
   type: 'default',
   disabled: false,
-  options: () => ({}),
+  options: () => ({})
 })
 
 const emit = defineEmits<{
@@ -35,13 +35,11 @@ async function handleClick() {
   try {
     if (props.target) {
       await printElement(props.target, props.options)
-    }
-    else {
+    } else {
       printPage()
     }
     emit('success')
-  }
-  catch (error) {
+  } catch (error) {
     emit('error', error as Error)
   }
 }
@@ -50,12 +48,7 @@ const buttonType = computed(() => props.type)
 </script>
 
 <template>
-  <a-button
-    :type="buttonType"
-    :disabled="disabled"
-    :loading="isPrinting"
-    @click="handleClick"
-  >
+  <a-button :type="buttonType" :disabled="disabled" :loading="isPrinting" @click="handleClick">
     <template #icon>
       <PrinterOutlined />
     </template>

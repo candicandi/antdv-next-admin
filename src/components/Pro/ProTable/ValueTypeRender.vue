@@ -8,7 +8,7 @@ import { copyToClipboard } from '@/utils/helpers'
 interface Props {
   value: any
   type?: ValueType
-  enum?: Record<string, { text: string, status?: string, color?: string }>
+  enum?: Record<string, { text: string; status?: string; color?: string }>
   record?: any
   copyable?: boolean
   valueTypeProps?: Record<string, any>
@@ -17,7 +17,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   type: 'text',
   copyable: false,
-  valueTypeProps: () => ({}),
+  valueTypeProps: () => ({})
 })
 
 function getEnumConfig(value: any) {
@@ -25,21 +25,20 @@ function getEnumConfig(value: any) {
 }
 
 function formatDate(value: any, format: string) {
-  if (!value)
-    return '-'
+  if (!value) return '-'
   return dayjs(value).format(format)
 }
 
 function formatMoney(value: any, precision?: number) {
-  if (value === null || value === undefined)
-    return '0.00'
+  if (value === null || value === undefined) return '0.00'
   const p = precision ?? 2
-  return Number(value).toFixed(p).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  return Number(value)
+    .toFixed(p)
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
 function formatPercent(value: any, precision?: number) {
-  if (value === null || value === undefined)
-    return '0'
+  if (value === null || value === undefined) return '0'
   const p = precision ?? 2
   return Number(value).toFixed(p)
 }
@@ -49,8 +48,7 @@ async function handleCopy() {
     const success = await copyToClipboard(String(props.value))
     if (success) {
       message.success($t('common.copySuccess'))
-    }
-    else {
+    } else {
       message.error($t('common.copyFailed'))
     }
   }

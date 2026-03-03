@@ -15,7 +15,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  size: 16,
+  size: 16
 })
 
 function stripPrefix(value: string, prefix: string) {
@@ -74,7 +74,7 @@ const baseStyle = computed(() => ({
   lineHeight: sizeCss.value,
   display: 'inline-flex',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'center'
 }))
 </script>
 
@@ -95,12 +95,7 @@ const baseStyle = computed(() => ({
     <use :href="`#${svgId}`" />
   </svg>
 
-  <IconifyIcon
-    v-else
-    class="app-icon"
-    :icon="iconifyIcon"
-    :style="[baseStyle, props.style]"
-  />
+  <IconifyIcon v-else class="app-icon" :icon="iconifyIcon" :style="[baseStyle, props.style]" />
 </template>
 
 <style scoped lang="scss">

@@ -72,7 +72,7 @@ class DictUtil {
   getMap(typeCode: string): Record<string, DictData> {
     const dict = this.getByType(typeCode)
     const map: Record<string, DictData> = {}
-    dict.forEach((item) => {
+    dict.forEach(item => {
       map[item.value] = item
     })
     return map

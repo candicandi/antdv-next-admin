@@ -20,7 +20,7 @@ const PanelA = defineComponent({
 
     return {
       localValue,
-      localCount,
+      localCount
     }
   },
   template: `
@@ -33,7 +33,7 @@ const PanelA = defineComponent({
         <a-button size="small" @click="localCount++">+</a-button>
       </a-space>
     </div>
-  `,
+  `
 })
 
 const PanelB = defineComponent({
@@ -44,7 +44,7 @@ const PanelB = defineComponent({
 
     return {
       checked,
-      text,
+      text
     }
   },
   template: `
@@ -53,7 +53,7 @@ const PanelB = defineComponent({
       <a-switch v-model:checked="checked" checked-children="ON" un-checked-children="OFF" />
       <a-textarea v-model:value="text" :rows="3" :placeholder="$t('examples.scaffold.stateCache.panelBTextPlaceholder')" />
     </div>
-  `,
+  `
 })
 
 const activeComponent = computed(() => {
@@ -83,23 +83,26 @@ function pinCurrentTab() {
       <div class="form-grid">
         <div>
           <label>{{ $t('examples.scaffold.stateCache.keywordLabel') }}</label>
-          <a-input v-model:value="cacheStore.keyword" :placeholder="$t('examples.scaffold.stateCache.keywordPlaceholder')" />
+          <a-input
+            v-model:value="cacheStore.keyword"
+            :placeholder="$t('examples.scaffold.stateCache.keywordPlaceholder')"
+          />
         </div>
         <div>
           <label>{{ $t('examples.scaffold.stateCache.counterLabel') }}</label>
           <div class="counter-row">
-            <a-button size="small" @click="cacheStore.counter--">
-              -1
-            </a-button>
+            <a-button size="small" @click="cacheStore.counter--"> -1 </a-button>
             <a-input-number v-model:value="cacheStore.counter" :min="-9999" :max="9999" />
-            <a-button size="small" @click="cacheStore.counter++">
-              +1
-            </a-button>
+            <a-button size="small" @click="cacheStore.counter++"> +1 </a-button>
           </div>
         </div>
         <div class="full-row">
           <label>{{ $t('examples.scaffold.stateCache.notesLabel') }}</label>
-          <a-textarea v-model:value="cacheStore.notes" :rows="3" :placeholder="$t('examples.scaffold.stateCache.notesPlaceholder')" />
+          <a-textarea
+            v-model:value="cacheStore.notes"
+            :rows="3"
+            :placeholder="$t('examples.scaffold.stateCache.notesPlaceholder')"
+          />
         </div>
       </div>
 

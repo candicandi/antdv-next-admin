@@ -10,12 +10,12 @@ export default defineConfig({
     include: ['tests/unit/**/*.spec.ts'],
     coverage: {
       reporter: ['text', 'json', 'html'],
-      exclude: ['node_modules/', 'tests/'],
-    },
+      exclude: ['node_modules/', 'tests/']
+    }
   },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  }
 })

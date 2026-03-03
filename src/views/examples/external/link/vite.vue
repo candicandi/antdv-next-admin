@@ -11,7 +11,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <a-result status="info" :title="$t('external.link.openedTitle')" :sub-title="$t('external.link.openedSubTitle')">
+  <a-result
+    status="info"
+    :title="$t('external.link.openedTitle')"
+    :sub-title="$t('external.link.openedSubTitle')"
+  >
     <template #extra>
       <a-button type="primary" @click="open">
         {{ $t('external.link.openVite') }}

@@ -1,5 +1,5 @@
 export default {
-  'common': {
+  common: {
     appName: 'Antdv Next Admin',
     add: '追加',
     edit: '編集',
@@ -69,9 +69,9 @@ export default {
     typeTags: 'タグ',
     typeArray: '配列',
     typeObject: '物体',
-    searchLabel: '{label} を検索',
+    searchLabel: '{label} を検索'
   },
-  'menu': {
+  menu: {
     dashboard: 'ダッシュボード',
     organization: '組織',
     system: 'システム',
@@ -119,9 +119,9 @@ export default {
     exception404: '404',
     exception500: '500',
     profile: 'プロフィール',
-    about: 'について',
+    about: 'について'
   },
-  'layout': {
+  layout: {
     logout: 'ログアウト',
     logoutConfirm: 'ログアウトしてもよろしいですか?',
     profile: 'プロフィール',
@@ -163,7 +163,7 @@ export default {
       zhCN: '簡体字中国語',
       enUS: '英語',
       jaJP: '日本語',
-      koKR: '韓国語',
+      koKR: '韓国語'
     },
     tabs: {
       refresh: 'リフレッシュ',
@@ -176,10 +176,10 @@ export default {
       closeAll: 'すべて閉じる',
       closeLeft: '左を閉じる',
       closeRight: '右を閉じる',
-      moreActions: 'その他のタブアクション',
-    },
+      moreActions: 'その他のタブアクション'
+    }
   },
-  'settings': {
+  settings: {
     title: '設定',
     themeColor: 'テーマカラー',
     sidebarTheme: 'サイドバーのテーマ',
@@ -212,10 +212,10 @@ export default {
       purple: 'ゴールデンパープル',
       red: 'ダストレッド',
       orange: 'サンセットオレンジ',
-      cyan: 'シアン',
-    },
+      cyan: 'シアン'
+    }
   },
-  'login': {
+  login: {
     title: 'ユーザーログイン',
     username: 'ユーザー名',
     password: 'パスワード',
@@ -231,9 +231,9 @@ export default {
     loginSuccess: 'ログイン成功',
     loginFailed: 'ログインに失敗しました',
     slideToVerify: 'スライドして確認してください',
-    verifySuccess: '確認済み',
+    verifySuccess: '確認済み'
   },
-  'dashboard': {
+  dashboard: {
     welcome: 'おかえり',
     subtitle: 'ビジネス指標とシステムステータスをリアルタイムで監視します',
     systemStable: 'システムが安定している',
@@ -261,13 +261,13 @@ export default {
       permissionUpdated: '管理者がシステム メニューの権限設定を更新しました',
       userCreated: 'ユーザーSunnyを作成し、操作ロールを割り当てました',
       orderTaskDone: '今日の注文統計タスクが完了しました',
-      riskPolicyReleased: 'リスク管理戦略バージョンが本番環境にリリースされました',
+      riskPolicyReleased: 'リスク管理戦略バージョンが本番環境にリリースされました'
     },
     activityTags: {
       system: 'システム',
       user: 'ユーザー',
       task: 'タスク',
-      release: 'リリース',
+      release: 'リリース'
     },
     months: {
       jan: '1月',
@@ -277,10 +277,10 @@ export default {
       may: '5月',
       jun: 'ジュン',
       jul: '7月',
-      aug: '8月',
-    },
+      aug: '8月'
+    }
   },
-  'user': {
+  user: {
     title: 'ユーザー管理',
     username: 'ユーザー名',
     email: '電子メール',
@@ -312,7 +312,8 @@ export default {
     importSuccess: '{count} レコードが正常にインポートされました',
     importFailed: 'インポートに失敗しました。ファイル形式を確認してください',
     importEmpty: 'ファイルが空であるか、形式が正しくありません',
-    importFormatError: 'CSV 形式が正しくありません。「ユーザー名」、「名前」、「電子メール」列を含める必要があります',
+    importFormatError:
+      'CSV 形式が正しくありません。「ユーザー名」、「名前」、「電子メール」列を含める必要があります',
     age: '年',
     tags: 'タグ',
     address: '住所',
@@ -321,9 +322,9 @@ export default {
     info: 'ユーザー情報',
     settings: '設定',
     theme: 'テーマ',
-    language: '言語',
+    language: '言語'
   },
-  'role': {
+  role: {
     title: '役割管理',
     name: '役割名',
     code: '役割コード',
@@ -338,9 +339,9 @@ export default {
     codePattern: '役割コードは文字、数字、アンダースコア、ハイフンのみをサポートします',
     selectPermissions: '権限を選択してください',
     updateSuccess: '役割が正常に更新されました',
-    createSuccess: 'ロールが正常に作成されました',
+    createSuccess: 'ロールが正常に作成されました'
   },
-  'permission': {
+  permission: {
     title: 'メニュー管理',
     name: 'メニュー名',
     code: '許可コード',
@@ -372,9 +373,9 @@ export default {
     iconPlaceholder: '例えばユーザー概要',
     visibleStatus: '可視性',
     updateSuccess: 'メニューが正常に更新されました',
-    createSuccess: 'メニューが正常に作成されました',
+    createSuccess: 'メニューが正常に作成されました'
   },
-  'dict': {
+  dict: {
     title: '辞書',
     dictType: '辞書の種類',
     dictData: '辞書データ',
@@ -411,37 +412,38 @@ export default {
     loadTypeFailed: '辞書タイプのロードに失敗しました',
     loadDataFailed: '辞書データの読み込みに失敗しました',
     dictDataTitle: '辞書データ - {name}',
-    confirmDelete: '削除の確認',
+    confirmDelete: '削除の確認'
   },
-  'table': {
+  table: {
     title: 'テーブルの例',
     total: '{total} アイテムの合計',
     page: 'ページ {page}',
     pageSize: '{size} 1 ページあたりの項目',
-    goTo: 'に行く',
+    goTo: 'に行く'
   },
-  'form': {
+  form: {
     title: 'フォーム例',
     basicInfo: '基本情報',
     advancedInfo: '高度な情報',
     submit: '提出する',
     reset: 'リセット',
     validateSuccess: '検証に合格しました',
-    validateFailed: '検証に失敗しました',
+    validateFailed: '検証に失敗しました'
   },
-  'exampleTable': {
+  exampleTable: {
     userList: 'ユーザーリスト',
     subTitle: 'ProTable の例',
     createUser: 'ユーザーの作成',
     editUser: 'ユーザーの編集',
     deleteSuccess: '正常に削除されました',
     updateSuccess: '正常に更新されました',
-    createSuccess: '正常に作成されました',
+    createSuccess: '正常に作成されました'
   },
-  'notificationCenter': {
+  notificationCenter: {
     kicker: '通知ハブ',
     title: '通知センター',
-    subtitle: '高速なフィルタリングと詳細な追跡により、システムの更新、メッセージ、タスクの結果を 1 か所で追跡します。',
+    subtitle:
+      '高速なフィルタリングと詳細な追跡により、システムの更新、メッセージ、タスクの結果を 1 か所で追跡します。',
     searchPlaceholder: 'タイトルまたは内容で通知を検索する',
     listTitle: 'お知らせ一覧',
     listSubtitle: '{count} 通知が一致しました',
@@ -449,7 +451,7 @@ export default {
     metrics: {
       total: '合計通知数',
       unread: '未読',
-      today: '今日',
+      today: '今日'
     },
     filters: {
       allStatus: 'すべてのステータス',
@@ -460,39 +462,41 @@ export default {
       message: 'メッセージ',
       security: 'セキュリティ警告',
       task: 'タスク完了',
-      error: 'エラーアラート',
+      error: 'エラーアラート'
     },
     status: {
       read: '読む',
-      unread: '未読',
+      unread: '未読'
     },
     meta: {
       type: 'タイプ',
-      receivedAt: '受信場所',
+      receivedAt: '受信場所'
     },
     actions: {
       markAsRead: '既読としてマークする',
       openRelated: '関連ページを開く',
-      delete: '通知の削除',
+      delete: '通知の削除'
     },
     placeholder: {
       title: '通知を選択して詳細を表示します',
-      desc: '左側のリストから項目を選択すると、完全なコンテンツと関連アクションがここに表示されます。',
-    },
+      desc: '左側のリストから項目を選択すると、完全なコンテンツと関連アクションがここに表示されます。'
+    }
   },
-  'exampleCaptcha': {
+  exampleCaptcha: {
     title: 'キャプチャコンポーネントの例',
-    description: 'カスタマイズ可能なスタイルとコールバックを備えた一般的なフロントエンド キャプチャ インタラクション コンポーネント。',
+    description:
+      'カスタマイズ可能なスタイルとコールバックを備えた一般的なフロントエンド キャプチャ インタラクション コンポーネント。',
     slider: 'スライダーキャプチャ',
     rotate: 'キャプチャを回転する',
     puzzle: 'パズルキャプチャ',
     point: 'ポイントキャプチャ',
     success: '検証に合格しました！',
-    fail: '検証に失敗しました。再試行してください',
+    fail: '検証に失敗しました。再試行してください'
   },
-  'exampleSpin': {
+  exampleSpin: {
     title: 'スピンの例',
-    description: '基本的な読み込み、サイズ、カスタム インジケーター、進行状況、遅延、フルスクリーンなど、Spin コンポーネントのさまざまな使用法を示します。',
+    description:
+      '基本的な読み込み、サイズ、カスタム インジケーター、進行状況、遅延、フルスクリーンなど、Spin コンポーネントのさまざまな使用法を示します。',
     basic: '基本とサイズ',
     tip: 'カスタムチップ',
     nested: 'カードのロード',
@@ -502,11 +506,12 @@ export default {
     customStyle: 'カスタムスタイル',
     fullscreen: '全画面表示',
     showFullscreen: '全画面表示',
-    loadingState: '読み込み状態:',
+    loadingState: '読み込み状態:'
   },
-  'exampleEditor': {
+  exampleEditor: {
     title: 'リッチ テキスト エディターの例',
-    description: '画像のアップロード、リンクの挿入、書式設定などをサポートする Tiptap ベースのリッチ テキスト エディター。',
+    description:
+      '画像のアップロード、リンクの挿入、書式設定などをサポートする Tiptap ベースのリッチ テキスト エディター。',
     basicUsage: '基本的な使い方',
     placeholder: '内容を入力してください...',
     disabledState: '無効状態',
@@ -519,9 +524,9 @@ export default {
     loadDemo: 'デモをロードする',
     savedMessage: '保存されたコンテンツ',
     clearedMessage: 'クリアされたコンテンツ',
-    demoLoadedMessage: 'デモコンテンツが読み込まれました',
+    demoLoadedMessage: 'デモコンテンツが読み込まれました'
   },
-  'exampleForm': {
+  exampleForm: {
     description: 'さまざまなフォーム コントロールを示す高度な ProForm の例',
     age: '年',
     ageRange: '年齢は 1 ～ 150 歳である必要があります',
@@ -534,23 +539,25 @@ export default {
     roles: {
       admin: '管理者',
       user: '一般ユーザー',
-      guest: 'ゲスト',
+      guest: 'ゲスト'
     },
     interestOptions: {
       reading: '読む',
       sports: 'スポーツ',
       music: '音楽',
-      travel: '旅行',
-    },
+      travel: '旅行'
+    }
   },
-  'exampleIcon': {
+  exampleIcon: {
     title: 'アイコンのショーケース',
     subtitle: 'Icon コンポーネントと IconPicker の統合デモ',
-    capabilities: 'サポート: ローカル SVG、antdv-next アイコン、Iconify (オフライン セット + オンライン検索)',
+    capabilities:
+      'サポート: ローカル SVG、antdv-next アイコン、Iconify (オフライン セット + オンライン検索)',
     renderTitle: '3 つのレンダリング モード',
     renderSubtitle: '任意のサンプルをクリックして、以下の IconPicker に適用します。',
     pickerTitle: 'アイコンピッカーのデモ',
-    pickerSubtitle: 'オンライン検索をトリガーするには、2 文字以上を入力します。オフラインアイコンセットはカテゴリ別に用意されています',
+    pickerSubtitle:
+      'オンライン検索をトリガーするには、2 文字以上を入力します。オフラインアイコンセットはカテゴリ別に用意されています',
     modelLabel: 'アイコンの値',
     previewLabel: 'ライブプレビュー',
     copy: '値のコピー',
@@ -569,19 +576,24 @@ export default {
     svgGuideTitle: 'SVGの追加と使用方法',
     iconifyGuideTitle: 'アイコン化の使い方',
     guideStepSvg1: '<symbol id="..."> 定義をアプリ ルート (またはレイアウト ルート) に挿入します。',
-    guideStepSvg2: 'svg:icon-id を持つ Icon コンポーネントを使用します。 svg:アイコン-デモ-オービット。',
-    guideStepSvg3: 'IconPicker のローカル SVG 検出の場合、src/assets/icons の下にファイルを配置し、svgIcons を渡します。',
+    guideStepSvg2:
+      'svg:icon-id を持つ Icon コンポーネントを使用します。 svg:アイコン-デモ-オービット。',
+    guideStepSvg3:
+      'IconPicker のローカル SVG 検出の場合、src/assets/icons の下にファイルを配置し、svgIcons を渡します。',
     guideStepIconify1: 'iconify 名を直接渡します: ri:home-line / mdi:account / ion:apps-outline。',
-    guideStepIconify2: 'IconPicker には、ネットワークなしで利用できるオフライン セット (ri / mdi / ion) が含まれています。',
-    guideStepIconify3: '[すべて/オンライン] カテゴリに、Iconify オンラインを検索するためのキーワード (少なくとも 2 文字) を入力します。',
+    guideStepIconify2:
+      'IconPicker には、ネットワークなしで利用できるオフライン セット (ri / mdi / ion) が含まれています。',
+    guideStepIconify3:
+      '[すべて/オンライン] カテゴリに、Iconify オンラインを検索するためのキーワード (少なくとも 2 文字) を入力します。',
     modeSvg: 'SVG スプライト',
     modeAntdv: 'antdv-next',
     modeIconify: 'アイコン化',
-    sampleHint: 'クリックして適用',
+    sampleHint: 'クリックして適用'
   },
-  'exampleWatermark': {
+  exampleWatermark: {
     title: '透かしの例',
-    description: 'グローバル ウォーターマーク機能 - ウォーターマーク効果をリアルタイムで設定およびプレビューする',
+    description:
+      'グローバル ウォーターマーク機能 - ウォーターマーク効果をリアルタイムで設定およびプレビューする',
     enableGlobal: 'グローバルウォーターマークを有効にする',
     content: '透かしテキスト',
     fontSize: 'フォントサイズ',
@@ -590,11 +602,12 @@ export default {
     gapX: '水平方向のギャップ',
     gapY: '垂直ギャップ',
     preview: 'ローカルプレビュー',
-    previewText: 'この領域はウォーターマーク効果をプレビューするための領域です',
+    previewText: 'この領域はウォーターマーク効果をプレビューするための領域です'
   },
-  'exampleModal': {
+  exampleModal: {
     title: 'プロモーダルのデモ',
-    description: 'ドラッグ、フルスクリーン、エッジのサイズ変更、ビューポートの制約を備えた antdv-next モーダルの強化されたラッパー。',
+    description:
+      'ドラッグ、フルスクリーン、エッジのサイズ変更、ビューポートの制約を備えた antdv-next モーダルの強化されたラッパー。',
     openDefault: 'デフォルトモーダルを開く',
     openWide: 'ワイドモーダルを開く',
     width: 'モーダル幅',
@@ -608,23 +621,24 @@ export default {
     modalTitle: 'ドラッグ可能/サイズ変更可能な ProModal',
     hint: '右上のアクションでは、全画面表示と閉じることができます。タイトルをドラッグして移動します。サイズを変更するには、端/角をドラッグします。',
     contentTitle: '機能のデモンストレーション',
-    contentDescription: '次の長いリストは、スクロールとビューポート境界の動作を示すために使用されます。',
+    contentDescription:
+      '次の長いリストは、スクロールとビューポート境界の動作を示すために使用されます。',
     formKeyword: 'キーワード',
     formKeywordPlaceholder: 'キーワードを入力してください',
     formRemark: '述べる',
     formRemarkPlaceholder: '備考を入力してください',
     rowText: 'デモ データ行 #{index}',
-    confirmSuccess: '正常に確認されました',
+    confirmSuccess: '正常に確認されました'
   },
-  'exampleException': {
+  exampleException: {
     '403title': '403',
     '403description': '申し訳ありませんが、このページにアクセスする権限がありません',
     '404title': '404',
     '404description': '申し訳ありませんが、アクセスしたページは存在しません',
     '500title': '500',
-    '500description': '申し訳ありませんが、サーバーがエラーを報告しています',
+    '500description': '申し訳ありませんが、サーバーがエラーを報告しています'
   },
-  'editor': {
+  editor: {
     insertLink: 'リンクを挿入',
     linkUrl: 'リンクURL',
     linkText: 'リンクテキスト',
@@ -634,20 +648,21 @@ export default {
     imageSizeLimit: '画像サイズは5MBを超えることはできません',
     imageInsertSuccess: '画像が正常に挿入されました',
     imageUploadFailed: '画像のアップロードに失敗しました',
-    enterLinkUrl: 'リンクURLを入力してください',
+    enterLinkUrl: 'リンクURLを入力してください'
   },
-  'iconPicker': {
+  iconPicker: {
     selectIcon: 'アイコンを選択',
     searchPlaceholder: 'アイコン名を検索...',
     onlineSearchFailed: 'オンライン検索に失敗しました',
-    onlineSearchFailedDetail: 'オンライン検索が失敗しました: {message}',
+    onlineSearchFailedDetail: 'オンライン検索が失敗しました: {message}'
   },
-  'captcha': {
+  captcha: {
     clickInOrder: '順番にクリックしてください:',
-    refresh: 'リフレッシュ',
+    refresh: 'リフレッシュ'
   },
-  'about': {
-    description: 'Vue 3 + TypeScript + Ant Design Vue に基づいて構築された最新の管理フレームワーク。本番環境に対応しており、機能が豊富で、拡張も簡単です。',
+  about: {
+    description:
+      'Vue 3 + TypeScript + Ant Design Vue に基づいて構築された最新の管理フレームワーク。本番環境に対応しており、機能が豊富で、拡張も簡単です。',
     projectInfo: 'プロジェクト情報',
     projectName: 'プロジェクト名',
     version: 'バージョン',
@@ -672,25 +687,25 @@ export default {
     feature7: 'ProTable / ProForm コンポーネント',
     feature7Desc: '一般的なビジネス シナリオをカバーする構成主導のテーブルとフォーム',
     feature8: 'モックデータ開発モード',
-    feature8Desc: 'フロントエンドとバックエンドの並行開発のための組み込みモック システム',
+    feature8Desc: 'フロントエンドとバックエンドの並行開発のための組み込みモック システム'
   },
-  'proForm': {
+  proForm: {
     enterPlaceholder: '{label}を入力してください',
     selectPlaceholder: '{label}を選択してください',
-    uploadFile: 'ファイルをアップロードする',
+    uploadFile: 'ファイルをアップロードする'
   },
-  'proUpload': {
+  proUpload: {
     uploadFile: 'ファイルをアップロードする',
     uploadImage: '画像をアップロードする',
     dragHint: 'ファイルをクリックまたはこの領域にドラッグしてアップロードします',
     fileSizeExceed: 'ファイル サイズは {size}MB を超えてはなりません',
-    fileTypeNotAllowed: '許可されていないファイルの種類',
+    fileTypeNotAllowed: '許可されていないファイルの種類'
   },
-  'proStepForm': {
+  proStepForm: {
     prev: '前の',
-    next: '次',
+    next: '次'
   },
-  'proTable': {
+  proTable: {
     total: '{total} アイテムの合計',
     density: 'テーブル密度',
     checkAll: 'すべて選択',
@@ -700,9 +715,9 @@ export default {
     densityLarge: '広々とした',
     densityMiddle: 'デフォルト',
     densitySmall: 'コンパクト',
-    loadDataFailed: 'データのロードに失敗しました',
+    loadDataFailed: 'データのロードに失敗しました'
   },
-  'profile': {
+  profile: {
     title: 'プロフィール',
     basicInfo: '基本情報',
     security: '安全',
@@ -723,20 +738,21 @@ export default {
     passwordMinLength: 'パスワードは6文字以上である必要があります',
     passwordChangeSuccess: 'パスワードが正常に変更されました',
     passwordChangeFailed: 'パスワードの変更に失敗しました',
-    passwordTip: 'ヒント: パスワードは少なくとも 6 文字にする必要があり、文字、数字、特殊文字を含めることをお勧めします。',
+    passwordTip:
+      'ヒント: パスワードは少なくとも 6 文字にする必要があり、文字、数字、特殊文字を含めることをお勧めします。',
     updateSuccess: '更新に成功しました',
-    updateFailed: 'アップデートに失敗しました',
+    updateFailed: 'アップデートに失敗しました'
   },
-  'error': {
+  error: {
     403: 'アクセス禁止',
     404: 'ページが見つかりません',
     500: 'サーバーエラー',
     backHome: 'ホームに戻る',
     pageNotFound: '申し訳ありませんが、アクセスしたページは存在しません',
     noPermission: '申し訳ありませんが、このページにアクセスする権限がありません',
-    serverError: '申し訳ありませんが、サーバーがエラーを報告しています',
+    serverError: '申し訳ありませんが、サーバーがエラーを報告しています'
   },
-  'validation': {
+  validation: {
     required: 'この項目は必須です',
     email: '有効なメールアドレスを入力してください',
     phone: '有効な電話番号を入力してください',
@@ -751,9 +767,9 @@ export default {
     pattern: '無効な形式',
     usernamePattern: 'ユーザー名には文字、数字、アンダースコアのみを含めることができます',
     passwordPattern: 'パスワードは 8 文字以上で、文字と数字を含める必要があります',
-    confirmPassword: '2 つのパスワードが一致しません',
+    confirmPassword: '2 つのパスワードが一致しません'
   },
-  'dept': {
+  dept: {
     title: '部門管理',
     organizationStructure: '組織',
     searchDept: '検索部門',
@@ -790,9 +806,9 @@ export default {
     pleaseEnterRemark: '備考を入力してください',
     loadDataFailed: '部門データの読み込みに失敗しました',
     createTime: '時間を作る',
-    updateTime: '更新時間',
+    updateTime: '更新時間'
   },
-  'config': {
+  config: {
     title: 'システム構成',
     configGroups: '構成グループ',
     configName: '設定名',
@@ -819,27 +835,27 @@ export default {
       string: '弦',
       number: '番号',
       boolean: 'ブール値',
-      json: 'JSON',
+      json: 'JSON'
     },
     groups: {
       basic: '基本構成',
       security: 'セキュリティ構成',
       upload: '構成のアップロード',
-      notification: '通知設定',
+      notification: '通知設定'
     },
     builtInTypes: {
       builtIn: '内蔵',
-      custom: 'カスタム',
+      custom: 'カスタム'
     },
     placeholders: {
       configName: '構成名を入力してください',
       configKey: '例えばサイト名',
       configValue: '設定値を入力してください',
       jsonFormat: 'JSON形式',
-      description: '説明を入力してください',
-    },
+      description: '説明を入力してください'
+    }
   },
-  'file': {
+  file: {
     title: 'ファイル管理',
     fileName: 'ファイル名',
     ext: '拡大',
@@ -857,7 +873,7 @@ export default {
     storageType: {
       local: '地元',
       oss: 'OSS',
-      cos: 'COS',
+      cos: 'COS'
     },
     extType: {
       imageJpg: '画像(jpg)',
@@ -869,17 +885,19 @@ export default {
       video: 'ビデオ',
       text: '文章',
       ppt: 'パワーポイント',
-      svg: 'SVG',
-    },
+      svg: 'SVG'
+    }
   },
-  'log': {
+  log: {
     title: 'システムログ',
     operationLog: '操作ログ',
     loginLog: 'ログインログ',
     clearLog: 'ログをクリアする',
     confirmClear: 'クリアの確認',
-    confirmClearOperation: 'すべての操作ログをクリアしてもよろしいですか?この操作は元に戻すことができません。',
-    confirmClearLogin: 'すべてのログイン ログをクリアしてもよろしいですか?この操作は元に戻すことができません。',
+    confirmClearOperation:
+      'すべての操作ログをクリアしてもよろしいですか?この操作は元に戻すことができません。',
+    confirmClearLogin:
+      'すべてのログイン ログをクリアしてもよろしいですか?この操作は元に戻すことができません。',
     clearSuccess: '無事クリアしました',
     clearFailed: 'クリア失敗',
     operationUser: 'オペレーター',
@@ -905,7 +923,7 @@ export default {
       delete: '消去',
       export: '輸出',
       import: '輸入',
-      other: '他の',
+      other: '他の'
     },
     modules: {
       userManagement: 'ユーザー管理',
@@ -914,10 +932,10 @@ export default {
       dictionary: '辞書',
       systemLogin: 'システムログイン',
       profile: 'プロフィール',
-      dashboard: 'ダッシュボード',
+      dashboard: 'ダッシュボード'
     },
     loadOperationLogFailed: '操作ログの読み込みに失敗しました',
-    loadLoginLogFailed: 'ログインログの読み込みに失敗しました',
+    loadLoginLogFailed: 'ログインログの読み込みに失敗しました'
   },
   'menu.external': '外部ページ',
   'menu.externalIframe': 'IFrame',
@@ -927,14 +945,16 @@ export default {
   'menu.externalVite': 'ヴィーテ',
   'menu.externalVue': 'Vue.js',
   'external.link.openedTitle': '新しいタブで開きます',
-  'external.link.openedSubTitle': 'ブラウザがポップアップをブロックした場合は、下のボタンをクリックして再度開きます。',
+  'external.link.openedSubTitle':
+    'ブラウザがポップアップをブロックした場合は、下のボタンをクリックして再度開きます。',
   'external.link.openVite': 'オープンバイト',
   'external.link.openVue': 'ビューを開く',
-  'examples': {
+  examples: {
     scaffold: {
       stateCache: {
         title: '状態とキャッシュの例',
-        description: 'Pinia の永続性 (更新後も存続) とキープアライブ ローカル キャッシュ (タブの切り替え後も存続) を示します。',
+        description:
+          'Pinia の永続性 (更新後も存続) とキープアライブ ローカル キャッシュ (タブの切り替え後も存続) を示します。',
         piniaSection: '1. Pinia 永続状態',
         keywordLabel: 'キーワード',
         keywordPlaceholder: 'ページの更新後も保持されます',
@@ -948,20 +968,24 @@ export default {
         panelA: 'パネルA',
         panelB: 'パネルB',
         panelADesc: 'パネルA（切り替え時に破壊されません）',
-        panelAInputPlaceholder: 'コンテンツを入力し、B に切り替えて元に戻ります - 引き続き保持されます',
+        panelAInputPlaceholder:
+          'コンテンツを入力し、B に切り替えて元に戻ります - 引き続き保持されます',
         localCountLabel: 'ローカルカウント:',
         panelBDesc: 'パネル B (キープアライブによってもキャッシュされます)',
-        panelBTextPlaceholder: 'コンテンツを入力し、タブを切り替えて戻ります - 引き続き保持されます',
-        pinTabSuccess: 'タブピンのステータスが切り替わります',
+        panelBTextPlaceholder:
+          'コンテンツを入力し、タブを切り替えて戻ります - 引き続き保持されます',
+        pinTabSuccess: 'タブピンのステータスが切り替わります'
       },
       uploadSystem: {
         title: 'アップロードシステム例',
-        description: 'ドラッグ アンド ドロップによるアップロード + 進行状況 + 失敗時の再試行 + 画像プレビュー。ビジネス統合の準備が整います。',
+        description:
+          'ドラッグ アンド ドロップによるアップロード + 進行状況 + 失敗時の再試行 + 画像プレビュー。ビジネス統合の準備が整います。',
         uploading: 'アップロード中',
         success: '成功',
         failed: '失敗した',
         dragText: 'ファイルをクリックまたはこの領域にドラッグしてアップロードします',
-        dragHint: '画像とドキュメントをサポートします。アップロード プロセスは、再試行ロジックを検証するために失敗をランダムにシミュレートします。',
+        dragHint:
+          '画像とドキュメントをサポートします。アップロード プロセスは、再試行ロジックを検証するために失敗をランダムにシミュレートします。',
         retryButton: '再試行失敗',
         clearButton: 'リストをクリア',
         failureRate: '故障率:',
@@ -970,11 +994,12 @@ export default {
         uploadSuccessMsg: 'アップロード成功: {name}',
         uploadFailedMsg: 'アップロードに失敗しました: {name}',
         retryMsg: '{count} 失敗したファイルを再試行しています',
-        previewNotSupported: 'このファイル形式はプレビューをサポートしていません',
+        previewNotSupported: 'このファイル形式はプレビューをサポートしていません'
       },
       importExport: {
         title: 'インポート/エクスポートの流れの例',
-        description: 'テンプレートのダウンロード、CSV インポートの検証、エラー通知のエクスポート、および現在のデータのエクスポートを示します。',
+        description:
+          'テンプレートのダウンロード、CSV インポートの検証、エラー通知のエクスポート、および現在のデータのエクスポートを示します。',
         downloadTemplate: 'テンプレートをダウンロード',
         importCsv: 'CSVのインポート',
         exportCurrent: '現在のデータをエクスポートする',
@@ -983,7 +1008,8 @@ export default {
         successRows: '成功した行',
         updatedRows: '更新された行',
         failedRows: '失敗した行',
-        importHint: 'ヘッダーはコード、名前、カテゴリ、価格、在庫である必要があります。行はコードによって更新/挿入されます。',
+        importHint:
+          'ヘッダーはコード、名前、カテゴリ、価格、在庫である必要があります。行はコードによって更新/挿入されます。',
         colCode: 'コード',
         colName: '名前',
         colCategory: 'カテゴリ',
@@ -998,12 +1024,14 @@ export default {
         errorPrice: '価格は 0 以上の数値でなければなりません',
         errorStock: '在庫は 0 以上の整数でなければなりません',
         importDone: 'インポートが完了しました: {success} 成功、{failed} 失敗',
-        parseFailed: 'CSV の解析に失敗しました。ファイル形式を確認してください。',
+        parseFailed: 'CSV の解析に失敗しました。ファイル形式を確認してください。'
       },
       testing: {
         title: 'テスト例',
-        description: '新しいモジュールにコピーできる、単体テストと e2e テスト用の推奨テンプレートを提供します。',
-        alertMessage: 'Vitest / Playwright の依存関係はまだインストールされていません。このページでは、構造と例を示します。',
+        description:
+          '新しいモジュールにコピーできる、単体テストと e2e テスト用の推奨テンプレートを提供します。',
+        alertMessage:
+          'Vitest / Playwright の依存関係はまだインストールされていません。このページでは、構造と例を示します。',
         unitTestTitle: '単体テスト テンプレート (Vitest)',
         e2eTestTitle: 'エンドツーエンドのテスト テンプレート (Playwright)',
         implementationTitle: '実装シーケンス',
@@ -1012,11 +1040,13 @@ export default {
         step2Title: '次に、e2e テストを追加します',
         step2Description: 'ログイン、検索、リスト操作などの重要なユーザー パスをカバーします。',
         step3Title: 'CIとの統合',
-        step3Description: 'タイプチェック + ユニット + e2e をパイプラインにチェーンし、マージ前に自動的に実行します。',
+        step3Description:
+          'タイプチェック + ユニット + e2e をパイプラインにチェーンし、マージ前に自動的に実行します。'
       },
       proTableAdvanced: {
         title: 'ProTable の高度な例',
-        description: 'サーバーサイドのページネーションシミュレーション + バッチ操作 + インライン編集 + エクスポート',
+        description:
+          'サーバーサイドのページネーションシミュレーション + バッチ操作 + インライン編集 + エクスポート',
         selectedCount: '{count} 項目が選択されました',
         batchDisable: '一括無効化',
         batchDelete: '一括削除',
@@ -1037,11 +1067,12 @@ export default {
         batchDeleteTitle: '一括削除の確認',
         batchDeleteContent: '選択した {count} 行を削除しますか?',
         batchDeleteSuccess: '一括削除が完了しました',
-        exportSuccess: 'CSV が正常にエクスポートされました',
+        exportSuccess: 'CSV が正常にエクスポートされました'
       },
       complexForm: {
         title: '複雑なフォームの例',
-        description: 'ステップフォーム + 動的ポリシールール + 非同期検証 + ドラフト保存 + サーバー側フィールドエラーマッピング。',
+        description:
+          'ステップフォーム + 動的ポリシールール + 非同期検証 + ドラフト保存 + サーバー側フィールドエラーマッピング。',
         step1Title: '基本情報',
         step2Title: 'ポリシーの構成',
         step3Title: '設定の公開',
@@ -1080,13 +1111,15 @@ export default {
         saveDraftButton: 'ドラフトの保存',
         resetButton: 'リセット',
         draftSaved: '下書きが保存されました',
-        serverValidationError: 'サーバー検証に失敗しました: プロジェクト名に「fail」を含めることはできません',
+        serverValidationError:
+          'サーバー検証に失敗しました: プロジェクト名に「fail」を含めることはできません',
         submitFailed: '送信失敗、サーバーフィールドエラーがマップされました',
-        submitSuccess: '送信成功',
+        submitSuccess: '送信成功'
       },
       advancedFilter: {
         title: '高度なフィルター ビルダーの例',
-        description: '視覚的な条件 (AND/OR) を使用してフィルター ルールを構築し、再利用可能なフィルター スキームを保存します。',
+        description:
+          '視覚的な条件 (AND/OR) を使用してフィルター ルールを構築し、再利用可能なフィルター スキームを保存します。',
         tips: 'ほとんどのリスト フィルタリング シナリオで、文字列、列挙型、数値、および日付フィールドをサポートします。',
         addCondition: '条件の追加',
         saveScheme: 'スキームの保存',
@@ -1117,12 +1150,14 @@ export default {
         opLte: '以下または同等',
         opBetween: '間',
         opBefore: '前に',
-        opAfter: '後',
+        opAfter: '後'
       },
       virtualTable: {
         title: '仮想スクロールテーブルの例',
-        description: 'ネイティブの a-table 仮想スクロールを使用した大規模なデータ セットのスムーズなレンダリングを示します。',
-        tipsNativeVirtual: 'antdv-next ネイティブ a-table + virtual で構築されているため、追加の仮想リスト ライブラリは必要ありません。',
+        description:
+          'ネイティブの a-table 仮想スクロールを使用した大規模なデータ セットのスムーズなレンダリングを示します。',
+        tipsNativeVirtual:
+          'antdv-next ネイティブ a-table + virtual で構築されているため、追加の仮想リスト ライブラリは必要ありません。',
         datasetSize: 'データセットのサイズ',
         regenerate: 'データの再生成',
         regenerateSuccess: '{count} 行が生成されました',
@@ -1130,7 +1165,8 @@ export default {
         allStatus: 'すべてのステータス',
         totalRows: '合計 {count}',
         filteredRows: 'フィルタリング済み {count}',
-        renderedRowsTip: 'スクロールをスムーズにするために、表示されている行のみがレンダリングされます。',
+        renderedRowsTip:
+          'スクロールをスムーズにするために、表示されている行のみがレンダリングされます。',
         statusActive: 'アクティブ',
         statusInactive: '非アクティブ',
         statusPending: '保留中',
@@ -1139,11 +1175,12 @@ export default {
         colEmail: '電子メール',
         colDepartment: '部門',
         colStatus: '状態',
-        colUpdatedAt: '更新日',
+        colUpdatedAt: '更新日'
       },
       masterDetail: {
         title: 'マスター/詳細の例',
-        description: 'チケットのマスター/スレーブ ページをシミュレートします。左側のリストから選択し、右側のドロワーに詳細と操作履歴を表示します。',
+        description:
+          'チケットのマスター/スレーブ ページをシミュレートします。左側のリストから選択し、右側のドロワーに詳細と操作履歴を表示します。',
         drawerTitle: 'チケット詳細',
         ticketNumber: 'チケット番号',
         titleLabel: 'タイトル',
@@ -1158,7 +1195,8 @@ export default {
         ticketTitle: '注文リスク アラート #{index}',
         ownerZhang: '張',
         ownerLi: '李',
-        ticketDescription: 'これは、背景情報、影響範囲、推奨されるアクションを含む、チケット {index} の詳細な説明です。',
+        ticketDescription:
+          'これは、背景情報、影響範囲、推奨されるアクションを含む、チケット {index} の詳細な説明です。',
         actionCreate: 'チケットの作成',
         operatorSystem: 'システム',
         actionAssign: '所有者の割り当て',
@@ -1168,11 +1206,12 @@ export default {
         colOwner: '所有者',
         colPriority: '優先度',
         colStatus: '状態',
-        colCreatedAt: '作成日',
+        colCreatedAt: '作成日'
       },
       rbac: {
         title: 'RBAC フルチェーンの例',
-        description: 'ページ権限、ボタン権限、フィールド権限、API 権限の 4 つの側面をカバーします。管理者とユーザーを切り替えて違いを観察します。',
+        description:
+          'ページ権限、ボタン権限、フィールド権限、API 権限の 4 つの側面をカバーします。管理者とユーザーを切り替えて違いを観察します。',
         currentSession: '現在のセッション',
         accountInfo: 'アカウント: {username} |役割: {role}',
         switchToAdmin: '管理者に切り替える',
@@ -1188,7 +1227,8 @@ export default {
         createUserButton: 'ユーザーの作成',
         editUserButton: 'ユーザーの編集',
         deleteUserButton: 'ユーザーの削除',
-        buttonPermissionHint: 'ヒント: ボタンのレンダリングは PermissionButton によって制御されます',
+        buttonPermissionHint:
+          'ヒント: ボタンのレンダリングは PermissionButton によって制御されます',
         section3Title: '3. フィールド許可（マスキング）',
         phoneLabel: '電話：',
         emailLabel: '電子メール:',
@@ -1205,11 +1245,12 @@ export default {
         missingPermission: '403: 権限がありません {permission}',
         apiSuccess: '{action} 成功しました',
         apiFailed: '{action} 失敗しました: {error}',
-        noPermission: '許可がありません',
+        noPermission: '許可がありません'
       },
       observability: {
         title: '可観測性と例外の例',
-        description: 'エラー分類、ログ記録、およびワンクリック再試行による、ロード状態、空状態、およびエラー状態の統合処理。',
+        description:
+          'エラー分類、ログ記録、およびワンクリック再試行による、ロード状態、空状態、およびエラー状態の統合処理。',
         simulateSuccess: '成功をシミュレートする',
         simulateEmpty: '空のシミュレート',
         simulateNetwork: 'ネットワークエラーをシミュレートする',
@@ -1225,20 +1266,23 @@ export default {
         authError: '認証エラー',
         businessError: '業務上のミス',
         noEvents: 'まだイベントはありません',
-        errorNetwork: 'NetworkError: リクエストがタイムアウトしました。ネットワーク接続を確認してください。',
+        errorNetwork:
+          'NetworkError: リクエストがタイムアウトしました。ネットワーク接続を確認してください。',
         errorAuth: 'AuthError: トークンの有効期限が切れたので、再ログインする必要があります',
         errorBusiness: 'BusinessError: ルール設定の競合のため、計算できません',
         eventStart: 'シナリオのシミュレーションを開始: {scenario}',
         eventEmpty: 'リクエストは成功しましたが、空のデータが返されました',
         eventSuccess: 'リクエストが成功して返されたデータ',
         unknownError: '不明なエラー',
-        eventError: 'リクエストが失敗しました ({type}): {message}',
+        eventError: 'リクエストが失敗しました ({type}): {message}'
       },
       requestAuth: {
         title: 'リクエストと認証のループの例',
-        description: '同時リクエストによって 401 がトリガーされた場合のキューに入れられたリフレッシュ メカニズムと、リフレッシュ失敗後の再ログインへのフォールバックを示します。',
+        description:
+          '同時リクエストによって 401 がトリガーされた場合のキューに入れられたリフレッシュ メカニズムと、リフレッシュ失敗後の再ログインへのフォールバックを示します。',
         refreshFailedAlert: '更新に失敗し、再ログイン状態になりました',
-        refreshFailedDesc: '後続のリクエストは失敗し続けます。新しいリクエストを行うには、「セッションをリセット」をクリックしてください。',
+        refreshFailedDesc:
+          '後続のリクエストは失敗し続けます。新しいリクエストを行うには、「セッションをリセット」をクリックしてください。',
         accessToken: 'アクセストークン',
         refreshToken: 'リフレッシュトークン',
         refreshStatus: 'ステータスの更新',
@@ -1256,7 +1300,8 @@ export default {
         tokenExpired: '[{apiName}] トークンの有効期限が切れました',
         apiSuccess: '[{apiName}] リクエストが成功しました',
         refreshTokenInvalid: 'リフレッシュトークンが無効です',
-        logRefreshStart: 'トークンのリフレッシュをトリガーします (最初の 401 リクエストのみが実行されます)',
+        logRefreshStart:
+          'トークンのリフレッシュをトリガーします (最初の 401 リクエストのみが実行されます)',
         logRefreshSuccess: 'トークンの更新が成功し、キューに入れられたリクエストが解放されました',
         logRefreshFailed: 'トークンの更新に失敗しました: {message}、再ログイン状態に入ります',
         logQueueWait: '進行中の更新が検出され、リクエストがキューに入れられました',
@@ -1269,8 +1314,8 @@ export default {
         concurrentPartialFail: '同時リクエストは完了しましたが、{count} は失敗しました',
         concurrentAllSuccess: 'すべての同時リクエストが成功しました',
         logRefreshWillFail: '次回の更新は強制的に失敗します',
-        refreshFailTriggered: 'リフレッシュ失敗シナリオがトリガーされました',
-      },
+        refreshFailTriggered: 'リフレッシュ失敗シナリオがトリガーされました'
+      }
     },
     jsonInput: {
       title: 'JSON入力例',
@@ -1300,17 +1345,19 @@ export default {
       language: '言語',
       nestedData: 'ネストされたデータ構造',
       emptyObject: '空のオブジェクト (新規作成)',
-      createNew: '新しい構成の作成',
+      createNew: '新しい構成の作成'
     },
     i18nInput: {
-      description: '多言語コンテンツ編集をサポートする国際化された入力コンポーネント。 JsonInput の上に構築されており、システムでサポートされている言語に基づいてフォーム フィールドが自動的に生成されます。',
+      description:
+        '多言語コンテンツ編集をサポートする国際化された入力コンポーネント。 JsonInput の上に構築されており、システムでサポートされている言語に基づいてフォーム フィールドが自動的に生成されます。',
       productName: '製品名（多言語対応）',
       productDescription: '製品説明（多言語）',
       editProductName: '製品名の編集',
       editProductDesc: '製品説明の編集',
       clickToEdit: 'クリックして多言語コンテンツを編集します',
       stringFormat: '文字列形式の値',
-      stringFormatHint: '文字列形式の JSON をサポートし、コンポーネントは自動的に解析してシリアル化します。',
+      stringFormatHint:
+        '文字列形式の JSON をサポートし、コンポーネントは自動的に解析してシリアル化します。',
       currentLocale: '表示ロケールの指定',
       currentLocaleHint: 'ロケールプロパティを使用して、入力に表示する言語値を指定します',
       emptyValue: '空の値 (自動初期化)',
@@ -1319,7 +1366,7 @@ export default {
       showAsString: '文字列として表示',
       showAsObject: 'オブジェクトとして表示',
       stringValue: '文字列フォーマット',
-      objectValue: 'オブジェクト形式',
-    },
-  },
+      objectValue: 'オブジェクト形式'
+    }
+  }
 }

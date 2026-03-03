@@ -17,6 +17,7 @@ node scripts/generator/index.js generate --name=Product --module=business
 ```
 
 This will generate:
+
 - `src/views/business/product/index.vue` - List view with ProTable
 - `src/api/product.ts` - API functions
 - `src/stores/product.ts` - Pinia store
@@ -40,10 +41,10 @@ node scripts/generator/index.js list-templates
 
 ## Templates
 
-| Template | Description |
-|----------|-------------|
-| `simple-list` | Basic CRUD table with search and pagination |
-| `complex-form` | Multi-step or dynamic form with validation |
+| Template        | Description                                     |
+| --------------- | ----------------------------------------------- |
+| `simple-list`   | Basic CRUD table with search and pagination     |
+| `complex-form`  | Multi-step or dynamic form with validation      |
 | `master-detail` | Split layout with master table and detail panel |
 
 ## Generated File Structure

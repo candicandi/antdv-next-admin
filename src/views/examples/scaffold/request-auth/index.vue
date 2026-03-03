@@ -15,7 +15,7 @@ interface SessionState {
   refreshToken: string
 }
 
-const logs = ref<Array<{ id: number, time: string, level: LogLevel, text: string }>>([])
+const logs = ref<Array<{ id: number; time: string; level: LogLevel; text: string }>>([])
 const accessToken = ref('expired-token')
 const refreshToken = ref('refresh-token-demo')
 const refreshing = ref(false)
@@ -32,7 +32,7 @@ function pushLog(text: string, level: LogLevel = 'info') {
     id: ++logId,
     time: now(),
     level,
-    text,
+    text
   })
 
   if (logs.value.length > 80) {
@@ -46,15 +46,14 @@ async function mockProtectedApi(apiName: string) {
   await delay(280 + Math.round(Math.random() * 320))
 
   if (!accessToken.value || accessToken.value.startsWith('expired')) {
-    throw Object.assign(
-      new Error($t('examples.scaffold.requestAuth.tokenExpired', { apiName })),
-      { status: 401 },
-    ) as RequestError
+    throw Object.assign(new Error($t('examples.scaffold.requestAuth.tokenExpired', { apiName })), {
+      status: 401
+    }) as RequestError
   }
 
   return {
     code: 200,
-    message: $t('examples.scaffold.requestAuth.apiSuccess', { apiName }),
+    message: $t('examples.scaffold.requestAuth.apiSuccess', { apiName })
   }
 }
 
@@ -65,7 +64,7 @@ async function mockRefreshApi() {
     failNextRefresh = false
     throw {
       status: 401,
-      message: $t('examples.scaffold.requestAuth.refreshTokenInvalid'),
+      message: $t('examples.scaffold.requestAuth.refreshTokenInvalid')
     } as RequestError
   }
 
@@ -74,8 +73,8 @@ async function mockRefreshApi() {
     code: 200,
     data: {
       token: nextToken,
-      refreshToken: refreshToken.value,
-    },
+      refreshToken: refreshToken.value
+    }
   }
 }
 
@@ -90,20 +89,20 @@ async function ensureTokenRefreshed() {
         reloginRequired.value = false
         pushLog($t('examples.scaffold.requestAuth.logRefreshSuccess'), 'success')
         return result.data.token
-      }
-      catch (error: any) {
+      } catch (error: any) {
         accessToken.value = ''
         reloginRequired.value = true
-        pushLog($t('examples.scaffold.requestAuth.logRefreshFailed', { message: error.message }), 'error')
+        pushLog(
+          $t('examples.scaffold.requestAuth.logRefreshFailed', { message: error.message }),
+          'error'
+        )
         throw error
-      }
-      finally {
+      } finally {
         refreshing.value = false
         refreshPromise = null
       }
     })()
-  }
-  else {
+  } else {
     pushLog($t('examples.scaffold.requestAuth.logQueueWait'))
   }
 
@@ -115,10 +114,12 @@ async function requestWithAutoRefresh(apiName: string) {
     const result = await mockProtectedApi(apiName)
     pushLog(result.message, 'success')
     return result
-  }
-  catch (error: any) {
+  } catch (error: any) {
     if (error.status !== 401) {
-      pushLog($t('examples.scaffold.requestAuth.logNon401Error', { apiName, message: error.message }), 'error')
+      pushLog(
+        $t('examples.scaffold.requestAuth.logNon401Error', { apiName, message: error.message }),
+        'error'
+      )
       throw error
     }
 
@@ -140,7 +141,7 @@ function expireAccessToken() {
 function resetSession() {
   const session: SessionState = {
     accessToken: 'expired-token',
-    refreshToken: 'refresh-token-demo',
+    refreshToken: 'refresh-token-demo'
   }
 
   accessToken.value = session.accessToken
@@ -153,8 +154,7 @@ function resetSession() {
 async function handleSingleRequest() {
   try {
     await requestWithAutoRefresh('single')
-  }
-  catch {
+  } catch {
     message.error($t('examples.scaffold.requestAuth.singleRequestFailed'))
   }
 }
@@ -163,14 +163,15 @@ async function handleConcurrentRequest() {
   pushLog($t('examples.scaffold.requestAuth.logConcurrentStart'))
 
   const results = await Promise.allSettled(
-    Array.from({ length: 5 }, (_, index) => requestWithAutoRefresh(`parallel-${index + 1}`)),
+    Array.from({ length: 5 }, (_, index) => requestWithAutoRefresh(`parallel-${index + 1}`))
   )
 
   const failedCount = results.filter(item => item.status === 'rejected').length
   if (failedCount > 0) {
-    message.warning($t('examples.scaffold.requestAuth.concurrentPartialFail', { count: failedCount }))
-  }
-  else {
+    message.warning(
+      $t('examples.scaffold.requestAuth.concurrentPartialFail', { count: failedCount })
+    )
+  } else {
     message.success($t('examples.scaffold.requestAuth.concurrentAllSuccess'))
   }
 }
@@ -182,8 +183,7 @@ async function handleRefreshFailScenario() {
 
   try {
     await requestWithAutoRefresh('refresh-fail-case')
-  }
-  catch {
+  } catch {
     message.error($t('examples.scaffold.requestAuth.refreshFailTriggered'))
   }
 }
@@ -218,7 +218,11 @@ async function handleRefreshFailScenario() {
         <div class="status-item">
           <span class="label">{{ $t('examples.scaffold.requestAuth.refreshStatus') }}</span>
           <a-tag :color="refreshing ? 'processing' : 'default'">
-            {{ refreshing ? $t('examples.scaffold.requestAuth.refreshing') : $t('examples.scaffold.requestAuth.idle') }}
+            {{
+              refreshing
+                ? $t('examples.scaffold.requestAuth.refreshing')
+                : $t('examples.scaffold.requestAuth.idle')
+            }}
           </a-tag>
         </div>
       </div>

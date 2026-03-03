@@ -1,114 +1,21 @@
-import { defineMock } from 'vite-plugin-mock-dev-server'
-import { faker } from '@faker-js/faker'
-
-// Mock data storage
-let mockData = Array.from({ length: 35 }, (_, index) => ({
-  id: faker.string.uuid(),
-  name: faker.person.fullName(),
-  status: faker.helpers.arrayElement(['active', 'inactive']),
-  createdAt: faker.date.past().toISOString(),
-  updatedAt: faker.date.recent().toISOString()
-}))
-
-export default defineMock([
-  {
-    url: '{{apiPrefix}}/{{lowerName}}s',
-    method: 'GET',
-    body({ query }) {
-      const { page = 1, pageSize = 10, keyword } = query
-      
-      let list = [...mockData]
-      
-      // Filter by keyword
-      if (keyword) {
-        list = list.filter(item => 
-          item.name.toLowerCase().includes(keyword.toLowerCase())
-        )
-      }
-      
-      // Pagination
-      const total = list.length
-      const start = (Number(page) - 1) * Number(pageSize)
-      const end = start + Number(pageSize)
-      list = list.slice(start, end)
-      
-      return {
-        code: 200,
-        message: 'Success',
-        data: {
-          list,
-          total
-        },
-        success: true
-      }
-    }
-  },
-  
-  {
-    url: '{{apiPrefix}}/{{lowerName}}s/:id',
-    method: 'GET',
-    body({ params }) {
-      const item = mockData.find(d => d.id === params.id)
-      return {
-        code: 200,
-        message: 'Success',
-        data: item,
-        success: true
-      }
-    }
-  },
-  
-  {
-    url: '{{apiPrefix}}/{{lowerName}}s',
-    method: 'POST',
-    body({ body }) {
-      const newItem = {
-        id: faker.string.uuid(),
-        ...body,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      }
-      mockData.unshift(newItem)
-      return {
-        code: 200,
-        message: 'Success',
-        data: newItem,
-        success: true
-      }
-    }
-  },
-  
-  {
-    url: '{{apiPrefix}}/{{lowerName}}s/:id',
-    method: 'PUT',
-    body({ params, body }) {
-      const index = mockData.findIndex(d => d.id === params.id)
-      if (index > -1) {
-        mockData[index] = {
-          ...mockData[index],
-          ...body,
-          updatedAt: new Date().toISOString()
-        }
-      }
-      return {
-        code: 200,
-        message: 'Success',
-        data: mockData[index],
-        success: true
-      }
-    }
-  },
-  
-  {
-    url: '{{apiPrefix}}/{{lowerName}}s/:id',
-    method: 'DELETE',
-    body({ params }) {
-      mockData = mockData.filter(d => d.id !== params.id)
-      return {
-        code: 200,
-        message: 'Success',
-        success: true
-      }
-    }
-  }
-])
+import { defineMock } from 'vite-plugin-mock-dev-server' import { faker } from '@faker-js/faker' //
+Mock data storage let mockData = Array.from({ length: 35 }, (_, index) => ({ id:
+faker.string.uuid(), name: faker.person.fullName(), status: faker.helpers.arrayElement(['active',
+'inactive']), createdAt: faker.date.past().toISOString(), updatedAt:
+faker.date.recent().toISOString() })) export default defineMock([ { url: '{{apiPrefix}}/{{lowerName}}s',
+method: 'GET', body({ query }) { const { page = 1, pageSize = 10, keyword } = query let list =
+[...mockData] // Filter by keyword if (keyword) { list = list.filter(item =>
+item.name.toLowerCase().includes(keyword.toLowerCase()) ) } // Pagination const total = list.length
+const start = (Number(page) - 1) * Number(pageSize) const end = start + Number(pageSize) list =
+list.slice(start, end) return { code: 200, message: 'Success', data: { list, total }, success: true
+} } }, { url: '{{apiPrefix}}/{{lowerName}}s/:id', method: 'GET', body({ params }) { const item =
+mockData.find(d => d.id === params.id) return { code: 200, message: 'Success', data: item, success:
+true } } }, { url: '{{apiPrefix}}/{{lowerName}}s', method: 'POST', body({ body }) { const newItem =
+{ id: faker.string.uuid(), ...body, createdAt: new Date().toISOString(), updatedAt: new
+Date().toISOString() } mockData.unshift(newItem) return { code: 200, message: 'Success', data:
+newItem, success: true } } }, { url: '{{apiPrefix}}/{{lowerName}}s/:id', method: 'PUT', body({
+params, body }) { const index = mockData.findIndex(d => d.id === params.id) if (index > -1) {
+mockData[index] = { ...mockData[index], ...body, updatedAt: new Date().toISOString() } } return {
+code: 200, message: 'Success', data: mockData[index], success: true } } }, { url: '{{apiPrefix}}/{{lowerName}}s/:id',
+method: 'DELETE', body({ params }) { mockData = mockData.filter(d => d.id !== params.id) return {
+code: 200, message: 'Success', success: true } } } ])

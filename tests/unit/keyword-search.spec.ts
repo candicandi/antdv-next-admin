@@ -8,11 +8,7 @@
 import { describe, expect, it } from 'vitest'
 
 function splitKeywords(keyword: string) {
-  return keyword
-    .trim()
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean)
+  return keyword.trim().toLowerCase().split(/\s+/).filter(Boolean)
 }
 
 function includesKeywords(text: string, keyword: string) {

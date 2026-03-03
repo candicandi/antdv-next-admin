@@ -15,12 +15,12 @@ const props = withDefaults(defineProps<Props>(), {
   layout: () => ({
     labelCol: { span: 6 },
     wrapperCol: { span: 18 },
-    layout: 'horizontal',
+    layout: 'horizontal'
   }),
   grid: () => ({
     gutter: 16,
-    cols: 1,
-  }),
+    cols: 1
+  })
 })
 
 const emit = defineEmits(['submit', 'valuesChange', 'finish'])
@@ -30,23 +30,22 @@ const formData = ref<Record<string, any>>({})
 
 // Computed
 const visibleFormItems = computed(() => {
-  return props.formItems.filter((item) => {
-    if (typeof item.hidden === 'function')
-      return !item.hidden(formData.value)
+  return props.formItems.filter(item => {
+    if (typeof item.hidden === 'function') return !item.hidden(formData.value)
     return !item.hidden
   })
 })
 
 const formRules = computed(() => {
   const rules: Record<string, any> = {}
-  props.formItems.forEach((item) => {
+  props.formItems.forEach(item => {
     const itemRules = []
 
     // 如果字段标记为 required，自动添加 required 规则
     if (item.required) {
       itemRules.push({
         required: true,
-        message: $t('proForm.enterPlaceholder', { label: String(item.label ?? '') }),
+        message: $t('proForm.enterPlaceholder', { label: String(item.label ?? '') })
       })
     }
 
@@ -78,21 +77,21 @@ function handleFinish(values: any) {
 // Watch initial values
 watch(
   () => props.initialValues,
-  (values) => {
+  values => {
     if (values) {
       formData.value = { ...values }
     }
   },
-  { immediate: true, deep: true },
+  { immediate: true, deep: true }
 )
 
 // Watch form data changes
 watch(
   formData,
-  (values) => {
+  values => {
     emit('valuesChange', values)
   },
-  { deep: true },
+  { deep: true }
 )
 
 // Expose methods
@@ -100,8 +99,7 @@ async function validate() {
   try {
     await formRef.value?.validate()
     return true
-  }
-  catch {
+  } catch {
     return false
   }
 }
@@ -123,7 +121,7 @@ defineExpose({
   resetFields,
   setFieldsValue,
   getFieldsValue,
-  formRef,
+  formRef
 })
 </script>
 
@@ -137,11 +135,7 @@ defineExpose({
     @finish="handleFinish"
   >
     <a-row :gutter="grid?.gutter || 16">
-      <a-col
-        v-for="item in visibleFormItems"
-        :key="item.name"
-        :span="getColSpan(item)"
-      >
+      <a-col v-for="item in visibleFormItems" :key="item.name" :span="getColSpan(item)">
         <a-form-item
           :name="item.name"
           :label="item.label"
@@ -150,11 +144,7 @@ defineExpose({
           :value-prop-name="item.valuePropName || 'value'"
           :class="{ 'form-item-required': item.required }"
         >
-          <FormItemRender
-            v-model:value="formData[item.name]"
-            :item="item"
-            :form-data="formData"
-          />
+          <FormItemRender v-model:value="formData[item.name]" :item="item" :form-data="formData" />
         </a-form-item>
       </a-col>
     </a-row>

@@ -1,5 +1,5 @@
 export default {
-  'common': {
+  common: {
     appName: 'Antdv Next Admin',
     add: 'Add',
     edit: 'Edit',
@@ -69,10 +69,10 @@ export default {
     typeTags: 'Tags',
     typeArray: 'Array',
     typeObject: 'Object',
-    searchLabel: 'Search {label}',
+    searchLabel: 'Search {label}'
   },
 
-  'menu': {
+  menu: {
     dashboard: 'Dashboard',
     organization: 'Organization',
     system: 'System',
@@ -120,10 +120,10 @@ export default {
     exception404: '404',
     exception500: '500',
     profile: 'Profile',
-    about: 'About',
+    about: 'About'
   },
 
-  'layout': {
+  layout: {
     logout: 'Logout',
     logoutConfirm: 'Are you sure you want to logout?',
     profile: 'Profile',
@@ -160,12 +160,13 @@ export default {
     aiActionSummary: 'Summarize current data',
     aiActionRisk: 'Identify potential risks',
     aiActionNextStep: 'Suggest next steps',
-    aiDemoReply: 'Request received. I am generating suggestions based on the "{page}" page context.',
+    aiDemoReply:
+      'Request received. I am generating suggestions based on the "{page}" page context.',
     languages: {
       zhCN: 'Simplified Chinese',
       enUS: 'English',
       jaJP: 'Japanese',
-      koKR: 'Korean',
+      koKR: 'Korean'
     },
     tabs: {
       refresh: 'Refresh',
@@ -178,11 +179,11 @@ export default {
       closeAll: 'Close All',
       closeLeft: 'Close Left',
       closeRight: 'Close Right',
-      moreActions: 'More Tab Actions',
-    },
+      moreActions: 'More Tab Actions'
+    }
   },
 
-  'settings': {
+  settings: {
     title: 'Preferences',
     themeColor: 'Theme Color',
     sidebarTheme: 'Sidebar Theme',
@@ -215,18 +216,18 @@ export default {
       purple: 'Golden Purple',
       red: 'Dust Red',
       orange: 'Sunset Orange',
-      cyan: 'Cyan',
-    },
+      cyan: 'Cyan'
+    }
   },
 
-  'login': {
+  login: {
     title: 'User Login',
     username: 'Username',
     password: 'Password',
     remember: 'Remember me',
     login: 'Login',
     forgotPassword: 'Forgot password',
-    noAccount: 'Don\'t have an account?',
+    noAccount: "Don't have an account?",
     register: 'Register now',
     usernamePlaceholder: 'Please enter username',
     passwordPlaceholder: 'Please enter password',
@@ -235,10 +236,10 @@ export default {
     loginSuccess: 'Login successful',
     loginFailed: 'Login failed',
     slideToVerify: 'Slide to verify',
-    verifySuccess: 'Verified',
+    verifySuccess: 'Verified'
   },
 
-  'dashboard': {
+  dashboard: {
     welcome: 'Welcome Back',
     subtitle: 'Monitor your business metrics and system status in real time',
     systemStable: 'System Stable',
@@ -265,14 +266,14 @@ export default {
     activities: {
       permissionUpdated: 'Admin updated system menu permission settings',
       userCreated: 'Created user Sunny and assigned the operation role',
-      orderTaskDone: 'Today\'s order statistics task has completed',
-      riskPolicyReleased: 'Risk control strategy version has been released to production',
+      orderTaskDone: "Today's order statistics task has completed",
+      riskPolicyReleased: 'Risk control strategy version has been released to production'
     },
     activityTags: {
       system: 'System',
       user: 'User',
       task: 'Task',
-      release: 'Release',
+      release: 'Release'
     },
     months: {
       jan: 'Jan',
@@ -282,11 +283,11 @@ export default {
       may: 'May',
       jun: 'Jun',
       jul: 'Jul',
-      aug: 'Aug',
-    },
+      aug: 'Aug'
+    }
   },
 
-  'user': {
+  user: {
     title: 'User Management',
     username: 'Username',
     email: 'Email',
@@ -312,7 +313,7 @@ export default {
     updateSuccess: 'User updated successfully',
     createSuccess: 'User created successfully',
     resetPassword: 'Reset Password',
-    confirmResetPassword: 'Are you sure you want to reset this user\'s password?',
+    confirmResetPassword: "Are you sure you want to reset this user's password?",
     exportSuccess: 'Export successful',
     exportFailed: 'Export failed',
     importSuccess: 'Successfully imported {count} records',
@@ -327,10 +328,10 @@ export default {
     info: 'User Info',
     settings: 'Settings',
     theme: 'Theme',
-    language: 'Language',
+    language: 'Language'
   },
 
-  'role': {
+  role: {
     title: 'Role Management',
     name: 'Role Name',
     code: 'Role Code',
@@ -345,10 +346,10 @@ export default {
     codePattern: 'Role code only supports letters, numbers, underscores and hyphens',
     selectPermissions: 'Please select permissions',
     updateSuccess: 'Role updated successfully',
-    createSuccess: 'Role created successfully',
+    createSuccess: 'Role created successfully'
   },
 
-  'permission': {
+  permission: {
     title: 'Menu Management',
     name: 'Menu Name',
     code: 'Permission Code',
@@ -380,10 +381,10 @@ export default {
     iconPlaceholder: 'e.g. UserOutlined',
     visibleStatus: 'Visibility',
     updateSuccess: 'Menu updated successfully',
-    createSuccess: 'Menu created successfully',
+    createSuccess: 'Menu created successfully'
   },
 
-  'dict': {
+  dict: {
     title: 'Dictionary',
     dictType: 'Dictionary Type',
     dictData: 'Dictionary Data',
@@ -420,41 +421,42 @@ export default {
     loadTypeFailed: 'Failed to load dictionary types',
     loadDataFailed: 'Failed to load dictionary data',
     dictDataTitle: 'Dictionary Data - {name}',
-    confirmDelete: 'Confirm Delete',
+    confirmDelete: 'Confirm Delete'
   },
 
-  'table': {
+  table: {
     title: 'Table Example',
     total: 'Total {total} items',
     page: 'Page {page}',
     pageSize: '{size} items per page',
-    goTo: 'Go to',
+    goTo: 'Go to'
   },
 
-  'form': {
+  form: {
     title: 'Form Example',
     basicInfo: 'Basic Information',
     advancedInfo: 'Advanced Information',
     submit: 'Submit',
     reset: 'Reset',
     validateSuccess: 'Validation passed',
-    validateFailed: 'Validation failed',
+    validateFailed: 'Validation failed'
   },
 
-  'exampleTable': {
+  exampleTable: {
     userList: 'User List',
     subTitle: 'ProTable Example',
     createUser: 'Create User',
     editUser: 'Edit User',
     deleteSuccess: 'Deleted successfully',
     updateSuccess: 'Updated successfully',
-    createSuccess: 'Created successfully',
+    createSuccess: 'Created successfully'
   },
 
-  'notificationCenter': {
+  notificationCenter: {
     kicker: 'Notification Hub',
     title: 'Notification Center',
-    subtitle: 'Track system updates, messages, and task outcomes in one place with fast filtering and detail tracing.',
+    subtitle:
+      'Track system updates, messages, and task outcomes in one place with fast filtering and detail tracing.',
     searchPlaceholder: 'Search notifications by title or content',
     listTitle: 'Notification List',
     listSubtitle: '{count} notifications matched',
@@ -462,7 +464,7 @@ export default {
     metrics: {
       total: 'Total Notifications',
       unread: 'Unread',
-      today: 'Today',
+      today: 'Today'
     },
     filters: {
       allStatus: 'All Status',
@@ -473,41 +475,43 @@ export default {
       message: 'Message',
       security: 'Security Alert',
       task: 'Task Done',
-      error: 'Error Alert',
+      error: 'Error Alert'
     },
     status: {
       read: 'Read',
-      unread: 'Unread',
+      unread: 'Unread'
     },
     meta: {
       type: 'Type',
-      receivedAt: 'Received At',
+      receivedAt: 'Received At'
     },
     actions: {
       markAsRead: 'Mark as read',
       openRelated: 'Open related page',
-      delete: 'Delete notification',
+      delete: 'Delete notification'
     },
     placeholder: {
       title: 'Select a notification to view details',
-      desc: 'Choose an item from the list on the left to see full content and related actions here.',
-    },
+      desc: 'Choose an item from the list on the left to see full content and related actions here.'
+    }
   },
 
-  'exampleCaptcha': {
+  exampleCaptcha: {
     title: 'Captcha Component Example',
-    description: 'Common frontend captcha interaction components with customizable styles and callbacks.',
+    description:
+      'Common frontend captcha interaction components with customizable styles and callbacks.',
     slider: 'Slider Captcha',
     rotate: 'Rotate Captcha',
     puzzle: 'Puzzle Captcha',
     point: 'Point Captcha',
     success: 'Verification passed!',
-    fail: 'Verification failed, please retry',
+    fail: 'Verification failed, please retry'
   },
 
-  'exampleSpin': {
+  exampleSpin: {
     title: 'Spin Example',
-    description: 'Demonstrates various usages of the Spin component including basic loading, sizes, custom indicators, progress, delay and fullscreen.',
+    description:
+      'Demonstrates various usages of the Spin component including basic loading, sizes, custom indicators, progress, delay and fullscreen.',
     basic: 'Basic & Sizes',
     tip: 'Custom Tip',
     nested: 'Card Loading',
@@ -517,12 +521,13 @@ export default {
     customStyle: 'Custom Style',
     fullscreen: 'Fullscreen',
     showFullscreen: 'Show Fullscreen',
-    loadingState: 'Loading state:',
+    loadingState: 'Loading state:'
   },
 
-  'exampleEditor': {
+  exampleEditor: {
     title: 'Rich Text Editor Example',
-    description: 'A rich text editor based on Tiptap, supporting image upload, link insertion, formatting and more.',
+    description:
+      'A rich text editor based on Tiptap, supporting image upload, link insertion, formatting and more.',
     basicUsage: 'Basic Usage',
     placeholder: 'Enter content...',
     disabledState: 'Disabled State',
@@ -535,10 +540,10 @@ export default {
     loadDemo: 'Load Demo',
     savedMessage: 'Content saved',
     clearedMessage: 'Content cleared',
-    demoLoadedMessage: 'Demo content loaded',
+    demoLoadedMessage: 'Demo content loaded'
   },
 
-  'exampleForm': {
+  exampleForm: {
     description: 'Advanced ProForm example demonstrating various form controls',
     age: 'Age',
     ageRange: 'Age must be between 1 and 150',
@@ -551,24 +556,25 @@ export default {
     roles: {
       admin: 'Administrator',
       user: 'Regular User',
-      guest: 'Guest',
+      guest: 'Guest'
     },
     interestOptions: {
       reading: 'Reading',
       sports: 'Sports',
       music: 'Music',
-      travel: 'Travel',
-    },
+      travel: 'Travel'
+    }
   },
 
-  'exampleIcon': {
+  exampleIcon: {
     title: 'Icon Showcase',
     subtitle: 'Unified demo for Icon component and IconPicker',
     capabilities: 'Supports: local SVG, antdv-next icons, Iconify (offline sets + online search)',
     renderTitle: 'Three Render Modes',
     renderSubtitle: 'Click any sample to apply it to IconPicker below',
     pickerTitle: 'IconPicker Demo',
-    pickerSubtitle: 'Type 2+ chars to trigger online search; offline icon sets are available by category',
+    pickerSubtitle:
+      'Type 2+ chars to trigger online search; offline icon sets are available by category',
     modelLabel: 'Icon Value',
     previewLabel: 'Live Preview',
     copy: 'Copy Value',
@@ -588,17 +594,21 @@ export default {
     iconifyGuideTitle: 'How to use Iconify',
     guideStepSvg1: 'Inject <symbol id=\"...\"> definitions at app root (or layout root).',
     guideStepSvg2: 'Use Icon component with svg:icon-id, e.g. svg:icon-demo-orbit.',
-    guideStepSvg3: 'For IconPicker local SVG detection, place files under src/assets/icons and pass svgIcons.',
-    guideStepIconify1: 'Pass iconify names directly: ri:home-line / mdi:account / ion:apps-outline.',
-    guideStepIconify2: 'IconPicker includes offline sets (ri / mdi / ion), available without network.',
-    guideStepIconify3: 'In All/Online category, type keywords (at least 2 chars) to search Iconify online.',
+    guideStepSvg3:
+      'For IconPicker local SVG detection, place files under src/assets/icons and pass svgIcons.',
+    guideStepIconify1:
+      'Pass iconify names directly: ri:home-line / mdi:account / ion:apps-outline.',
+    guideStepIconify2:
+      'IconPicker includes offline sets (ri / mdi / ion), available without network.',
+    guideStepIconify3:
+      'In All/Online category, type keywords (at least 2 chars) to search Iconify online.',
     modeSvg: 'SVG Sprite',
     modeAntdv: 'antdv-next',
     modeIconify: 'Iconify',
-    sampleHint: 'Click to apply',
+    sampleHint: 'Click to apply'
   },
 
-  'exampleWatermark': {
+  exampleWatermark: {
     title: 'Watermark Example',
     description: 'Global watermark feature - configure and preview watermark effects in real time',
     enableGlobal: 'Enable Global Watermark',
@@ -609,12 +619,13 @@ export default {
     gapX: 'Horizontal Gap',
     gapY: 'Vertical Gap',
     preview: 'Local Preview',
-    previewText: 'This area is for previewing the watermark effect',
+    previewText: 'This area is for previewing the watermark effect'
   },
 
-  'exampleModal': {
+  exampleModal: {
     title: 'ProModal Demo',
-    description: 'An enhanced wrapper around antdv-next Modal with drag, fullscreen, edge resize and viewport constraints.',
+    description:
+      'An enhanced wrapper around antdv-next Modal with drag, fullscreen, edge resize and viewport constraints.',
     openDefault: 'Open Default Modal',
     openWide: 'Open Wide Modal',
     width: 'Modal Width',
@@ -628,25 +639,26 @@ export default {
     modalTitle: 'Draggable / Resizable ProModal',
     hint: 'Top-right actions provide fullscreen and close. Drag title to move. Drag edges/corners to resize.',
     contentTitle: 'Feature Demonstration',
-    contentDescription: 'The following long list is used to demonstrate scrolling and viewport boundary behavior.',
+    contentDescription:
+      'The following long list is used to demonstrate scrolling and viewport boundary behavior.',
     formKeyword: 'Keyword',
     formKeywordPlaceholder: 'Please enter keyword',
     formRemark: 'Remark',
     formRemarkPlaceholder: 'Please enter remark',
     rowText: 'Demo data row #{index}',
-    confirmSuccess: 'Confirmed successfully',
+    confirmSuccess: 'Confirmed successfully'
   },
 
-  'exampleException': {
+  exampleException: {
     '403title': '403',
     '403description': 'Sorry, you do not have permission to access this page',
     '404title': '404',
     '404description': 'Sorry, the page you visited does not exist',
     '500title': '500',
-    '500description': 'Sorry, the server is reporting an error',
+    '500description': 'Sorry, the server is reporting an error'
   },
 
-  'editor': {
+  editor: {
     insertLink: 'Insert Link',
     linkUrl: 'Link URL',
     linkText: 'Link Text',
@@ -656,23 +668,24 @@ export default {
     imageSizeLimit: 'Image size cannot exceed 5MB',
     imageInsertSuccess: 'Image inserted successfully',
     imageUploadFailed: 'Image upload failed',
-    enterLinkUrl: 'Please enter link URL',
+    enterLinkUrl: 'Please enter link URL'
   },
 
-  'iconPicker': {
+  iconPicker: {
     selectIcon: 'Select icon',
     searchPlaceholder: 'Search icon name...',
     onlineSearchFailed: 'Online search failed',
-    onlineSearchFailedDetail: 'Online search failed: {message}',
+    onlineSearchFailedDetail: 'Online search failed: {message}'
   },
 
-  'captcha': {
+  captcha: {
     clickInOrder: 'Click in order: ',
-    refresh: 'Refresh',
+    refresh: 'Refresh'
   },
 
-  'about': {
-    description: 'A modern admin framework built on Vue 3 + TypeScript + Ant Design Vue. Production-ready, feature-rich, and easy to extend.',
+  about: {
+    description:
+      'A modern admin framework built on Vue 3 + TypeScript + Ant Design Vue. Production-ready, feature-rich, and easy to extend.',
     projectInfo: 'Project Info',
     projectName: 'Project Name',
     version: 'Version',
@@ -697,29 +710,29 @@ export default {
     feature7: 'ProTable / ProForm Components',
     feature7Desc: 'Config-driven tables and forms covering common business scenarios',
     feature8: 'Mock Data Development Mode',
-    feature8Desc: 'Built-in mock system for parallel frontend and backend development',
+    feature8Desc: 'Built-in mock system for parallel frontend and backend development'
   },
 
-  'proForm': {
+  proForm: {
     enterPlaceholder: 'Please enter {label}',
     selectPlaceholder: 'Please select {label}',
-    uploadFile: 'Upload File',
+    uploadFile: 'Upload File'
   },
 
-  'proUpload': {
+  proUpload: {
     uploadFile: 'Upload File',
     uploadImage: 'Upload Image',
     dragHint: 'Click or drag file to this area to upload',
     fileSizeExceed: 'File size must not exceed {size}MB',
-    fileTypeNotAllowed: 'File type not allowed',
+    fileTypeNotAllowed: 'File type not allowed'
   },
 
-  'proStepForm': {
+  proStepForm: {
     prev: 'Previous',
-    next: 'Next',
+    next: 'Next'
   },
 
-  'proTable': {
+  proTable: {
     total: 'Total {total} items',
     density: 'Table Density',
     checkAll: 'Select All',
@@ -729,10 +742,10 @@ export default {
     densityLarge: 'Spacious',
     densityMiddle: 'Default',
     densitySmall: 'Compact',
-    loadDataFailed: 'Failed to load data',
+    loadDataFailed: 'Failed to load data'
   },
 
-  'profile': {
+  profile: {
     title: 'Profile',
     basicInfo: 'Basic Information',
     security: 'Security',
@@ -753,22 +766,23 @@ export default {
     passwordMinLength: 'Password must be at least 6 characters',
     passwordChangeSuccess: 'Password changed successfully',
     passwordChangeFailed: 'Failed to change password',
-    passwordTip: 'Tip: Password should be at least 6 characters, recommend including letters, numbers and special characters',
+    passwordTip:
+      'Tip: Password should be at least 6 characters, recommend including letters, numbers and special characters',
     updateSuccess: 'Update successful',
-    updateFailed: 'Update failed',
+    updateFailed: 'Update failed'
   },
 
-  'error': {
+  error: {
     404: 'Page Not Found',
     403: 'Access Forbidden',
     500: 'Server Error',
     backHome: 'Back to Home',
     pageNotFound: 'Sorry, the page you visited does not exist',
     noPermission: 'Sorry, you do not have permission to access this page',
-    serverError: 'Sorry, the server is reporting an error',
+    serverError: 'Sorry, the server is reporting an error'
   },
 
-  'validation': {
+  validation: {
     required: 'This field is required',
     email: 'Please enter a valid email address',
     phone: 'Please enter a valid phone number',
@@ -783,10 +797,10 @@ export default {
     pattern: 'Invalid format',
     usernamePattern: 'Username can only contain letters, numbers and underscores',
     passwordPattern: 'Password must be at least 8 characters and include letters and numbers',
-    confirmPassword: 'The two passwords do not match',
+    confirmPassword: 'The two passwords do not match'
   },
 
-  'dept': {
+  dept: {
     title: 'Department Management',
     organizationStructure: 'Organization',
     searchDept: 'Search department',
@@ -823,10 +837,10 @@ export default {
     pleaseEnterRemark: 'Please enter remark',
     loadDataFailed: 'Failed to load department data',
     createTime: 'Create Time',
-    updateTime: 'Update Time',
+    updateTime: 'Update Time'
   },
 
-  'config': {
+  config: {
     title: 'System Config',
     configGroups: 'Config Groups',
     configName: 'Config Name',
@@ -853,28 +867,28 @@ export default {
       string: 'String',
       number: 'Number',
       boolean: 'Boolean',
-      json: 'JSON',
+      json: 'JSON'
     },
     groups: {
       basic: 'Basic Config',
       security: 'Security Config',
       upload: 'Upload Config',
-      notification: 'Notification Config',
+      notification: 'Notification Config'
     },
     builtInTypes: {
       builtIn: 'Built-in',
-      custom: 'Custom',
+      custom: 'Custom'
     },
     placeholders: {
       configName: 'Please enter config name',
       configKey: 'e.g. site.name',
       configValue: 'Please enter config value',
       jsonFormat: 'JSON format',
-      description: 'Please enter description',
-    },
+      description: 'Please enter description'
+    }
   },
 
-  'file': {
+  file: {
     title: 'File Management',
     fileName: 'File Name',
     ext: 'Extension',
@@ -892,7 +906,7 @@ export default {
     storageType: {
       local: 'Local',
       oss: 'OSS',
-      cos: 'COS',
+      cos: 'COS'
     },
     extType: {
       imageJpg: 'Image(jpg)',
@@ -904,18 +918,20 @@ export default {
       video: 'Video',
       text: 'Text',
       ppt: 'PPT',
-      svg: 'SVG',
-    },
+      svg: 'SVG'
+    }
   },
 
-  'log': {
+  log: {
     title: 'System Log',
     operationLog: 'Operation Log',
     loginLog: 'Login Log',
     clearLog: 'Clear Log',
     confirmClear: 'Confirm Clear',
-    confirmClearOperation: 'Are you sure you want to clear all operation logs? This action cannot be undone.',
-    confirmClearLogin: 'Are you sure you want to clear all login logs? This action cannot be undone.',
+    confirmClearOperation:
+      'Are you sure you want to clear all operation logs? This action cannot be undone.',
+    confirmClearLogin:
+      'Are you sure you want to clear all login logs? This action cannot be undone.',
     clearSuccess: 'Cleared successfully',
     clearFailed: 'Clear failed',
     operationUser: 'Operator',
@@ -941,7 +957,7 @@ export default {
       delete: 'Delete',
       export: 'Export',
       import: 'Import',
-      other: 'Other',
+      other: 'Other'
     },
     modules: {
       userManagement: 'User Management',
@@ -950,10 +966,10 @@ export default {
       dictionary: 'Dictionary',
       systemLogin: 'System Login',
       profile: 'Profile',
-      dashboard: 'Dashboard',
+      dashboard: 'Dashboard'
     },
     loadOperationLogFailed: 'Failed to load operation logs',
-    loadLoginLogFailed: 'Failed to load login logs',
+    loadLoginLogFailed: 'Failed to load login logs'
   },
 
   'menu.external': 'External Pages',
@@ -964,15 +980,17 @@ export default {
   'menu.externalVite': 'Vite',
   'menu.externalVue': 'Vue.js',
   'external.link.openedTitle': 'Opened in a new tab',
-  'external.link.openedSubTitle': 'If the browser blocked the popup, click the button below to open again.',
+  'external.link.openedSubTitle':
+    'If the browser blocked the popup, click the button below to open again.',
   'external.link.openVite': 'Open Vite',
   'external.link.openVue': 'Open Vue',
 
-  'examples': {
+  examples: {
     scaffold: {
       stateCache: {
         title: 'State & Cache Example',
-        description: 'Demonstrates Pinia persistence (survives refresh) and keep-alive local caching (survives tab switching).',
+        description:
+          'Demonstrates Pinia persistence (survives refresh) and keep-alive local caching (survives tab switching).',
         piniaSection: '1. Pinia Persisted State',
         keywordLabel: 'Keyword',
         keywordPlaceholder: 'Persists after page refresh',
@@ -990,16 +1008,18 @@ export default {
         localCountLabel: 'Local count: ',
         panelBDesc: 'Panel B (also cached by keep-alive)',
         panelBTextPlaceholder: 'Input content, switch tabs and return - still retained',
-        pinTabSuccess: 'Tab pin status toggled',
+        pinTabSuccess: 'Tab pin status toggled'
       },
       uploadSystem: {
         title: 'Upload System Example',
-        description: 'Drag & drop upload + progress + retry on failure + image preview, ready for business integration.',
+        description:
+          'Drag & drop upload + progress + retry on failure + image preview, ready for business integration.',
         uploading: 'Uploading',
         success: 'Success',
         failed: 'Failed',
         dragText: 'Click or drag files to this area to upload',
-        dragHint: 'Supports images and documents. Upload process randomly simulates failures to verify retry logic.',
+        dragHint:
+          'Supports images and documents. Upload process randomly simulates failures to verify retry logic.',
         retryButton: 'Retry Failed',
         clearButton: 'Clear List',
         failureRate: 'Failure rate: ',
@@ -1008,11 +1028,12 @@ export default {
         uploadSuccessMsg: 'Upload success: {name}',
         uploadFailedMsg: 'Upload failed: {name}',
         retryMsg: 'Retrying {count} failed files',
-        previewNotSupported: 'This file type does not support preview',
+        previewNotSupported: 'This file type does not support preview'
       },
       importExport: {
         title: 'Import/Export Flow Example',
-        description: 'Demonstrates template download, CSV import validation, error receipt export, and current data export.',
+        description:
+          'Demonstrates template download, CSV import validation, error receipt export, and current data export.',
         downloadTemplate: 'Download Template',
         importCsv: 'Import CSV',
         exportCurrent: 'Export Current Data',
@@ -1036,12 +1057,14 @@ export default {
         errorPrice: 'Price must be a number greater than or equal to 0',
         errorStock: 'Stock must be an integer greater than or equal to 0',
         importDone: 'Import finished: {success} success, {failed} failed',
-        parseFailed: 'CSV parse failed, please check file format',
+        parseFailed: 'CSV parse failed, please check file format'
       },
       testing: {
         title: 'Testing Example',
-        description: 'Provides recommended templates for unit tests and e2e tests, ready to copy for new modules.',
-        alertMessage: 'Vitest / Playwright dependencies are not installed yet. This page provides structure and examples.',
+        description:
+          'Provides recommended templates for unit tests and e2e tests, ready to copy for new modules.',
+        alertMessage:
+          'Vitest / Playwright dependencies are not installed yet. This page provides structure and examples.',
         unitTestTitle: 'Unit Test Template (Vitest)',
         e2eTestTitle: 'End-to-End Test Template (Playwright)',
         implementationTitle: 'Implementation Sequence',
@@ -1050,11 +1073,13 @@ export default {
         step2Title: 'Then add e2e tests',
         step2Description: 'Cover critical user paths like login, search, and list operations.',
         step3Title: 'Integrate with CI',
-        step3Description: 'Chain type-check + unit + e2e into pipeline, execute automatically before merge.',
+        step3Description:
+          'Chain type-check + unit + e2e into pipeline, execute automatically before merge.'
       },
       proTableAdvanced: {
         title: 'ProTable Advanced Example',
-        description: 'Server-side pagination simulation + batch operations + inline editing + export',
+        description:
+          'Server-side pagination simulation + batch operations + inline editing + export',
         selectedCount: '{count} items selected',
         batchDisable: 'Batch Disable',
         batchDelete: 'Batch Delete',
@@ -1075,11 +1100,12 @@ export default {
         batchDeleteTitle: 'Batch Delete Confirmation',
         batchDeleteContent: 'Confirm to delete the selected {count} rows?',
         batchDeleteSuccess: 'Batch delete completed',
-        exportSuccess: 'CSV exported successfully',
+        exportSuccess: 'CSV exported successfully'
       },
       complexForm: {
         title: 'Complex Form Example',
-        description: 'Step form + dynamic policy rules + async validation + draft save + server-side field error mapping.',
+        description:
+          'Step form + dynamic policy rules + async validation + draft save + server-side field error mapping.',
         step1Title: 'Basic Info',
         step2Title: 'Policy Configuration',
         step3Title: 'Publish Settings',
@@ -1120,11 +1146,12 @@ export default {
         draftSaved: 'Draft saved',
         serverValidationError: 'Server validation failed: project name cannot contain "fail"',
         submitFailed: 'Submit failed, server field error mapped',
-        submitSuccess: 'Submit successful',
+        submitSuccess: 'Submit successful'
       },
       advancedFilter: {
         title: 'Advanced Filter Builder Example',
-        description: 'Build filter rules with visual conditions (AND/OR), and save reusable filter schemes.',
+        description:
+          'Build filter rules with visual conditions (AND/OR), and save reusable filter schemes.',
         tips: 'Supports string, enum, number, and date fields for most list filtering scenarios.',
         addCondition: 'Add Condition',
         saveScheme: 'Save Scheme',
@@ -1155,12 +1182,14 @@ export default {
         opLte: 'Less or equal',
         opBetween: 'Between',
         opBefore: 'Before',
-        opAfter: 'After',
+        opAfter: 'After'
       },
       virtualTable: {
         title: 'Virtual Scroll Table Example',
-        description: 'Demonstrates smooth rendering of large data sets using native a-table virtual scroll.',
-        tipsNativeVirtual: 'Built with antdv-next native a-table + virtual, no extra virtual list library required.',
+        description:
+          'Demonstrates smooth rendering of large data sets using native a-table virtual scroll.',
+        tipsNativeVirtual:
+          'Built with antdv-next native a-table + virtual, no extra virtual list library required.',
         datasetSize: 'Dataset size',
         regenerate: 'Regenerate Data',
         regenerateSuccess: '{count} rows generated',
@@ -1177,11 +1206,12 @@ export default {
         colEmail: 'Email',
         colDepartment: 'Department',
         colStatus: 'Status',
-        colUpdatedAt: 'Updated At',
+        colUpdatedAt: 'Updated At'
       },
       masterDetail: {
         title: 'Master-Detail Example',
-        description: 'Simulates ticket master-slave page: select from list on left, view details and operation history in Drawer on right.',
+        description:
+          'Simulates ticket master-slave page: select from list on left, view details and operation history in Drawer on right.',
         drawerTitle: 'Ticket Details',
         ticketNumber: 'Ticket No.',
         titleLabel: 'Title',
@@ -1196,7 +1226,8 @@ export default {
         ticketTitle: 'Order Risk Alert #{index}',
         ownerZhang: 'Zhang',
         ownerLi: 'Li',
-        ticketDescription: 'This is the detailed description of ticket {index}, including background information, impact scope, and recommended actions.',
+        ticketDescription:
+          'This is the detailed description of ticket {index}, including background information, impact scope, and recommended actions.',
         actionCreate: 'Create Ticket',
         operatorSystem: 'System',
         actionAssign: 'Assign Owner',
@@ -1206,11 +1237,12 @@ export default {
         colOwner: 'Owner',
         colPriority: 'Priority',
         colStatus: 'Status',
-        colCreatedAt: 'Created At',
+        colCreatedAt: 'Created At'
       },
       rbac: {
         title: 'RBAC Full-Chain Example',
-        description: 'Covers 4 dimensions: page permission, button permission, field permission, and API permission. Switch between admin / user to observe differences.',
+        description:
+          'Covers 4 dimensions: page permission, button permission, field permission, and API permission. Switch between admin / user to observe differences.',
         currentSession: 'Current Session',
         accountInfo: 'Account: {username} | Role: {role}',
         switchToAdmin: 'Switch to admin',
@@ -1243,11 +1275,12 @@ export default {
         missingPermission: '403: Missing permission {permission}',
         apiSuccess: '{action} successful',
         apiFailed: '{action} failed: {error}',
-        noPermission: 'No permission',
+        noPermission: 'No permission'
       },
       observability: {
         title: 'Observability & Exception Example',
-        description: 'Unified handling of loading, empty, and error states with error classification, logging, and one-click retry.',
+        description:
+          'Unified handling of loading, empty, and error states with error classification, logging, and one-click retry.',
         simulateSuccess: 'Simulate Success',
         simulateEmpty: 'Simulate Empty',
         simulateNetwork: 'Simulate Network Error',
@@ -1270,13 +1303,15 @@ export default {
         eventEmpty: 'Request successful but returned empty data',
         eventSuccess: 'Request successful and returned data',
         unknownError: 'Unknown error',
-        eventError: 'Request failed ({type}): {message}',
+        eventError: 'Request failed ({type}): {message}'
       },
       requestAuth: {
         title: 'Request & Auth Loop Example',
-        description: 'Demonstrates queued refresh mechanism when concurrent requests trigger 401, and fallback to re-login after refresh failure.',
+        description:
+          'Demonstrates queued refresh mechanism when concurrent requests trigger 401, and fallback to re-login after refresh failure.',
         refreshFailedAlert: 'Refresh failed, entered re-login state',
-        refreshFailedDesc: 'Subsequent requests will continue to fail. Click "Reset Session" to make new requests.',
+        refreshFailedDesc:
+          'Subsequent requests will continue to fail. Click "Reset Session" to make new requests.',
         accessToken: 'Access Token',
         refreshToken: 'Refresh Token',
         refreshStatus: 'Refresh Status',
@@ -1307,12 +1342,13 @@ export default {
         concurrentPartialFail: 'Concurrent requests completed, {count} failed',
         concurrentAllSuccess: 'All concurrent requests successful',
         logRefreshWillFail: 'Next refresh will be forced to fail',
-        refreshFailTriggered: 'Refresh failure scenario triggered',
-      },
+        refreshFailTriggered: 'Refresh failure scenario triggered'
+      }
     },
     jsonInput: {
       title: 'JSON Input Example',
-      description: 'A powerful JSON input component that supports both form and raw JSON editing modes. It can handle nested objects, arrays, and various data types.',
+      description:
+        'A powerful JSON input component that supports both form and raw JSON editing modes. It can handle nested objects, arrays, and various data types.',
       basicUsage: 'Basic Usage',
       userConfig: 'User Configuration',
       clickToEdit: 'Click to edit JSON',
@@ -1339,26 +1375,29 @@ export default {
       language: 'Language',
       nestedData: 'Nested Data Structure',
       emptyObject: 'Empty Object (Create New)',
-      createNew: 'Create New Configuration',
+      createNew: 'Create New Configuration'
     },
     i18nInput: {
-      description: 'Internationalized input component supporting multi-language content editing. Built on top of JsonInput, it automatically generates form fields based on system-supported languages.',
+      description:
+        'Internationalized input component supporting multi-language content editing. Built on top of JsonInput, it automatically generates form fields based on system-supported languages.',
       productName: 'Product Name (Multi-language)',
       productDescription: 'Product Description (Multi-language)',
       editProductName: 'Edit Product Name',
       editProductDesc: 'Edit Product Description',
       clickToEdit: 'Click to edit multi-language content',
       stringFormat: 'String Format Value',
-      stringFormatHint: 'Supports JSON in string format, component will automatically parse and serialize',
+      stringFormatHint:
+        'Supports JSON in string format, component will automatically parse and serialize',
       currentLocale: 'Specify Display Locale',
-      currentLocaleHint: 'Use the locale prop to specify which language value to display in the input',
+      currentLocaleHint:
+        'Use the locale prop to specify which language value to display in the input',
       emptyValue: 'Empty Value (Auto-initialize)',
       dataPreview: 'Data Preview',
       valueType: 'Value Type Toggle',
       showAsString: 'Show as String',
       showAsObject: 'Show as Object',
       stringValue: 'String Format',
-      objectValue: 'Object Format',
-    },
-  },
+      objectValue: 'Object Format'
+    }
+  }
 }

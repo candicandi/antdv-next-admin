@@ -17,17 +17,20 @@
 ## ⚙️ 配置说明
 
 ### 1. Vite 配置
+
 ```typescript
 // vite.config.ts
 base: process.env.NODE_ENV === 'production' ? '/antdv-next-admin/' : '/'
 ```
 
 ### 2. GitHub Actions
+
 - 工作流文件: `.github/workflows/deploy.yml`
 - 触发条件: 推送到 main 分支或手动触发
 - 构建命令: `npm run build`
 
 ### 3. SPA 路由支持
+
 - `public/404.html`: 处理 404 重定向
 - `index.html`: 接收重定向并恢复路由
 - `public/.nojekyll`: 禁用 Jekyll 处理
@@ -72,20 +75,24 @@ cd -
 ## 🐛 常见问题
 
 ### 1. 404 错误
+
 - 确保 `base` 配置正确
 - 检查 GitHub Pages 设置是否正确
 
 ### 2. 路由不工作
+
 - 确保 `404.html` 和 `index.html` 中的重定向脚本存在
 - 检查浏览器控制台是否有错误
 
 ### 3. 样式/资源 404
+
 - 确保 `base` 路径配置正确
 - 检查构建后的资源路径是否正确
 
 ## 🔐 权限说明
 
 GitHub Actions 需要以下权限：
+
 - `contents: read` - 读取代码
 - `pages: write` - 写入 Pages
 - `id-token: write` - 身份验证

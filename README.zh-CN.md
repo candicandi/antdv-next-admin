@@ -23,6 +23,7 @@
 ## 特性
 
 ### 核心功能
+
 - 最新技术栈: Vue 3 + Vite + TypeScript + Pinia
 - UI 组件: Ant Design Vue (antdv-next)
 - 布局系统: 响应式布局，支持垂直/水平两种模式
@@ -33,6 +34,7 @@
 - Mock 数据: 开发环境完整的 Mock 数据支持
 
 ### 高级功能
+
 - 偏好设置:
   - 6 种预设主题色 (拂晓蓝、极光绿、酱紫、薄暮红、日暮橙、明青)
   - 左侧菜单栏样式切换 (深色/浅色)
@@ -47,6 +49,7 @@
   - 一致的设计语言
 
 ### Pro 组件
+
 - ProTable: 高级表格组件
   - 自动生成查询表单
   - 列配置化（显示/隐藏、排序、固定）
@@ -65,6 +68,7 @@
   - 统一的确认/取消逻辑
 
 ### 业务组件
+
 - 富文本编辑器: 基于 TipTap，支持图片、链接、格式化
 - 验证码组件: 滑块验证码、拼图验证码、点选验证码、旋转验证码
 - 图标选择器: 支持 Iconify 图标库搜索选择
@@ -144,26 +148,31 @@ antdv-next-admin/
 ## 技术栈
 
 ### 核心框架
+
 - Vue 3.4+ - 渐进式 JavaScript 框架
 - TypeScript 5+ - JavaScript 的超集
 - Vite 5+ - 下一代前端构建工具
 
 ### UI & 样式
+
 - Ant Design Vue - 企业级 UI 组件库
 - CSS Variables - 现代化的主题系统
 - SCSS - CSS 预处理器
 
 ### 状态管理 & 路由
+
 - Pinia 2+ - Vue 官方状态管理
 - Vue Router 4+ - Vue 官方路由
 
 ### 工具库
+
 - vue-i18n - 国际化
 - Axios - HTTP 客户端
 - dayjs - 日期处理
 - lodash-es - 工具函数库
 
 ### 开发工具
+
 - vite-plugin-mock-dev-server - Mock 服务
 - ESLint - 代码检查
 - Prettier - 代码格式化
@@ -178,12 +187,14 @@ antdv-next-admin/
 ### 环境变量
 
 **开发环境 (.env.development):**
+
 ```bash
 VITE_USE_MOCK=true
 VITE_API_BASE_URL=/api
 ```
 
 **生产环境 (.env.production):**
+
 ```bash
 VITE_USE_MOCK=false
 VITE_API_BASE_URL=https://your-api-domain.com/api
@@ -192,6 +203,7 @@ VITE_API_BASE_URL=https://your-api-domain.com/api
 ### 权限使用
 
 **指令方式:**
+
 ```vue
 <a-button v-permission="'user.create'">创建用户</a-button>
 <a-button v-permission="['user.edit', 'user.delete']">操作</a-button>
@@ -199,6 +211,7 @@ VITE_API_BASE_URL=https://your-api-domain.com/api
 ```
 
 **组合函数方式:**
+
 ```ts
 const { can, canAll } = usePermission()
 
@@ -212,6 +225,7 @@ if (canAll(['user.edit', 'user.approve'])) {
 ```
 
 **组件方式:**
+
 ```vue
 <PermissionButton permission="user.create">
   <a-button>创建用户</a-button>
@@ -238,23 +252,28 @@ if (canAll(['user.edit', 'user.approve'])) {
 ## 特色功能
 
 ### 多主题支持
+
 6种预设主题色 × 3种模式 (亮色/暗色/跟随系统) = 18种主题组合
 
 ### 灵活布局
+
 - 垂直布局（侧边栏在左）
 - 水平布局（菜单在顶部）
 - 响应式适配移动端
 
 ### 多标签页系统
+
 - 标签页缓存 (KeepAlive)
 - 固定标签 (affix/pinned)
 - 右键菜单（刷新、固定、关闭、关闭其他、关闭左侧/右侧、关闭所有）
 - 持久化存储
 
 ### 全局搜索
+
 快捷键 `Ctrl/Cmd + K` 唤起全局菜单搜索。
 
 ### 国际化
+
 完整的中英文翻译，支持运行时切换。
 
 ## 贡献

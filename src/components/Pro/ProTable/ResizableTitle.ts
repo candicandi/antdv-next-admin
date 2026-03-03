@@ -29,7 +29,7 @@ export const ResizableTitle = defineComponent({
     resizable: Boolean,
     onResizeStart: Function as PropType<ResizableTitleProps['onResizeStart']>,
     onResizeEnd: Function as PropType<ResizableTitleProps['onResizeEnd']>,
-    onResize: Function as PropType<ResizableTitleProps['onResize']>,
+    onResize: Function as PropType<ResizableTitleProps['onResize']>
   },
   setup(props, { slots, attrs }) {
     const dragging = ref(false)
@@ -59,9 +59,10 @@ export const ResizableTitle = defineComponent({
       }
       event.preventDefault()
       event.stopPropagation()
-      startWidth = props.width
-        || (event.currentTarget as HTMLElement)?.parentElement?.getBoundingClientRect().width
-        || 0
+      startWidth =
+        props.width ||
+        (event.currentTarget as HTMLElement)?.parentElement?.getBoundingClientRect().width ||
+        0
       props.onResizeStart?.(event, startWidth)
       dragging.value = true
       startX = event.clientX
@@ -80,27 +81,28 @@ export const ResizableTitle = defineComponent({
         return h('th', attrs, slots.default?.())
       }
 
-      const style = width == null
-        ? attrs.style
-        : { ...(attrs.style as Record<string, any>), width: `${width}px` }
+      const style =
+        width == null
+          ? attrs.style
+          : { ...(attrs.style as Record<string, any>), width: `${width}px` }
 
       return h(
         'th',
         {
           ...attrs,
           class: ['pro-table-resizable-title', attrs.class],
-          style,
+          style
         },
         [
           slots.default?.(),
           h('span', {
             class: 'pro-table-resizable-handle',
-            onMousedown: onMouseDown,
-          }),
-        ],
+            onMousedown: onMouseDown
+          })
+        ]
       )
     }
-  },
+  }
 })
 
 export default ResizableTitle

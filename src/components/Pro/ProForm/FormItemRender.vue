@@ -11,7 +11,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  formData: () => ({}),
+  formData: () => ({})
 })
 const emit = defineEmits(['update:value', 'change'])
 
@@ -26,18 +26,15 @@ const resolvedOptions = computed(() => {
 
 watch(
   () => props.value,
-  (val) => {
+  val => {
     modelValue.value = val
-  },
+  }
 )
 
-watch(
-  modelValue,
-  (val) => {
-    emit('update:value', val)
-    emit('change', val)
-  },
-)
+watch(modelValue, val => {
+  emit('update:value', val)
+  emit('change', val)
+})
 
 function handleChange(value: any) {
   emit('update:value', value)

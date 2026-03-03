@@ -4,11 +4,7 @@ import { setupRouterGuards } from './guards'
 import { basicRoutes, demoRoutes, notFoundRoute, staticRoutes } from './routes/index'
 
 // Combine static, demo and basic routes
-const routes = [
-  ...staticRoutes,
-  ...demoRoutes,
-  ...basicRoutes,
-] as RouteRecordRaw[]
+const routes = [...staticRoutes, ...demoRoutes, ...basicRoutes] as RouteRecordRaw[]
 
 // Create router instance
 const router = createRouter({
@@ -17,11 +13,10 @@ const router = createRouter({
   scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition
-    }
-    else {
+    } else {
       return { top: 0 }
     }
-  },
+  }
 })
 
 // Setup router guards

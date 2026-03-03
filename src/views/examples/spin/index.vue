@@ -13,7 +13,7 @@ const autoPercent = ref(false)
 const percent = ref(-50)
 let percentTimer: ReturnType<typeof setTimeout> | null = null
 
-const mergedPercent = computed(() => autoPercent.value ? 'auto' : percent.value)
+const mergedPercent = computed(() => (autoPercent.value ? 'auto' : percent.value))
 
 function updatePercent() {
   percentTimer = setTimeout(() => {
@@ -22,15 +22,19 @@ function updatePercent() {
   }, 100)
 }
 
-watch(percent, (_n, _o, onCleanup) => {
-  updatePercent()
-  onCleanup(() => {
-    if (percentTimer) {
-      clearTimeout(percentTimer)
-      percentTimer = null
-    }
-  })
-}, { immediate: true })
+watch(
+  percent,
+  (_n, _o, onCleanup) => {
+    updatePercent()
+    onCleanup(() => {
+      if (percentTimer) {
+        clearTimeout(percentTimer)
+        percentTimer = null
+      }
+    })
+  },
+  { immediate: true }
+)
 
 watch(autoPercent, () => {
   percent.value = -50
@@ -39,7 +43,7 @@ watch(autoPercent, () => {
 // Custom style shared props
 const sharedStyleProps = {
   spinning: true,
-  percent: 0,
+  percent: 0
 }
 
 // Fullscreen
@@ -131,9 +135,7 @@ onUnmounted(() => {
       <a-col :span="24" :lg="12">
         <a-card :title="$t('exampleSpin.delay')" :bordered="false">
           <template #extra>
-            <a-tag color="blue">
-              delay=500ms
-            </a-tag>
+            <a-tag color="blue"> delay=500ms </a-tag>
           </template>
           <a-flex gap="middle" vertical>
             <a-spin :spinning="delayLoading" :delay="500">
@@ -199,10 +201,7 @@ onUnmounted(() => {
       <a-col :span="24" :lg="12">
         <a-card :title="$t('exampleSpin.customStyle')" :bordered="false">
           <a-flex align="center" gap="middle">
-            <a-spin
-              v-bind="sharedStyleProps"
-              :styles="{ indicator: { color: '#00d4ff' } }"
-            />
+            <a-spin v-bind="sharedStyleProps" :styles="{ indicator: { color: '#00d4ff' } }" />
             <a-spin
               v-bind="sharedStyleProps"
               :styles="() => ({ indicator: { color: '#722ed1' } })"

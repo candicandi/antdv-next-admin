@@ -21,8 +21,12 @@ const previewOpen = ref(false)
 const previewSrc = ref('')
 const previewTitle = ref($t('examples.scaffold.uploadSystem.previewTitle'))
 
-const uploadingCount = computed(() => fileList.value.filter(item => item.status === 'uploading').length)
-const doneCount = computed(() => fileList.value.filter(item => item.status === 'done' || item.status === 'success').length)
+const uploadingCount = computed(
+  () => fileList.value.filter(item => item.status === 'uploading').length
+)
+const doneCount = computed(
+  () => fileList.value.filter(item => item.status === 'done' || item.status === 'success').length
+)
 const errorCount = computed(() => fileList.value.filter(item => item.status === 'error').length)
 
 function getBase64(file: File): Promise<string> {
@@ -43,11 +47,14 @@ function markFileState(uid: string, updater: (item: UploadFileItem) => void) {
   fileList.value = [...fileList.value]
 }
 
-function runUploadTask(uid: string, callbacks?: {
-  onProgress?: (event: { percent: number }) => void
-  onSuccess?: (response: any) => void
-  onError?: (error: Error) => void
-}) {
+function runUploadTask(
+  uid: string,
+  callbacks?: {
+    onProgress?: (event: { percent: number }) => void
+    onSuccess?: (response: any) => void
+    onError?: (error: Error) => void
+  }
+) {
   let percent = 0
 
   const timer = window.setInterval(() => {
@@ -57,7 +64,7 @@ function runUploadTask(uid: string, callbacks?: {
       percent = 98
     }
 
-    markFileState(uid, (item) => {
+    markFileState(uid, item => {
       item.status = 'uploading'
       item.percent = percent
     })
@@ -65,33 +72,36 @@ function runUploadTask(uid: string, callbacks?: {
     callbacks?.onProgress?.({ percent })
   }, 160)
 
-  window.setTimeout(() => {
-    window.clearInterval(timer)
+  window.setTimeout(
+    () => {
+      window.clearInterval(timer)
 
-    const failed = Math.random() < failureRate.value
-    if (failed) {
-      const error = new Error($t('examples.scaffold.uploadSystem.uploadFailedError'))
+      const failed = Math.random() < failureRate.value
+      if (failed) {
+        const error = new Error($t('examples.scaffold.uploadSystem.uploadFailedError'))
 
-      markFileState(uid, (item) => {
-        item.status = 'error'
+        markFileState(uid, item => {
+          item.status = 'error'
+          item.percent = 100
+        })
+
+        callbacks?.onError?.(error)
+        return
+      }
+
+      const preview = `https://picsum.photos/seed/${uid}/880/560`
+
+      markFileState(uid, item => {
+        item.status = 'done'
         item.percent = 100
+        item.url = item.url || preview
+        item.thumbUrl = item.thumbUrl || preview
       })
 
-      callbacks?.onError?.(error)
-      return
-    }
-
-    const preview = `https://picsum.photos/seed/${uid}/880/560`
-
-    markFileState(uid, (item) => {
-      item.status = 'done'
-      item.percent = 100
-      item.url = item.url || preview
-      item.thumbUrl = item.thumbUrl || preview
-    })
-
-    callbacks?.onSuccess?.({ url: preview })
-  }, 1400 + Math.round(Math.random() * 900))
+      callbacks?.onSuccess?.({ url: preview })
+    },
+    1400 + Math.round(Math.random() * 900)
+  )
 }
 
 function customRequest(options: any) {
@@ -101,14 +111,18 @@ function customRequest(options: any) {
     onProgress: ({ percent }) => {
       options.onProgress?.({ percent })
     },
-    onSuccess: (response) => {
+    onSuccess: response => {
       options.onSuccess?.(response)
-      message.success($t('examples.scaffold.uploadSystem.uploadSuccessMsg', { name: options.file.name }))
+      message.success(
+        $t('examples.scaffold.uploadSystem.uploadSuccessMsg', { name: options.file.name })
+      )
     },
-    onError: (error) => {
+    onError: error => {
       options.onError?.(error)
-      message.error($t('examples.scaffold.uploadSystem.uploadFailedMsg', { name: options.file.name }))
-    },
+      message.error(
+        $t('examples.scaffold.uploadSystem.uploadFailedMsg', { name: options.file.name })
+      )
+    }
   })
 }
 
@@ -118,7 +132,7 @@ function retryFailed() {
     return
   }
 
-  failedFiles.forEach((item) => {
+  failedFiles.forEach(item => {
     runUploadTask(item.uid)
   })
 
@@ -132,11 +146,9 @@ function clearAll() {
 async function handlePreview(file: UploadFileItem) {
   if (file.url) {
     previewSrc.value = file.url
-  }
-  else if (file.originFileObj) {
+  } else if (file.originFileObj) {
     previewSrc.value = await getBase64(file.originFileObj)
-  }
-  else {
+  } else {
     message.warning($t('examples.scaffold.uploadSystem.previewNotSupported'))
     return
   }
@@ -200,21 +212,11 @@ async function handlePreview(file: UploadFileItem) {
         </div>
       </div>
 
-      <a-slider
-        v-model:value="failureRate"
-        :min="0"
-        :max="0.9"
-        :step="0.05"
-      />
+      <a-slider v-model:value="failureRate" :min="0" :max="0.9" :step="0.05" />
     </div>
 
-    <a-modal
-      v-model:open="previewOpen"
-      :title="previewTitle"
-      :footer="null"
-      width="720px"
-    >
-      <img :src="previewSrc" alt="preview" class="preview-image">
+    <a-modal v-model:open="previewOpen" :title="previewTitle" :footer="null" width="720px">
+      <img :src="previewSrc" alt="preview" class="preview-image" />
     </a-modal>
   </div>
 </template>

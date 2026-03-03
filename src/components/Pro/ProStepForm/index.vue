@@ -3,17 +3,20 @@ import type { ProStepFormStep } from '@/types/pro'
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-const props = withDefaults(defineProps<{
-  steps: ProStepFormStep[]
-  modelValue?: number
-  loading?: boolean
-  prevText?: string
-  nextText?: string
-  submitText?: string
-}>(), {
-  modelValue: 0,
-  loading: false,
-})
+const props = withDefaults(
+  defineProps<{
+    steps: ProStepFormStep[]
+    modelValue?: number
+    loading?: boolean
+    prevText?: string
+    nextText?: string
+    submitText?: string
+  }>(),
+  {
+    modelValue: 0,
+    loading: false
+  }
+)
 
 const emit = defineEmits<{
   (e: 'update:modelValue', step: number): void
@@ -26,11 +29,14 @@ const { t: $t } = useI18n()
 
 const currentStep = ref(props.modelValue)
 
-watch(() => props.modelValue, (val) => {
-  currentStep.value = val
-})
+watch(
+  () => props.modelValue,
+  val => {
+    currentStep.value = val
+  }
+)
 
-watch(currentStep, (val) => {
+watch(currentStep, val => {
   emit('update:modelValue', val)
 })
 
@@ -55,7 +61,7 @@ defineExpose({
     if (step >= 0 && step < props.steps.length) {
       currentStep.value = step
     }
-  },
+  }
 })
 </script>
 
@@ -95,12 +101,7 @@ defineExpose({
         >
           {{ nextText || $t('proStepForm.next') }}
         </a-button>
-        <a-button
-          v-else
-          type="primary"
-          :loading="loading"
-          @click="handleSubmit"
-        >
+        <a-button v-else type="primary" :loading="loading" @click="handleSubmit">
           {{ submitText || $t('common.submit') }}
         </a-button>
         <slot name="extra-actions" :current-step="currentStep" />

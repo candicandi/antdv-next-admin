@@ -4,7 +4,7 @@ import {
   mockChartData,
   mockSalesTrend,
   mockStats,
-  mockUserDistribution,
+  mockUserDistribution
 } from '../data/dashboard.data'
 
 export default defineMock([
@@ -16,8 +16,8 @@ export default defineMock([
       code: 200,
       message: 'Success',
       data: mockStats,
-      success: true,
-    },
+      success: true
+    }
   },
 
   // Get sales trend
@@ -28,8 +28,8 @@ export default defineMock([
       code: 200,
       message: 'Success',
       data: mockSalesTrend,
-      success: true,
-    },
+      success: true
+    }
   },
 
   // Get user distribution
@@ -40,8 +40,8 @@ export default defineMock([
       code: 200,
       message: 'Success',
       data: mockUserDistribution,
-      success: true,
-    },
+      success: true
+    }
   },
 
   // Get recent activities
@@ -52,8 +52,8 @@ export default defineMock([
       code: 200,
       message: 'Success',
       data: mockActivities,
-      success: true,
-    },
+      success: true
+    }
   },
 
   // Get chart data
@@ -64,7 +64,7 @@ export default defineMock([
       code: 200,
       message: 'Success',
       data: mockChartData,
-      success: true,
-    },
-  },
+      success: true
+    }
+  }
 ])

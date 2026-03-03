@@ -21,17 +21,17 @@ export interface UseCrudModalOptions<T, F = Record<string, any>> {
   /**
    * API function to create a new record
    */
-  createApi: (data: Partial<T>) => Promise<{ success: boolean, message?: string }>
+  createApi: (data: Partial<T>) => Promise<{ success: boolean; message?: string }>
 
   /**
    * API function to update an existing record
    */
-  updateApi: (id: string, data: Partial<T>) => Promise<{ success: boolean, message?: string }>
+  updateApi: (id: string, data: Partial<T>) => Promise<{ success: boolean; message?: string }>
 
   /**
    * API function to delete a record
    */
-  deleteApi: (id: string) => Promise<{ success: boolean, message?: string }>
+  deleteApi: (id: string) => Promise<{ success: boolean; message?: string }>
 
   /**
    * Transform form values before submitting to API
@@ -149,7 +149,7 @@ export interface UseCrudModalReturn<T, F> {
  * ```
  */
 export function useCrudModal<T extends Record<string, any>, F = Record<string, any>>(
-  options: UseCrudModalOptions<T, F>,
+  options: UseCrudModalOptions<T, F>
 ): UseCrudModalReturn<T, F> {
   const {
     defaultFormValues,
@@ -164,7 +164,7 @@ export function useCrudModal<T extends Record<string, any>, F = Record<string, a
     onDeleted,
     deleteConfirmMessage,
     createTitle,
-    editTitle,
+    editTitle
   } = options
 
   // State
@@ -203,7 +203,7 @@ export function useCrudModal<T extends Record<string, any>, F = Record<string, a
     editingRecord.value = null
     formData.value = {
       ...defaultFormValues(),
-      ...(initialValues || {}),
+      ...(initialValues || {})
     } as F
     modalVisible.value = true
   }
@@ -215,8 +215,7 @@ export function useCrudModal<T extends Record<string, any>, F = Record<string, a
 
     if (transformRecordToForm) {
       formData.value = transformRecordToForm(record)
-    }
-    else {
+    } else {
       formData.value = { ...record } as unknown as F
     }
 
@@ -241,8 +240,7 @@ export function useCrudModal<T extends Record<string, any>, F = Record<string, a
 
     if (transformFormValues) {
       payload = transformFormValues(values as F, editingRecord.value)
-    }
-    else {
+    } else {
       payload = values as Partial<T>
     }
 
@@ -255,8 +253,7 @@ export function useCrudModal<T extends Record<string, any>, F = Record<string, a
           onUpdated?.(editingRecord.value as T)
           closeModal()
         }
-      }
-      else {
+      } else {
         const result = await createApi(payload)
         if (result.success) {
           message.success(result.message || $t('common.createSuccess'))
@@ -264,8 +261,7 @@ export function useCrudModal<T extends Record<string, any>, F = Record<string, a
           closeModal()
         }
       }
-    }
-    finally {
+    } finally {
       submitting.value = false
     }
   }
@@ -274,9 +270,10 @@ export function useCrudModal<T extends Record<string, any>, F = Record<string, a
     const id = record[idKey]
     const idString = typeof id === 'string' ? id : String(id)
 
-    const confirmMessage = typeof deleteConfirmMessage === 'function'
-      ? deleteConfirmMessage(record)
-      : deleteConfirmMessage || $t('common.confirmDelete')
+    const confirmMessage =
+      typeof deleteConfirmMessage === 'function'
+        ? deleteConfirmMessage(record)
+        : deleteConfirmMessage || $t('common.confirmDelete')
 
     Modal.confirm({
       title: $t('common.confirm'),
@@ -288,7 +285,7 @@ export function useCrudModal<T extends Record<string, any>, F = Record<string, a
           message.success(result.message || $t('common.deleteSuccess'))
           onDeleted?.(idString)
         }
-      },
+      }
     })
   }
 
@@ -314,6 +311,6 @@ export function useCrudModal<T extends Record<string, any>, F = Record<string, a
     handleDelete,
 
     // Helpers
-    resetForm,
+    resetForm
   }
 }

@@ -20,7 +20,9 @@ const getGroupCount = (group: string) => allConfigs.value.filter(c => c.group ==
 
 // modal
 const modalVisible = ref(false)
-const modalTitle = computed(() => form.value.id ? t('config.editConfig') : t('config.createConfig'))
+const modalTitle = computed(() =>
+  form.value.id ? t('config.editConfig') : t('config.createConfig')
+)
 const form = ref<Partial<SysConfig>>({
   name: '',
   key: '',
@@ -28,35 +30,57 @@ const form = ref<Partial<SysConfig>>({
   valueType: 'string',
   group: 'basic',
   sort: 0,
-  description: '',
+  description: ''
 })
 const boolValue = computed({
   get: () => form.value.value === 'true',
-  set: (v: boolean) => { form.value.value = String(v) },
+  set: (v: boolean) => {
+    form.value.value = String(v)
+  }
 })
 
 const columns: ProTableColumn[] = [
   { title: computed(() => t('config.configName')), dataIndex: 'name', key: 'name', width: 160 },
   { title: computed(() => t('config.configKey')), dataIndex: 'key', key: 'key', width: 200 },
-  { title: computed(() => t('config.configValue')), dataIndex: 'value', key: 'value', ellipsis: true },
-  { title: computed(() => t('config.valueType')), dataIndex: 'valueType', key: 'valueType', width: 90 },
+  {
+    title: computed(() => t('config.configValue')),
+    dataIndex: 'value',
+    key: 'value',
+    ellipsis: true
+  },
+  {
+    title: computed(() => t('config.valueType')),
+    dataIndex: 'valueType',
+    key: 'valueType',
+    width: 90
+  },
   { title: computed(() => t('config.builtIn')), dataIndex: 'builtIn', key: 'builtIn', width: 90 },
-  { title: computed(() => t('config.description')), dataIndex: 'description', key: 'description', ellipsis: true },
-  { title: computed(() => t('common.actions')), dataIndex: 'action', key: 'action', width: 150, fixed: 'right' },
+  {
+    title: computed(() => t('config.description')),
+    dataIndex: 'description',
+    key: 'description',
+    ellipsis: true
+  },
+  {
+    title: computed(() => t('common.actions')),
+    dataIndex: 'action',
+    key: 'action',
+    width: 150,
+    fixed: 'right'
+  }
 ]
 
 async function loadConfigList(params: any) {
   try {
-    const response = await getConfigList({
+    const response = (await getConfigList({
       group: selectedGroup.value,
       page: params.current,
-      pageSize: params.pageSize,
-    }) as any
+      pageSize: params.pageSize
+    })) as any
     if (response.code === 200) {
       return { data: response.data.list, total: response.data.total, success: true }
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error(t('config.loadConfigFailed'), error)
   }
   return { data: [], total: 0, success: false }
@@ -65,15 +89,21 @@ async function loadConfigList(params: any) {
 // load all configs for group count
 async function loadAllConfigs() {
   try {
-    const response = await getConfigList({ page: 1, pageSize: 100 }) as any
-    if (response.code === 200)
-      allConfigs.value = response.data.list
-  }
-  catch {}
+    const response = (await getConfigList({ page: 1, pageSize: 100 })) as any
+    if (response.code === 200) allConfigs.value = response.data.list
+  } catch {}
 }
 
 function handleAdd() {
-  form.value = { name: '', key: '', value: '', valueType: 'string', group: selectedGroup.value, sort: 0, description: '' }
+  form.value = {
+    name: '',
+    key: '',
+    value: '',
+    valueType: 'string',
+    group: selectedGroup.value,
+    sort: 0,
+    description: ''
+  }
   modalVisible.value = true
 }
 
@@ -88,18 +118,18 @@ function handleDelete(record: SysConfig) {
     content: t('config.confirmDeleteContent', { name: record.name }),
     onOk: async () => {
       try {
-        const response = await deleteConfig(record.id) as any
+        const response = (await deleteConfig(record.id)) as any
         if (response.code === 200) {
           message.success(t('config.deleteSuccess'))
           refreshKey.value++
           loadAllConfigs()
-        }
-        else {
+        } else {
           message.error(response.message || t('config.deleteFailed'))
         }
+      } catch {
+        message.error(t('config.deleteFailed'))
       }
-      catch { message.error(t('config.deleteFailed')) }
-    },
+    }
   })
 }
 
@@ -110,18 +140,27 @@ async function handleSubmit() {
   }
   try {
     if (form.value.id) {
-      const response = await updateConfig(form.value.id, form.value) as any
-      if (response.code === 200) { message.success(t('config.updateSuccess')); modalVisible.value = false; refreshKey.value++; loadAllConfigs() }
-    }
-    else {
-      const response = await createConfig(form.value) as any
-      if (response.code === 200) { message.success(t('config.createSuccess')); modalVisible.value = false; refreshKey.value++; loadAllConfigs() }
-      else {
+      const response = (await updateConfig(form.value.id, form.value)) as any
+      if (response.code === 200) {
+        message.success(t('config.updateSuccess'))
+        modalVisible.value = false
+        refreshKey.value++
+        loadAllConfigs()
+      }
+    } else {
+      const response = (await createConfig(form.value)) as any
+      if (response.code === 200) {
+        message.success(t('config.createSuccess'))
+        modalVisible.value = false
+        refreshKey.value++
+        loadAllConfigs()
+      } else {
         message.error(response.message || t('config.operateFailed'))
       }
     }
+  } catch {
+    message.error(t('config.operateFailed'))
   }
-  catch { message.error(t('config.operateFailed')) }
 }
 
 loadAllConfigs()
@@ -181,7 +220,11 @@ loadAllConfigs()
             </template>
             <template v-if="column.key === 'builtIn'">
               <a-tag :color="record.builtIn ? 'blue' : 'default'">
-                {{ record.builtIn ? $t('config.builtInTypes.builtIn') : $t('config.builtInTypes.custom') }}
+                {{
+                  record.builtIn
+                    ? $t('config.builtInTypes.builtIn')
+                    : $t('config.builtInTypes.custom')
+                }}
               </a-tag>
             </template>
             <template v-if="column.key === 'action'">
@@ -218,13 +261,30 @@ loadAllConfigs()
           <a-input v-model:value="form.name" :placeholder="$t('config.placeholders.configName')" />
         </a-form-item>
         <a-form-item :label="$t('config.configKey')" required>
-          <a-input v-model:value="form.key" :placeholder="$t('config.placeholders.configKey')" :disabled="!!form.id" />
+          <a-input
+            v-model:value="form.key"
+            :placeholder="$t('config.placeholders.configKey')"
+            :disabled="!!form.id"
+          />
         </a-form-item>
         <a-form-item :label="$t('config.configValue')" required>
           <a-switch v-if="form.valueType === 'boolean'" v-model:checked="boolValue" />
-          <a-input-number v-else-if="form.valueType === 'number'" v-model:value="form.value" style="width: 100%" />
-          <a-textarea v-else-if="form.valueType === 'json'" v-model:value="form.value" :rows="4" :placeholder="$t('config.placeholders.jsonFormat')" />
-          <a-input v-else v-model:value="form.value" :placeholder="$t('config.placeholders.configValue')" />
+          <a-input-number
+            v-else-if="form.valueType === 'number'"
+            v-model:value="form.value"
+            style="width: 100%"
+          />
+          <a-textarea
+            v-else-if="form.valueType === 'json'"
+            v-model:value="form.value"
+            :rows="4"
+            :placeholder="$t('config.placeholders.jsonFormat')"
+          />
+          <a-input
+            v-else
+            v-model:value="form.value"
+            :placeholder="$t('config.placeholders.configValue')"
+          />
         </a-form-item>
         <a-form-item :label="$t('config.valueType')">
           <a-select v-model:value="form.valueType" :disabled="!!form.id">
@@ -253,7 +313,11 @@ loadAllConfigs()
           <a-input-number v-model:value="form.sort" :min="0" style="width: 100%" />
         </a-form-item>
         <a-form-item :label="$t('config.description')">
-          <a-textarea v-model:value="form.description" :placeholder="$t('config.placeholders.description')" :rows="2" />
+          <a-textarea
+            v-model:value="form.description"
+            :placeholder="$t('config.placeholders.description')"
+            :rows="2"
+          />
         </a-form-item>
       </a-form>
     </a-modal>

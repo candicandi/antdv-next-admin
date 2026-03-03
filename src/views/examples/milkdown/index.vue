@@ -92,9 +92,7 @@ const content3 = ref(`# 只读模式示例
       <!-- 基础用法 -->
       <a-col :span="24">
         <a-card title="基础用法" :bordered="false">
-          <p class="desc">
-            支持实时预览的 Markdown 编辑器，基于 ProseMirror 构建
-          </p>
+          <p class="desc">支持实时预览的 Markdown 编辑器，基于 ProseMirror 构建</p>
           <MilkdownEditor
             v-model="content1"
             placeholder="开始输入 Markdown 内容..."
@@ -111,27 +109,16 @@ const content3 = ref(`# 只读模式示例
       <!-- 默认内容 -->
       <a-col :span="24">
         <a-card title="默认内容" :bordered="false">
-          <p class="desc">
-            支持设置默认内容，自动渲染为可编辑的富文本
-          </p>
-          <MilkdownEditor
-            v-model="content2"
-            :height="400"
-          />
+          <p class="desc">支持设置默认内容，自动渲染为可编辑的富文本</p>
+          <MilkdownEditor v-model="content2" :height="400" />
         </a-card>
       </a-col>
 
       <!-- 只读模式 -->
       <a-col :span="24" :lg="12">
         <a-card title="只读模式" :bordered="false">
-          <p class="desc">
-            支持只读模式，用于展示 Markdown 内容
-          </p>
-          <MilkdownEditor
-            v-model="content3"
-            :readonly="true"
-            :height="250"
-          />
+          <p class="desc">支持只读模式，用于展示 Markdown 内容</p>
+          <MilkdownEditor v-model="content3" :readonly="true" :height="250" />
         </a-card>
       </a-col>
 

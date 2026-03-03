@@ -6,15 +6,14 @@ export default defineMock([
   {
     url: '/api/auth/login',
     method: 'POST',
-    body: (req) => {
+    body: req => {
       const { username, password } = req.body
 
       // Validate credentials
       let user = null
       if (username === 'admin' && password === '123456') {
         user = adminUser
-      }
-      else if (username === 'user' && password === '123456') {
+      } else if (username === 'user' && password === '123456') {
         user = regularUser
       }
 
@@ -25,20 +24,19 @@ export default defineMock([
           data: {
             token: `mock-token-${user.id}-${Date.now()}`,
             refreshToken: `mock-refresh-token-${user.id}-${Date.now()}`,
-            expiresIn: 7200,
+            expiresIn: 7200
           },
-          success: true,
+          success: true
         }
-      }
-      else {
+      } else {
         return {
           code: 401,
           message: 'Invalid username or password',
           data: null,
-          success: false,
+          success: false
         }
       }
-    },
+    }
   },
 
   // Logout
@@ -49,15 +47,15 @@ export default defineMock([
       code: 200,
       message: 'Logout successful',
       data: null,
-      success: true,
-    },
+      success: true
+    }
   },
 
   // Get user info
   {
     url: '/api/auth/info',
     method: 'GET',
-    body: (req) => {
+    body: req => {
       // Get token from header
       const token = req.headers.authorization?.replace('Bearer ', '')
 
@@ -66,7 +64,7 @@ export default defineMock([
           code: 401,
           message: 'Unauthorized',
           data: null,
-          success: false,
+          success: false
         }
       }
 
@@ -78,16 +76,16 @@ export default defineMock([
         code: 200,
         message: 'Success',
         data: user,
-        success: true,
+        success: true
       }
-    },
+    }
   },
 
   // Refresh token
   {
     url: '/api/auth/refresh',
     method: 'POST',
-    body: (req) => {
+    body: req => {
       const { refreshToken } = req.body
 
       if (refreshToken) {
@@ -97,19 +95,18 @@ export default defineMock([
           data: {
             token: `new-mock-token-${Date.now()}`,
             refreshToken: `new-mock-refresh-token-${Date.now()}`,
-            expiresIn: 7200,
+            expiresIn: 7200
           },
-          success: true,
+          success: true
         }
-      }
-      else {
+      } else {
         return {
           code: 401,
           message: 'Invalid refresh token',
           data: null,
-          success: false,
+          success: false
         }
       }
-    },
-  },
+    }
+  }
 ])

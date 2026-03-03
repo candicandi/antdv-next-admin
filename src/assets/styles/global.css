@@ -82,13 +82,17 @@ html.theme-view-transition.dark::view-transition-new(root) {
     clip-path: circle(0 at var(--theme-transition-x) var(--theme-transition-y));
   }
   to {
-    clip-path: circle(var(--theme-transition-radius) at var(--theme-transition-x) var(--theme-transition-y));
+    clip-path: circle(
+      var(--theme-transition-radius) at var(--theme-transition-x) var(--theme-transition-y)
+    );
   }
 }
 
 @keyframes theme-clip-conceal {
   from {
-    clip-path: circle(var(--theme-transition-radius) at var(--theme-transition-x) var(--theme-transition-y));
+    clip-path: circle(
+      var(--theme-transition-radius) at var(--theme-transition-x) var(--theme-transition-y)
+    );
   }
   to {
     clip-path: circle(0 at var(--theme-transition-x) var(--theme-transition-y));

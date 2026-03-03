@@ -18,7 +18,7 @@ function loadPersistedState(): PersistedState {
         keyword: '',
         counter: 0,
         notes: '',
-        updatedAt: '-',
+        updatedAt: '-'
       }
     }
 
@@ -27,15 +27,14 @@ function loadPersistedState(): PersistedState {
       keyword: parsed.keyword || '',
       counter: Number(parsed.counter || 0),
       notes: parsed.notes || '',
-      updatedAt: parsed.updatedAt || '-',
+      updatedAt: parsed.updatedAt || '-'
     }
-  }
-  catch {
+  } catch {
     return {
       keyword: '',
       counter: 0,
       notes: '',
-      updatedAt: '-',
+      updatedAt: '-'
     }
   }
 }
@@ -54,7 +53,7 @@ export const useDemoStateCacheStore = defineStore('demoStateCache', () => {
       keyword: keyword.value,
       counter: counter.value,
       notes: notes.value,
-      updatedAt: updatedAt.value,
+      updatedAt: updatedAt.value
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot))
   }
@@ -73,6 +72,6 @@ export const useDemoStateCacheStore = defineStore('demoStateCache', () => {
     counter,
     notes,
     updatedAt,
-    reset,
+    reset
   }
 })

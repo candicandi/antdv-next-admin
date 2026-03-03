@@ -23,9 +23,13 @@ const columns = computed(() => [
   { title: $t('examples.scaffold.virtualTable.colId'), dataIndex: 'id', width: 130 },
   { title: $t('examples.scaffold.virtualTable.colUsername'), dataIndex: 'username', width: 180 },
   { title: $t('examples.scaffold.virtualTable.colEmail'), dataIndex: 'email', width: 260 },
-  { title: $t('examples.scaffold.virtualTable.colDepartment'), dataIndex: 'department', width: 180 },
+  {
+    title: $t('examples.scaffold.virtualTable.colDepartment'),
+    dataIndex: 'department',
+    width: 180
+  },
   { title: $t('examples.scaffold.virtualTable.colStatus'), dataIndex: 'status', width: 120 },
-  { title: $t('examples.scaffold.virtualTable.colUpdatedAt'), dataIndex: 'updatedAt', width: 200 },
+  { title: $t('examples.scaffold.virtualTable.colUpdatedAt'), dataIndex: 'updatedAt', width: 200 }
 ])
 
 const filteredRows = computed(() => {
@@ -33,10 +37,11 @@ const filteredRows = computed(() => {
 
   const query = keyword.value.trim().toLowerCase()
   if (query) {
-    rows = rows.filter(item =>
-      item.username.toLowerCase().includes(query)
-      || item.email.toLowerCase().includes(query)
-      || item.department.toLowerCase().includes(query),
+    rows = rows.filter(
+      item =>
+        item.username.toLowerCase().includes(query) ||
+        item.email.toLowerCase().includes(query) ||
+        item.department.toLowerCase().includes(query)
     )
   }
 
@@ -62,29 +67,27 @@ function createRows(count: number) {
       email: `user_${i}@example.com`,
       department: departments[i % departments.length],
       status: statusList[i % statusList.length],
-      updatedAt: `2026-${month}-${day} 10:${String(i % 60).padStart(2, '0')}:00`,
+      updatedAt: `2026-${month}-${day} 10:${String(i % 60).padStart(2, '0')}:00`
     }
   })
 }
 
 function regenerateRows() {
   allRows.value = createRows(datasetSize.value)
-  message.success($t('examples.scaffold.virtualTable.regenerateSuccess', { count: datasetSize.value }))
+  message.success(
+    $t('examples.scaffold.virtualTable.regenerateSuccess', { count: datasetSize.value })
+  )
 }
 
 function getStatusText(status: StatusType) {
-  if (status === 'active')
-    return $t('examples.scaffold.virtualTable.statusActive')
-  if (status === 'inactive')
-    return $t('examples.scaffold.virtualTable.statusInactive')
+  if (status === 'active') return $t('examples.scaffold.virtualTable.statusActive')
+  if (status === 'inactive') return $t('examples.scaffold.virtualTable.statusInactive')
   return $t('examples.scaffold.virtualTable.statusPending')
 }
 
 function getStatusColor(status: StatusType) {
-  if (status === 'active')
-    return 'success'
-  if (status === 'inactive')
-    return 'default'
+  if (status === 'active') return 'success'
+  if (status === 'inactive') return 'default'
   return 'processing'
 }
 
@@ -112,18 +115,10 @@ onMounted(() => {
         <a-space wrap>
           <span class="text-secondary">{{ $t('examples.scaffold.virtualTable.datasetSize') }}</span>
           <a-select v-model:value="datasetSize" style="width: 140px">
-            <a-select-option :value="5000">
-              5,000
-            </a-select-option>
-            <a-select-option :value="20000">
-              20,000
-            </a-select-option>
-            <a-select-option :value="50000">
-              50,000
-            </a-select-option>
-            <a-select-option :value="100000">
-              100,000
-            </a-select-option>
+            <a-select-option :value="5000"> 5,000 </a-select-option>
+            <a-select-option :value="20000"> 20,000 </a-select-option>
+            <a-select-option :value="50000"> 50,000 </a-select-option>
+            <a-select-option :value="100000"> 100,000 </a-select-option>
           </a-select>
           <a-button @click="regenerateRows">
             {{ $t('examples.scaffold.virtualTable.regenerate') }}

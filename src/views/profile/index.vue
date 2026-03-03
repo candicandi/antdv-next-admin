@@ -6,7 +6,7 @@ import {
   MailOutlined,
   PhoneOutlined,
   TeamOutlined,
-  UserOutlined,
+  UserOutlined
 } from '@antdv-next/icons'
 import { message } from 'antdv-next'
 import { reactive, ref } from 'vue'
@@ -21,7 +21,7 @@ const loading = ref(false)
 const passwordForm = reactive({
   oldPassword: '',
   newPassword: '',
-  confirmPassword: '',
+  confirmPassword: ''
 })
 
 function validateConfirmPassword(_rule: any, value: string) {
@@ -32,29 +32,25 @@ function validateConfirmPassword(_rule: any, value: string) {
 }
 
 const passwordRules = {
-  oldPassword: [
-    { required: true, message: $t('profile.enterCurrentPassword'), trigger: 'blur' },
-  ],
+  oldPassword: [{ required: true, message: $t('profile.enterCurrentPassword'), trigger: 'blur' }],
   newPassword: [
     { required: true, message: $t('profile.enterNewPassword'), trigger: 'blur' },
-    { min: 6, message: $t('profile.passwordMinLength'), trigger: 'blur' },
+    { min: 6, message: $t('profile.passwordMinLength'), trigger: 'blur' }
   ],
   confirmPassword: [
     { required: true, message: $t('profile.enterConfirmPassword'), trigger: 'blur' },
-    { validator: validateConfirmPassword, trigger: 'blur' },
-  ],
+    { validator: validateConfirmPassword, trigger: 'blur' }
+  ]
 }
 
 function formatDate(dateString?: string) {
-  if (!dateString)
-    return '-'
+  if (!dateString) return '-'
   const date = new Date(dateString)
   return date.toLocaleDateString()
 }
 
 async function handleChangePassword() {
-  if (!formRef.value)
-    return
+  if (!formRef.value) return
 
   try {
     await formRef.value.validate()
@@ -62,7 +58,7 @@ async function handleChangePassword() {
 
     const params: ChangePasswordParams = {
       oldPassword: passwordForm.oldPassword,
-      newPassword: passwordForm.newPassword,
+      newPassword: passwordForm.newPassword
     }
 
     const response = await changePassword(params)
@@ -70,15 +66,12 @@ async function handleChangePassword() {
     if (response.success) {
       message.success(response.message || $t('profile.passwordChangeSuccess'))
       handleReset()
-    }
-    else {
+    } else {
       message.error(response.message || $t('profile.passwordChangeFailed'))
     }
-  }
-  catch (error: any) {
+  } catch (error: any) {
     console.error('Change password error:', error)
-  }
-  finally {
+  } finally {
     loading.value = false
   }
 }
@@ -104,9 +97,7 @@ function handleReset() {
             <h2 class="profile-name">
               {{ authStore.user?.realName || authStore.user?.username }}
             </h2>
-            <p class="profile-username">
-              @{{ authStore.user?.username }}
-            </p>
+            <p class="profile-username">@{{ authStore.user?.username }}</p>
           </div>
 
           <a-divider />

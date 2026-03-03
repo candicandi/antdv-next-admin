@@ -16,15 +16,14 @@ const props = withDefaults(defineProps<Props>(), {
   column: 2,
   bordered: false,
   size: 'default',
-  layout: 'horizontal',
+  layout: 'horizontal'
 })
 
 function getValue(item: ProDescriptionItem) {
   const keys = item.dataIndex.split('.')
   let val: any = props.data
   for (const key of keys) {
-    if (val == null)
-      return undefined
+    if (val == null) return undefined
     val = val[key]
   }
   return val

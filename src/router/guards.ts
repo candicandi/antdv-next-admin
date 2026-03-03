@@ -28,15 +28,13 @@ function recordMenuHistory(route: RouteLocationNormalized) {
       path: route.path,
       title,
       icon: route.meta?.icon as string,
-      timestamp: Date.now(),
+      timestamp: Date.now()
     })
 
     const trimmed = filtered.slice(0, MAX_HISTORY_ITEMS)
 
     localStorage.setItem(MENU_HISTORY_KEY, JSON.stringify(trimmed))
-  }
-  catch {
-  }
+  } catch {}
 }
 
 /**
@@ -51,8 +49,7 @@ export function setupRouterGuards(router: Router) {
     const dictStore = useDictStore()
 
     const generateDynamicRoutes = async () => {
-      if (permissionStore.isRoutesGenerated)
-        return
+      if (permissionStore.isRoutesGenerated) return
 
       if (!authStore.user) {
         authStore.initAuth()
@@ -60,10 +57,10 @@ export function setupRouterGuards(router: Router) {
 
       const accessRoutes = await permissionStore.generateRoutes(
         authStore.userRoles,
-        authStore.userPermissions,
+        authStore.userPermissions
       )
 
-      accessRoutes.forEach((route) => {
+      accessRoutes.forEach(route => {
         const routeName = route.name ? String(route.name) : ''
         if (routeName && router.hasRoute(routeName)) {
           return
@@ -76,13 +73,9 @@ export function setupRouterGuards(router: Router) {
     }
 
     const initTabsIfNeeded = () => {
-      if (tabsStore.tabs.length > 0)
-        return
+      if (tabsStore.tabs.length > 0) return
 
-      const routeSources = [
-        ...basicRoutes,
-        ...(permissionStore.routes as any[]),
-      ]
+      const routeSources = [...basicRoutes, ...(permissionStore.routes as any[])]
 
       tabsStore.restoreTabsState(routeSources)
 
@@ -95,7 +88,7 @@ export function setupRouterGuards(router: Router) {
     if (to.meta.title) {
       const title = resolveLocaleText(
         to.meta.title as string,
-        String(to.name || to.path || 'Dashboard'),
+        String(to.name || to.path || 'Dashboard')
       )
       document.title = `${title} - ${import.meta.env.VITE_APP_TITLE || 'Antdv Next Admin'}`
     }
@@ -103,13 +96,12 @@ export function setupRouterGuards(router: Router) {
     // If first refresh hits catch-all and is redirected to 404,
     // restore dynamic routes first, then retry the original target.
     const redirectedFromPath = to.redirectedFrom?.fullPath
-    const shouldRecoverFromNotFound = (
-      to.path === '/404'
-      && !!redirectedFromPath
-      && redirectedFromPath !== '/404'
-      && isLoggedIn()
-      && !permissionStore.isRoutesGenerated
-    )
+    const shouldRecoverFromNotFound =
+      to.path === '/404' &&
+      !!redirectedFromPath &&
+      redirectedFromPath !== '/404' &&
+      isLoggedIn() &&
+      !permissionStore.isRoutesGenerated
 
     if (shouldRecoverFromNotFound) {
       try {
@@ -117,8 +109,7 @@ export function setupRouterGuards(router: Router) {
         initTabsIfNeeded()
         next({ path: redirectedFromPath, replace: true })
         return
-      }
-      catch (error) {
+      } catch (error) {
         console.error('Failed to recover routes from not found redirect:', error)
         next('/403')
         return
@@ -128,10 +119,10 @@ export function setupRouterGuards(router: Router) {
     // If catch-all redirected to 404 but user is not logged in,
     // redirect to login instead of showing 404
     if (
-      to.path === '/404'
-      && !!redirectedFromPath
-      && redirectedFromPath !== '/404'
-      && !isLoggedIn()
+      to.path === '/404' &&
+      !!redirectedFromPath &&
+      redirectedFromPath !== '/404' &&
+      !isLoggedIn()
     ) {
       next({ path: '/login', query: { redirect: redirectedFromPath } })
       return
@@ -146,7 +137,7 @@ export function setupRouterGuards(router: Router) {
         // Redirect to login page
         next({
           path: '/login',
-          query: { redirect: to.fullPath },
+          query: { redirect: to.fullPath }
         })
         return
       }
@@ -160,8 +151,7 @@ export function setupRouterGuards(router: Router) {
           // Continue to the target route
           next({ ...to, replace: true })
           return
-        }
-        catch (error) {
+        } catch (error) {
           console.error('Failed to generate routes:', error)
           next('/403')
           return
@@ -170,7 +160,11 @@ export function setupRouterGuards(router: Router) {
 
       // Check permissions
       const requiredPermissions = to.meta.requiredPermissions as string[] | undefined
-      if (requiredPermissions && Array.isArray(requiredPermissions) && requiredPermissions.length > 0) {
+      if (
+        requiredPermissions &&
+        Array.isArray(requiredPermissions) &&
+        requiredPermissions.length > 0
+      ) {
         const hasPermission = authStore.hasAnyPermission(requiredPermissions)
         if (!hasPermission) {
           next('/403')
@@ -200,7 +194,7 @@ export function setupRouterGuards(router: Router) {
   })
 
   // After each route navigation
-  router.afterEach((to) => {
+  router.afterEach(to => {
     // Scroll to top
     window.scrollTo(0, 0)
 
@@ -217,7 +211,7 @@ export function setupRouterGuards(router: Router) {
   })
 
   // On error
-  router.onError((error) => {
+  router.onError(error => {
     console.error('Router error:', error)
   })
 }

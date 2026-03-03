@@ -6,8 +6,17 @@ export default defineMock([
   {
     url: '/api/log/operation/list',
     method: 'GET',
-    body: (req) => {
-      const { username, module, action, status, startTime, endTime, page = 1, pageSize = 10 } = req.query
+    body: req => {
+      const {
+        username,
+        module,
+        action,
+        status,
+        startTime,
+        endTime,
+        page = 1,
+        pageSize = 10
+      } = req.query
 
       let filtered = [...operationLogs]
 
@@ -37,16 +46,16 @@ export default defineMock([
       return {
         code: 200,
         message: 'success',
-        data: { list, total: filtered.length, page: Number(page), pageSize: Number(pageSize) },
+        data: { list, total: filtered.length, page: Number(page), pageSize: Number(pageSize) }
       }
-    },
+    }
   },
 
   // login log list
   {
     url: '/api/log/login/list',
     method: 'GET',
-    body: (req) => {
+    body: req => {
       const { username, ip, status, startTime, endTime, page = 1, pageSize = 10 } = req.query
 
       let filtered = [...loginLogs]
@@ -74,9 +83,9 @@ export default defineMock([
       return {
         code: 200,
         message: 'success',
-        data: { list, total: filtered.length, page: Number(page), pageSize: Number(pageSize) },
+        data: { list, total: filtered.length, page: Number(page), pageSize: Number(pageSize) }
       }
-    },
+    }
   },
 
   // clear operation log
@@ -86,7 +95,7 @@ export default defineMock([
     body: () => {
       operationLogs.length = 0
       return { code: 200, message: 'success' }
-    },
+    }
   },
 
   // clear login log
@@ -96,6 +105,6 @@ export default defineMock([
     body: () => {
       loginLogs.length = 0
       return { code: 200, message: 'success' }
-    },
-  },
+    }
+  }
 ])

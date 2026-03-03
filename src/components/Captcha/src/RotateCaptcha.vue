@@ -11,7 +11,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   width: '100%',
   src: 'https://picsum.photos/300/300',
-  tolerance: 10,
+  tolerance: 10
 })
 
 const emit = defineEmits(['success', 'fail'])
@@ -34,18 +34,15 @@ function init() {
 init()
 
 function handleMouseDown(e: MouseEvent) {
-  if (isSuccess.value)
-    return
+  if (isSuccess.value) return
   isMoving.value = true
   const startX = e.clientX
   const startPercent = sliderPercent.value
 
   const handleMouseMove = (e: MouseEvent) => {
-    if (!isMoving.value)
-      return
+    if (!isMoving.value) return
     const container = sliderRef.value
-    if (!container)
-      return
+    if (!container) return
 
     const width = container.clientWidth
     const deltaX = e.clientX - startX
@@ -67,16 +64,13 @@ function handleMouseDown(e: MouseEvent) {
 
     // Check if angle is close to 0 (360 multiples)
     let normalizedAngle = currentAngle.value % 360
-    if (normalizedAngle > 180)
-      normalizedAngle -= 360
-    if (normalizedAngle < -180)
-      normalizedAngle += 360
+    if (normalizedAngle > 180) normalizedAngle -= 360
+    if (normalizedAngle < -180) normalizedAngle += 360
 
     if (Math.abs(normalizedAngle) <= props.tolerance) {
       isSuccess.value = true
       emit('success')
-    }
-    else {
+    } else {
       emit('fail')
     }
   }
@@ -101,7 +95,7 @@ defineExpose({ reset })
         :style="{ transform: `rotate(${currentAngle}deg)` }"
         alt="captcha"
         draggable="false"
-      >
+      />
       <div v-if="isSuccess" class="success-mask">
         <span class="success-icon">✔</span>
       </div>

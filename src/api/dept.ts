@@ -26,7 +26,10 @@ export async function createDept(data: Partial<Department>): Promise<ApiResponse
 /**
  * 更新部门
  */
-export async function updateDept(id: string, data: Partial<Department>): Promise<ApiResponse<Department>> {
+export async function updateDept(
+  id: string,
+  data: Partial<Department>
+): Promise<ApiResponse<Department>> {
   return request.put(`/dept/${id}`, data)
 }
 

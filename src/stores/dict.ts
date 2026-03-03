@@ -16,14 +16,14 @@ export const useDictStore = defineStore('dict', () => {
   // 按类型分组的字典数据
   const dictGroup = computed<DictGroup>(() => {
     const group: DictGroup = {}
-    dictData.value.forEach((item) => {
+    dictData.value.forEach(item => {
       if (!group[item.typeCode]) {
         group[item.typeCode] = []
       }
       group[item.typeCode].push(item)
     })
     // 按 sort 排序
-    Object.keys(group).forEach((key) => {
+    Object.keys(group).forEach(key => {
       group[key].sort((a, b) => a.sort - b.sort)
     })
     return group
@@ -45,16 +45,14 @@ export const useDictStore = defineStore('dict', () => {
 
     try {
       loading.value = true
-      const response = await getAllDictData() as any
+      const response = (await getAllDictData()) as any
       if (response.code === 200) {
         dictData.value = response.data.filter((item: DictData) => item.status === 'enabled')
         loaded.value = true
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error('加载字典数据失败:', error)
-    }
-    finally {
+    } finally {
       loading.value = false
     }
   }
@@ -88,7 +86,7 @@ export const useDictStore = defineStore('dict', () => {
   const getDictOptions = (typeCode: string) => {
     return getDictByType(typeCode).map(item => ({
       label: item.label,
-      value: item.value,
+      value: item.value
     }))
   }
 
@@ -118,6 +116,6 @@ export const useDictStore = defineStore('dict', () => {
     getDictValue,
     getDictOptions,
     refreshDictData,
-    clearDictData,
+    clearDictData
   }
 })

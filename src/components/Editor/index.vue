@@ -11,7 +11,7 @@ import {
   RedoOutlined,
   StrikethroughOutlined,
   UndoOutlined,
-  UnorderedListOutlined,
+  UnorderedListOutlined
 } from '@antdv-next/icons'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
@@ -33,12 +33,12 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
   placeholder: '',
   disabled: false,
-  height: 400,
+  height: 400
 })
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
-  'change': [value: string]
+  change: [value: string]
 }>()
 
 const resolvedPlaceholder = computed(() => props.placeholder || $t('editor.defaultPlaceholder'))
@@ -56,44 +56,49 @@ const editor = useEditor({
     StarterKit,
     Image.configure({
       inline: true,
-      allowBase64: true,
+      allowBase64: true
     }),
     Link.configure({
       openOnClick: false,
       HTMLAttributes: {
         target: '_blank',
-        rel: 'noopener noreferrer',
-      },
+        rel: 'noopener noreferrer'
+      }
     }),
     Placeholder.configure({
-      placeholder: resolvedPlaceholder.value,
-    }),
+      placeholder: resolvedPlaceholder.value
+    })
   ],
   onUpdate: ({ editor }) => {
     const html = editor.getHTML()
     emit('update:modelValue', html)
     emit('change', html)
-  },
+  }
 })
 
 // 监听外部值变化
-watch(() => props.modelValue, (newValue) => {
-  if (editor.value && newValue !== editor.value.getHTML()) {
-    editor.value.commands.setContent(newValue)
+watch(
+  () => props.modelValue,
+  newValue => {
+    if (editor.value && newValue !== editor.value.getHTML()) {
+      editor.value.commands.setContent(newValue)
+    }
   }
-})
+)
 
 // 监听禁用状态
-watch(() => props.disabled, (disabled) => {
-  if (editor.value) {
-    editor.value.setEditable(!disabled)
+watch(
+  () => props.disabled,
+  disabled => {
+    if (editor.value) {
+      editor.value.setEditable(!disabled)
+    }
   }
-})
+)
 
 // 图片上传
-const handleImageUpload: UploadProps['beforeUpload'] = async (file) => {
-  if (!editor.value)
-    return false
+const handleImageUpload: UploadProps['beforeUpload'] = async file => {
+  if (!editor.value) return false
 
   // 检查文件类型
   if (!file.type.startsWith('image/')) {
@@ -110,7 +115,7 @@ const handleImageUpload: UploadProps['beforeUpload'] = async (file) => {
   try {
     // 方式1: 转换为 Base64（适合小图片）
     const reader = new FileReader()
-    reader.onload = (e) => {
+    reader.onload = e => {
       const base64 = e.target?.result as string
       editor.value?.chain().focus().setImage({ src: base64 }).run()
     }
@@ -127,8 +132,7 @@ const handleImageUpload: UploadProps['beforeUpload'] = async (file) => {
     // editor.value?.chain().focus().setImage({ src: data.url }).run()
 
     message.success($t('editor.imageInsertSuccess'))
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Image upload failed:', error)
     message.error($t('editor.imageUploadFailed'))
   }
@@ -140,10 +144,11 @@ const handleImageUpload: UploadProps['beforeUpload'] = async (file) => {
 function showLinkModal() {
   const { href } = editor.value?.getAttributes('link') || {}
   linkUrl.value = href || ''
-  linkText.value = editor.value?.state.doc.textBetween(
-    editor.value.state.selection.from,
-    editor.value.state.selection.to,
-  ) || ''
+  linkText.value =
+    editor.value?.state.doc.textBetween(
+      editor.value.state.selection.from,
+      editor.value.state.selection.to
+    ) || ''
   linkModalVisible.value = true
 }
 
@@ -154,8 +159,7 @@ function insertLink() {
     return
   }
 
-  if (!editor.value)
-    return
+  if (!editor.value) return
 
   // 如果有选中文本，直接添加链接
   if (editor.value.state.selection.empty) {
@@ -165,14 +169,9 @@ function insertLink() {
       .focus()
       .insertContent(`<a href="${linkUrl.value}">${linkText.value || linkUrl.value}</a>`)
       .run()
-  }
-  else {
+  } else {
     // 有选中文本，添加链接
-    editor.value
-      .chain()
-      .focus()
-      .setLink({ href: linkUrl.value })
-      .run()
+    editor.value.chain().focus().setLink({ href: linkUrl.value }).run()
   }
 
   linkModalVisible.value = false
@@ -298,11 +297,7 @@ onBeforeUnmount(() => {
         <a-divider type="vertical" />
 
         <!-- 图片和链接 -->
-        <a-upload
-          :show-upload-list="false"
-          :before-upload="handleImageUpload"
-          accept="image/*"
-        >
+        <a-upload :show-upload-list="false" :before-upload="handleImageUpload" accept="image/*">
           <a-button size="small">
             <template #icon>
               <PictureOutlined />
@@ -345,11 +340,7 @@ onBeforeUnmount(() => {
     <EditorContent :editor="editor" class="editor-content" />
 
     <!-- 链接弹窗 -->
-    <a-modal
-      v-model:open="linkModalVisible"
-      :title="$t('editor.insertLink')"
-      @ok="insertLink"
-    >
+    <a-modal v-model:open="linkModalVisible" :title="$t('editor.insertLink')" @ok="insertLink">
       <a-form layout="vertical">
         <a-form-item :label="$t('editor.linkUrl')">
           <a-input v-model:value="linkUrl" placeholder="https://example.com" />

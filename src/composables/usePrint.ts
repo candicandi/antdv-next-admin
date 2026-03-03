@@ -38,22 +38,16 @@ export function usePrint() {
    */
   const printElement = async (
     element: HTMLElement | string,
-    options: PrintOptions = {},
+    options: PrintOptions = {}
   ): Promise<void> => {
-    const {
-      title = document.title,
-      styles = [],
-      cssUrls = [],
-      timeout = 200,
-    } = options
+    const { title = document.title, styles = [], cssUrls = [], timeout = 200 } = options
 
     isPrinting.value = true
 
     try {
       // Get the target element
-      const targetEl = typeof element === 'string'
-        ? document.querySelector<HTMLElement>(element)
-        : element
+      const targetEl =
+        typeof element === 'string' ? document.querySelector<HTMLElement>(element) : element
 
       if (!targetEl) {
         throw new Error('Print target element not found')
@@ -67,7 +61,7 @@ export function usePrint() {
       }
 
       // Wait for window to be ready
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         printWindow.document.open()
         printWindow.document.write(`
           <!DOCTYPE html>
@@ -83,7 +77,7 @@ export function usePrint() {
         printWindow.document.close()
 
         // Add CSS URLs
-        cssUrls.forEach((url) => {
+        cssUrls.forEach(url => {
           const link = printWindow.document.createElement('link')
           link.rel = 'stylesheet'
           link.href = url
@@ -103,8 +97,7 @@ export function usePrint() {
       printWindow.focus()
       printWindow.print()
       printWindow.close()
-    }
-    finally {
+    } finally {
       isPrinting.value = false
     }
   }
@@ -116,8 +109,7 @@ export function usePrint() {
     isPrinting.value = true
     try {
       window.print()
-    }
-    finally {
+    } finally {
       isPrinting.value = false
     }
   }
@@ -139,7 +131,7 @@ export function usePrint() {
 
       printWindow.document.title = title
 
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         printWindow.onload = () => {
           setTimeout(() => {
             printWindow.focus()
@@ -149,8 +141,7 @@ export function usePrint() {
           }, options.timeout || 500)
         }
       })
-    }
-    finally {
+    } finally {
       isPrinting.value = false
     }
   }
@@ -174,6 +165,6 @@ export function usePrint() {
     printPage,
     printUrl,
     onPrintStart,
-    onPrintEnd,
+    onPrintEnd
   }
 }

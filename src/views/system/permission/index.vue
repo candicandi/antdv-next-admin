@@ -8,7 +8,7 @@ import {
   createPermission,
   deletePermission,
   getPermissionList,
-  updatePermission,
+  updatePermission
 } from '@/api/permission'
 import ProForm from '@/components/Pro/ProForm/index.vue'
 import ProTable from '@/components/Pro/ProTable/index.vue'
@@ -55,18 +55,20 @@ const formValues = ref<PermissionFormValues>(createDefaultFormValues())
 const toolbarConfig = computed(() => ({
   title: $t('permission.title'),
   subTitle: 'ProTable + ProForm',
-  actions: ['!refresh', '!density', '!columnSetting'] as Array<'!refresh' | '!density' | '!columnSetting'>,
+  actions: ['!refresh', '!density', '!columnSetting'] as Array<
+    '!refresh' | '!density' | '!columnSetting'
+  >
 }))
 
 const permissionTypeOptions = computed(() => [
   { label: $t('permission.menu'), value: 'menu' },
   { label: $t('permission.button'), value: 'button' },
-  { label: $t('permission.api'), value: 'api' },
+  { label: $t('permission.api'), value: 'api' }
 ])
 
 const statusOptions = computed(() => [
   { label: $t('user.active'), value: 'active' },
-  { label: $t('user.inactive'), value: 'inactive' },
+  { label: $t('user.inactive'), value: 'inactive' }
 ])
 
 const currentType = computed(() => formValues.value.type || 'menu')
@@ -75,7 +77,9 @@ const modalTitle = computed(() => {
   if (modalMode.value === 'edit') {
     return $t('permission.editPermission')
   }
-  return formValues.value.parentId ? $t('permission.createChildMenu') : $t('permission.createPermission')
+  return formValues.value.parentId
+    ? $t('permission.createChildMenu')
+    : $t('permission.createPermission')
 })
 
 const currentParentName = computed(() => {
@@ -85,20 +89,26 @@ const currentParentName = computed(() => {
   return findPermissionName(menuTree.value, formValues.value.parentId) || '-'
 })
 
-const permissionTypeValueEnum = computed<Record<string, { text: string, status?: string, color?: string }>>(() => ({
+const permissionTypeValueEnum = computed<
+  Record<string, { text: string; status?: string; color?: string }>
+>(() => ({
   menu: { text: $t('permission.menu'), color: 'processing' },
   button: { text: $t('permission.button'), color: 'success' },
-  api: { text: $t('permission.api'), color: 'purple' },
+  api: { text: $t('permission.api'), color: 'purple' }
 }))
 
-const permissionStatusValueEnum = computed<Record<string, { text: string, status?: string, color?: string }>>(() => ({
+const permissionStatusValueEnum = computed<
+  Record<string, { text: string; status?: string; color?: string }>
+>(() => ({
   active: { text: $t('user.active'), status: 'success' },
-  inactive: { text: $t('user.inactive'), status: 'default' },
+  inactive: { text: $t('user.inactive'), status: 'default' }
 }))
 
-const permissionVisibleValueEnum = computed<Record<string, { text: string, status?: string, color?: string }>>(() => ({
+const permissionVisibleValueEnum = computed<
+  Record<string, { text: string; status?: string; color?: string }>
+>(() => ({
   true: { text: $t('permission.show'), color: 'blue' },
-  false: { text: $t('permission.hide'), color: 'default' },
+  false: { text: $t('permission.hide'), color: 'default' }
 }))
 
 const columns = computed((): ProTableColumn[] => [
@@ -107,17 +117,17 @@ const columns = computed((): ProTableColumn[] => [
     dataIndex: 'keyword',
     search: true,
     searchType: 'input',
-    hideInTable: true,
+    hideInTable: true
   },
   {
     title: $t('permission.name'),
     dataIndex: 'name',
-    width: 220,
+    width: 220
   },
   {
     title: $t('permission.code'),
     dataIndex: 'code',
-    width: 220,
+    width: 220
   },
   {
     title: $t('permission.type'),
@@ -127,17 +137,17 @@ const columns = computed((): ProTableColumn[] => [
     searchOptions: permissionTypeOptions.value,
     width: 120,
     valueType: 'tag',
-    valueEnum: permissionTypeValueEnum.value,
+    valueEnum: permissionTypeValueEnum.value
   },
   {
     title: $t('permission.routePath'),
     dataIndex: 'path',
-    width: 170,
+    width: 170
   },
   {
     title: $t('permission.componentPath'),
     dataIndex: 'component',
-    width: 220,
+    width: 220
   },
   {
     title: $t('common.status'),
@@ -147,19 +157,19 @@ const columns = computed((): ProTableColumn[] => [
     searchOptions: statusOptions.value,
     width: 120,
     valueType: 'badge',
-    valueEnum: permissionStatusValueEnum.value,
+    valueEnum: permissionStatusValueEnum.value
   },
   {
     title: $t('permission.visible'),
     dataIndex: 'visible',
     width: 100,
     valueType: 'tag',
-    valueEnum: permissionVisibleValueEnum.value,
+    valueEnum: permissionVisibleValueEnum.value
   },
   {
     title: $t('permission.sort'),
     dataIndex: 'sort',
-    width: 90,
+    width: 90
   },
   {
     title: $t('common.actions'),
@@ -171,22 +181,22 @@ const columns = computed((): ProTableColumn[] => [
         label: $t('permission.addChild'),
         icon: PlusOutlined,
         hidden: record => (record as Permission).type !== 'menu',
-        onClick: record => handleCreateChild(record as Permission),
+        onClick: record => handleCreateChild(record as Permission)
       },
       {
         label: $t('common.edit'),
         icon: EditOutlined,
-        onClick: record => handleEdit(record as Permission),
+        onClick: record => handleEdit(record as Permission)
       },
       {
         label: $t('common.delete'),
         icon: DeleteOutlined,
         danger: true,
         confirm: $t('permission.confirmDelete'),
-        onClick: record => handleDelete(record as Permission),
-      },
-    ],
-  },
+        onClick: record => handleDelete(record as Permission)
+      }
+    ]
+  }
 ])
 
 const formItems = computed<ProFormItem[]>(() => [
@@ -194,7 +204,7 @@ const formItems = computed<ProFormItem[]>(() => [
     name: 'name',
     label: $t('permission.name'),
     type: 'input',
-    required: true,
+    required: true
   },
   {
     name: 'code',
@@ -202,52 +212,54 @@ const formItems = computed<ProFormItem[]>(() => [
     type: 'input',
     required: true,
     props: {
-      disabled: Boolean(editingPermissionId.value),
+      disabled: Boolean(editingPermissionId.value)
     },
     rules: [
       { required: true, message: $t('permission.codeRequired') },
-      { pattern: /^[\w.-]+$/, message: $t('permission.codePattern') },
-    ],
+      { pattern: /^[\w.-]+$/, message: $t('permission.codePattern') }
+    ]
   },
   {
     name: 'type',
     label: $t('permission.type'),
     type: 'select',
     options: permissionTypeOptions.value,
-    required: true,
+    required: true
   },
   {
     name: 'status',
     label: $t('common.status'),
     type: 'radio',
-    options: statusOptions.value,
+    options: statusOptions.value
   },
   {
     name: 'path',
     label: $t('permission.routePath'),
     type: 'input',
     hidden: currentType.value !== 'menu',
-    rules: [{
-      validator: (_rule: any, value: any) => {
-        if (currentType.value === 'menu' && !String(value || '').trim()) {
-          return Promise.reject(new Error($t('permission.menuRouteRequired')))
+    rules: [
+      {
+        validator: (_rule: any, value: any) => {
+          if (currentType.value === 'menu' && !String(value || '').trim()) {
+            return Promise.reject(new Error($t('permission.menuRouteRequired')))
+          }
+          return Promise.resolve()
         }
-        return Promise.resolve()
-      },
-    }],
+      }
+    ]
   },
   {
     name: 'component',
     label: $t('permission.componentPath'),
     type: 'input',
-    hidden: currentType.value !== 'menu',
+    hidden: currentType.value !== 'menu'
   },
   {
     name: 'icon',
     label: $t('permission.icon'),
     type: 'input',
     hidden: currentType.value !== 'menu',
-    placeholder: $t('permission.iconPlaceholder'),
+    placeholder: $t('permission.iconPlaceholder')
   },
   {
     name: 'sort',
@@ -255,18 +267,18 @@ const formItems = computed<ProFormItem[]>(() => [
     type: 'number',
     hidden: currentType.value !== 'menu',
     props: {
-      min: 0,
-    },
+      min: 0
+    }
   },
   {
     name: 'resource',
     label: $t('permission.resource'),
-    type: 'input',
+    type: 'input'
   },
   {
     name: 'action',
     label: $t('permission.action'),
-    type: 'input',
+    type: 'input'
   },
   {
     name: 'description',
@@ -274,8 +286,8 @@ const formItems = computed<ProFormItem[]>(() => [
     type: 'textarea',
     colSpan: 2,
     props: {
-      rows: 3,
-    },
+      rows: 3
+    }
   },
   {
     name: 'visible',
@@ -285,9 +297,9 @@ const formItems = computed<ProFormItem[]>(() => [
     valuePropName: 'checked',
     props: {
       checkedChildren: $t('permission.show'),
-      unCheckedChildren: $t('permission.hide'),
-    },
-  },
+      unCheckedChildren: $t('permission.hide')
+    }
+  }
 ])
 
 function createDefaultFormValues(): PermissionFormValues {
@@ -304,7 +316,7 @@ function createDefaultFormValues(): PermissionFormValues {
     status: 'active',
     visible: true,
     resource: '',
-    action: 'view',
+    action: 'view'
   }
 }
 
@@ -317,7 +329,7 @@ function normalizePath(path: string) {
 
 function collectPermissionIds(list: Permission[]): string[] {
   const ids: string[] = []
-  list.forEach((item) => {
+  list.forEach(item => {
     ids.push(item.id)
     if (item.children && item.children.length > 0) {
       ids.push(...collectPermissionIds(item.children))
@@ -345,7 +357,7 @@ async function fetchTableData(params: Record<string, any>) {
   const response = await getPermissionList({
     keyword: params.keyword?.trim() || undefined,
     type: params.type || undefined,
-    status: params.status || undefined,
+    status: params.status || undefined
   })
 
   menuTree.value = response.data
@@ -353,15 +365,14 @@ async function fetchTableData(params: Record<string, any>) {
 
   if (keepExpandAll.value) {
     expandedRowKeys.value = allIds
-  }
-  else {
+  } else {
     expandedRowKeys.value = expandedRowKeys.value.filter(id => allIds.includes(String(id)))
   }
 
   return {
     data: response.data,
     total: allIds.length,
-    success: true,
+    success: true
   }
 }
 
@@ -402,7 +413,7 @@ function handleCreateChild(record: Permission) {
     parentId: record.id,
     type: 'menu' as const,
     resource: record.path || '',
-    action: 'view',
+    action: 'view'
   }
   formData.value = initialValues
   formValues.value = initialValues
@@ -425,7 +436,7 @@ function handleEdit(record: Permission) {
     status: record.status || 'active',
     visible: record.visible !== false,
     resource: record.resource || '',
-    action: record.action || (record.type === 'menu' ? 'view' : '*'),
+    action: record.action || (record.type === 'menu' ? 'view' : '*')
   }
   formData.value = initialValues
   formValues.value = initialValues
@@ -448,14 +459,14 @@ async function handleDelete(record: Permission) {
       await deletePermission(record.id)
       message.success($t('common.success'))
       refreshTable()
-    },
+    }
   })
 }
 
 function handleFormValuesChange(values: Record<string, any>) {
   formValues.value = {
     ...formValues.value,
-    ...values,
+    ...values
   }
 }
 
@@ -480,7 +491,7 @@ async function handleSubmit() {
     component: values.type === 'menu' ? values.component?.trim() || undefined : undefined,
     icon: values.type === 'menu' ? values.icon?.trim() || undefined : undefined,
     resource: values.resource?.trim() || normalizePath(values.path?.trim()) || values.code?.trim(),
-    action: values.action?.trim() || (values.type === 'menu' ? 'view' : '*'),
+    action: values.action?.trim() || (values.type === 'menu' ? 'view' : '*')
   }
 
   submitting.value = true
@@ -488,8 +499,7 @@ async function handleSubmit() {
     if (modalMode.value === 'edit' && editingPermissionId.value) {
       await updatePermission(editingPermissionId.value, payload)
       message.success($t('permission.updateSuccess'))
-    }
-    else {
+    } else {
       await createPermission(payload)
       message.success($t('permission.createSuccess'))
     }
@@ -499,8 +509,7 @@ async function handleSubmit() {
     formData.value = initialValues
     formValues.value = initialValues
     refreshTable()
-  }
-  finally {
+  } finally {
     submitting.value = false
   }
 }
@@ -515,7 +524,7 @@ async function handleSubmit() {
       :toolbar="toolbarConfig"
       :search="{
         labelWidth: 6,
-        defaultCollapsed: false,
+        defaultCollapsed: false
       }"
       :pagination="false"
       row-key="id"
@@ -547,9 +556,7 @@ async function handleSubmit() {
       @cancel="handleCancel"
     >
       <a-alert v-if="currentParentName" type="info" show-icon style="margin-bottom: 12px">
-        <template #message>
-          {{ $t('permission.parentMenu') }}：{{ currentParentName }}
-        </template>
+        <template #message> {{ $t('permission.parentMenu') }}：{{ currentParentName }} </template>
       </a-alert>
 
       <ProForm

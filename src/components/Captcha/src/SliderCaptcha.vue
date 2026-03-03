@@ -12,7 +12,7 @@ withDefaults(defineProps<Props>(), {
   width: '100%',
   height: 40,
   text: 'Slide to verify',
-  successText: 'Success',
+  successText: 'Success'
 })
 
 const emit = defineEmits(['success', 'fail'])
@@ -24,8 +24,7 @@ const startX = ref(0)
 let containerWidth = 0
 
 function handleMouseDown(e: MouseEvent) {
-  if (isSuccess.value)
-    return
+  if (isSuccess.value) return
   isMoving.value = true
   startX.value = e.clientX
 
@@ -41,17 +40,14 @@ function handleMouseDown(e: MouseEvent) {
 }
 
 function handleMouseMove(e: MouseEvent) {
-  if (!isMoving.value)
-    return
+  if (!isMoving.value) return
   const offset = e.clientX - startX.value
 
   if (offset < 0) {
     sliderLeft.value = 0
-  }
-  else if (offset > containerWidth) {
+  } else if (offset > containerWidth) {
     sliderLeft.value = containerWidth
-  }
-  else {
+  } else {
     sliderLeft.value = offset
   }
 }
@@ -64,8 +60,7 @@ function handleMouseUp() {
 }
 
 function handleTouchStart(e: TouchEvent) {
-  if (isSuccess.value)
-    return
+  if (isSuccess.value) return
   isMoving.value = true
   startX.value = e.touches[0].clientX
 
@@ -80,18 +75,15 @@ function handleTouchStart(e: TouchEvent) {
 }
 
 function handleTouchMove(e: TouchEvent) {
-  if (!isMoving.value)
-    return
+  if (!isMoving.value) return
   e.preventDefault()
   const offset = e.touches[0].clientX - startX.value
 
   if (offset < 0) {
     sliderLeft.value = 0
-  }
-  else if (offset > containerWidth) {
+  } else if (offset > containerWidth) {
     sliderLeft.value = containerWidth
-  }
-  else {
+  } else {
     sliderLeft.value = offset
   }
 }
@@ -108,15 +100,13 @@ function finishDrag() {
     isSuccess.value = true
     sliderLeft.value = containerWidth
     emit('success')
-  }
-  else {
+  } else {
     // Reset animation
     const animate = () => {
       if (sliderLeft.value > 0) {
         sliderLeft.value = Math.max(0, sliderLeft.value - 10)
         requestAnimationFrame(animate)
-      }
-      else {
+      } else {
         emit('fail')
       }
     }
@@ -137,18 +127,15 @@ defineExpose({ reset })
   <div
     class="slider-captcha"
     :style="{
-      'width': typeof width === 'number' ? `${width}px` : width,
-      '--slider-height': typeof height === 'number' ? `${height}px` : height,
+      width: typeof width === 'number' ? `${width}px` : width,
+      '--slider-height': typeof height === 'number' ? `${height}px` : height
     }"
   >
     <div class="slider-bg" :class="{ success: isSuccess }">
       <div class="slider-text" :style="{ opacity: isMoving ? 0 : 1 }">
         {{ isSuccess ? successText : text }}
       </div>
-      <div
-        class="slider-track"
-        :style="{ width: isSuccess ? '100%' : `${sliderLeft}px` }"
-      />
+      <div class="slider-track" :style="{ width: isSuccess ? '100%' : `${sliderLeft}px` }" />
       <div
         class="slider-handle"
         :class="{ success: isSuccess }"

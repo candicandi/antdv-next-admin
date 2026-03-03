@@ -11,7 +11,7 @@ const mimeMap: Record<string, string> = {
   mp4: 'video/mp4',
   txt: 'text/plain',
   pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-  svg: 'image/svg+xml',
+  svg: 'image/svg+xml'
 }
 const storages: SysFile['storage'][] = ['local', 'oss', 'cos']
 const uploaders = ['admin', 'zhangsan', 'lisi', 'wangwu']
@@ -25,7 +25,7 @@ const fileNames: Record<string, string[]> = {
   mp4: ['产品演示', '培训视频', '操作教程', '宣传片', '会议录像'],
   txt: ['配置说明', '更新日志', '临时笔记', '导入模板', '错误日志'],
   pptx: ['季度汇报', '产品介绍', '培训课件', '方案演示', '年终总结'],
-  svg: ['图标文件', '流程图', '架构图', '组织结构图', '数据图表'],
+  svg: ['图标文件', '流程图', '架构图', '组织结构图', '数据图表']
 }
 
 function randomDate(start: string, end: string) {
@@ -46,7 +46,7 @@ function randomSize(ext: string): number {
     mp4: [5_000_000, 500_000_000],
     txt: [100, 500_000],
     pptx: [200_000, 50_000_000],
-    svg: [1_000, 200_000],
+    svg: [1_000, 200_000]
   }
   const [min, max] = ranges[ext] || [1000, 1_000_000]
   return Math.floor(min + Math.random() * (max - min))
@@ -71,7 +71,7 @@ for (const ext of exts) {
       storage,
       uploader: uploaders[Math.floor(Math.random() * uploaders.length)],
       remark: '',
-      createTime: randomDate('2024-01-01', '2024-12-31'),
+      createTime: randomDate('2024-01-01', '2024-12-31')
     })
   }
 }

@@ -8,17 +8,17 @@ type State = 'idle' | 'loading' | 'success' | 'empty' | 'error'
 type LogLevel = 'info' | 'error' | 'success'
 
 const state = ref<State>('idle')
-const records = ref<Array<{ name: string, value: string }>>([])
+const records = ref<Array<{ name: string; value: string }>>([])
 const errorMessage = ref('')
 const lastScenario = ref<Scenario | null>(null)
 
 const errorStats = reactive({
   network: 0,
   auth: 0,
-  business: 0,
+  business: 0
 })
 
-const events = ref<Array<{ id: number, time: string, text: string, level: LogLevel }>>([])
+const events = ref<Array<{ id: number; time: string; text: string; level: LogLevel }>>([])
 let logId = 0
 
 function pushEvent(text: string, level: LogLevel = 'info') {
@@ -26,7 +26,7 @@ function pushEvent(text: string, level: LogLevel = 'info') {
     id: ++logId,
     time: new Date().toLocaleTimeString(getLocale(), { hour12: false }),
     text,
-    level,
+    level
   })
 
   if (events.value.length > 60) {
@@ -44,13 +44,13 @@ async function mockFetch(scenario: Scenario) {
         data: [
           { name: 'service_a_latency', value: '120ms' },
           { name: 'service_b_qps', value: '2,398' },
-          { name: 'error_rate', value: '0.35%' },
-        ],
+          { name: 'error_rate', value: '0.35%' }
+        ]
       }
     case 'empty':
       return {
         code: 200,
-        data: [],
+        data: []
       }
     case 'network':
       throw new Error($t('examples.scaffold.observability.errorNetwork'))
@@ -61,7 +61,7 @@ async function mockFetch(scenario: Scenario) {
     default:
       return {
         code: 200,
-        data: [],
+        data: []
       }
   }
 }
@@ -97,15 +97,17 @@ async function runScenario(scenario: Scenario) {
     state.value = 'success'
     records.value = result.data
     pushEvent($t('examples.scaffold.observability.eventSuccess'), 'success')
-  }
-  catch (error: any) {
+  } catch (error: any) {
     state.value = 'error'
     errorMessage.value = error.message || $t('examples.scaffold.observability.unknownError')
 
     const type = classifyError(errorMessage.value)
     errorStats[type] += 1
 
-    pushEvent($t('examples.scaffold.observability.eventError', { type, message: errorMessage.value }), 'error')
+    pushEvent(
+      $t('examples.scaffold.observability.eventError', { type, message: errorMessage.value }),
+      'error'
+    )
   }
 }
 
