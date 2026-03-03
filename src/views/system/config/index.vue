@@ -244,12 +244,16 @@ loadAllConfigs()
   display: flex;
   flex-direction: column;
   min-height: 0;
-  padding: 0;  /* Reset padding, rely on ProSplitLayout's padding */
+  padding: 0;
 
   .config-groups-header {
-    padding: 4px 0 12px 0;  /* Add top margin for spacing */
-    margin-bottom: 12px;
-    h3 { margin: 0; font-size: 15px; font-weight: 600; padding-left: 4px; }
+    padding: 0 0 12px 0;
+    border-bottom: 1px solid var(--color-border-secondary);
+    h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+    }
   }
 
   .config-groups-list {
