@@ -388,14 +388,14 @@ function removeScheme(id: string) {
             class="field-select"
             :value="condition.field"
             :options="fieldOptions"
-            @change="(field) => onFieldChange(condition, field as FieldKey)"
+            @change="(field: any) => onFieldChange(condition, field as FieldKey)"
           />
 
           <a-select
             class="operator-select"
             :value="condition.operator"
             :options="getOperatorOptions(condition.field)"
-            @change="(operator) => onOperatorChange(condition, operator as Operator)"
+            @change="(operator: any) => onOperatorChange(condition, operator as Operator)"
           />
 
           <div class="value-editor">

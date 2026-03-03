@@ -26,7 +26,6 @@ interface FormState {
 const DRAFT_KEY = 'example:complex-form:draft'
 
 const formRef = ref<any>()
-const _stepFormRef = ref<InstanceType<typeof ProStepForm> | null>(null)
 const currentStep = ref(0)
 const ruleError = ref('')
 
