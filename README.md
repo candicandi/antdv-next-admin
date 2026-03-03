@@ -2,10 +2,13 @@
 
 🎉 一个基于 Vue 3 + TypeScript + Ant Design Vue 的现代化、功能完整的后台管理系统脚手架。
 
+[![CI/CD](https://github.com/yelog/antdv-next-admin/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/yelog/antdv-next-admin/actions/workflows/ci-cd.yml)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js->=18-green.svg)](https://nodejs.org/)
 [![Vue](https://img.shields.io/badge/Vue-3.4-brightgreen.svg)](https://vuejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.0-purple.svg)](https://vitejs.dev/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 ## 📸 预览
 
