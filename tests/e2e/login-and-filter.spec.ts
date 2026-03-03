@@ -17,29 +17,39 @@ async function completeCaptcha(page) {
   const captcha = page.locator('.slider-captcha')
   await captcha.waitFor({ state: 'visible', timeout: 5000 })
 
-  // Get slider and track elements
-  const slider = page.locator('.slider-handle')
-  const track = page.locator('.slider-bg')
+  // Get slider handle
+  const sliderHandle = page.locator('.slider-handle')
+  const sliderBg = page.locator('.slider-bg')
 
   // Get bounding boxes
-  const sliderBox = await slider.boundingBox()
-  const trackBox = await track.boundingBox()
+  const handleBox = await sliderHandle.boundingBox()
+  const bgBox = await sliderBg.boundingBox()
 
-  if (!sliderBox || !trackBox) {
-    throw new Error('Could not find slider or track elements')
+  if (!handleBox || !bgBox) {
+    throw new Error('Could not find slider elements')
   }
 
-  // Calculate drag distance (move to end of track)
-  const targetX = trackBox.width - sliderBox.width - 5
+  // Calculate target position (drag to the end of the track)
+  // The track width is bg width - handle width
+  const targetX = bgBox.x + bgBox.width - handleBox.width / 2
+  const targetY = handleBox.y + handleBox.height / 2
 
-  // Perform drag operation
-  await slider.hover()
+  // Move to slider handle and drag to end
+  await page.mouse.move(handleBox.x + handleBox.width / 2, handleBox.y + handleBox.height / 2)
   await page.mouse.down()
-  await page.mouse.move(trackBox.x + targetX, trackBox.y + trackBox.height / 2, { steps: 10 })
+
+  // Move in steps to simulate real dragging
+  const steps = 10
+  const stepX = (targetX - (handleBox.x + handleBox.width / 2)) / steps
+  for (let i = 1; i <= steps; i++) {
+    await page.mouse.move(handleBox.x + handleBox.width / 2 + stepX * i, targetY)
+    await page.waitForTimeout(50)
+  }
+
   await page.mouse.up()
 
-  // Wait for captcha success (slider bg becomes success color)
-  await page.waitForTimeout(500)
+  // Wait for success state (slider bg becomes success color)
+  await page.waitForSelector('.slider-bg.success', { timeout: 5000 })
 }
 
 // Helper function to perform login
