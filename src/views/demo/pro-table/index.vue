@@ -5,7 +5,7 @@ import { onMounted, ref } from 'vue'
 import ProTable from '@/components/Pro/ProTable/index.vue'
 
 const loading = ref(false)
-const dataSource = ref([])
+const dataSource = ref<Record<string, any>[]>([])
 
 const columns: ProTableColumn[] = [
   {

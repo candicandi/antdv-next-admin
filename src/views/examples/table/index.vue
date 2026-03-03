@@ -254,7 +254,7 @@ async function handleSubmit() {
       :toolbar="{
         title: $t('exampleTable.userList'),
         subTitle: $t('exampleTable.subTitle'),
-        actions: ['refresh', 'columnSetting'],
+        actions: ['!refresh', '!columnSetting'],
       }"
       :search="{
         labelWidth: 80,

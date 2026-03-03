@@ -39,7 +39,7 @@ const selectedRowKeys = ref<string[]>([])
 const toolbarConfig = computed(() => ({
   title: $t('examples.scaffold.proTableAdvanced.title'),
   subTitle: $t('examples.scaffold.proTableAdvanced.description'),
-  actions: ['refresh', 'density', 'columnSetting'] as Array<'refresh' | 'density' | 'columnSetting'>,
+  actions: ['!refresh', '!density', '!columnSetting'] as Array<'!refresh' | '!density' | '!columnSetting'>,
 }))
 
 const columns = computed<ProTableColumn[]>(() => [
