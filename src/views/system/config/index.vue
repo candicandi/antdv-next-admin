@@ -244,7 +244,7 @@ loadAllConfigs()
   display: flex;
   flex-direction: column;
   min-height: 0;
-  margin: -20px -16px -16px;  /* Counteract ProSplitLayout padding */
+  padding: 16px 4px 16px 8px;  /* Add proper padding instead of negative margin */
 
   .config-groups-header {
     padding: 0 8px;
