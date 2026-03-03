@@ -80,6 +80,7 @@ async function handleSubmit() {
           <a-input
             v-model:value="formState.username"
             name="username"
+            data-testid="username-input"
             size="large"
             :placeholder="$t('login.usernamePlaceholder')"
           >
@@ -93,6 +94,7 @@ async function handleSubmit() {
           <a-input-password
             v-model:value="formState.password"
             name="password"
+            data-testid="password-input"
             size="large"
             :placeholder="$t('login.passwordPlaceholder')"
           >
@@ -123,6 +125,7 @@ async function handleSubmit() {
           <a-button
             type="primary"
             html-type="submit"
+            data-testid="login-button"
             size="large"
             block
             :loading="loading"

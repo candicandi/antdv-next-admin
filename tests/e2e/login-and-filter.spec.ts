@@ -1,105 +1,75 @@
 import { test, expect } from '@playwright/test'
 
+// Helper function to wait for login page to be ready
+async function waitForLoginPage(page) {
+  // Wait for page to load
+  await page.waitForLoadState('domcontentloaded')
+
+  // Wait for login form elements using data-testid
+  await page.waitForSelector('[data-testid="username-input"]', { timeout: 15000 })
+  await page.waitForSelector('[data-testid="password-input"]', { timeout: 15000 })
+  await page.waitForSelector('[data-testid="login-button"]', { timeout: 15000 })
+}
+
+// Helper function to perform login
+async function performLogin(page, username, password) {
+  const usernameInput = page.locator('[data-testid="username-input"]')
+  const passwordInput = page.locator('[data-testid="password-input"]')
+  const loginButton = page.locator('[data-testid="login-button"]')
+
+  // Clear and fill inputs
+  await usernameInput.clear()
+  await usernameInput.fill(username)
+  await passwordInput.clear()
+  await passwordInput.fill(password)
+
+  // Complete captcha if exists
+  const captcha = page.locator('.slider-captcha')
+  const isCaptchaVisible = await captcha.isVisible().catch(() => false)
+
+  if (isCaptchaVisible) {
+    const slider = page.locator('.slider-handle')
+    const sliderBox = await slider.boundingBox()
+    const trackBox = await page.locator('.slider-bg').boundingBox()
+    if (sliderBox && trackBox) {
+      await slider.dragTo(page.locator('.slider-bg'), {
+        targetPosition: { x: trackBox.width - sliderBox.width - 5, y: trackBox.height / 2 }
+      })
+    }
+    // Wait for captcha verification
+    await page.waitForTimeout(500)
+  }
+
+  // Click login
+  await loginButton.click()
+}
+
 test.describe('Login and Basic Navigation', () => {
   test('should login with admin credentials', async ({ page }) => {
     await page.goto('/login')
+    await waitForLoginPage(page)
+    await performLogin(page, 'admin', '123456')
 
-    // Wait for page to be fully loaded
-    await page.waitForLoadState('networkidle')
-
-    // Wait for login form inputs to be visible (using name attribute)
-    const usernameInput = page
-      .locator('input[name="username"]')
-      .or(page.locator('input[placeholder*="用户名"]'))
-      .or(page.locator('input[placeholder*="username"]'))
-    const passwordInput = page
-      .locator('input[name="password"]')
-      .or(page.locator('input[type="password"]'))
-    const loginButton = page
-      .locator('button[type="submit"]')
-      .or(page.locator('button:has-text("登录")'))
-      .or(page.locator('button:has-text("Login")'))
-
-    // Wait for elements to be ready
-    await expect(usernameInput).toBeVisible({ timeout: 10000 })
-    await expect(passwordInput).toBeVisible({ timeout: 10000 })
-    await expect(loginButton).toBeVisible({ timeout: 10000 })
-
-    // Fill credentials
-    await usernameInput.fill('admin')
-    await passwordInput.fill('123456')
-
-    // Complete captcha if exists (simulate slider drag)
-    const captcha = page.locator('.slider-captcha').or(page.locator('[class*="captcha"]'))
-    if (await captcha.isVisible().catch(() => false)) {
-      // For testing, we might need to skip captcha or mock it
-      // This is a simplified approach - in real scenarios, captcha might need special handling
-      const slider = page.locator('.slider-handle')
-      const sliderBox = await slider.boundingBox()
-      const trackBox = await page.locator('.slider-bg').boundingBox()
-      if (sliderBox && trackBox) {
-        await slider.dragTo(page.locator('.slider-bg'), {
-          targetPosition: { x: trackBox.width - sliderBox.width - 5, y: trackBox.height / 2 }
-        })
-      }
-    }
-
-    // Click login button
-    await loginButton.click()
-
-    // Should redirect to dashboard (with increased timeout for CI)
+    // Should redirect to dashboard
     await expect(page).toHaveURL(/.*dashboard/, { timeout: 15000 })
   })
 
   test('should login with user credentials', async ({ page }) => {
     await page.goto('/login')
-    await page.waitForLoadState('networkidle')
+    await waitForLoginPage(page)
+    await performLogin(page, 'user', '123456')
 
-    const usernameInput = page
-      .locator('input[name="username"]')
-      .or(page.locator('input[placeholder*="用户名"]'))
-      .or(page.locator('input[placeholder*="username"]'))
-    const passwordInput = page
-      .locator('input[name="password"]')
-      .or(page.locator('input[type="password"]'))
-    const loginButton = page
-      .locator('button[type="submit"]')
-      .or(page.locator('button:has-text("登录")'))
-      .or(page.locator('button:has-text("Login")'))
-
-    await expect(usernameInput).toBeVisible({ timeout: 10000 })
-    await expect(passwordInput).toBeVisible({ timeout: 10000 })
-
-    await usernameInput.fill('user')
-    await passwordInput.fill('123456')
-    await loginButton.click()
-
+    // Should redirect to dashboard
     await expect(page).toHaveURL(/.*dashboard/, { timeout: 15000 })
   })
 
   test('should show error for invalid credentials', async ({ page }) => {
     await page.goto('/login')
-    await page.waitForLoadState('networkidle')
+    await waitForLoginPage(page)
 
-    const usernameInput = page
-      .locator('input[name="username"]')
-      .or(page.locator('input[placeholder*="用户名"]'))
-      .or(page.locator('input[placeholder*="username"]'))
-    const passwordInput = page
-      .locator('input[name="password"]')
-      .or(page.locator('input[type="password"]'))
-    const loginButton = page
-      .locator('button[type="submit"]')
-      .or(page.locator('button:has-text("登录")'))
-      .or(page.locator('button:has-text("Login")'))
+    await performLogin(page, 'invalid', 'invalid')
 
-    await expect(usernameInput).toBeVisible({ timeout: 10000 })
-
-    await usernameInput.fill('invalid')
-    await passwordInput.fill('invalid')
-    await loginButton.click()
-
-    // Should show error message (wait for it with increased timeout)
+    // Should show error message
     await expect(
       page.locator('.ant-message-error, .ant-alert-error, .ant-notification-notice').first()
     ).toBeVisible({ timeout: 10000 })
@@ -110,26 +80,8 @@ test.describe('Table Operations', () => {
   test.beforeEach(async ({ page }) => {
     // Login before each test
     await page.goto('/login')
-    await page.waitForLoadState('networkidle')
-
-    const usernameInput = page
-      .locator('input[name="username"]')
-      .or(page.locator('input[placeholder*="用户名"]'))
-      .or(page.locator('input[placeholder*="username"]'))
-    const passwordInput = page
-      .locator('input[name="password"]')
-      .or(page.locator('input[type="password"]'))
-    const loginButton = page
-      .locator('button[type="submit"]')
-      .or(page.locator('button:has-text("登录")'))
-      .or(page.locator('button:has-text("Login")'))
-
-    await expect(usernameInput).toBeVisible({ timeout: 10000 })
-
-    await usernameInput.fill('admin')
-    await passwordInput.fill('123456')
-    await loginButton.click()
-
+    await waitForLoginPage(page)
+    await performLogin(page, 'admin', '123456')
     await expect(page).toHaveURL(/.*dashboard/, { timeout: 15000 })
   })
 
