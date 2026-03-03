@@ -11,6 +11,37 @@ async function waitForLoginPage(page) {
   await page.waitForSelector('[data-testid="login-button"]', { timeout: 15000 })
 }
 
+// Helper function to complete slider captcha
+async function completeCaptcha(page) {
+  // Wait for captcha to be visible
+  const captcha = page.locator('.slider-captcha')
+  await captcha.waitFor({ state: 'visible', timeout: 5000 })
+
+  // Get slider and track elements
+  const slider = page.locator('.slider-handle')
+  const track = page.locator('.slider-bg')
+
+  // Get bounding boxes
+  const sliderBox = await slider.boundingBox()
+  const trackBox = await track.boundingBox()
+
+  if (!sliderBox || !trackBox) {
+    throw new Error('Could not find slider or track elements')
+  }
+
+  // Calculate drag distance (move to end of track)
+  const targetX = trackBox.width - sliderBox.width - 5
+
+  // Perform drag operation
+  await slider.hover()
+  await page.mouse.down()
+  await page.mouse.move(trackBox.x + targetX, trackBox.y + trackBox.height / 2, { steps: 10 })
+  await page.mouse.up()
+
+  // Wait for captcha success (slider bg becomes success color)
+  await page.waitForTimeout(500)
+}
+
 // Helper function to perform login
 async function performLogin(page, username, password) {
   const usernameInput = page.locator('[data-testid="username-input"]')
@@ -23,22 +54,11 @@ async function performLogin(page, username, password) {
   await passwordInput.clear()
   await passwordInput.fill(password)
 
-  // Complete captcha if exists
-  const captcha = page.locator('.slider-captcha')
-  const isCaptchaVisible = await captcha.isVisible().catch(() => false)
+  // Complete captcha
+  await completeCaptcha(page)
 
-  if (isCaptchaVisible) {
-    const slider = page.locator('.slider-handle')
-    const sliderBox = await slider.boundingBox()
-    const trackBox = await page.locator('.slider-bg').boundingBox()
-    if (sliderBox && trackBox) {
-      await slider.dragTo(page.locator('.slider-bg'), {
-        targetPosition: { x: trackBox.width - sliderBox.width - 5, y: trackBox.height / 2 }
-      })
-    }
-    // Wait for captcha verification
-    await page.waitForTimeout(500)
-  }
+  // Wait for login button to be enabled
+  await expect(loginButton).toBeEnabled({ timeout: 5000 })
 
   // Click login
   await loginButton.click()
