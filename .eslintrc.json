@@ -19,9 +19,16 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-useless-escape": "off",
+    "no-empty": "off",
+    "no-prototype-builtins": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-empty-object-type": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-this-alias": "off",
+    "@typescript-eslint/ban-types": "off",
     "vue/multi-word-component-names": "off",
     "vue/no-v-html": "off"
   },
