@@ -3,19 +3,21 @@
     <ProSplitLayout :side-width="200">
       <template #side>
         <!-- groups nav -->
-        <div class="config-groups-header">
-          <h3>{{ $t('config.configGroups') }}</h3>
-        </div>
-        <div class="config-groups-list">
-          <div
-            v-for="group in groups"
-            :key="group"
-            class="config-group-item"
-            :class="{ active: selectedGroup === group }"
-            @click="selectedGroup = group"
-          >
-            <span class="group-name">{{ $t(`config.groups.${group}`) }}</span>
-            <span class="group-count">{{ getGroupCount(group) }}</span>
+        <div class="config-groups">
+          <div class="config-groups-header">
+            <h3>{{ $t('config.configGroups') }}</h3>
+          </div>
+          <div class="config-groups-list">
+            <div
+              v-for="group in groups"
+              :key="group"
+              class="config-group-item"
+              :class="{ active: selectedGroup === group }"
+              @click="selectedGroup = group"
+            >
+              <span class="group-name">{{ $t(`config.groups.${group}`) }}</span>
+              <span class="group-count">{{ getGroupCount(group) }}</span>
+            </div>
           </div>
         </div>
       </template>
