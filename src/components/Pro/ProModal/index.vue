@@ -102,7 +102,7 @@ const isCloseButtonDisabled = computed(() => {
   return typeof props.closable === 'object' && Boolean(props.closable.disabled)
 })
 
-const resolvedGetContainer = computed<ModalProps['getContainer']>(() => {
+const resolvedGetContainer = computed(() => {
   if (props.getContainer !== undefined) {
     return props.getContainer
   }
@@ -214,7 +214,7 @@ const mergedModalBindings = computed(() => {
 })
 
 const mergedSemanticStyles = computed<ModalProps['styles']>(() => {
-  const inputStyles = props.styles || {}
+  const inputStyles = (props.styles || {}) as Record<string, any>
   return {
     ...inputStyles,
     container: {

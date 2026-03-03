@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
+import { defaultValueCtx, Editor, editorViewCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { history } from '@milkdown/plugin-history'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
@@ -55,7 +55,7 @@ onMounted(async () => {
       }))
 
       // 监听内容变化
-      ctx.get(listenerCtx).markdownUpdated((ctx, markdown, prevMarkdown) => {
+      ctx.get(listenerCtx).markdownUpdated((_ctx, markdown, prevMarkdown) => {
         if (markdown !== prevMarkdown) {
           emit('update:modelValue', markdown)
           emit('change', markdown)
@@ -84,7 +84,7 @@ watch(() => props.modelValue, (newValue) => {
     return ctx.get(defaultValueCtx)
   })) {
     editorInstance.value.action((ctx) => {
-      const view = ctx.editorView
+      const view = ctx.get(editorViewCtx)
       const state = view.state
       const tr = state.tr.replaceWith(0, state.doc.content.size, state.schema.text(newValue))
       view.dispatch(tr)
