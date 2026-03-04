@@ -3,6 +3,8 @@
  *
  * This module intercepts API requests in the browser and returns mock data,
  * since vite-plugin-mock-dev-server only works in development mode.
+ *
+ * Intercepts both fetch() and XMLHttpRequest (used by axios)
  */
 
 import { mockUsers } from '../../mock/data/users.data'
@@ -563,6 +565,58 @@ const mockHandlers: MockHandler[] = [
     }
   },
 
+  // Dashboard - Sales Trend
+  {
+    pattern: '/api/dashboard/sales-trend',
+    method: 'GET',
+    handler: () => {
+      return {
+        code: 200,
+        message: 'Success',
+        data: mockSalesTrend
+      }
+    }
+  },
+
+  // Dashboard - User Distribution
+  {
+    pattern: '/api/dashboard/user-distribution',
+    method: 'GET',
+    handler: () => {
+      return {
+        code: 200,
+        message: 'Success',
+        data: mockUserDistribution
+      }
+    }
+  },
+
+  // Dashboard - Activities
+  {
+    pattern: '/api/dashboard/activities',
+    method: 'GET',
+    handler: () => {
+      return {
+        code: 200,
+        message: 'Success',
+        data: mockActivities
+      }
+    }
+  },
+
+  // Dashboard - Chart Data
+  {
+    pattern: '/api/dashboard/chart-data',
+    method: 'GET',
+    handler: () => {
+      return {
+        code: 200,
+        message: 'Success',
+        data: mockChartData
+      }
+    }
+  },
+
   // Login Logs
   {
     pattern: '/api/logs/login',
@@ -653,41 +707,302 @@ function findMockHandler(url: string, method: string): MockHandler | null {
   )
 }
 
-// Execute mock handler
+// Execute mock handler and create response
 async function executeMockHandler(
   handler: MockHandler,
   url: string,
-  init?: RequestInit
-): Promise<Response> {
+  body?: any
+): Promise<{ status: number; data: any; headers: Record<string, string> }> {
   const { params } = matchPattern(handler.pattern, url)
   const query = parseQuery(url)
-
-  let body: any
-  if (init?.body) {
-    try {
-      body = JSON.parse(init.body as string)
-    } catch {
-      body = init.body
-    }
-  }
 
   const result = handler.handler({ query, params: params || {}, body })
 
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 300))
 
-  return new Response(JSON.stringify(result), {
+  return {
     status: 200,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+    data: result,
+    headers: { 'Content-Type': 'application/json' }
+  }
 }
 
 // Check if should intercept this request
 function shouldIntercept(url: string): boolean {
   // Only intercept API requests
   return url.includes('/api/')
+}
+
+// Setup fetch interceptor
+function setupFetchInterceptor(): void {
+  const originalFetch = window.fetch
+
+  window.fetch = async function (input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+    const url = input.toString()
+
+    if (!shouldIntercept(url)) {
+      return originalFetch(input, init)
+    }
+
+    const handler = findMockHandler(url, init?.method || 'GET')
+
+    if (handler) {
+      console.log('[Mock] Fetch', init?.method || 'GET', url)
+
+      let body: any
+      if (init?.body) {
+        try {
+          body = JSON.parse(init.body as string)
+        } catch {
+          body = init.body
+        }
+      }
+
+      const response = await executeMockHandler(handler, url, body)
+      return new Response(JSON.stringify(response.data), {
+        status: response.status,
+        headers: response.headers
+      })
+    }
+
+    console.warn('[Mock] No handler for:', url)
+    return new Response(JSON.stringify({ code: 404, message: 'Not found', data: null }), {
+      status: 404,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }
+}
+
+// Setup XMLHttpRequest interceptor (for axios)
+function setupXHRInterceptor(): void {
+  const OriginalXHR = window.XMLHttpRequest
+
+  function MockXHR(this: XMLHttpRequest): void {
+    const xhr = new OriginalXHR()
+    let requestUrl = ''
+    let requestMethod = 'GET'
+    let requestBody: any = null
+
+    // Copy all properties from the real XHR
+    Object.setPrototypeOf(this, MockXHR.prototype)
+
+    // Proxy properties
+    const self = this as any
+
+    // Define getters for response properties
+    Object.defineProperty(self, 'readyState', {
+      get: () => (self._mockResponse ? self._readyState : xhr.readyState),
+      set: (val: number) => {
+        self._readyState = val
+      }
+    })
+
+    Object.defineProperty(self, 'status', {
+      get: () => (self._mockResponse ? self._mockStatus : xhr.status)
+    })
+
+    Object.defineProperty(self, 'statusText', {
+      get: () => (self._mockResponse ? 'OK' : xhr.statusText)
+    })
+
+    Object.defineProperty(self, 'response', {
+      get: () => (self._mockResponse ? self._mockResponse : xhr.response)
+    })
+
+    Object.defineProperty(self, 'responseText', {
+      get: () => (self._mockResponse ? self._mockResponse : xhr.responseText)
+    })
+
+    Object.defineProperty(self, 'responseURL', {
+      get: () => requestUrl
+    })
+
+    // Store event handlers
+    const eventHandlers: Record<string, any[]> = {}
+
+    // Override open
+    self.open = function (
+      method: string,
+      url: string | URL,
+      async = true,
+      user?: string,
+      password?: string
+    ) {
+      requestMethod = method
+      requestUrl = url.toString()
+
+      // Check if this is a mockable request
+      if (shouldIntercept(requestUrl)) {
+        self._isMockRequest = true
+        self._readyState = 0
+      } else {
+        xhr.open(method, url, async, user, password)
+      }
+    }
+
+    // Override send
+    self.send = async function (body?: any) {
+      if (!self._isMockRequest) {
+        xhr.send(body)
+        return
+      }
+
+      // Store request body
+      if (body) {
+        try {
+          requestBody = JSON.parse(body as string)
+        } catch {
+          requestBody = body
+        }
+      }
+
+      const handler = findMockHandler(requestUrl, requestMethod)
+
+      if (handler) {
+        console.log('[Mock] XHR', requestMethod, requestUrl)
+
+        try {
+          const response = await executeMockHandler(handler, requestUrl, requestBody)
+
+          // Set mock response
+          self._mockStatus = response.status
+          self._mockResponse = JSON.stringify(response.data)
+          self._mockHeaders = response.headers
+
+          // Simulate XHR states
+          self._readyState = 1 // OPENED
+          triggerEvent('readystatechange')
+
+          self._readyState = 2 // HEADERS_RECEIVED
+          triggerEvent('readystatechange')
+
+          self._readyState = 3 // LOADING
+          triggerEvent('readystatechange')
+
+          self._readyState = 4 // DONE
+          triggerEvent('readystatechange')
+          triggerEvent('load')
+        } catch (error) {
+          console.error('[Mock] Error:', error)
+          triggerEvent('error')
+        }
+      } else {
+        console.warn('[Mock] No handler for:', requestUrl)
+        self._mockStatus = 404
+        self._mockResponse = JSON.stringify({ code: 404, message: 'Not found', data: null })
+        self._mockHeaders = { 'Content-Type': 'application/json' }
+
+        self._readyState = 4
+        triggerEvent('readystatechange')
+        triggerEvent('load')
+      }
+    }
+
+    // Override setRequestHeader
+    self.setRequestHeader = function (header: string, value: string) {
+      if (!self._isMockRequest) {
+        xhr.setRequestHeader(header, value)
+      }
+    }
+
+    // Override getResponseHeader
+    self.getResponseHeader = function (header: string): string | null {
+      if (self._mockHeaders) {
+        return self._mockHeaders[header] || null
+      }
+      return xhr.getResponseHeader(header)
+    }
+
+    // Override getAllResponseHeaders
+    self.getAllResponseHeaders = function (): string {
+      if (self._mockHeaders) {
+        return Object.entries(self._mockHeaders)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join('\r\n')
+      }
+      return xhr.getAllResponseHeaders()
+    }
+
+    // Override abort
+    self.abort = function () {
+      if (!self._isMockRequest) {
+        xhr.abort()
+      }
+    }
+
+    // Event handling
+    function triggerEvent(type: string) {
+      const handlers = eventHandlers[type] || []
+      const event = { type, target: self, currentTarget: self }
+      handlers.forEach(handler => {
+        try {
+          handler.call(self, event)
+        } catch (e) {
+          console.error(e)
+        }
+      })
+
+      // Also call on* handler if exists
+      const onHandler = self[`on${type}`]
+      if (typeof onHandler === 'function') {
+        onHandler.call(self, event)
+      }
+    }
+
+    // Proxy addEventListener
+    self.addEventListener = function (type: string, listener: any) {
+      if (!eventHandlers[type]) {
+        eventHandlers[type] = []
+      }
+      eventHandlers[type].push(listener)
+    }
+
+    // Proxy removeEventListener
+    self.removeEventListener = function (type: string, listener: any) {
+      if (eventHandlers[type]) {
+        const index = eventHandlers[type].indexOf(listener)
+        if (index !== -1) {
+          eventHandlers[type].splice(index, 1)
+        }
+      }
+    }
+
+    // Proxy on* event handlers
+    const eventTypes = [
+      'loadstart',
+      'progress',
+      'abort',
+      'error',
+      'load',
+      'timeout',
+      'loadend',
+      'readystatechange'
+    ]
+    eventTypes.forEach(type => {
+      Object.defineProperty(self, `on${type}`, {
+        get: () => self[`_${type}Handler`],
+        set: handler => {
+          self[`_${type}Handler`] = handler
+        }
+      })
+    })
+  }
+
+  // Copy static properties from OriginalXHR
+  Object.setPrototypeOf(MockXHR, OriginalXHR)
+  MockXHR.prototype = Object.create(OriginalXHR.prototype)
+  MockXHR.prototype.constructor = MockXHR
+
+  // Copy constants
+  MockXHR.UNSENT = 0
+  MockXHR.OPENED = 1
+  MockXHR.HEADERS_RECEIVED = 2
+  MockXHR.LOADING = 3
+  MockXHR.DONE = 4
+
+  // Replace global XMLHttpRequest
+  window.XMLHttpRequest = MockXHR as any
 }
 
 // Setup mock interceptor
@@ -700,33 +1015,9 @@ export function setupMockInterceptor(): void {
     return
   }
 
-  // Save original fetch
-  const originalFetch = window.fetch
+  // Intercept both fetch and XMLHttpRequest
+  setupFetchInterceptor()
+  setupXHRInterceptor()
 
-  // Override fetch
-  window.fetch = async function (input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
-    const url = input.toString()
-
-    // Check if we should intercept this request
-    if (!shouldIntercept(url)) {
-      return originalFetch(input, init)
-    }
-
-    // Find mock handler
-    const handler = findMockHandler(url, init?.method || 'GET')
-
-    if (handler) {
-      console.log('[Mock]', init?.method || 'GET', url)
-      return executeMockHandler(handler, url, init)
-    }
-
-    // No handler found, return 404
-    console.warn('[Mock] No handler found for:', url)
-    return new Response(JSON.stringify({ code: 404, message: 'Not found', data: null }), {
-      status: 404,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  }
-
-  console.log('[Mock] Client-side mock interceptor enabled')
+  console.log('[Mock] Client-side mock interceptor enabled (fetch + XHR)')
 }
