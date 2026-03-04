@@ -6,12 +6,16 @@ import { registerDefaultComponentProps } from './components/Global/defaultCompon
 import { setupDirectives } from './directives'
 import i18n from './locales'
 import router from './router'
+import { setupMockInterceptor } from './utils/mockInterceptor'
 
 // Import global styles
 import 'antdv-next/dist/reset.css'
 import './assets/styles/global.css'
 import './assets/styles/variables.css'
 import './assets/styles/animations.css'
+
+// Enable client-side mock interceptor for production builds on static hosting
+setupMockInterceptor()
 
 const app = createApp(App)
 
