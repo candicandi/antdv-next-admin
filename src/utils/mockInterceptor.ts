@@ -10,8 +10,17 @@ import { mockRoles } from '../../mock/data/roles.data'
 import { mockPermissions } from '../../mock/data/permissions.data'
 import { departments as mockDepts } from '../../mock/data/dept.data'
 import { dictTypes as mockDictTypes, dictData as mockDictData } from '../../mock/data/dict.data'
-import { loginLogs as mockLoginLogs, operationLogs as mockOperationLogs } from '../../mock/data/log.data'
-import { mockStats, mockSalesTrend, mockUserDistribution, mockActivities, mockChartData } from '../../mock/data/dashboard.data'
+import {
+  loginLogs as mockLoginLogs,
+  operationLogs as mockOperationLogs
+} from '../../mock/data/log.data'
+import {
+  mockStats,
+  mockSalesTrend,
+  mockUserDistribution,
+  mockActivities,
+  mockChartData
+} from '../../mock/data/dashboard.data'
 
 // Parse query parameters from URL
 function parseQuery(url: string): Record<string, any> {
@@ -27,13 +36,14 @@ function parseQuery(url: string): Record<string, any> {
 }
 
 // Match URL pattern
-function matchPattern(pattern: string, url: string): { match: boolean; params?: Record<string, string> } {
+function matchPattern(
+  pattern: string,
+  url: string
+): { match: boolean; params?: Record<string, string> } {
   const cleanUrl = url.split('?')[0]
 
   // Convert pattern like "/api/users/:id" to regex
-  const regexPattern = pattern
-    .replace(/:\w+/g, '([^/]+)')
-    .replace(/\*/g, '.*')
+  const regexPattern = pattern.replace(/:\w+/g, '([^/]+)').replace(/\*/g, '.*')
 
   const regex = new RegExp(`^${regexPattern}$`)
   const match = cleanUrl.match(regex)
@@ -171,7 +181,10 @@ const mockHandlers: MockHandler[] = [
       }
 
       if (gender) {
-        const genderValues = String(gender).split(',').map(item => item.trim()).filter(Boolean)
+        const genderValues = String(gender)
+          .split(',')
+          .map(item => item.trim())
+          .filter(Boolean)
         if (genderValues.length > 0) {
           filteredUsers = filteredUsers.filter(user => genderValues.includes(String(user.gender)))
         }
@@ -632,10 +645,12 @@ const mockHandlers: MockHandler[] = [
 
 // Find matching mock handler
 function findMockHandler(url: string, method: string): MockHandler | null {
-  return mockHandlers.find(handler => {
-    const { match } = matchPattern(handler.pattern, url)
-    return match && handler.method === method.toUpperCase()
-  }) || null
+  return (
+    mockHandlers.find(handler => {
+      const { match } = matchPattern(handler.pattern, url)
+      return match && handler.method === method.toUpperCase()
+    }) || null
+  )
 }
 
 // Execute mock handler
@@ -689,10 +704,7 @@ export function setupMockInterceptor(): void {
   const originalFetch = window.fetch
 
   // Override fetch
-  window.fetch = async function(
-    input: RequestInfo | URL,
-    init?: RequestInit
-  ): Promise<Response> {
+  window.fetch = async function (input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
     const url = input.toString()
 
     // Check if we should intercept this request
@@ -710,10 +722,10 @@ export function setupMockInterceptor(): void {
 
     // No handler found, return 404
     console.warn('[Mock] No handler found for:', url)
-    return new Response(
-      JSON.stringify({ code: 404, message: 'Not found', data: null }),
-      { status: 404, headers: { 'Content-Type': 'application/json' } }
-    )
+    return new Response(JSON.stringify({ code: 404, message: 'Not found', data: null }), {
+      status: 404,
+      headers: { 'Content-Type': 'application/json' }
+    })
   }
 
   console.log('[Mock] Client-side mock interceptor enabled')
