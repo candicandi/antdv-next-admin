@@ -11,6 +11,10 @@ export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version)
   },
+  optimizeDeps: {
+    include: ['vue', 'vue-router', 'pinia', 'antdv-next', 'dayjs'],
+    exclude: ['@antdv-next/icons']
+  },
   plugins: [
     vue(),
     mockDevServerPlugin({
@@ -31,7 +35,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+    },
+    dedupe: ['vue']
   },
   server: {
     port: 3000,
