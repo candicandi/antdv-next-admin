@@ -12,15 +12,7 @@
           :items="menuItems"
           class="config-groups-menu"
           @click="handleMenuClick"
-        >
-          <template #labelRender="{ item }">
-            <div v-if="item.label && item.key && groups.includes(item.key)" class="menu-item-label">
-              <span class="group-name">{{ item.label }}</span>
-              <span class="group-count">{{ getGroupCount(item.key) }}</span>
-            </div>
-            <span v-else>{{ item.label }}</span>
-          </template>
-        </a-menu>
+        />
       </template>
 
       <template #main>
@@ -119,7 +111,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, h } from 'vue'
 import { message, Modal } from 'antdv-next'
 import { EditOutlined, DeleteOutlined, PlusOutlined } from '@antdv-next/icons'
 import { useI18n } from 'vue-i18n'
@@ -148,7 +140,10 @@ const getGroupCount = (group: string) => allConfigs.value.filter(c => c.group ==
 const menuItems = computed<MenuItemType[]>(() =>
   groups.value.map((group) => ({
     key: group,
-    label: t(`config.groups.${group}`),
+    label: h('div', { class: 'menu-item-label' }, [
+      h('span', { class: 'group-name' }, t(`config.groups.${group}`)),
+      h('span', { class: 'group-count' }, String(getGroupCount(group)))
+    ]),
     title: t(`config.groups.${group}`)
   }))
 )
