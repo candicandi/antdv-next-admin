@@ -433,7 +433,7 @@ loadDeptTree()
 
 .dept-children {
   :deep(.ant-table-thead > tr > th) {
-    background: #fafafa;
+    background: var(--color-fill-quaternary);
   }
 }
 

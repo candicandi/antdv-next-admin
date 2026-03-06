@@ -348,7 +348,7 @@ const handleClearLoginLog = () => {
 
   :deep(.ant-table-thead > tr > th),
   :deep(.ant-table-thead > tr > td) {
-    background: #fafafa;
+    background: var(--color-fill-quaternary);
   }
 }
 </style>
