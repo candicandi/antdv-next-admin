@@ -179,8 +179,8 @@ interface FormState {
 
 const DRAFT_KEY = 'example:complex-form:draft';
 
-const formRef = ref<any>();
-const stepFormRef = ref<InstanceType<typeof ProStepForm> | null>(null);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const formRef = ref<any>(null);
 const currentStep = ref(0);
 const ruleError = ref('');
 

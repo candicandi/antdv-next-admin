@@ -109,7 +109,7 @@ const formState = reactive({
     'ja-JP': '日本語表示を指定',
     'ko-KR': '일본어 표시 지정',
   },
-  emptyValue: null as Record<string, string> | string | null,
+  emptyValue: undefined as Record<string, string> | string | undefined,
 });
 
 const showAsString = ref(false);

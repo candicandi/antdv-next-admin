@@ -194,14 +194,14 @@ const columns = computed((): ProTableColumn[] => [
       {
         label: $t('common.edit'),
         icon: EditOutlined,
-        onClick: (record) => handleEdit(record as User),
+        onClick: (record) => handleEdit(record as unknown as User),
       },
       {
         label: $t('common.delete'),
         icon: DeleteOutlined,
         danger: true,
         confirm: $t('user.confirmDelete'),
-        onClick: (record) => handleDelete(record as User),
+        onClick: (record) => handleDelete(record as unknown as User),
       },
     ],
   },

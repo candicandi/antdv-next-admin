@@ -9,7 +9,7 @@ const routes = [...staticRoutes, ...basicRoutes];
 // Create router instance
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+  routes: routes as unknown as readonly import('vue-router').RouteRecordRaw[],
   scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition;

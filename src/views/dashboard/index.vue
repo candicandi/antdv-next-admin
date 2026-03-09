@@ -152,7 +152,7 @@ const currentTimeText = computed(() => {
 const statCards = computed(() => [
   {
     key: 'users',
-    tone: 'blue',
+    tone: 'blue' as const,
     label: $t('dashboard.totalUsers'),
     value: '12,458',
     trend: '+12.5%',
@@ -160,7 +160,7 @@ const statCards = computed(() => [
   },
   {
     key: 'orders',
-    tone: 'green',
+    tone: 'green' as const,
     label: $t('dashboard.totalOrders'),
     value: '8,946',
     trend: '+8.2%',
@@ -168,7 +168,7 @@ const statCards = computed(() => [
   },
   {
     key: 'revenue',
-    tone: 'orange',
+    tone: 'orange' as const,
     label: $t('dashboard.totalRevenue'),
     value: '¥456,789',
     trend: '+15.3%',
@@ -176,7 +176,7 @@ const statCards = computed(() => [
   },
   {
     key: 'conversion',
-    tone: 'purple',
+    tone: 'purple' as const,
     label: $t('dashboard.conversionRate'),
     value: '3.24%',
     trend: '+0.8%',

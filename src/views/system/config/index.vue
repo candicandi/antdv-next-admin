@@ -203,28 +203,28 @@ const boolValue = computed({
 });
 
 const columns: ProTableColumn[] = [
-  { title: computed(() => t('config.configName')), dataIndex: 'name', key: 'name', width: 160 },
-  { title: computed(() => t('config.configKey')), dataIndex: 'key', key: 'key', width: 200 },
+  { title: t('config.configName'), dataIndex: 'name', key: 'name', width: 160 },
+  { title: t('config.configKey'), dataIndex: 'key', key: 'key', width: 200 },
   {
-    title: computed(() => t('config.configValue')),
+    title: t('config.configValue'),
     dataIndex: 'value',
     key: 'value',
     ellipsis: true,
   },
   {
-    title: computed(() => t('config.valueType')),
+    title: t('config.valueType'),
     dataIndex: 'valueType',
     key: 'valueType',
     width: 90,
   },
-  { title: computed(() => t('config.builtIn')), dataIndex: 'builtIn', key: 'builtIn', width: 90 },
+  { title: t('config.builtIn'), dataIndex: 'builtIn', key: 'builtIn', width: 90 },
   {
-    title: computed(() => t('config.description')),
+    title: t('config.description'),
     dataIndex: 'description',
     key: 'description',
     ellipsis: true,
   },
-  { title: computed(() => t('common.actions')), key: 'action', width: 150, fixed: 'right' },
+  { title: t('common.actions'), dataIndex: 'action', key: 'action', width: 150, fixed: 'right' },
 ];
 
 const loadConfigList = async (params: any) => {

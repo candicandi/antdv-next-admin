@@ -232,6 +232,7 @@ const columns: ProTableColumn[] = [
   },
   {
     title: t('common.actions'),
+    dataIndex: 'action',
     key: 'action',
     width: 150,
     fixed: 'right',

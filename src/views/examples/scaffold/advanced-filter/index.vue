@@ -43,14 +43,14 @@
             class="field-select"
             :value="condition.field"
             :options="fieldOptions"
-            @change="(field) => onFieldChange(condition, field as FieldKey)"
+            @change="(field: unknown) => onFieldChange(condition, field as FieldKey)"
           />
 
           <a-select
             class="operator-select"
             :value="condition.operator"
             :options="getOperatorOptions(condition.field)"
-            @change="(operator) => onOperatorChange(condition, operator as Operator)"
+            @change="(operator: unknown) => onOperatorChange(condition, operator as Operator)"
           />
 
           <div class="value-editor">
