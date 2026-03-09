@@ -4,7 +4,7 @@
 
 [![Vue](https://img.shields.io/badge/Vue-3.4-brightgreen.svg)](https://vuejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.0-purple.svg)](https://vitejs.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8.0-purple.svg)](https://vitejs.dev/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## 📸 预览
@@ -18,6 +18,7 @@
 ## ✨ 特性
 
 ### 核心功能
+
 - ✅ **最新技术栈**: Vue 3 + Vite + TypeScript + Pinia
 - ✅ **UI 组件**: Ant Design Vue (antdv-next)
 - ✅ **布局系统**: 响应式布局，支持垂直/水平两种模式
@@ -28,6 +29,7 @@
 - ✅ **Mock 数据**: 开发环境完整的 Mock 数据支持
 
 ### 高级功能
+
 - 🎨 **偏好设置**:
   - 6 种预设主题色 (拂晓蓝、极光绿、酱紫、薄暮红、日暮橙、明青)
   - 左侧菜单栏样式切换 (深色/浅色)
@@ -42,12 +44,12 @@
   - 一致的设计语言
 
 ### Pro 组件
+
 - 📊 **ProTable**: 高级表格组件
   - 自动生成查询表单
   - 列配置化（显示/隐藏、排序、固定）
   - 内置分页、刷新、密度切换
   - 支持多种值类型渲染（日期、标签、进度条等）
-  
 - 📝 **ProForm**: 高级表单组件
   - 配置化表单生成
   - 自动布局和验证
@@ -60,8 +62,9 @@
   - 统一的确认/取消逻辑
 
 ### 业务组件
+
 - 📝 **富文本编辑器**: 基于 TipTap，支持图片、链接、格式化
-- 🔐 **验证码组件**: 
+- 🔐 **验证码组件**:
   - 滑块验证码
   - 拼图验证码
   - 点选验证码
@@ -270,6 +273,7 @@ antdv-next-admin/
 ### ✅ 已完成功能 (13/15 - 87%)
 
 **核心架构:**
+
 - ✅ 项目初始化和配置
 - ✅ 完整的设计系统（6种主题色、动画、工具类）
 - ✅ TypeScript类型定义体系
@@ -282,6 +286,7 @@ antdv-next-admin/
 - ✅ 组合式函数（usePermission、useWatermark、useFullscreen等）
 
 **布局组件:**
+
 - ✅ AdminLayout（主布局，支持垂直/水平模式）
 - ✅ Sidebar（侧边栏，支持深色/浅色主题）
 - ✅ Header（顶部导航栏）
@@ -297,6 +302,7 @@ antdv-next-admin/
 - ✅ SettingsDrawer（偏好设置抽屉）
 
 **页面视图:**
+
 - ✅ 登录页（完整的登录表单和验证）
 - ✅ Dashboard（统计卡片、图表、活动列表）
 - ✅ 个人中心（用户信息、账号设置）
@@ -334,20 +340,24 @@ antdv-next-admin/
 ## 🎨 技术栈
 
 ### 核心框架
+
 - **Vue 3.4+** - 渐进式 JavaScript 框架
 - **TypeScript 5+** - JavaScript 的超集
-- **Vite 5+** - 下一代前端构建工具
+- **Vite 8+** - 下一代前端构建工具 (基于 Rolldown + Oxc)
 
 ### UI & 样式
+
 - **Ant Design Vue** - 企业级 UI 组件库
 - **CSS Variables** - 现代化的主题系统
 - **SCSS** - CSS 预处理器
 
 ### 状态管理 & 路由
+
 - **Pinia 2+** - Vue 官方状态管理
 - **Vue Router 4+** - Vue 官方路由
 
 ### 工具库
+
 - **vue-i18n** - 国际化
 - **Axios** - HTTP 客户端
 - **dayjs** - 日期处理
@@ -355,9 +365,10 @@ antdv-next-admin/
 - **@faker-js/faker** - 假数据生成
 
 ### 开发工具
+
 - **vite-plugin-mock-dev-server** - Mock 服务
-- **ESLint** - 代码检查
-- **Prettier** - 代码格式化
+- **oxlint** - 极速代码检查 (50-100x 快于 ESLint)
+- **oxfmt** - 极速代码格式化 (30x 快于 Prettier)
 
 ## 🔧 开发指南
 
@@ -369,12 +380,14 @@ antdv-next-admin/
 ### 环境变量
 
 **开发环境 (.env.development):**
+
 ```bash
 VITE_USE_MOCK=true
 VITE_API_BASE_URL=/api
 ```
 
 **生产环境 (.env.production):**
+
 ```bash
 VITE_USE_MOCK=false
 VITE_API_BASE_URL=https://your-api-domain.com/api
@@ -391,6 +404,7 @@ VITE_API_BASE_URL=https://your-api-domain.com/api
 ### 权限使用
 
 **指令方式:**
+
 ```vue
 <a-button v-permission="'user.create'">创建用户</a-button>
 <a-button v-permission="['user.edit', 'user.delete']">操作</a-button>
@@ -398,19 +412,21 @@ VITE_API_BASE_URL=https://your-api-domain.com/api
 ```
 
 **组合函数方式:**
-```ts
-const { can, canAll } = usePermission()
 
-if (can('user.create')) {
+```ts
+const { can, canAll } = usePermission();
+
+if (can("user.create")) {
   // 有创建权限
 }
 
-if (canAll(['user.edit', 'user.approve'])) {
+if (canAll(["user.edit", "user.approve"])) {
   // 同时有编辑和审批权限
 }
 ```
 
 **组件方式:**
+
 ```vue
 <PermissionButton permission="user.create">
   <a-button>创建用户</a-button>
@@ -502,11 +518,7 @@ if (canAll(['user.edit', 'user.approve'])) {
 
 ```vue
 <template>
-  <ProTable
-    :columns="columns"
-    :request="loadData"
-    :search="searchConfig"
-  >
+  <ProTable :columns="columns" :request="loadData" :search="searchConfig">
     <template #toolbar>
       <a-button type="primary">新建</a-button>
     </template>
@@ -514,18 +526,18 @@ if (canAll(['user.edit', 'user.approve'])) {
 </template>
 
 <script setup lang="ts">
-import { ProTable } from '@/components/Pro'
+import { ProTable } from "@/components/Pro";
 
 const columns = [
-  { title: '姓名', dataIndex: 'name', valueType: 'text' },
-  { title: '年龄', dataIndex: 'age', valueType: 'number' },
-  { title: '状态', dataIndex: 'status', valueType: 'tag' },
-  { title: '创建时间', dataIndex: 'createdAt', valueType: 'date' }
-]
+  { title: "姓名", dataIndex: "name", valueType: "text" },
+  { title: "年龄", dataIndex: "age", valueType: "number" },
+  { title: "状态", dataIndex: "status", valueType: "tag" },
+  { title: "创建时间", dataIndex: "createdAt", valueType: "date" },
+];
 
 const loadData = async (params: any) => {
   // 返回 { data: [], total: 0 }
-}
+};
 </script>
 ```
 
@@ -541,18 +553,18 @@ const loadData = async (params: any) => {
 </template>
 
 <script setup lang="ts">
-import { ProForm } from '@/components/Pro'
+import { ProForm } from "@/components/Pro";
 
 const formSchema = [
-  { label: '用户名', name: 'username', type: 'input', required: true },
-  { label: '邮箱', name: 'email', type: 'input', rules: [{ type: 'email' }] },
-  { label: '角色', name: 'role', type: 'select', options: roleOptions },
-  { label: '状态', name: 'status', type: 'switch' }
-]
+  { label: "用户名", name: "username", type: "input", required: true },
+  { label: "邮箱", name: "email", type: "input", rules: [{ type: "email" }] },
+  { label: "角色", name: "role", type: "select", options: roleOptions },
+  { label: "状态", name: "status", type: "switch" },
+];
 
 const handleSubmit = (values: any) => {
-  console.log('提交表单:', values)
-}
+  console.log("提交表单:", values);
+};
 </script>
 ```
 
@@ -562,13 +574,13 @@ const handleSubmit = (values: any) => {
 <template>
   <!-- 滑块验证码 -->
   <SliderCaptcha @success="handleSuccess" />
-  
+
   <!-- 拼图验证码 -->
   <PuzzleCaptcha @success="handleSuccess" />
-  
+
   <!-- 点选验证码 -->
   <PointCaptcha @success="handleSuccess" />
-  
+
   <!-- 旋转验证码 -->
   <RotateCaptcha @success="handleSuccess" />
 </template>
@@ -577,6 +589,7 @@ const handleSubmit = (values: any) => {
 ### 8. 富文本编辑器
 
 基于 TipTap 的富文本编辑器，支持：
+
 - 文本格式化（粗体、斜体、下划线）
 - 标题、列表、引用
 - 图片上传和插入
