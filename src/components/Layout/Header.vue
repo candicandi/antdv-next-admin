@@ -18,14 +18,18 @@
 
     <div class="header-right">
       <!-- Global Search Trigger -->
-      <a-button type="text" class="header-action search-btn" @click="openGlobalSearch">
+      <a-button
+        type="text"
+        class="header-action search-btn"
+        @click="openGlobalSearch"
+      >
         <SearchOutlined />
       </a-button>
       <div class="search-trigger desktop-only" @click="openGlobalSearch">
         <SearchOutlined class="search-icon" />
-        <span class="search-text">{{ $t('common.search') }}</span>
+        <span class="search-text">{{ $t("common.search") }}</span>
         <div class="search-key">
-          <span class="search-key-text">{{ isMac ? '⌘' : 'Ctrl' }}</span>
+          <span class="search-key-text">{{ isMac ? "⌘" : "Ctrl" }}</span>
           <span class="search-key-k">K</span>
         </div>
       </div>
@@ -35,7 +39,9 @@
         <a-tooltip
           v-if="layoutStore.aiEntryVisible"
           :title="
-            layoutStore.aiCollabEnabled ? $t('layout.aiCollabDisable') : $t('layout.aiCollabEnable')
+            layoutStore.aiCollabEnabled
+              ? $t('layout.aiCollabDisable')
+              : $t('layout.aiCollabEnable')
           "
         >
           <a-button
@@ -72,7 +78,12 @@
       </template>
 
       <!-- Mobile: More menu (three dots) -->
-      <a-dropdown v-else :trigger="['click']" placement="bottomRight" :menu="moreMenuProps">
+      <a-dropdown
+        v-else
+        :trigger="['click']"
+        placement="bottomRight"
+        :menu="moreMenuProps"
+      >
         <a-button type="text" class="header-action">
           <MoreOutlined />
         </a-button>
@@ -101,25 +112,33 @@ import {
   FullscreenOutlined,
   BulbOutlined,
   GlobalOutlined,
-} from '@antdv-next/icons';
-import { ref, computed, onMounted, onBeforeUnmount, h } from 'vue';
+} from "@antdv-next/icons";
+import { ref, computed, onMounted, onBeforeUnmount, h, type VNode } from "vue";
 
-import { $t, setLocale, LOCALE_NATIVE_LABELS } from '@/locales';
-import { useLayoutStore } from '@/stores/layout';
-import { useThemeStore } from '@/stores/theme';
+import { $t, setLocale, LOCALE_NATIVE_LABELS } from "@/locales";
+import { useLayoutStore } from "@/stores/layout";
+import { useThemeStore } from "@/stores/theme";
 
-import AvatarDropdown from './AvatarDropdown.vue';
-import Breadcrumb from './Breadcrumb.vue';
-import FullscreenToggle from './FullscreenToggle.vue';
-import GlobalSearch from './GlobalSearch.vue';
-import LanguageSwitch from './LanguageSwitch.vue';
-import NotificationPanel from './NotificationPanel.vue';
-import SettingsDrawer from './SettingsDrawer.vue';
-import ThemeToggle from './ThemeToggle.vue';
+import AvatarDropdown from "./AvatarDropdown.vue";
+import Breadcrumb from "./Breadcrumb.vue";
+import FullscreenToggle from "./FullscreenToggle.vue";
+import GlobalSearch from "./GlobalSearch.vue";
+import LanguageSwitch from "./LanguageSwitch.vue";
+import NotificationPanel from "./NotificationPanel.vue";
+import SettingsDrawer from "./SettingsDrawer.vue";
+import ThemeToggle from "./ThemeToggle.vue";
 
 interface Props {
   showBreadcrumb?: boolean;
   showCollapseButton?: boolean;
+}
+
+interface MenuItem {
+  key?: string;
+  label?: string;
+  icon?: VNode;
+  type?: "divider";
+  children?: MenuItem[];
 }
 
 withDefaults(defineProps<Props>(), {
@@ -153,110 +172,110 @@ const toggleFullscreen = () => {
 
 const handleMoreMenuClick = ({ key }: { key: string }) => {
   switch (key) {
-    case 'fullscreen':
+    case "fullscreen":
       toggleFullscreen();
       break;
-    case 'ai-collab':
+    case "ai-collab":
       layoutStore.toggleAiCollab();
       break;
-    case 'theme-light':
-      themeStore.setTheme('light');
+    case "theme-light":
+      themeStore.setTheme("light");
       break;
-    case 'theme-dark':
-      themeStore.setTheme('dark');
+    case "theme-dark":
+      themeStore.setTheme("dark");
       break;
-case 'theme-auto':
-      themeStore.setTheme('system');
+    case "theme-auto":
+      themeStore.setTheme("system");
       break;
-    case 'lang-zh':
-      setLocale('zh-CN');
+    case "lang-zh":
+      setLocale("zh-CN");
       break;
-    case 'lang-en':
-      setLocale('en-US');
+    case "lang-en":
+      setLocale("en-US");
       break;
-    case 'lang-ja':
-      setLocale('ja-JP');
+    case "lang-ja":
+      setLocale("ja-JP");
       break;
-    case 'lang-ko':
-      setLocale('ko-KR');
+    case "lang-ko":
+      setLocale("ko-KR");
       break;
-    case 'settings':
+    case "settings":
       openSettings();
       break;
   }
 };
 
 const moreMenuProps = computed(() => {
-  const items: any[] = [
+  const items: MenuItem[] = [
     {
-      key: 'fullscreen',
-      label: $t('layout.fullscreen'),
+      key: "fullscreen",
+      label: $t("layout.fullscreen"),
       icon: h(FullscreenOutlined),
     },
   ];
 
   if (layoutStore.aiEntryVisible) {
     items.push({
-      key: 'ai-collab',
+      key: "ai-collab",
       label: layoutStore.aiCollabEnabled
-        ? $t('layout.aiCollabDisable')
-        : $t('layout.aiCollabEnable'),
+        ? $t("layout.aiCollabDisable")
+        : $t("layout.aiCollabEnable"),
       icon: h(MessageOutlined),
     });
   }
 
   items.push(
     {
-      type: 'divider',
+      type: "divider",
     },
     {
-      key: 'theme',
-      label: $t('layout.theme'),
+      key: "theme",
+      label: $t("layout.theme"),
       icon: h(BulbOutlined),
       children: [
         {
-          key: 'theme-light',
-          label: $t('layout.themeLight'),
+          key: "theme-light",
+          label: $t("layout.themeLight"),
         },
         {
-          key: 'theme-dark',
-          label: $t('layout.themeDark'),
+          key: "theme-dark",
+          label: $t("layout.themeDark"),
         },
         {
-          key: 'theme-auto',
-          label: $t('layout.themeAuto'),
+          key: "theme-auto",
+          label: $t("layout.themeAuto"),
         },
       ],
     },
     {
-      key: 'language',
-      label: $t('layout.language'),
+      key: "language",
+      label: $t("layout.language"),
       icon: h(GlobalOutlined),
       children: [
         {
-          key: 'lang-zh',
-          label: LOCALE_NATIVE_LABELS['zh-CN'],
+          key: "lang-zh",
+          label: LOCALE_NATIVE_LABELS["zh-CN"],
         },
         {
-          key: 'lang-en',
-          label: LOCALE_NATIVE_LABELS['en-US'],
+          key: "lang-en",
+          label: LOCALE_NATIVE_LABELS["en-US"],
         },
         {
-          key: 'lang-ja',
-          label: LOCALE_NATIVE_LABELS['ja-JP'],
+          key: "lang-ja",
+          label: LOCALE_NATIVE_LABELS["ja-JP"],
         },
         {
-          key: 'lang-ko',
-          label: LOCALE_NATIVE_LABELS['ko-KR'],
+          key: "lang-ko",
+          label: LOCALE_NATIVE_LABELS["ko-KR"],
         },
       ],
     },
     {
-      type: 'divider',
+      type: "divider",
     },
     {
-      key: 'settings',
-      label: $t('settings.title'),
+      key: "settings",
+      label: $t("settings.title"),
       icon: h(SettingOutlined),
     },
   );
@@ -265,7 +284,7 @@ const moreMenuProps = computed(() => {
 });
 
 const handleKeydown = (e: KeyboardEvent) => {
-  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+  if ((e.metaKey || e.ctrlKey) && e.key === "k") {
     e.preventDefault();
     openGlobalSearch();
   }
@@ -274,11 +293,11 @@ const handleKeydown = (e: KeyboardEvent) => {
 onMounted(() => {
   // Simple check for Mac
   isMac.value = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
-  window.addEventListener('keydown', handleKeydown);
+  window.addEventListener("keydown", handleKeydown);
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener('keydown', handleKeydown);
+  window.removeEventListener("keydown", handleKeydown);
 });
 </script>
 

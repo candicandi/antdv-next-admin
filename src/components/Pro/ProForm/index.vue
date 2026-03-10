@@ -8,7 +8,11 @@
     class="pro-form"
   >
     <a-row :gutter="grid?.gutter || 16">
-      <a-col v-for="item in visibleFormItems" :key="item.name" :span="getColSpan(item)">
+      <a-col
+        v-for="item in visibleFormItems"
+        :key="item.name"
+        :span="getColSpan(item)"
+      >
         <a-form-item
           :name="item.name"
           :label="item.label"
@@ -17,7 +21,11 @@
           :value-prop-name="item.valuePropName || 'value'"
           :class="{ 'form-item-required': item.required }"
         >
-          <FormItemRender v-model:value="formData[item.name]" :item="item" :form-data="formData" />
+          <FormItemRender
+            v-model:value="formData[item.name]"
+            :item="item"
+            :form-data="formData"
+          />
         </a-form-item>
       </a-col>
     </a-row>
@@ -33,17 +41,17 @@
 </template>
 
 <script setup lang="ts">
-import type { ProFormItem, ProFormLayout, ProFormGrid } from '@/types/pro';
+import type { ProFormItem, ProFormLayout, ProFormGrid } from "@/types/pro";
 
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch } from "vue";
 
-import { $t } from '@/locales';
+import { $t } from "@/locales";
 
-import FormItemRender from './FormItemRender.vue';
+import FormItemRender from "./FormItemRender.vue";
 
 interface Props {
   formItems: ProFormItem[];
-  initialValues?: Record<string, any>;
+  initialValues?: Record<string, unknown>;
   layout?: ProFormLayout;
   grid?: ProFormGrid;
 }
@@ -52,7 +60,7 @@ const props = withDefaults(defineProps<Props>(), {
   layout: () => ({
     labelCol: { span: 6 },
     wrapperCol: { span: 18 },
-    layout: 'horizontal',
+    layout: "horizontal",
   }),
   grid: () => ({
     gutter: 16,
@@ -60,7 +68,98 @@ const props = withDefaults(defineProps<Props>(), {
   }),
 });
 
-const emit = defineEmits(['submit', 'valuesChange', 'finish']);
+const emit = defineEmits(["submit", "valuesChange", "finish"]);
+
+const formRef = ref();
+const formData = ref<Record<string, unknown>>({});
+
+// Computed
+const visibleFormItems = computed(() => {
+  return props.formItems.filter((item) => {
+    if (typeof item.hidden === "function") return !item.hidden(formData.value);
+    return !item.hidden;
+  });
+});
+
+const formRules = computed(() => {
+  const rules: Record<string, unknown[]> = {};
+  props.formItems.forEach((item) => {
+    const itemRules = [];
+
+    // 如果字段标记为 required，自动添加 required 规则
+    if (item.required) {
+      itemRules.push({
+        required: true,
+        message: $t("proForm.enterPlaceholder", {
+          label: String(item.label ?? ""),
+        }),
+      });
+    }
+
+    // 添加自定义规则
+    if (item.rules) {
+      itemRules.push(
+        ...(Array.isArray(item.rules) ? item.rules : [item.rules]),
+      );
+    }
+
+    if (itemRules.length > 0) {
+      rules[item.name] = itemRules;
+    }
+  });
+  return rules;
+});
+
+// Methods
+const getColSpan = (item: ProFormItem) => {
+  if (item.colSpan) {
+    return (24 / (props.grid?.cols || 1)) * item.colSpan;
+  }
+  return 24 / (props.grid?.cols || 1);
+};
+
+const handleFinish = (values: Record<string, unknown>) => {
+  emit("finish", values);
+  emit("submit", values);
+};
+
+// Watch initial values
+watch(
+  () => props.initialValues,
+  (values) => {
+    if (values) {
+      formData.value = { ...values };
+    }
+  },
+  { immediate: true, deep: true },
+);
+
+// Expose methods
+const validate = async () => {
+  return formRef.value?.validate();
+};
+
+const resetFields = () => {
+  formRef.value?.resetFields();
+  formData.value = { ...props.initialValues } ?? {};
+};
+
+const setFieldsValue = (values: Record<string, unknown>) => {
+  formData.value = { ...formData.value, ...values };
+};
+
+const getFieldsValue = () => {
+  return formData.value;
+};
+
+defineExpose({
+  validate,
+  resetFields,
+  setFieldsValue,
+  getFieldsValue,
+});
+
+const emit = defineEmits(["submit", "valuesChange", "finish"]);
 
 const formRef = ref();
 const formData = ref<Record<string, any>>({});
@@ -68,7 +167,7 @@ const formData = ref<Record<string, any>>({});
 // Computed
 const visibleFormItems = computed(() => {
   return props.formItems.filter((item) => {
-    if (typeof item.hidden === 'function') return !item.hidden(formData.value);
+    if (typeof item.hidden === "function") return !item.hidden(formData.value);
     return !item.hidden;
   });
 });
@@ -82,13 +181,17 @@ const formRules = computed(() => {
     if (item.required) {
       itemRules.push({
         required: true,
-        message: $t('proForm.enterPlaceholder', { label: String(item.label ?? '') }),
+        message: $t("proForm.enterPlaceholder", {
+          label: String(item.label ?? ""),
+        }),
       });
     }
 
     // 添加自定义规则
     if (item.rules) {
-      itemRules.push(...(Array.isArray(item.rules) ? item.rules : [item.rules]));
+      itemRules.push(
+        ...(Array.isArray(item.rules) ? item.rules : [item.rules]),
+      );
     }
 
     if (itemRules.length > 0) {
@@ -107,8 +210,8 @@ const getColSpan = (item: ProFormItem) => {
 };
 
 const handleFinish = (values: any) => {
-  emit('finish', values);
-  emit('submit', values);
+  emit("finish", values);
+  emit("submit", values);
 };
 
 // Watch initial values
@@ -126,7 +229,7 @@ watch(
 watch(
   formData,
   (values) => {
-    emit('valuesChange', values);
+    emit("valuesChange", values);
   },
   { deep: true },
 );
@@ -172,7 +275,7 @@ defineExpose({
       font-size: 14px;
       font-family: SimSun, sans-serif;
       line-height: 1;
-      content: '*';
+      content: "*";
     }
   }
 

@@ -1,8 +1,10 @@
 <template>
   <div class="page-container">
     <div class="card">
-      <h2>{{ $t('examples.scaffold.complexForm.title') }}</h2>
-      <p class="text-secondary mb-lg">{{ $t('examples.scaffold.complexForm.description') }}</p>
+      <h2>{{ $t("examples.scaffold.complexForm.title") }}</h2>
+      <p class="text-secondary mb-lg">
+        {{ $t("examples.scaffold.complexForm.description") }}
+      </p>
 
       <a-form ref="formRef" :model="formState" :rules="rules" layout="vertical">
         <ProStepForm
@@ -20,19 +22,31 @@
               >
                 <a-input
                   v-model:value="formState.projectName"
-                  :placeholder="$t('examples.scaffold.complexForm.projectNamePlaceholder')"
+                  :placeholder="
+                    $t('examples.scaffold.complexForm.projectNamePlaceholder')
+                  "
                 />
               </a-form-item>
-              <a-form-item :label="$t('examples.scaffold.complexForm.ownerLabel')" name="owner">
+              <a-form-item
+                :label="$t('examples.scaffold.complexForm.ownerLabel')"
+                name="owner"
+              >
                 <a-input
                   v-model:value="formState.owner"
-                  :placeholder="$t('examples.scaffold.complexForm.ownerPlaceholder')"
+                  :placeholder="
+                    $t('examples.scaffold.complexForm.ownerPlaceholder')
+                  "
                 />
               </a-form-item>
-              <a-form-item :label="$t('examples.scaffold.complexForm.sceneLabel')" name="scene">
+              <a-form-item
+                :label="$t('examples.scaffold.complexForm.sceneLabel')"
+                name="scene"
+              >
                 <a-select
                   v-model:value="formState.scene"
-                  :placeholder="$t('examples.scaffold.complexForm.scenePlaceholder')"
+                  :placeholder="
+                    $t('examples.scaffold.complexForm.scenePlaceholder')
+                  "
                   :options="sceneOptions"
                 />
               </a-form-item>
@@ -43,7 +57,9 @@
                 <a-textarea
                   v-model:value="formState.description"
                   :rows="3"
-                  :placeholder="$t('examples.scaffold.complexForm.descriptionPlaceholder')"
+                  :placeholder="
+                    $t('examples.scaffold.complexForm.descriptionPlaceholder')
+                  "
                 />
               </a-form-item>
             </div>
@@ -53,20 +69,26 @@
             <div class="mb-md">
               <a-space>
                 <a-button type="dashed" @click="addRule">{{
-                  $t('examples.scaffold.complexForm.addRuleButton')
+                  $t("examples.scaffold.complexForm.addRuleButton")
                 }}</a-button>
                 <a-tag>{{
-                  $t('examples.scaffold.complexForm.currentRulesCount', {
+                  $t("examples.scaffold.complexForm.currentRulesCount", {
                     count: formState.rules.length,
                   })
                 }}</a-tag>
               </a-space>
             </div>
 
-            <div v-for="(rule, index) in formState.rules" :key="rule.id" class="rule-row">
+            <div
+              v-for="(rule, index) in formState.rules"
+              :key="rule.id"
+              class="rule-row"
+            >
               <a-input
                 v-model:value="rule.metric"
-                :placeholder="$t('examples.scaffold.complexForm.metricPlaceholder')"
+                :placeholder="
+                  $t('examples.scaffold.complexForm.metricPlaceholder')
+                "
               />
               <a-select
                 v-model:value="rule.operator"
@@ -80,11 +102,17 @@
                 style="width: 180px"
               />
               <a-button danger @click="removeRule(index)">{{
-                $t('examples.scaffold.complexForm.deleteButton')
+                $t("examples.scaffold.complexForm.deleteButton")
               }}</a-button>
             </div>
 
-            <a-alert v-if="ruleError" class="mt-md" type="error" show-icon :message="ruleError" />
+            <a-alert
+              v-if="ruleError"
+              class="mt-md"
+              type="error"
+              show-icon
+              :message="ruleError"
+            />
           </template>
 
           <template #step-2>
@@ -95,10 +123,10 @@
               >
                 <a-radio-group v-model:value="formState.publishType">
                   <a-radio value="immediate">{{
-                    $t('examples.scaffold.complexForm.publishImmediate')
+                    $t("examples.scaffold.complexForm.publishImmediate")
                   }}</a-radio>
                   <a-radio value="schedule">{{
-                    $t('examples.scaffold.complexForm.publishSchedule')
+                    $t("examples.scaffold.complexForm.publishSchedule")
                   }}</a-radio>
                 </a-radio-group>
               </a-form-item>
@@ -130,7 +158,9 @@
                   v-model:value="formState.notifyUsers"
                   mode="tags"
                   :token-separators="[',']"
-                  :placeholder="$t('examples.scaffold.complexForm.notifyUsersPlaceholder')"
+                  :placeholder="
+                    $t('examples.scaffold.complexForm.notifyUsersPlaceholder')
+                  "
                 />
               </a-form-item>
             </div>
@@ -138,10 +168,10 @@
 
           <template #extra-actions>
             <a-button @click="saveDraft">{{
-              $t('examples.scaffold.complexForm.saveDraftButton')
+              $t("examples.scaffold.complexForm.saveDraftButton")
             }}</a-button>
             <a-button @click="resetForm">{{
-              $t('examples.scaffold.complexForm.resetButton')
+              $t("examples.scaffold.complexForm.resetButton")
             }}</a-button>
           </template>
         </ProStepForm>
@@ -151,18 +181,22 @@
 </template>
 
 <script setup lang="ts">
-import type { ProStepFormStep } from '@/types/pro';
+import type { ProStepFormStep } from "@/types/pro";
 
-import { message } from 'antdv-next';
-import { computed, onMounted, reactive, ref } from 'vue';
+import type { FormInstance, Rule } from "antdv-next";
 
-import ProStepForm from '@/components/Pro/ProStepForm/index.vue';
-import { $t } from '@/locales';
+import type { Dayjs } from "dayjs";
+
+import { message } from "antdv-next";
+import { computed, onMounted, reactive, ref } from "vue";
+
+import ProStepForm from "@/components/Pro/ProStepForm/index.vue";
+import { $t } from "@/locales";
 
 interface PolicyRule {
   id: string;
   metric: string;
-  operator: '>' | '>=' | '<' | '<=';
+  operator: ">" | ">=" | "<" | "<=";
   threshold: number | null;
 }
 
@@ -172,65 +206,71 @@ interface FormState {
   scene: string;
   description: string;
   rules: PolicyRule[];
-  publishType: 'immediate' | 'schedule';
-  publishTime: any;
+  publishType: "immediate" | "schedule";
+  publishTime: Dayjs | null;
   notifyUsers: string[];
 }
 
-const DRAFT_KEY = 'example:complex-form:draft';
+const DRAFT_KEY = "example:complex-form:draft";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const formRef = ref<any>(null);
+const formRef = ref<InstanceType<typeof ProStepForm> | null>(null);
 const currentStep = ref(0);
-const ruleError = ref('');
+const ruleError = ref("");
 
 const stepDefinitions = computed<ProStepFormStep[]>(() => [
-  { title: $t('examples.scaffold.complexForm.step1Title') },
-  { title: $t('examples.scaffold.complexForm.step2Title') },
-  { title: $t('examples.scaffold.complexForm.step3Title') },
+  { title: $t("examples.scaffold.complexForm.step1Title") },
+  { title: $t("examples.scaffold.complexForm.step2Title") },
+  { title: $t("examples.scaffold.complexForm.step3Title") },
 ]);
 
 const formState = reactive<FormState>({
-  projectName: '',
-  owner: '',
-  scene: '',
-  description: '',
+  projectName: "",
+  owner: "",
+  scene: "",
+  description: "",
   rules: [
     {
       id: `${Date.now()}`,
-      metric: 'error_rate',
-      operator: '>',
+      metric: "error_rate",
+      operator: ">",
       threshold: 5,
     },
   ],
-  publishType: 'immediate',
+  publishType: "immediate",
   publishTime: null,
   notifyUsers: [],
 });
 
 const sceneOptions = computed(() => [
-  { label: $t('examples.scaffold.complexForm.sceneGrowth'), value: 'growth' },
-  { label: $t('examples.scaffold.complexForm.sceneRisk'), value: 'risk' },
-  { label: $t('examples.scaffold.complexForm.sceneStability'), value: 'stability' },
+  { label: $t("examples.scaffold.complexForm.sceneGrowth"), value: "growth" },
+  { label: $t("examples.scaffold.complexForm.sceneRisk"), value: "risk" },
+  {
+    label: $t("examples.scaffold.complexForm.sceneStability"),
+    value: "stability",
+  },
 ]);
 
 const operatorOptions = [
-  { label: '>', value: '>' },
-  { label: '>=', value: '>=' },
-  { label: '<', value: '<' },
-  { label: '<=', value: '<=' },
+  { label: ">", value: ">" },
+  { label: ">=", value: ">=" },
+  { label: "<", value: "<" },
+  { label: "<=", value: "<=" },
 ];
 
-const checkProjectNameUnique = async (_rule: any, value: string) => {
+const checkProjectNameUnique = async (_rule: Rule, value: string) => {
   if (!value) {
-    return Promise.reject(new Error($t('examples.scaffold.complexForm.projectNameRequired')));
+    return Promise.reject(
+      new Error($t("examples.scaffold.complexForm.projectNameRequired")),
+    );
   }
 
   await new Promise((resolve) => setTimeout(resolve, 300));
 
-  const reservedNames = ['default', 'admin', 'production'];
+  const reservedNames = ["default", "admin", "production"];
   if (reservedNames.includes(value.trim().toLowerCase())) {
-    return Promise.reject(new Error($t('examples.scaffold.complexForm.projectNameExists')));
+    return Promise.reject(
+      new Error($t("examples.scaffold.complexForm.projectNameExists")),
+    );
   }
 
   return Promise.resolve();
@@ -238,26 +278,44 @@ const checkProjectNameUnique = async (_rule: any, value: string) => {
 
 const rules = {
   projectName: [
-    { required: true, message: $t('examples.scaffold.complexForm.projectNameRequired') },
-    { validator: checkProjectNameUnique, trigger: 'blur' },
+    {
+      required: true,
+      message: $t("examples.scaffold.complexForm.projectNameRequired"),
+    },
+    { validator: checkProjectNameUnique, trigger: "blur" },
   ],
-  owner: [{ required: true, message: $t('examples.scaffold.complexForm.ownerRequired') }],
-  scene: [{ required: true, message: $t('examples.scaffold.complexForm.sceneRequired') }],
+  owner: [
+    {
+      required: true,
+      message: $t("examples.scaffold.complexForm.ownerRequired"),
+    },
+  ],
+  scene: [
+    {
+      required: true,
+      message: $t("examples.scaffold.complexForm.sceneRequired"),
+    },
+  ],
   publishType: [
-    { required: true, message: $t('examples.scaffold.complexForm.publishTypeRequired') },
+    {
+      required: true,
+      message: $t("examples.scaffold.complexForm.publishTypeRequired"),
+    },
   ],
 };
 
 const validatePublishTime = async () => {
-  if (formState.publishType === 'schedule' && !formState.publishTime) {
-    return Promise.reject(new Error($t('examples.scaffold.complexForm.publishTimeRequired')));
+  if (formState.publishType === "schedule" && !formState.publishTime) {
+    return Promise.reject(
+      new Error($t("examples.scaffold.complexForm.publishTimeRequired")),
+    );
   }
   return Promise.resolve();
 };
 
 const validateRuleList = () => {
   if (formState.rules.length === 0) {
-    ruleError.value = $t('examples.scaffold.complexForm.ruleListEmpty');
+    ruleError.value = $t("examples.scaffold.complexForm.ruleListEmpty");
     return false;
   }
 
@@ -266,19 +324,19 @@ const validateRuleList = () => {
   });
 
   if (invalid) {
-    ruleError.value = $t('examples.scaffold.complexForm.ruleListIncomplete');
+    ruleError.value = $t("examples.scaffold.complexForm.ruleListIncomplete");
     return false;
   }
 
-  ruleError.value = '';
+  ruleError.value = "";
   return true;
 };
 
 const addRule = () => {
   formState.rules.push({
     id: `${Date.now()}-${Math.random()}`,
-    metric: '',
-    operator: '>',
+    metric: "",
+    operator: ">",
     threshold: null,
   });
 };
@@ -289,7 +347,7 @@ const removeRule = (index: number) => {
 
 const nextStep = async (step: number) => {
   if (step === 0) {
-    await formRef.value?.validateFields?.(['projectName', 'owner', 'scene']);
+    await formRef.value?.validateFields?.(["projectName", "owner", "scene"]);
   }
 
   if (step === 1 && !validateRuleList()) {
@@ -300,22 +358,24 @@ const nextStep = async (step: number) => {
 };
 
 const resetForm = () => {
-  formState.projectName = '';
-  formState.owner = '';
-  formState.scene = '';
-  formState.description = '';
-  formState.rules = [{ id: `${Date.now()}`, metric: 'error_rate', operator: '>', threshold: 5 }];
-  formState.publishType = 'immediate';
+  formState.projectName = "";
+  formState.owner = "";
+  formState.scene = "";
+  formState.description = "";
+  formState.rules = [
+    { id: `${Date.now()}`, metric: "error_rate", operator: ">", threshold: 5 },
+  ];
+  formState.publishType = "immediate";
   formState.publishTime = null;
   formState.notifyUsers = [];
   currentStep.value = 0;
-  ruleError.value = '';
+  ruleError.value = "";
   formRef.value?.clearValidate?.();
 };
 
 const saveDraft = () => {
   localStorage.setItem(DRAFT_KEY, JSON.stringify(formState));
-  message.success($t('examples.scaffold.complexForm.draftSaved'));
+  message.success($t("examples.scaffold.complexForm.draftSaved"));
 };
 
 const loadDraft = () => {
@@ -333,7 +393,7 @@ const loadDraft = () => {
 };
 
 const submitForm = async () => {
-  await formRef.value?.validateFields?.(['publishType', 'publishTime']);
+  await formRef.value?.validateFields?.(["publishType", "publishTime"]);
 
   if (!validateRuleList()) {
     currentStep.value = 1;
@@ -341,21 +401,21 @@ const submitForm = async () => {
   }
 
   // 模拟后端字段错误映射
-  if (formState.projectName.toLowerCase().includes('fail')) {
+  if (formState.projectName.toLowerCase().includes("fail")) {
     currentStep.value = 0;
     formRef.value?.setFields?.([
       {
-        name: ['projectName'],
-        errors: [$t('examples.scaffold.complexForm.serverValidationError')],
+        name: ["projectName"],
+        errors: [$t("examples.scaffold.complexForm.serverValidationError")],
       },
     ]);
-    message.error($t('examples.scaffold.complexForm.submitFailed'));
+    message.error($t("examples.scaffold.complexForm.submitFailed"));
     return;
   }
 
   await new Promise((resolve) => setTimeout(resolve, 600));
   localStorage.removeItem(DRAFT_KEY);
-  message.success($t('examples.scaffold.complexForm.submitSuccess'));
+  message.success($t("examples.scaffold.complexForm.submitSuccess"));
 };
 
 onMounted(() => {

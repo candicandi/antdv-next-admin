@@ -2,7 +2,11 @@
   <article class="pro-stat-card" :class="`tone-${tone}`">
     <p class="stat-label">{{ label }}</p>
     <p class="stat-value">{{ value }}</p>
-    <p v-if="trend" class="stat-trend" :class="{ 'trend-down': trendDirection === 'down' }">
+    <p
+      v-if="trend"
+      class="stat-trend"
+      :class="{ 'trend-down': trendDirection === 'down' }"
+    >
       <RiseOutlined v-if="trendDirection !== 'down'" />
       <FallOutlined v-else />
       <span>{{ trend }}</span>
@@ -13,22 +17,23 @@
 </template>
 
 <script setup lang="ts">
-import type { ProStatCardTone } from '@/types/pro';
+import type { Component } from "vue";
+import type { ProStatCardTone } from "@/types/pro";
 
-import { RiseOutlined, FallOutlined } from '@antdv-next/icons';
+import { RiseOutlined, FallOutlined } from "@antdv-next/icons";
 
 withDefaults(
   defineProps<{
     label: string;
     value: string | number;
     trend?: string;
-    trendDirection?: 'up' | 'down';
-    icon?: any;
+    trendDirection?: "up" | "down";
+    icon?: Component;
     tone?: ProStatCardTone;
   }>(),
   {
-    trendDirection: 'up',
-    tone: 'blue',
+    trendDirection: "up",
+    tone: "blue",
   },
 );
 </script>

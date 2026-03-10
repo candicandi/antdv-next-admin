@@ -7,12 +7,12 @@
 
     <!-- Date -->
     <span v-else-if="type === 'date'">
-      {{ formatDate(value, valueTypeProps.format || 'YYYY-MM-DD') }}
+      {{ formatDate(value, valueTypeProps.format || "YYYY-MM-DD") }}
     </span>
 
     <!-- DateTime -->
     <span v-else-if="type === 'dateTime'">
-      {{ formatDate(value, valueTypeProps.format || 'YYYY-MM-DD HH:mm:ss') }}
+      {{ formatDate(value, valueTypeProps.format || "YYYY-MM-DD HH:mm:ss") }}
     </span>
 
     <!-- Tag -->
@@ -29,7 +29,8 @@
 
     <!-- Money -->
     <span v-else-if="type === 'money'" class="money">
-      {{ valueTypeProps.symbol ?? '¥' }}{{ formatMoney(value, valueTypeProps.precision) }}
+      {{ valueTypeProps.symbol ?? "¥"
+      }}{{ formatMoney(value, valueTypeProps.precision) }}
     </span>
 
     <!-- Percent -->
@@ -38,10 +39,18 @@
     </span>
 
     <!-- Avatar -->
-    <a-avatar v-else-if="type === 'avatar'" :src="value" :size="valueTypeProps.size || 32" />
+    <a-avatar
+      v-else-if="type === 'avatar'"
+      :src="value"
+      :size="valueTypeProps.size || 32"
+    />
 
     <!-- Image -->
-    <a-image v-else-if="type === 'image'" :src="value" :width="valueTypeProps.width || 80" />
+    <a-image
+      v-else-if="type === 'image'"
+      :src="value"
+      :width="valueTypeProps.width || 80"
+    />
 
     <!-- Link -->
     <a v-else-if="type === 'link'" :href="value" target="_blank" class="link">
@@ -62,48 +71,48 @@
 </template>
 
 <script setup lang="ts">
-import type { ValueType } from '@/types/pro';
+import type { ValueType } from "@/types/pro";
 
-import { message } from 'antdv-next';
-import dayjs from 'dayjs';
+import { message } from "antdv-next";
+import dayjs from "dayjs";
 
-import { $t } from '@/locales';
-import { copyToClipboard } from '@/utils/helpers';
+import { $t } from "@/locales";
+import { copyToClipboard } from "@/utils/helpers";
 
 interface Props {
-  value: any;
+  value: unknown;
   type?: ValueType;
   enum?: Record<string, { text: string; status?: string; color?: string }>;
-  record?: any;
+  record?: Record<string, unknown>;
   copyable?: boolean;
-  valueTypeProps?: Record<string, any>;
+  valueTypeProps?: Record<string, unknown>;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: 'text',
+  type: "text",
   copyable: false,
   valueTypeProps: () => ({}),
 });
 
-const getEnumConfig = (value: any) => {
+const getEnumConfig = (value: string | number) => {
   return props.enum?.[value];
 };
 
-const formatDate = (value: any, format: string) => {
-  if (!value) return '-';
-  return dayjs(value).format(format);
+const formatDate = (value: unknown, format: string) => {
+  if (!value) return "-";
+  return dayjs(value as string | number | Date).format(format);
 };
 
-const formatMoney = (value: any, precision?: number) => {
-  if (value === null || value === undefined) return '0.00';
+const formatMoney = (value: unknown, precision?: number) => {
+  if (value === null || value === undefined) return "0.00";
   const p = precision ?? 2;
   return Number(value)
     .toFixed(p)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-const formatPercent = (value: any, precision?: number) => {
-  if (value === null || value === undefined) return '0';
+const formatPercent = (value: unknown, precision?: number) => {
+  if (value === null || value === undefined) return "0";
   const p = precision ?? 2;
   return Number(value).toFixed(p);
 };
@@ -112,9 +121,9 @@ const handleCopy = async () => {
   if (props.copyable && props.value) {
     const success = await copyToClipboard(String(props.value));
     if (success) {
-      message.success($t('common.copySuccess'));
+      message.success($t("common.copySuccess"));
     } else {
-      message.error($t('common.copyFailed'));
+      message.error($t("common.copyFailed"));
     }
   }
 };

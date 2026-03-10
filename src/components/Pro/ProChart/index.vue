@@ -21,22 +21,22 @@
 </template>
 
 <script setup lang="ts">
-import type { ProChartType } from '@/types/pro';
+import type { ProChartType } from "@/types/pro";
 
-import { LineChart, BarChart, PieChart, RadarChart } from 'echarts/charts';
+import { LineChart, BarChart, PieChart, RadarChart } from "echarts/charts";
 import {
   TitleComponent,
   TooltipComponent,
   LegendComponent,
   GridComponent,
   RadarComponent,
-} from 'echarts/components';
-import { use } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
-import { computed } from 'vue';
-import VChart from 'vue-echarts';
+} from "echarts/components";
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { computed } from "vue";
+import VChart from "vue-echarts";
 
-import { useThemeStore } from '@/stores/theme';
+import { useThemeStore } from "@/stores/theme";
 
 use([
   CanvasRenderer,
@@ -53,12 +53,12 @@ use([
 
 interface Props {
   type: ProChartType;
-  data: any[];
+  data: unknown[];
   height?: number | string;
   title?: string;
   subTitle?: string;
   loading?: boolean;
-  option?: Record<string, any>;
+  option?: Record<string, unknown>;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -70,37 +70,44 @@ const themeStore = useThemeStore();
 const isDark = computed(() => themeStore.isDark);
 
 const normalizedHeight = computed(() => {
-  return typeof props.height === 'number' ? `${props.height}px` : props.height;
+  return typeof props.height === "number" ? `${props.height}px` : props.height;
 });
 
 const generatedOption = computed(() => {
   const { type, data } = props;
 
-  if (type === 'pie' || type === 'donut') {
+  if (type === "pie" || type === "donut") {
     return {
-      tooltip: { trigger: 'item' },
+      tooltip: { trigger: "item" },
       legend: { bottom: 0 },
       series: [
         {
-          type: 'pie',
-          radius: type === 'donut' ? ['45%', '70%'] : '70%',
+          type: "pie",
+          radius: type === "donut" ? ["45%", "70%"] : "70%",
           data: data.map((item) => ({ name: item.name, value: item.value })),
           emphasis: {
-            itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' },
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)",
+            },
           },
         },
       ],
     };
   }
 
-  if (type === 'radar') {
-    const indicator = data.map((item) => ({ name: item.name, max: item.max ?? 100 }));
+  if (type === "radar") {
+    const indicator = data.map((item) => ({
+      name: item.name,
+      max: item.max ?? 100,
+    }));
     return {
       tooltip: {},
       radar: { indicator },
       series: [
         {
-          type: 'radar',
+          type: "radar",
           data: [{ value: data.map((item) => item.value) }],
         },
       ],
@@ -112,16 +119,16 @@ const generatedOption = computed(() => {
   const values = data.map((item) => item.value);
 
   return {
-    tooltip: { trigger: 'axis' },
-    grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
-    xAxis: { type: 'category', data: categories },
-    yAxis: { type: 'value' },
+    tooltip: { trigger: "axis" },
+    grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+    xAxis: { type: "category", data: categories },
+    yAxis: { type: "value" },
     series: [
       {
-        type: type === 'area' ? 'line' : type,
+        type: type === "area" ? "line" : type,
         data: values,
-        smooth: type === 'line' || type === 'area',
-        areaStyle: type === 'area' ? {} : undefined,
+        smooth: type === "line" || type === "area",
+        areaStyle: type === "area" ? {} : undefined,
       },
     ],
   };

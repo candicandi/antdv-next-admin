@@ -11,7 +11,7 @@
       <template #toolbar-actions>
         <a-space wrap>
           <a-tag color="processing">{{
-            $t('examples.scaffold.proTableAdvanced.selectedCount', {
+            $t("examples.scaffold.proTableAdvanced.selectedCount", {
               count: selectedRowKeys.length,
             })
           }}</a-tag>
@@ -19,13 +19,17 @@
             :disabled="selectedRowKeys.length === 0"
             @click="handleBatchSetStatus('inactive')"
           >
-            {{ $t('examples.scaffold.proTableAdvanced.batchDisable') }}
+            {{ $t("examples.scaffold.proTableAdvanced.batchDisable") }}
           </a-button>
-          <a-button danger :disabled="selectedRowKeys.length === 0" @click="handleBatchDelete">
-            {{ $t('examples.scaffold.proTableAdvanced.batchDelete') }}
+          <a-button
+            danger
+            :disabled="selectedRowKeys.length === 0"
+            @click="handleBatchDelete"
+          >
+            {{ $t("examples.scaffold.proTableAdvanced.batchDelete") }}
           </a-button>
           <a-button type="primary" @click="exportCsv">{{
-            $t('examples.scaffold.proTableAdvanced.export')
+            $t("examples.scaffold.proTableAdvanced.export")
           }}</a-button>
         </a-space>
       </template>
@@ -34,8 +38,12 @@
         <template v-if="column.dataIndex === 'status'">
           <a-switch
             :checked="record.status === 'active'"
-            :checked-children="$t('examples.scaffold.proTableAdvanced.statusActive')"
-            :un-checked-children="$t('examples.scaffold.proTableAdvanced.statusInactive')"
+            :checked-children="
+              $t('examples.scaffold.proTableAdvanced.statusActive')
+            "
+            :un-checked-children="
+              $t('examples.scaffold.proTableAdvanced.statusInactive')
+            "
             @change="handleStatusSwitchChange(record.id, $event as boolean)"
           />
         </template>
@@ -45,22 +53,22 @@
 </template>
 
 <script setup lang="ts">
-import type { ProTableColumn } from '@/types/pro';
+import type { ProTableColumn } from "@/types/pro";
 
-import { EditOutlined, DeleteOutlined } from '@antdv-next/icons';
-import { message, Modal } from 'antdv-next';
-import { computed, ref } from 'vue';
+import { EditOutlined, DeleteOutlined } from "@antdv-next/icons";
+import { message, Modal } from "antdv-next";
+import { computed, ref } from "vue";
 
-import ProTable from '@/components/Pro/ProTable/index.vue';
-import { $t } from '@/locales';
+import ProTable from "@/components/Pro/ProTable/index.vue";
+import { $t } from "@/locales";
 
 interface DemoRow {
   id: string;
   username: string;
   realName: string;
   email: string;
-  gender: 'male' | 'female';
-  status: 'active' | 'inactive';
+  gender: "male" | "female";
+  status: "active" | "inactive";
   createdAt: string;
 }
 
@@ -71,11 +79,11 @@ const createMockRows = (): DemoRow[] => {
 
     return {
       id: `demo-${i}`,
-      username: `user_${String(i).padStart(3, '0')}`,
+      username: `user_${String(i).padStart(3, "0")}`,
       realName: isMale ? `张三${i}` : `李四${i}`,
       email: `user_${i}@example.com`,
-      gender: isMale ? 'male' : 'female',
-      status: i % 3 === 0 ? 'inactive' : 'active',
+      gender: isMale ? "male" : "female",
+      status: i % 3 === 0 ? "inactive" : "active",
       createdAt: new Date(Date.now() - i * 86400000).toISOString(),
     };
   });
@@ -85,92 +93,106 @@ const tableRows = ref<DemoRow[]>(createMockRows());
 const selectedRowKeys = ref<string[]>([]);
 
 const toolbarConfig = computed(() => ({
-  title: $t('examples.scaffold.proTableAdvanced.title'),
-  subTitle: $t('examples.scaffold.proTableAdvanced.description'),
-  actions: ['refresh', 'density', 'columnSetting'] as Array<
-    'refresh' | 'density' | 'columnSetting'
+  title: $t("examples.scaffold.proTableAdvanced.title"),
+  subTitle: $t("examples.scaffold.proTableAdvanced.description"),
+  actions: ["refresh", "density", "columnSetting"] as Array<
+    "refresh" | "density" | "columnSetting"
   >,
 }));
 
 const columns = computed<ProTableColumn[]>(() => [
   {
-    title: $t('examples.scaffold.proTableAdvanced.username'),
-    dataIndex: 'username',
+    title: $t("examples.scaffold.proTableAdvanced.username"),
+    dataIndex: "username",
     search: true,
-    searchType: 'input',
+    searchType: "input",
     width: 150,
   },
   {
-    title: $t('examples.scaffold.proTableAdvanced.realName'),
-    dataIndex: 'realName',
+    title: $t("examples.scaffold.proTableAdvanced.realName"),
+    dataIndex: "realName",
     search: true,
-    searchType: 'input',
+    searchType: "input",
     width: 140,
   },
   {
-    title: $t('examples.scaffold.proTableAdvanced.email'),
-    dataIndex: 'email',
+    title: $t("examples.scaffold.proTableAdvanced.email"),
+    dataIndex: "email",
     search: true,
-    searchType: 'input',
+    searchType: "input",
     width: 220,
   },
   {
-    title: $t('examples.scaffold.proTableAdvanced.gender'),
-    dataIndex: 'gender',
+    title: $t("examples.scaffold.proTableAdvanced.gender"),
+    dataIndex: "gender",
     search: true,
-    searchType: 'select',
+    searchType: "select",
     searchOptions: [
-      { label: $t('user.male'), value: 'male' },
-      { label: $t('user.female'), value: 'female' },
+      { label: $t("user.male"), value: "male" },
+      { label: $t("user.female"), value: "female" },
     ],
-    valueType: 'tag',
+    valueType: "tag",
     valueEnum: {
-      male: { text: $t('user.male'), color: 'blue' },
-      female: { text: $t('user.female'), color: 'pink' },
+      male: { text: $t("user.male"), color: "blue" },
+      female: { text: $t("user.female"), color: "pink" },
     },
     width: 120,
   },
   {
-    title: $t('examples.scaffold.proTableAdvanced.status'),
-    dataIndex: 'status',
+    title: $t("examples.scaffold.proTableAdvanced.status"),
+    dataIndex: "status",
     width: 140,
     search: true,
-    searchType: 'select',
+    searchType: "select",
     searchOptions: [
-      { label: $t('examples.scaffold.proTableAdvanced.statusActive'), value: 'active' },
-      { label: $t('examples.scaffold.proTableAdvanced.statusInactive'), value: 'inactive' },
+      {
+        label: $t("examples.scaffold.proTableAdvanced.statusActive"),
+        value: "active",
+      },
+      {
+        label: $t("examples.scaffold.proTableAdvanced.statusInactive"),
+        value: "inactive",
+      },
     ],
   },
   {
-    title: $t('examples.scaffold.proTableAdvanced.createdAt'),
-    dataIndex: 'createdAt',
-    valueType: 'dateTime',
+    title: $t("examples.scaffold.proTableAdvanced.createdAt"),
+    dataIndex: "createdAt",
+    valueType: "dateTime",
     width: 190,
   },
   {
-    title: $t('common.actions'),
-    dataIndex: 'action',
+    title: $t("common.actions"),
+    dataIndex: "action",
     width: 180,
-    fixed: 'right',
+    fixed: "right",
     actions: [
       {
-        label: $t('common.edit'),
+        label: $t("common.edit"),
         icon: EditOutlined,
         onClick: (record) => {
           message.info(
-            $t('examples.scaffold.proTableAdvanced.editSimulation', { username: record.username }),
+            $t("examples.scaffold.proTableAdvanced.editSimulation", {
+              username: record.username,
+            }),
           );
         },
       },
       {
-        label: $t('common.delete'),
+        label: $t("common.delete"),
         icon: DeleteOutlined,
         danger: true,
-        confirm: $t('examples.scaffold.proTableAdvanced.deleteConfirm'),
+        confirm: $t("examples.scaffold.proTableAdvanced.deleteConfirm"),
         onClick: (record) => {
-          tableRows.value = tableRows.value.filter((item) => item.id !== record.id);
-          selectedRowKeys.value = selectedRowKeys.value.filter((id) => id !== record.id);
-          message.success($t('examples.scaffold.proTableAdvanced.deleteSuccess'));
+          tableRows.value = tableRows.value.filter(
+            (item) => item.id !== record.id,
+          );
+          selectedRowKeys.value = selectedRowKeys.value.filter(
+            (id) => id !== record.id,
+          );
+          message.success(
+            $t("examples.scaffold.proTableAdvanced.deleteSuccess"),
+          );
         },
       },
     ],
@@ -184,7 +206,7 @@ const rowSelection = computed(() => ({
   },
 }));
 
-const requestTableData = async (params: Record<string, any>) => {
+const requestTableData = async (params: Record<string, unknown>) => {
   const current = Number(params.current || 1);
   const pageSize = Number(params.pageSize || 10);
 
@@ -192,17 +214,23 @@ const requestTableData = async (params: Record<string, any>) => {
 
   if (params.username) {
     const keyword = String(params.username).toLowerCase();
-    filtered = filtered.filter((item) => item.username.toLowerCase().includes(keyword));
+    filtered = filtered.filter((item) =>
+      item.username.toLowerCase().includes(keyword),
+    );
   }
 
   if (params.realName) {
     const keyword = String(params.realName).toLowerCase();
-    filtered = filtered.filter((item) => item.realName.toLowerCase().includes(keyword));
+    filtered = filtered.filter((item) =>
+      item.realName.toLowerCase().includes(keyword),
+    );
   }
 
   if (params.email) {
     const keyword = String(params.email).toLowerCase();
-    filtered = filtered.filter((item) => item.email.toLowerCase().includes(keyword));
+    filtered = filtered.filter((item) =>
+      item.email.toLowerCase().includes(keyword),
+    );
   }
 
   if (params.gender) {
@@ -229,12 +257,12 @@ const handleStatusChange = (id: string, checked: boolean) => {
     return;
   }
 
-  row.status = checked ? 'active' : 'inactive';
+  row.status = checked ? "active" : "inactive";
   message.success(
-    $t('examples.scaffold.proTableAdvanced.statusChangeSuccess', {
+    $t("examples.scaffold.proTableAdvanced.statusChangeSuccess", {
       status: checked
-        ? $t('examples.scaffold.proTableAdvanced.statusActive')
-        : $t('examples.scaffold.proTableAdvanced.statusInactive'),
+        ? $t("examples.scaffold.proTableAdvanced.statusActive")
+        : $t("examples.scaffold.proTableAdvanced.statusInactive"),
       username: row.username,
     }),
   );
@@ -244,7 +272,7 @@ const handleStatusSwitchChange = (id: string, checked: boolean) => {
   handleStatusChange(id, checked);
 };
 
-const handleBatchSetStatus = (status: DemoRow['status']) => {
+const handleBatchSetStatus = (status: DemoRow["status"]) => {
   if (selectedRowKeys.value.length === 0) {
     return;
   }
@@ -261,7 +289,7 @@ const handleBatchSetStatus = (status: DemoRow['status']) => {
   });
 
   message.success(
-    $t('examples.scaffold.proTableAdvanced.batchSetStatusSuccess', {
+    $t("examples.scaffold.proTableAdvanced.batchSetStatusSuccess", {
       count: selectedRowKeys.value.length,
     }),
   );
@@ -273,21 +301,31 @@ const handleBatchDelete = () => {
   }
 
   Modal.confirm({
-    title: $t('examples.scaffold.proTableAdvanced.batchDeleteTitle'),
-    content: $t('examples.scaffold.proTableAdvanced.batchDeleteContent', {
+    title: $t("examples.scaffold.proTableAdvanced.batchDeleteTitle"),
+    content: $t("examples.scaffold.proTableAdvanced.batchDeleteContent", {
       count: selectedRowKeys.value.length,
     }),
     onOk: () => {
       const set = new Set(selectedRowKeys.value);
       tableRows.value = tableRows.value.filter((item) => !set.has(item.id));
       selectedRowKeys.value = [];
-      message.success($t('examples.scaffold.proTableAdvanced.batchDeleteSuccess'));
+      message.success(
+        $t("examples.scaffold.proTableAdvanced.batchDeleteSuccess"),
+      );
     },
   });
 };
 
 const exportCsv = () => {
-  const headers = ['id', 'username', 'realName', 'email', 'gender', 'status', 'createdAt'];
+  const headers = [
+    "id",
+    "username",
+    "realName",
+    "email",
+    "gender",
+    "status",
+    "createdAt",
+  ];
   const rows = tableRows.value.map((item) => [
     item.id,
     item.username,
@@ -299,17 +337,19 @@ const exportCsv = () => {
   ]);
 
   const csv = [headers, ...rows]
-    .map((line) => line.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
-    .join('\n');
+    .map((line) =>
+      line.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(","),
+    )
+    .join("\n");
 
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   link.href = url;
   link.download = `pro-table-advanced-${Date.now()}.csv`;
   link.click();
   URL.revokeObjectURL(url);
 
-  message.success($t('examples.scaffold.proTableAdvanced.exportSuccess'));
+  message.success($t("examples.scaffold.proTableAdvanced.exportSuccess"));
 };
 </script>

@@ -2,9 +2,19 @@
   <div ref="proTableRef" class="pro-table" :style="tableRootStyle">
     <!-- Search Form -->
     <div v-if="showSearchForm" ref="searchRef" class="pro-table-search">
-      <a-form :model="searchForm" :label-col="{ span: searchLabelWidth }" class="search-form">
+      <a-form
+        :model="searchForm"
+        :label-col="{ span: searchLabelWidth }"
+        class="search-form"
+      >
         <a-row :gutter="16">
-          <a-col v-for="col in visibleSearchColumns" :key="col.dataIndex" :xs="24" :sm="12" :lg="8">
+          <a-col
+            v-for="col in visibleSearchColumns"
+            :key="col.dataIndex"
+            :xs="24"
+            :sm="12"
+            :lg="8"
+          >
             <a-form-item :label="col.title" :name="col.dataIndex">
               <a-input
                 v-if="resolveSearchType(col) === 'input'"
@@ -47,20 +57,27 @@
           </a-col>
 
           <a-col :xs="24" :sm="12" :lg="8" class="search-actions">
-            <a-form-item :wrapper-col="{ span: 24 }" class="search-actions-item">
+            <a-form-item
+              :wrapper-col="{ span: 24 }"
+              class="search-actions-item"
+            >
               <a-space wrap :size="[8, 8]" class="search-actions-space">
                 <a-button type="primary" @click="handleSearch">
-                  <SearchOutlined /> {{ $t('common.search') }}
+                  <SearchOutlined /> {{ $t("common.search") }}
                 </a-button>
                 <a-button @click="handleReset">
-                  <ReloadOutlined /> {{ $t('common.reset') }}
+                  <ReloadOutlined /> {{ $t("common.reset") }}
                 </a-button>
                 <a-button
                   v-if="showSearchCollapseToggle"
                   type="link"
                   @click="searchCollapsed = !searchCollapsed"
                 >
-                  {{ searchCollapsed ? $t('common.expand') : $t('common.collapse') }}
+                  {{
+                    searchCollapsed
+                      ? $t("common.expand")
+                      : $t("common.collapse")
+                  }}
                   <DownOutlined :class="{ 'rotate-180': !searchCollapsed }" />
                 </a-button>
               </a-space>
@@ -97,14 +114,25 @@
         <template v-if="toolbar" #title>
           <div ref="toolbarRef" class="pro-table-toolbar">
             <div class="toolbar-left">
-              <span v-if="toolbar.title" class="toolbar-title">{{ toolbar.title }}</span>
-              <span v-if="toolbar.subTitle" class="toolbar-subtitle">{{ toolbar.subTitle }}</span>
+              <span v-if="toolbar.title" class="toolbar-title">{{
+                toolbar.title
+              }}</span>
+              <span v-if="toolbar.subTitle" class="toolbar-subtitle">{{
+                toolbar.subTitle
+              }}</span>
             </div>
             <div class="toolbar-right">
               <slot name="toolbar-actions"></slot>
               <a-space :size="4">
-                <a-tooltip v-if="showRefreshAction" :title="$t('common.refresh')">
-                  <a-button type="text" class="toolbar-icon-btn" @click="handleRefresh">
+                <a-tooltip
+                  v-if="showRefreshAction"
+                  :title="$t('common.refresh')"
+                >
+                  <a-button
+                    type="text"
+                    class="toolbar-icon-btn"
+                    @click="handleRefresh"
+                  >
                     <ReloadOutlined />
                   </a-button>
                 </a-tooltip>
@@ -122,12 +150,20 @@
                   </a-tooltip>
                 </a-dropdown>
 
-                <a-popover v-if="showColumnSettingAction" trigger="click" placement="bottomRight">
+                <a-popover
+                  v-if="showColumnSettingAction"
+                  trigger="click"
+                  placement="bottomRight"
+                >
                   <template #content>
                     <div class="column-setting-dropdown" @click.stop>
                       <div class="setting-actions">
-                        <a-button size="small" type="link" @click.stop="handleToggleAllColumns">
-                          {{ $t('proTable.checkAll') }}
+                        <a-button
+                          size="small"
+                          type="link"
+                          @click.stop="handleToggleAllColumns"
+                        >
+                          {{ $t("proTable.checkAll") }}
                         </a-button>
                         <a-button
                           size="small"
@@ -135,18 +171,23 @@
                           class="reset-btn"
                           @click.stop="handleResetColumns"
                         >
-                          {{ $t('common.reset') }}
+                          {{ $t("common.reset") }}
                         </a-button>
                       </div>
 
                       <div class="setting-list">
                         <div class="setting-item index-column-item">
                           <div class="setting-item-left">
-                            <span class="drag-handle" style="opacity: 0; pointer-events: none"
+                            <span
+                              class="drag-handle"
+                              style="opacity: 0; pointer-events: none"
                               >::</span
                             >
-                            <a-checkbox :checked="showIndexColumn" @change="toggleIndexColumn">
-                              {{ $t('proTable.indexColumn') }}
+                            <a-checkbox
+                              :checked="showIndexColumn"
+                              @change="toggleIndexColumn"
+                            >
+                              {{ $t("proTable.indexColumn") }}
                             </a-checkbox>
                           </div>
                         </div>
@@ -165,7 +206,9 @@
                             <span class="drag-handle">::</span>
                             <a-checkbox
                               :checked="state.checked"
-                              @change="handleColumnCheckedChange(state.key, $event)"
+                              @change="
+                                handleColumnCheckedChange(state.key, $event)
+                              "
                             >
                               {{ state.title }}
                             </a-checkbox>
@@ -177,7 +220,9 @@
                                 size="small"
                                 class="fixed-btn"
                                 :class="{ active: state.fixed === 'left' }"
-                                @click.stop="toggleColumnFixed(state.key, 'left')"
+                                @click.stop="
+                                  toggleColumnFixed(state.key, 'left')
+                                "
                               >
                                 <VerticalLeftOutlined />
                               </a-button>
@@ -188,7 +233,9 @@
                                 size="small"
                                 class="fixed-btn"
                                 :class="{ active: state.fixed === 'right' }"
-                                @click.stop="toggleColumnFixed(state.key, 'right')"
+                                @click.stop="
+                                  toggleColumnFixed(state.key, 'right')
+                                "
                               >
                                 <VerticalRightOutlined />
                               </a-button>
@@ -207,15 +254,25 @@
           </div>
         </template>
 
-        <template v-if="$slots.filterIcon || hasBuiltInHeaderFilter" #filterIcon="slotProps">
+        <template
+          v-if="$slots.filterIcon || hasBuiltInHeaderFilter"
+          #filterIcon="slotProps"
+        >
           <template v-if="shouldRenderBuiltInFilterIcon(slotProps.column)">
             <SearchOutlined
               v-if="getBuiltInFilterIconType(slotProps.column) === 'search'"
               :style="{ color: slotProps.filtered ? '#1677ff' : undefined }"
             />
-            <FilterFilled v-else :style="{ color: slotProps.filtered ? '#1677ff' : undefined }" />
+            <FilterFilled
+              v-else
+              :style="{ color: slotProps.filtered ? '#1677ff' : undefined }"
+            />
           </template>
-          <slot v-else-if="$slots.filterIcon" name="filterIcon" v-bind="slotProps" />
+          <slot
+            v-else-if="$slots.filterIcon"
+            name="filterIcon"
+            v-bind="slotProps"
+          />
         </template>
 
         <template
@@ -228,9 +285,13 @@
                 <a-input
                   class="pro-table-keyword-filter-input"
                   allow-clear
-                  :placeholder="getBuiltInKeywordFilterPlaceholder(slotProps.column)"
+                  :placeholder="
+                    getBuiltInKeywordFilterPlaceholder(slotProps.column)
+                  "
                   :value="getBuiltInKeywordFilterValue(slotProps.selectedKeys)"
-                  @update:value="handleBuiltInKeywordInput($event, slotProps.setSelectedKeys)"
+                  @update:value="
+                    handleBuiltInKeywordInput($event, slotProps.setSelectedKeys)
+                  "
                   @keydown.enter="handleBuiltInKeywordSearch(slotProps.confirm)"
                 />
               </div>
@@ -240,7 +301,7 @@
                   class="pro-table-keyword-filter-btn"
                   @click="handleBuiltInKeywordSearch(slotProps.confirm)"
                 >
-                  {{ $t('common.search') }}
+                  {{ $t("common.search") }}
                 </a-button>
                 <a-button
                   class="pro-table-keyword-filter-btn"
@@ -252,12 +313,16 @@
                     )
                   "
                 >
-                  {{ $t('common.reset') }}
+                  {{ $t("common.reset") }}
                 </a-button>
               </div>
             </div>
           </template>
-          <slot v-else-if="$slots.filterDropdown" name="filterDropdown" v-bind="slotProps" />
+          <slot
+            v-else-if="$slots.filterDropdown"
+            name="filterDropdown"
+            v-bind="slotProps"
+          />
         </template>
 
         <template #bodyCell="{ column, record, text, index }">
@@ -285,7 +350,13 @@
           </template>
 
           <template v-else-if="$slots.bodyCell">
-            <slot name="bodyCell" :column="column" :record="record" :text="text" :index="index" />
+            <slot
+              name="bodyCell"
+              :column="column"
+              :record="record"
+              :text="text"
+              :index="index"
+            />
           </template>
 
           <template v-else-if="column.valueType">
@@ -321,7 +392,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ProTableDensity, ProTableHeight } from '@/settings';
+import type { ProTableDensity, ProTableHeight } from "@/settings";
 import type {
   ProTableColumn,
   ProTableToolbar,
@@ -336,8 +407,8 @@ import type {
   ProFormItem,
   ProFormLayout,
   ProFormGrid,
-} from '@/types/pro';
-import type { PropType } from 'vue';
+} from "@/types/pro";
+import type { PropType } from "vue";
 
 import {
   ReloadOutlined,
@@ -348,8 +419,8 @@ import {
   ColumnHeightOutlined,
   VerticalLeftOutlined,
   VerticalRightOutlined,
-} from '@antdv-next/icons';
-import { message, Modal } from 'antdv-next';
+} from "@antdv-next/icons";
+import { message, Modal } from "antdv-next";
 import {
   ref,
   computed,
@@ -359,14 +430,14 @@ import {
   nextTick,
   h,
   defineComponent,
-} from 'vue';
+} from "vue";
 
-import { $t } from '@/locales';
-import { appDefaultSettings } from '@/settings';
+import { $t } from "@/locales";
+import { appDefaultSettings } from "@/settings";
 
-import ProForm from '../ProForm/index.vue';
-import ProModal from '../ProModal/index.vue';
-import ValueTypeRender from './ValueTypeRender.vue';
+import ProForm from "../ProForm/index.vue";
+import ProModal from "../ProModal/index.vue";
+import ValueTypeRender from "./ValueTypeRender.vue";
 
 interface Props {
   columns: ProTableColumn[];
@@ -396,9 +467,9 @@ interface ColumnState {
   key: string;
   title: string;
   checked: boolean;
-  fixed?: 'left' | 'right';
+  fixed?: "left" | "right";
   defaultChecked: boolean;
-  defaultFixed?: 'left' | 'right';
+  defaultFixed?: "left" | "right";
   column: ProTableColumn;
 }
 
@@ -416,19 +487,19 @@ interface ResizableTitleProps {
   onResize?: (event: MouseEvent, info: ResizeInfo) => void;
 }
 
-type TableSize = 'large' | 'middle' | 'small';
+type TableSize = "large" | "middle" | "small";
 
 const MIN_COLUMN_WIDTH = 40;
 
 const ResizableTitle = defineComponent({
-  name: 'ResizableTitle',
+  name: "ResizableTitle",
   inheritAttrs: false,
   props: {
     width: Number,
     resizable: Boolean,
-    onResizeStart: Function as PropType<ResizableTitleProps['onResizeStart']>,
-    onResizeEnd: Function as PropType<ResizableTitleProps['onResizeEnd']>,
-    onResize: Function as PropType<ResizableTitleProps['onResize']>,
+    onResizeStart: Function as PropType<ResizableTitleProps["onResizeStart"]>,
+    onResizeEnd: Function as PropType<ResizableTitleProps["onResizeEnd"]>,
+    onResize: Function as PropType<ResizableTitleProps["onResize"]>,
   },
   setup(props, { slots, attrs }) {
     const dragging = ref(false);
@@ -439,7 +510,10 @@ const ResizableTitle = defineComponent({
       if (!dragging.value || !props.onResize) {
         return;
       }
-      const nextWidth = Math.max(startWidth + event.clientX - startX, MIN_COLUMN_WIDTH);
+      const nextWidth = Math.max(
+        startWidth + event.clientX - startX,
+        MIN_COLUMN_WIDTH,
+      );
       props.onResize(event, { size: { width: nextWidth } });
     };
 
@@ -448,8 +522,8 @@ const ResizableTitle = defineComponent({
         props.onResizeEnd?.(event);
       }
       dragging.value = false;
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
     };
 
     const onMouseDown = (event: MouseEvent) => {
@@ -460,42 +534,47 @@ const ResizableTitle = defineComponent({
       event.stopPropagation();
       startWidth =
         props.width ||
-        (event.currentTarget as HTMLElement)?.parentElement?.getBoundingClientRect().width ||
+        (
+          event.currentTarget as HTMLElement
+        )?.parentElement?.getBoundingClientRect().width ||
         0;
       props.onResizeStart?.(event, startWidth);
       dragging.value = true;
       startX = event.clientX;
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
     };
 
     onBeforeUnmount(() => {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
     });
 
     return () => {
       const width = props.width;
       if (!props.resizable || !props.onResize) {
-        return h('th', attrs, slots.default?.());
+        return h("th", attrs, slots.default?.());
       }
 
       const style =
         width == null
           ? attrs.style
-          : { ...(attrs.style as Record<string, unknown>), width: `${width}px` };
+          : {
+              ...(attrs.style as Record<string, unknown>),
+              width: `${width}px`,
+            };
 
       return h(
-        'th',
+        "th",
         {
           ...attrs,
-          class: ['pro-table-resizable-title', attrs.class],
+          class: ["pro-table-resizable-title", attrs.class],
           style,
         },
         [
           slots.default?.(),
-          h('span', {
-            class: 'pro-table-resizable-handle',
+          h("span", {
+            class: "pro-table-resizable-handle",
             onMousedown: onMouseDown,
           }),
         ],
@@ -505,7 +584,7 @@ const ResizableTitle = defineComponent({
 });
 
 const props = withDefaults(defineProps<Props>(), {
-  rowKey: 'id',
+  rowKey: "id",
   size: appDefaultSettings.proTable.size,
   height: appDefaultSettings.proTable.height,
   resizable: appDefaultSettings.proTable.resizable,
@@ -516,18 +595,18 @@ const props = withDefaults(defineProps<Props>(), {
   pagination: () => ({
     showSizeChanger: true,
     showQuickJumper: true,
-    showTotal: (value: number) => $t('proTable.total', { total: value }),
+    showTotal: (value: number) => $t("proTable.total", { total: value }),
   }),
   formModalWidth: 640,
 });
 
-const emit = defineEmits(['refresh', 'form-submit']);
+const emit = defineEmits(["refresh", "form-submit"]);
 
 const normalizeDensity = (size: ProTableDensity | undefined): TableSize => {
-  if (size === 'large' || size === 'middle' || size === 'small') {
+  if (size === "large" || size === "middle" || size === "small") {
     return size;
   }
-  return 'small';
+  return "small";
 };
 
 const cloneColumnState = (state: ColumnState): ColumnState => ({
@@ -552,19 +631,27 @@ const searchForm = ref<Record<string, unknown>>({});
 const searchCollapsed = ref(
   props.search !== false ? (props.search?.defaultCollapsed ?? true) : true,
 );
-const currentPage = ref(props.pagination !== false ? props.pagination?.current || 1 : 1);
-const pageSize = ref(props.pagination !== false ? props.pagination?.pageSize || 10 : 10);
+const currentPage = ref(
+  props.pagination !== false ? props.pagination?.current || 1 : 1,
+);
+const pageSize = ref(
+  props.pagination !== false ? props.pagination?.pageSize || 10 : 10,
+);
 const total = ref(0);
 const tableSize = ref<TableSize>(normalizeDensity(props.size));
 const tableScrollY = ref<number>();
 const shouldUseVerticalScroll = ref(false);
 const tableViewportWidth = ref(0);
-const viewportWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1200);
-const tableFilters = ref<Record<string, (string | number | boolean)[] | null>>({});
+const viewportWidth = ref(
+  typeof window !== "undefined" ? window.innerWidth : 1200,
+);
+const tableFilters = ref<Record<string, (string | number | boolean)[] | null>>(
+  {},
+);
 
 interface TableSorterItem {
   field?: string;
-  order?: 'ascend' | 'descend';
+  order?: "ascend" | "descend";
 }
 
 const tableSorter = ref<TableSorterItem | TableSorterItem[] | null>(null);
@@ -573,7 +660,7 @@ const showIndexColumn = ref(true);
 const defaultShowIndexColumn = ref(true);
 const columnStates = ref<ColumnState[]>([]);
 const defaultColumnStates = ref<ColumnState[]>([]);
-const draggingColumnKey = ref('');
+const draggingColumnKey = ref("");
 const isResizingColumn = ref(false);
 const resizingColumnKey = ref<string | null>(null);
 const widthsPreparedForCurrentDrag = ref(false);
@@ -589,31 +676,37 @@ const tableComponents = computed(() => {
   };
 });
 
-const normalizeHeaderFilterMode = (mode: HeaderFilterMode | undefined): HeaderFilterMode => {
-  return mode ?? props.headerFilter?.defaultMode ?? 'server';
+const normalizeHeaderFilterMode = (
+  mode: HeaderFilterMode | undefined,
+): HeaderFilterMode => {
+  return mode ?? props.headerFilter?.defaultMode ?? "server";
 };
 
 const isClientHeaderFilterMode = (mode: HeaderFilterMode) => {
-  return mode === 'client' || mode === 'hybrid';
+  return mode === "client" || mode === "hybrid";
 };
 
 const isServerHeaderFilterMode = (mode: HeaderFilterMode) => {
-  return mode === 'server' || mode === 'hybrid';
+  return mode === "server" || mode === "hybrid";
 };
 
-const normalizeSelectedFilterValues = (value: unknown): any[] => {
+const normalizeSelectedFilterValues = (value: unknown): unknown[] => {
   if (Array.isArray(value)) {
-    return value.filter((item) => item !== undefined && item !== null && item !== '');
+    return value.filter(
+      (item) => item !== undefined && item !== null && item !== "",
+    );
   }
-  if (value === undefined || value === null || value === '') {
+  if (value === undefined || value === null || value === "") {
     return [];
   }
   return [value];
 };
 
-const normalizeTableFilters = (filters: Record<string, any> | undefined) => {
-  const normalized: Record<string, any[] | null> = {};
-  if (!filters || typeof filters !== 'object') {
+const normalizeTableFilters = (
+  filters: Record<string, unknown> | undefined,
+) => {
+  const normalized: Record<string, unknown[] | null> = {};
+  if (!filters || typeof filters !== "object") {
     return normalized;
   }
 
@@ -633,7 +726,10 @@ const splitKeywordTerms = (keyword: string) => {
     .filter(Boolean);
 };
 
-const getColumnCellValue = (record: any, column: ProTableColumn) => {
+const getColumnCellValue = (
+  record: Record<string, unknown>,
+  column: ProTableColumn,
+) => {
   return record?.[String(column.dataIndex)];
 };
 
@@ -642,17 +738,17 @@ const toolbarActions = computed(() => props.toolbar?.actions || []);
 
 const showRefreshAction = computed(() => {
   if (!props.toolbar) return true;
-  return !toolbarActions.value.includes('!refresh');
+  return !toolbarActions.value.includes("!refresh");
 });
 
 const showColumnSettingAction = computed(() => {
   if (!props.toolbar) return true;
-  return !toolbarActions.value.includes('!columnSetting');
+  return !toolbarActions.value.includes("!columnSetting");
 });
 
 const showDensityAction = computed(() => {
   if (!props.toolbar) return true;
-  return !toolbarActions.value.includes('!density');
+  return !toolbarActions.value.includes("!density");
 });
 
 const headerFilterEntries = computed(() => {
@@ -691,7 +787,7 @@ const hasBuiltInHeaderFilter = computed(() => {
 
 const hasBuiltInKeywordHeaderFilter = computed(() => {
   return Array.from(headerFilterEntries.value.values()).some(
-    (entry) => entry.headerFilter.type === 'keyword',
+    (entry) => entry.headerFilter.type === "keyword",
   );
 });
 
@@ -720,7 +816,7 @@ const effectiveHeight = computed(() => {
 });
 
 const isAutoHeight = computed(() => {
-  return String(effectiveHeight.value) === 'auto';
+  return String(effectiveHeight.value) === "auto";
 });
 
 const isFillMode = computed(() => {
@@ -729,11 +825,11 @@ const isFillMode = computed(() => {
 
 const tableRootStyle = computed<Record<string, string> | undefined>(() => {
   if (isAutoHeight.value) {
-    return { height: '100%' };
+    return { height: "100%" };
   }
 
   const height =
-    typeof effectiveHeight.value === 'number'
+    typeof effectiveHeight.value === "number"
       ? `${effectiveHeight.value}px`
       : String(effectiveHeight.value);
 
@@ -807,7 +903,7 @@ const paginationConfig = computed(() => {
   return {
     showSizeChanger: true,
     showQuickJumper: true,
-    showTotal: (value: number) => $t('proTable.total', { total: value }),
+    showTotal: (value: number) => $t("proTable.total", { total: value }),
     ...pagination,
     current: currentPage.value,
     pageSize: pageSize.value,
@@ -832,12 +928,12 @@ const displayColumns = computed<ProTableColumn[]>(() => {
 
   return [
     {
-      title: '#',
-      dataIndex: '__index',
-      key: '__index',
+      title: "#",
+      dataIndex: "__index",
+      key: "__index",
       width: 64,
-      align: 'center',
-      fixed: 'left',
+      align: "center",
+      fixed: "left",
       ellipsis: false,
       resizable: false,
     },
@@ -850,11 +946,11 @@ const hasFixedColumns = computed(() => {
 });
 
 const parseColumnWidth = (width: unknown): number | null => {
-  if (typeof width === 'number' && Number.isFinite(width)) {
+  if (typeof width === "number" && Number.isFinite(width)) {
     return width;
   }
 
-  if (typeof width !== 'string') {
+  if (typeof width !== "string") {
     return null;
   }
 
@@ -867,7 +963,7 @@ const parseColumnWidth = (width: unknown): number | null => {
     return Number.parseFloat(value);
   }
 
-  if (value.endsWith('px')) {
+  if (value.endsWith("px")) {
     const parsed = Number.parseFloat(value);
     return Number.isFinite(parsed) ? parsed : null;
   }
@@ -883,16 +979,19 @@ const collectVisibleHeaderWidths = () => {
   }
 
   const headerCells = section.querySelectorAll(
-    '.ant-table-header thead th[data-pro-table-col-key]',
+    ".ant-table-header thead th[data-pro-table-col-key]",
   ) as NodeListOf<HTMLElement>;
 
   headerCells.forEach((cell) => {
-    const key = cell.getAttribute('data-pro-table-col-key');
+    const key = cell.getAttribute("data-pro-table-col-key");
     if (!key) {
       return;
     }
 
-    const width = Math.max(MIN_COLUMN_WIDTH, Math.floor(cell.getBoundingClientRect().width));
+    const width = Math.max(
+      MIN_COLUMN_WIDTH,
+      Math.floor(cell.getBoundingClientRect().width),
+    );
     if (!Number.isFinite(width) || width <= 0) {
       return;
     }
@@ -906,7 +1005,10 @@ const collectVisibleHeaderWidths = () => {
   return widthMap;
 };
 
-const ensureColumnWidthsBeforeResize = (activeKey: string, activeWidth: number) => {
+const ensureColumnWidthsBeforeResize = (
+  activeKey: string,
+  activeWidth: number,
+) => {
   const measuredWidths = collectVisibleHeaderWidths();
   const activeMeasuredWidth = parseColumnWidth(activeWidth);
   let changed = false;
@@ -1015,21 +1117,21 @@ const shouldUseHorizontalScroll = computed(() => {
 });
 
 const applyKeywordClientFilter = (
-  value: any,
-  record: any,
+  value: unknown,
+  record: Record<string, unknown>,
   column: ProTableColumn,
   headerFilter: ProTableHeaderFilter,
 ) => {
-  if (typeof headerFilter.clientFilter === 'function') {
+  if (typeof headerFilter.clientFilter === "function") {
     return headerFilter.clientFilter(value, record, column);
   }
 
-  const keyword = String(value ?? '').trim();
+  const keyword = String(value ?? "").trim();
   if (!keyword) {
     return true;
   }
 
-  const rawText = String(getColumnCellValue(record, column) ?? '');
+  const rawText = String(getColumnCellValue(record, column) ?? "");
   const caseSensitive = Boolean(headerFilter.caseSensitive);
   const normalizedText = caseSensitive ? rawText : rawText.toLowerCase();
   const terms = splitKeywordTerms(keyword).map((item) =>
@@ -1049,12 +1151,12 @@ const applyKeywordClientFilter = (
 };
 
 const applySelectClientFilter = (
-  value: any,
-  record: any,
+  value: unknown,
+  record: Record<string, unknown>,
   column: ProTableColumn,
   headerFilter: ProTableHeaderFilter,
 ) => {
-  if (typeof headerFilter.clientFilter === 'function') {
+  if (typeof headerFilter.clientFilter === "function") {
     return headerFilter.clientFilter(value, record, column);
   }
 
@@ -1063,7 +1165,7 @@ const applySelectClientFilter = (
     return cellValue.map((item) => String(item)).includes(String(value));
   }
 
-  return String(cellValue ?? '') === String(value ?? '');
+  return String(cellValue ?? "") === String(value ?? "");
 };
 
 const tableColumns = computed(() => {
@@ -1078,7 +1180,8 @@ const tableColumns = computed(() => {
     const key = resolveColumnKey(column, index);
     const width = parseColumnWidth(column.width);
     const canResize = Boolean(
-      effectiveColumnResizable.value && (column.resizable ?? effectiveResizable.value),
+      effectiveColumnResizable.value &&
+      (column.resizable ?? effectiveResizable.value),
     );
     const headerFilter = column.headerFilter;
     const headerFilterMode = normalizeHeaderFilterMode(headerFilter?.mode);
@@ -1088,39 +1191,50 @@ const tableColumns = computed(() => {
         (column.key ? tableFilters.value[String(column.key)] : undefined),
     );
     const currentFilterIconType =
-      headerFilter?.icon ?? (headerFilter?.type === 'keyword' ? 'search' : 'filter');
+      headerFilter?.icon ??
+      (headerFilter?.type === "keyword" ? "search" : "filter");
 
-    const enhancedColumn: Record<string, any> = {
+    const enhancedColumn: Record<string, unknown> = {
       ...column,
     };
 
     if (headerFilter) {
       enhancedColumn.__proHeaderFilter = headerFilter;
       enhancedColumn.__proHeaderFilterKey = key;
-      enhancedColumn.filteredValue = selectedValues.length > 0 ? selectedValues : null;
+      enhancedColumn.filteredValue =
+        selectedValues.length > 0 ? selectedValues : null;
       enhancedColumn.filterIcon =
         enhancedColumn.filterIcon ??
         ((filtered: boolean) => {
-          const IconComp = currentFilterIconType === 'search' ? SearchOutlined : FilterFilled;
-          return h(IconComp, { style: { color: filtered ? '#1677ff' : undefined } });
+          const IconComp =
+            currentFilterIconType === "search" ? SearchOutlined : FilterFilled;
+          return h(IconComp, {
+            style: { color: filtered ? "#1677ff" : undefined },
+          });
         });
 
-      if (headerFilter.type === 'keyword') {
-        enhancedColumn.filterDropdown = enhancedColumn.filterDropdown ?? (() => null);
+      if (headerFilter.type === "keyword") {
+        enhancedColumn.filterDropdown =
+          enhancedColumn.filterDropdown ?? (() => null);
         if (!enhancedColumn.customFilterDropdown) {
           enhancedColumn.customFilterDropdown = true;
         }
         if (
           isClientHeaderFilterMode(headerFilterMode) &&
-          typeof enhancedColumn.onFilter !== 'function'
+          typeof enhancedColumn.onFilter !== "function"
         ) {
-          enhancedColumn.onFilter = (value: any, record: any) =>
-            applyKeywordClientFilter(value, record, column, headerFilter);
+          enhancedColumn.onFilter = (
+            value: unknown,
+            record: Record<string, unknown>,
+          ) => applyKeywordClientFilter(value, record, column, headerFilter);
         }
       }
 
-      if (headerFilter.type === 'select') {
-        if (!Array.isArray(enhancedColumn.filters) || enhancedColumn.filters.length === 0) {
+      if (headerFilter.type === "select") {
+        if (
+          !Array.isArray(enhancedColumn.filters) ||
+          enhancedColumn.filters.length === 0
+        ) {
           enhancedColumn.filters = (headerFilter.options ?? []).map((item) => ({
             text: item.label,
             value: item.value,
@@ -1131,26 +1245,29 @@ const tableColumns = computed(() => {
         }
         if (
           isClientHeaderFilterMode(headerFilterMode) &&
-          typeof enhancedColumn.onFilter !== 'function'
+          typeof enhancedColumn.onFilter !== "function"
         ) {
-          enhancedColumn.onFilter = (value: any, record: any) =>
-            applySelectClientFilter(value, record, column, headerFilter);
+          enhancedColumn.onFilter = (
+            value: unknown,
+            record: Record<string, unknown>,
+          ) => applySelectClientFilter(value, record, column, headerFilter);
         }
       }
     }
 
-    const originalOnHeaderCell = (enhancedColumn as Record<string, any>).onHeaderCell;
+    const originalOnHeaderCell = (enhancedColumn as Record<string, unknown>)
+      .onHeaderCell;
 
     return {
       ...enhancedColumn,
-      onHeaderCell: (headerColumn: any) => {
+      onHeaderCell: (headerColumn: Record<string, unknown>) => {
         const originalCell =
-          typeof originalOnHeaderCell === 'function'
+          typeof originalOnHeaderCell === "function"
             ? (originalOnHeaderCell(headerColumn) ?? {})
             : {};
-        const mergedCell: Record<string, any> = {
+        const mergedCell: Record<string, unknown> = {
           ...originalCell,
-          'data-pro-table-col-key': key,
+          "data-pro-table-col-key": key,
         };
 
         if (width != null) {
@@ -1171,13 +1288,13 @@ const tableColumns = computed(() => {
 });
 
 const tableScroll = computed(() => {
-  const scroll: Record<string, any> = {};
+  const scroll: Record<string, string | number> = {};
 
   if (hasFixedColumns.value && shouldUseHorizontalScroll.value) {
     if (canMeasureColumnWidth.value && tableViewportWidth.value > 0) {
       scroll.x = Math.max(columnTotalWidth.value, tableViewportWidth.value);
     } else {
-      scroll.x = 'max-content';
+      scroll.x = "max-content";
     }
   }
 
@@ -1191,16 +1308,16 @@ const tableScroll = computed(() => {
 const densityMenuProps = computed(() => ({
   items: [
     {
-      key: 'large',
-      label: $t('proTable.densityLarge'),
+      key: "large",
+      label: $t("proTable.densityLarge"),
     },
     {
-      key: 'middle',
-      label: $t('proTable.densityMiddle'),
+      key: "middle",
+      label: $t("proTable.densityMiddle"),
     },
     {
-      key: 'small',
-      label: $t('proTable.densitySmall'),
+      key: "small",
+      label: $t("proTable.densitySmall"),
     },
   ],
   selectedKeys: [tableSize.value],
@@ -1234,7 +1351,7 @@ const initializeColumnStates = () => {
   defaultColumnStates.value = states.map(cloneColumnState);
   showIndexColumn.value = defaultShowIndexColumn.value;
 
-  const nextFilters: Record<string, any[] | null> = {};
+  const nextFilters: Record<string, unknown[] | null> = {};
   states.forEach((state) => {
     const key = state.key;
     const previous = normalizeSelectedFilterValues(previousFilters[key]);
@@ -1285,11 +1402,14 @@ const toggleColumnChecked = (key: string, checked: boolean) => {
   scheduleMeasureTable();
 };
 
-const handleColumnCheckedChange = (key: string, event: any) => {
+const handleColumnCheckedChange = (
+  key: string,
+  event: { target?: { checked?: boolean } },
+) => {
   toggleColumnChecked(key, Boolean(event?.target?.checked));
 };
 
-const toggleColumnFixed = (key: string, position: 'left' | 'right') => {
+const toggleColumnFixed = (key: string, position: "left" | "right") => {
   const item = columnStates.value.find((state) => state.key === key);
   if (!item) return;
 
@@ -1299,7 +1419,8 @@ const toggleColumnFixed = (key: string, position: 'left' | 'right') => {
 
 const handleToggleAllColumns = () => {
   const allChecked =
-    columnStates.value.length > 0 && columnStates.value.every((item) => item.checked);
+    columnStates.value.length > 0 &&
+    columnStates.value.every((item) => item.checked);
   if (allChecked) {
     columnStates.value.forEach((item) => {
       item.checked = !item.checked;
@@ -1328,54 +1449,59 @@ const handleDragStart = (key: string) => {
 };
 
 const handleDragEnd = () => {
-  draggingColumnKey.value = '';
+  draggingColumnKey.value = "";
 };
 
 const handleDrop = (targetKey: string) => {
   const sourceKey = draggingColumnKey.value;
   if (!sourceKey || sourceKey === targetKey) return;
 
-  const sourceIndex = columnStates.value.findIndex((item) => item.key === sourceKey);
-  const targetIndex = columnStates.value.findIndex((item) => item.key === targetKey);
+  const sourceIndex = columnStates.value.findIndex(
+    (item) => item.key === sourceKey,
+  );
+  const targetIndex = columnStates.value.findIndex(
+    (item) => item.key === targetKey,
+  );
   if (sourceIndex === -1 || targetIndex === -1) return;
 
   const list = [...columnStates.value];
   const [dragItem] = list.splice(sourceIndex, 1);
   list.splice(targetIndex, 0, dragItem);
   columnStates.value = list;
-  draggingColumnKey.value = '';
+  draggingColumnKey.value = "";
   scheduleMeasureTable();
 };
 
 const normalizeFieldLabel = (label: unknown) => {
-  return String(label ?? '');
+  return String(label ?? "");
 };
 
 const buildEnterPlaceholder = (label: unknown) => {
-  return $t('proForm.enterPlaceholder', { label: normalizeFieldLabel(label) });
+  return $t("proForm.enterPlaceholder", { label: normalizeFieldLabel(label) });
 };
 
 const buildSelectPlaceholder = (label: unknown) => {
-  return $t('proForm.selectPlaceholder', { label: normalizeFieldLabel(label) });
+  return $t("proForm.selectPlaceholder", { label: normalizeFieldLabel(label) });
 };
 
 const resolveSearchType = (col: ProTableColumn): SearchType => {
   if (col.searchType) return col.searchType;
   if (col.options || col.searchOptions || col.valueEnum) {
     const vt = col.valueType;
-    if (vt === 'tag' || vt === 'badge') return 'select';
+    if (vt === "tag" || vt === "badge") return "select";
   }
   const vt = col.valueType;
-  if (vt === 'tag' || vt === 'badge') return 'select';
-  if (vt === 'date' || vt === 'dateTime' || vt === 'time') return 'datePicker';
-  if (vt === 'dateRange') return 'dateRange';
-  if (vt === 'money' || vt === 'percent' || vt === 'progress') return 'number';
-  return 'input';
+  if (vt === "tag" || vt === "badge") return "select";
+  if (vt === "date" || vt === "dateTime" || vt === "time") return "datePicker";
+  if (vt === "dateRange") return "dateRange";
+  if (vt === "money" || vt === "percent" || vt === "progress") return "number";
+  return "input";
 };
 
 const resolveSearchOptions = (col: ProTableColumn) => {
   if (col.searchOptions) return col.searchOptions;
-  if (col.options) return col.options.map((o) => ({ label: o.label, value: o.value }));
+  if (col.options)
+    return col.options.map((o) => ({ label: o.label, value: o.value }));
   if (col.valueEnum) {
     return Object.entries(col.valueEnum).map(([value, config]) => ({
       label: config.text,
@@ -1388,30 +1514,41 @@ const resolveSearchOptions = (col: ProTableColumn) => {
 const resolveValueEnum = (col: ProTableColumn) => {
   if (col.valueEnum) return col.valueEnum;
   if (col.options) {
-    const enumMap: Record<string, { text: string; status?: string; color?: string }> = {};
+    const enumMap: Record<
+      string,
+      { text: string; status?: string; color?: string }
+    > = {};
     col.options.forEach((o) => {
-      enumMap[String(o.value)] = { text: o.label, status: o.status, color: o.color };
+      enumMap[String(o.value)] = {
+        text: o.label,
+        status: o.status,
+        color: o.color,
+      };
     });
     return enumMap;
   }
   return undefined;
 };
 
-const getHeaderFilterEntry = (column: any) => {
+const getHeaderFilterEntry = (column: Record<string, unknown>) => {
   if (!column) {
     return undefined;
   }
 
-  const directHeaderFilter = column.__proHeaderFilter as ProTableHeaderFilter | undefined;
+  const directHeaderFilter = column.__proHeaderFilter as
+    | ProTableHeaderFilter
+    | undefined;
   const directKey = column.__proHeaderFilterKey as string | undefined;
   if (directHeaderFilter) {
     return {
-      key: String(directKey || column.key || column.dataIndex || ''),
+      key: String(directKey || column.key || column.dataIndex || ""),
       headerFilter: directHeaderFilter,
     };
   }
 
-  const keys = [column.key, column.dataIndex].filter(Boolean).map((item) => String(item));
+  const keys = [column.key, column.dataIndex]
+    .filter(Boolean)
+    .map((item) => String(item));
 
   for (const key of keys) {
     const entry = headerFilterEntries.value.get(key);
@@ -1426,24 +1563,29 @@ const getHeaderFilterEntry = (column: any) => {
   return undefined;
 };
 
-const shouldRenderBuiltInFilterIcon = (column: any) => {
+const shouldRenderBuiltInFilterIcon = (column: Record<string, unknown>) => {
   return Boolean(getHeaderFilterEntry(column));
 };
 
-const getBuiltInFilterIconType = (column: any) => {
+const getBuiltInFilterIconType = (column: Record<string, unknown>) => {
   const entry = getHeaderFilterEntry(column);
   if (!entry) {
-    return 'filter';
+    return "filter";
   }
-  return entry.headerFilter.icon ?? (entry.headerFilter.type === 'keyword' ? 'search' : 'filter');
+  return (
+    entry.headerFilter.icon ??
+    (entry.headerFilter.type === "keyword" ? "search" : "filter")
+  );
 };
 
-const isBuiltInKeywordFilterColumn = (column: any) => {
+const isBuiltInKeywordFilterColumn = (column: Record<string, unknown>) => {
   const entry = getHeaderFilterEntry(column);
-  return entry?.headerFilter.type === 'keyword';
+  return entry?.headerFilter.type === "keyword";
 };
 
-const getBuiltInKeywordFilterPlaceholder = (column: any) => {
+const getBuiltInKeywordFilterPlaceholder = (
+  column: Record<string, unknown>,
+) => {
   const entry = getHeaderFilterEntry(column);
   if (entry?.headerFilter.placeholder) {
     return entry.headerFilter.placeholder;
@@ -1453,22 +1595,25 @@ const getBuiltInKeywordFilterPlaceholder = (column: any) => {
 
 const getBuiltInKeywordFilterValue = (selectedKeys: unknown) => {
   const values = normalizeSelectedFilterValues(selectedKeys);
-  return String(values[0] ?? '');
+  return String(values[0] ?? "");
 };
 
-const handleBuiltInKeywordInput = (value: string, setSelectedKeys?: (values: string[]) => void) => {
+const handleBuiltInKeywordInput = (
+  value: string,
+  setSelectedKeys?: (values: string[]) => void,
+) => {
   if (!setSelectedKeys) return;
   setSelectedKeys(value ? [String(value)] : []);
 };
 
-const handleBuiltInKeywordSearch = (confirm?: (param?: any) => void) => {
+const handleBuiltInKeywordSearch = (confirm?: (param?: unknown) => void) => {
   confirm?.();
 };
 
 const handleBuiltInKeywordReset = (
   setSelectedKeys?: (values: string[]) => void,
   clearFilters?: () => void,
-  confirm?: (param?: any) => void,
+  confirm?: (param?: unknown) => void,
 ) => {
   clearFilters?.();
   setSelectedKeys?.([]);
@@ -1476,13 +1621,15 @@ const handleBuiltInKeywordReset = (
 };
 
 const buildHeaderFilterRequestParams = () => {
-  const payloadMode = props.headerFilter?.requestPayload ?? 'flat';
-  const nestedKey = props.headerFilter?.nestedKey || 'filters';
-  const flatParams: Record<string, any> = {};
-  const nestedParams: Record<string, any> = {};
+  const payloadMode = props.headerFilter?.requestPayload ?? "flat";
+  const nestedKey = props.headerFilter?.nestedKey || "filters";
+  const flatParams: Record<string, unknown> = {};
+  const nestedParams: Record<string, unknown> = {};
 
   Object.keys(tableFilters.value).forEach((tableFilterKey) => {
-    const selectedValues = normalizeSelectedFilterValues(tableFilters.value[tableFilterKey]);
+    const selectedValues = normalizeSelectedFilterValues(
+      tableFilters.value[tableFilterKey],
+    );
     if (selectedValues.length === 0) {
       return;
     }
@@ -1497,30 +1644,34 @@ const buildHeaderFilterRequestParams = () => {
       return;
     }
 
-    const paramKey = entry.headerFilter.paramKey || String(entry.column.dataIndex);
+    const paramKey =
+      entry.headerFilter.paramKey || String(entry.column.dataIndex);
     const isMultiple = Boolean(entry.headerFilter.multiple);
-    let requestValue: any;
+    let requestValue: unknown;
 
-    if (entry.headerFilter.type === 'keyword') {
-      requestValue = String(selectedValues[0] ?? '');
+    if (entry.headerFilter.type === "keyword") {
+      requestValue = String(selectedValues[0] ?? "");
     } else {
       requestValue = isMultiple ? selectedValues : selectedValues[0];
     }
 
-    if (typeof entry.headerFilter.transformRequestValue === 'function') {
-      requestValue = entry.headerFilter.transformRequestValue(requestValue, selectedValues);
+    if (typeof entry.headerFilter.transformRequestValue === "function") {
+      requestValue = entry.headerFilter.transformRequestValue(
+        requestValue,
+        selectedValues,
+      );
     }
 
     if (
       requestValue === undefined ||
       requestValue === null ||
-      requestValue === '' ||
+      requestValue === "" ||
       (Array.isArray(requestValue) && requestValue.length === 0)
     ) {
       return;
     }
 
-    if (payloadMode === 'nested') {
+    if (payloadMode === "nested") {
       nestedParams[paramKey] = requestValue;
       return;
     }
@@ -1528,7 +1679,7 @@ const buildHeaderFilterRequestParams = () => {
     flatParams[paramKey] = requestValue;
   });
 
-  if (payloadMode === 'nested') {
+  if (payloadMode === "nested") {
     if (Object.keys(nestedParams).length === 0) {
       return {};
     }
@@ -1574,7 +1725,7 @@ const buildSorterRequestParams = () => {
 const loadData = async () => {
   loading.value = true;
   try {
-    const params: Record<string, any> = {
+    const params: Record<string, unknown> = {
       ...searchForm.value,
       ...buildHeaderFilterRequestParams(),
       ...buildSorterRequestParams(),
@@ -1592,8 +1743,8 @@ const loadData = async () => {
       total.value = result.total || result.data.length;
       scheduleMeasureTable();
     }
-  } catch (error: any) {
-    message.error(error.message || $t('proTable.loadDataFailed'));
+  } catch (error: unknown) {
+    message.error((error as Error).message || $t("proTable.loadDataFailed"));
   } finally {
     loading.value = false;
   }
@@ -1614,14 +1765,29 @@ const handleReset = () => {
 
 const handleRefresh = () => {
   loadData();
-  emit('refresh');
+  emit("refresh");
 };
 
+interface TablePagination {
+  current?: number;
+  pageSize?: number;
+  total?: number;
+}
+
+interface TableSorter {
+  field?: string;
+  order?: "ascend" | "descend";
+}
+
+interface TableExtra {
+  action?: "paginate" | "sort" | "filter";
+}
+
 const handleTableChange = (
-  pagination: any,
-  filters: Record<string, any>,
-  sorter: any,
-  extra: any,
+  pagination: TablePagination,
+  filters: Record<string, unknown>,
+  sorter: TableSorter,
+  extra: TableExtra,
 ) => {
   if (paginationEnabled.value) {
     const nextCurrent = Number(pagination?.current || 1);
@@ -1633,17 +1799,23 @@ const handleTableChange = (
   tableFilters.value = normalizeTableFilters(filters);
   tableSorter.value = sorter;
 
-  if (extra?.action === 'filter' && (props.headerFilter?.resetPageOnFilterChange ?? true)) {
+  if (
+    extra?.action === "filter" &&
+    (props.headerFilter?.resetPageOnFilterChange ?? true)
+  ) {
     currentPage.value = 1;
   }
 
   loadData();
 };
 
-const handleAction = async (action: ProTableAction, record: any) => {
+const handleAction = async (
+  action: ProTableAction,
+  record: Record<string, unknown>,
+) => {
   if (action.confirm) {
     Modal.confirm({
-      title: $t('common.confirm'),
+      title: $t("common.confirm"),
       content: action.confirm,
       onOk: async () => {
         await action.onClick?.(record);
@@ -1662,14 +1834,14 @@ const getOuterHeight = (el: HTMLElement) => {
   const style = window.getComputedStyle(el);
   return (
     rect.height +
-    Number.parseFloat(style.marginTop || '0') +
-    Number.parseFloat(style.marginBottom || '0')
+    Number.parseFloat(style.marginTop || "0") +
+    Number.parseFloat(style.marginBottom || "0")
   );
 };
 
 const getHeaderFallbackHeight = () => {
-  if (tableSize.value === 'large') return 54;
-  if (tableSize.value === 'small') return 40;
+  if (tableSize.value === "large") return 54;
+  if (tableSize.value === "small") return 40;
   return 48;
 };
 
@@ -1696,32 +1868,50 @@ const measureTableScroll = () => {
   const sectionHeight = section.clientHeight;
   if (!sectionHeight) return;
 
-  const tableWrapperEl = section.querySelector('.ant-table-wrapper') as HTMLElement | null;
-  tableViewportWidth.value = Math.floor(tableWrapperEl?.clientWidth || section.clientWidth || 0);
+  const tableWrapperEl = section.querySelector(
+    ".ant-table-wrapper",
+  ) as HTMLElement | null;
+  tableViewportWidth.value = Math.floor(
+    tableWrapperEl?.clientWidth || section.clientWidth || 0,
+  );
 
-  const paginationEl = section.querySelector('.ant-pagination') as HTMLElement | null;
+  const paginationEl = section.querySelector(
+    ".ant-pagination",
+  ) as HTMLElement | null;
   const paginationHeight = paginationEl
     ? getOuterHeight(paginationEl)
     : getPaginationFallbackHeight();
 
-  const titleEl = section.querySelector('.ant-table-title') as HTMLElement | null;
-  const titleHeight = titleEl ? getOuterHeight(titleEl) : getTitleFallbackHeight();
+  const titleEl = section.querySelector(
+    ".ant-table-title",
+  ) as HTMLElement | null;
+  const titleHeight = titleEl
+    ? getOuterHeight(titleEl)
+    : getTitleFallbackHeight();
 
-  const headerEl = section.querySelector('.ant-table-header') as HTMLElement | null;
-  const theadEl = section.querySelector('.ant-table-thead') as HTMLElement | null;
+  const headerEl = section.querySelector(
+    ".ant-table-header",
+  ) as HTMLElement | null;
+  const theadEl = section.querySelector(
+    ".ant-table-thead",
+  ) as HTMLElement | null;
   const headerHeight = headerEl
     ? headerEl.getBoundingClientRect().height
     : theadEl?.getBoundingClientRect().height || getHeaderFallbackHeight();
 
   const nextY = Math.max(
     120,
-    Math.floor(sectionHeight - paginationHeight - titleHeight - headerHeight - 2),
+    Math.floor(
+      sectionHeight - paginationHeight - titleHeight - headerHeight - 2,
+    ),
   );
 
   const bodyTableEl = section.querySelector(
-    '.ant-table-body table, .ant-table-content table',
+    ".ant-table-body table, .ant-table-content table",
   ) as HTMLElement | null;
-  const bodyContentHeight = bodyTableEl ? bodyTableEl.getBoundingClientRect().height : 0;
+  const bodyContentHeight = bodyTableEl
+    ? bodyTableEl.getBoundingClientRect().height
+    : 0;
   shouldUseVerticalScroll.value = bodyContentHeight > nextY + 1;
 
   if (!tableScrollY.value || Math.abs(nextY - tableScrollY.value) > 1) {
@@ -1750,13 +1940,13 @@ const scheduleMeasureTable = () => {
 // Lifecycle
 onMounted(() => {
   handleWindowResize();
-  window.addEventListener('resize', handleWindowResize);
+  window.addEventListener("resize", handleWindowResize);
 
   initializeColumnStates();
   measureTableScroll();
   loadData();
 
-  if (typeof ResizeObserver !== 'undefined') {
+  if (typeof ResizeObserver !== "undefined") {
     resizeObserver = new ResizeObserver(() => {
       scheduleMeasureTable();
     });
@@ -1771,7 +1961,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', handleWindowResize);
+  window.removeEventListener("resize", handleWindowResize);
 
   if (rafId) {
     cancelAnimationFrame(rafId);
@@ -1852,23 +2042,29 @@ watch(
 // Built-in CRUD modal state
 const crudModalOpen = ref(false);
 const crudFormRef = ref();
-const crudFormInitialValues = ref<Record<string, any>>({});
-const editingRecord = ref<any>(null);
+const crudFormInitialValues = ref<Record<string, unknown>>({});
+const editingRecord = ref<Record<string, unknown> | null>(null);
 
 const crudModalTitle = computed(() => {
   if (editingRecord.value) {
-    return props.formEditTitle || $t('common.edit');
+    return props.formEditTitle || $t("common.edit");
   }
-  return props.formCreateTitle || $t('common.add');
+  return props.formCreateTitle || $t("common.add");
 });
 
-const openCreateModal = (initialValues?: Record<string, any>) => {
+const openCreateModal = (initialValues?: Record<string, unknown>) => {
   editingRecord.value = null;
   crudFormInitialValues.value = initialValues || {};
   crudModalOpen.value = true;
 };
 
-const openEditModal = (record: any) => {
+const openEditModal = (record: Record<string, unknown>) => {
+  editingRecord.value = record;
+  crudFormInitialValues.value = { ...record };
+  crudModalOpen.value = true;
+};
+
+const openEditModal = (record: Record<string, unknown>) => {
   editingRecord.value = record;
   crudFormInitialValues.value = { ...record };
   crudModalOpen.value = true;
@@ -1879,7 +2075,7 @@ const handleCrudSubmit = async () => {
   const valid = await crudFormRef.value.validate();
   if (!valid) return;
   const values = crudFormRef.value.getFieldsValue();
-  emit('form-submit', {
+  emit("form-submit", {
     values,
     record: editingRecord.value,
     isEdit: Boolean(editingRecord.value),

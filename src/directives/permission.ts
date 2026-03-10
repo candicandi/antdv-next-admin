@@ -1,6 +1,6 @@
-import type { Directive, DirectiveBinding } from 'vue';
+import type { App, Directive, DirectiveBinding } from "vue";
 
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from "@/stores/auth";
 
 /**
  * Permission directive
@@ -23,7 +23,9 @@ function checkPermission(el: HTMLElement, binding: DirectiveBinding) {
   const authStore = useAuthStore();
 
   if (!value) {
-    throw new Error('Permission value is required. Usage: v-permission="\'user.create\'"');
+    throw new Error(
+      "Permission value is required. Usage: v-permission=\"'user.create'\"",
+    );
   }
 
   const permissions = Array.isArray(value) ? value : [value];
@@ -39,19 +41,19 @@ function checkPermission(el: HTMLElement, binding: DirectiveBinding) {
 
   if (!hasPermission) {
     // Remove element if no permission
-    el.style.display = 'none';
+    el.style.display = "none";
     // Or completely remove from DOM
     // el.parentNode?.removeChild(el)
   } else {
-    el.style.display = '';
+    el.style.display = "";
   }
 }
 
 /**
  * Register permission directive globally
  */
-export function setupPermissionDirective(app: any) {
-  app.directive('permission', vPermission);
+export function setupPermissionDirective(app: App) {
+  app.directive("permission", vPermission);
 }
 
 export default vPermission;

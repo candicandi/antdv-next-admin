@@ -20,7 +20,7 @@
     >
       <template #toolbar-actions>
         <a-button type="primary" class="create-user-btn" @click="handleCreate">
-          <PlusOutlined /> {{ $t('exampleTable.createUser') }}
+          <PlusOutlined /> {{ $t("exampleTable.createUser") }}
         </a-button>
       </template>
 
@@ -30,8 +30,8 @@
             :checked="record.status === 'active'"
             @change="handleStatusChange(record, $event as boolean)"
           >
-            <template #checkedChildren>{{ $t('user.active') }}</template>
-            <template #unCheckedChildren>{{ $t('user.inactive') }}</template>
+            <template #checkedChildren>{{ $t("user.active") }}</template>
+            <template #unCheckedChildren>{{ $t("user.inactive") }}</template>
           </a-switch>
         </template>
         <template v-else-if="column.dataIndex === 'gender'">
@@ -45,7 +45,9 @@
     <!-- Create/Edit Modal -->
     <a-modal
       v-model:open="modalVisible"
-      :title="editingId ? $t('exampleTable.editUser') : $t('exampleTable.createUser')"
+      :title="
+        editingId ? $t('exampleTable.editUser') : $t('exampleTable.createUser')
+      "
       width="600px"
       @ok="handleSubmit"
     >
@@ -60,17 +62,18 @@
 </template>
 
 <script setup lang="ts">
-import type { ProTableColumn, ProFormItem } from '@/types/pro';
+import type { ProTableColumn, ProFormItem } from "@/types/pro";
+import type { User } from "@/types/auth";
 
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@antdv-next/icons';
-import { message } from 'antdv-next';
-import { ref, computed } from 'vue';
+import { PlusOutlined, EditOutlined, DeleteOutlined } from "@antdv-next/icons";
+import { message } from "antdv-next";
+import { ref, computed } from "vue";
 
-import { getUserList, createUser, updateUser, deleteUser } from '@/api/user';
-import ProForm from '@/components/Pro/ProForm/index.vue';
-import ProTable from '@/components/Pro/ProTable/index.vue';
-import { $t } from '@/locales';
-import { commonRules } from '@/utils/formRules';
+import { getUserList, createUser, updateUser, deleteUser } from "@/api/user";
+import ProForm from "@/components/Pro/ProForm/index.vue";
+import ProTable from "@/components/Pro/ProTable/index.vue";
+import { $t } from "@/locales";
+import { commonRules } from "@/utils/formRules";
 
 const modalVisible = ref(false);
 const editingId = ref<string | null>(null);
@@ -78,102 +81,104 @@ const formRef = ref();
 const formData = ref({});
 
 const genderOptions = computed(() => [
-  { label: $t('user.male'), value: 'male' },
-  { label: $t('user.female'), value: 'female' },
+  { label: $t("user.male"), value: "male" },
+  { label: $t("user.female"), value: "female" },
 ]);
 
-const genderValueEnum = computed<Record<string, { text: string; color?: string }>>(() => ({
-  male: { text: $t('user.male'), color: 'blue' },
-  female: { text: $t('user.female'), color: 'pink' },
+const genderValueEnum = computed<
+  Record<string, { text: string; color?: string }>
+>(() => ({
+  male: { text: $t("user.male"), color: "blue" },
+  female: { text: $t("user.female"), color: "pink" },
 }));
 
 // Table columns configuration
 const columns = computed<ProTableColumn[]>(() => [
   {
-    title: $t('user.username'),
-    dataIndex: 'username',
+    title: $t("user.username"),
+    dataIndex: "username",
     width: 150,
-    fixed: 'left',
+    fixed: "left",
     headerFilter: {
-      type: 'keyword',
-      mode: 'server',
-      icon: 'search',
-      placeholder: `搜索${$t('user.username')}`,
+      type: "keyword",
+      mode: "server",
+      icon: "search",
+      placeholder: `搜索${$t("user.username")}`,
       matchAllKeywords: true,
     },
   },
   {
-    title: $t('user.email'),
-    dataIndex: 'email',
+    title: $t("user.email"),
+    dataIndex: "email",
     search: true,
-    searchType: 'input',
+    searchType: "input",
     copyable: true,
   },
   {
-    title: $t('user.realName'),
-    dataIndex: 'realName',
+    title: $t("user.realName"),
+    dataIndex: "realName",
     search: true,
-    searchType: 'input',
+    searchType: "input",
   },
   {
-    title: $t('user.phone'),
-    dataIndex: 'phone',
+    title: $t("user.phone"),
+    dataIndex: "phone",
   },
   {
-    title: $t('user.gender'),
-    dataIndex: 'gender',
+    title: $t("user.gender"),
+    dataIndex: "gender",
     search: true,
-    searchType: 'select',
+    searchType: "select",
     searchOptions: genderOptions.value,
     headerFilter: {
-      type: 'select',
-      mode: 'server',
-      icon: 'filter',
+      type: "select",
+      mode: "server",
+      icon: "filter",
       multiple: true,
       options: genderOptions.value,
     },
-    valueType: 'tag',
+    valueType: "tag",
     valueEnum: genderValueEnum.value,
   },
   {
-    title: $t('common.status'),
-    dataIndex: 'status',
+    title: $t("common.status"),
+    dataIndex: "status",
     width: 150,
     headerFilter: {
-      type: 'select',
-      mode: 'server',
-      icon: 'filter',
+      type: "select",
+      mode: "server",
+      icon: "filter",
       multiple: false,
       options: [
-        { label: $t('user.active'), value: 'active' },
-        { label: $t('user.inactive'), value: 'inactive' },
+        { label: $t("user.active"), value: "active" },
+        { label: $t("user.inactive"), value: "inactive" },
       ],
     },
   },
   {
-    title: $t('common.createTime'),
-    dataIndex: 'createdAt',
-    valueType: 'dateTime',
+    title: $t("common.createTime"),
+    dataIndex: "createdAt",
+    valueType: "dateTime",
     search: true,
-    searchType: 'dateRange',
+    searchType: "dateRange",
     sorter: true,
   },
   {
-    title: $t('common.actions'),
-    dataIndex: 'action',
+    title: $t("common.actions"),
+    dataIndex: "action",
     width: 200,
-    fixed: 'right',
+    fixed: "right",
     actions: [
       {
-        label: $t('common.edit'),
+        label: $t("common.edit"),
         icon: EditOutlined,
         onClick: (record) => handleEdit(record),
       },
       {
-        label: $t('common.delete'),
+        label: $t("common.delete"),
         icon: DeleteOutlined,
         danger: true,
-        confirm: $t('user.confirmDelete'),
+        confirm: $t("user.confirmDelete"),
         onClick: (record) => handleDelete(record),
       },
     ],
@@ -183,53 +188,57 @@ const columns = computed<ProTableColumn[]>(() => [
 // Form items configuration
 const formItems = computed<ProFormItem[]>(() => [
   {
-    name: 'username',
-    label: $t('user.username'),
-    type: 'input',
+    name: "username",
+    label: $t("user.username"),
+    type: "input",
     required: true,
-    rules: [commonRules.required(), commonRules.length(3, 20), commonRules.username()],
+    rules: [
+      commonRules.required(),
+      commonRules.length(3, 20),
+      commonRules.username(),
+    ],
   },
   {
-    name: 'email',
-    label: $t('user.email'),
-    type: 'input',
+    name: "email",
+    label: $t("user.email"),
+    type: "input",
     required: true,
     rules: [commonRules.required(), commonRules.email()],
   },
   {
-    name: 'realName',
-    label: $t('user.realName'),
-    type: 'input',
+    name: "realName",
+    label: $t("user.realName"),
+    type: "input",
     required: true,
   },
   {
-    name: 'phone',
-    label: $t('user.phone'),
-    type: 'input',
+    name: "phone",
+    label: $t("user.phone"),
+    type: "input",
     rules: [commonRules.phone()],
   },
   {
-    name: 'gender',
-    label: $t('user.gender'),
-    type: 'radio',
+    name: "gender",
+    label: $t("user.gender"),
+    type: "radio",
     required: true,
     options: genderOptions.value,
   },
   {
-    name: 'status',
-    label: $t('common.status'),
-    type: 'radio',
+    name: "status",
+    label: $t("common.status"),
+    type: "radio",
     required: true,
-    initialValue: 'active',
+    initialValue: "active",
     options: [
-      { label: $t('user.active'), value: 'active' },
-      { label: $t('user.inactive'), value: 'inactive' },
+      { label: $t("user.active"), value: "active" },
+      { label: $t("user.inactive"), value: "inactive" },
     ],
   },
   {
-    name: 'bio',
-    label: $t('user.bio'),
-    type: 'textarea',
+    name: "bio",
+    label: $t("user.bio"),
+    type: "textarea",
     colSpan: 2,
     props: {
       rows: 4,
@@ -240,7 +249,7 @@ const formItems = computed<ProFormItem[]>(() => [
 ]);
 
 // Methods
-const fetchData = async (params: any) => {
+const fetchData = async (params: Record<string, unknown>) => {
   const res = await getUserList(params);
   return {
     data: res.data.list,
@@ -249,14 +258,14 @@ const fetchData = async (params: any) => {
   };
 };
 
-const handleStatusChange = async (record: any, checked: boolean) => {
+const handleStatusChange = async (record: User, checked: boolean) => {
   try {
     const newStatus = checked ? 'active' : 'inactive';
     await updateUser(record.id, { ...record, status: newStatus });
     record.status = newStatus;
     message.success($t('exampleTable.updateSuccess'));
-  } catch (error: any) {
-    message.error(error.message || $t('common.error'));
+  } catch (error: unknown) {
+    message.error((error as Error).message || $t('common.error'));
   }
 };
 
@@ -266,13 +275,13 @@ const handleCreate = () => {
   modalVisible.value = true;
 };
 
-const handleEdit = (record: any) => {
+const handleEdit = (record: User) => {
   editingId.value = record.id;
   formData.value = { ...record };
   modalVisible.value = true;
 };
 
-const handleDelete = async (record: any) => {
+const handleDelete = async (record: User) => {
   await deleteUser(record.id);
   message.success($t('exampleTable.deleteSuccess'));
 };
@@ -292,8 +301,106 @@ const handleSubmit = async () => {
       message.success($t('exampleTable.createSuccess'));
     }
     modalVisible.value = false;
+  } catch (error: unknown) {
+    message.error((error as Error).message || $t('common.error'));
+  }
+};
+};
+
+const handleStatusChange = async (record: User, checked: boolean) => {
+  try {
+    const newStatus = checked ? 'active' : 'inactive';
+    await updateUser(record.id, { ...record, status: newStatus });
+    record.status = newStatus;
+    message.success($t('exampleTable.updateSuccess'));
+  } catch (error: unknown) {
+    message.error((error as Error).message || $t('common.error'));
+  }
+};
+
+const handleCreate = () => {
+  editingId.value = null;
+  formData.value = {};
+  modalVisible.value = true;
+};
+
+const handleEdit = (record: User) => {
+  editingId.value = record.id;
+  formData.value = { ...record };
+  modalVisible.value = true;
+};
+
+const handleDelete = async (record: User) => {
+  await deleteUser(record.id);
+  message.success($t('exampleTable.deleteSuccess'));
+};
+
+const handleSubmit = async () => {
+  const valid = await formRef.value?.validate();
+  if (!valid) return;
+
+  const values = formRef.value?.getFieldsValue();
+
+  try {
+    if (editingId.value) {
+      await updateUser(editingId.value, values);
+      message.success($t('exampleTable.updateSuccess'));
+    } else {
+      await createUser(values);
+      message.success($t('exampleTable.createSuccess'));
+    }
+    modalVisible.value = false;
+  } catch (error: unknown) {
+    message.error((error as Error).message || $t('common.error'));
+  }
+};
+};
+
+const handleStatusChange = async (record: any, checked: boolean) => {
+  try {
+    const newStatus = checked ? "active" : "inactive";
+    await updateUser(record.id, { ...record, status: newStatus });
+    record.status = newStatus;
+    message.success($t("exampleTable.updateSuccess"));
   } catch (error: any) {
-    message.error(error.message || $t('common.error'));
+    message.error(error.message || $t("common.error"));
+  }
+};
+
+const handleCreate = () => {
+  editingId.value = null;
+  formData.value = {};
+  modalVisible.value = true;
+};
+
+const handleEdit = (record: any) => {
+  editingId.value = record.id;
+  formData.value = { ...record };
+  modalVisible.value = true;
+};
+
+const handleDelete = async (record: any) => {
+  await deleteUser(record.id);
+  message.success($t("exampleTable.deleteSuccess"));
+};
+
+const handleSubmit = async () => {
+  const valid = await formRef.value?.validate();
+  if (!valid) return;
+
+  const values = formRef.value?.getFieldsValue();
+
+  try {
+    if (editingId.value) {
+      await updateUser(editingId.value, values);
+      message.success($t("exampleTable.updateSuccess"));
+    } else {
+      await createUser(values);
+      message.success($t("exampleTable.createSuccess"));
+    }
+    modalVisible.value = false;
+  } catch (error: any) {
+    message.error(error.message || $t("common.error"));
   }
 };
 </script>
