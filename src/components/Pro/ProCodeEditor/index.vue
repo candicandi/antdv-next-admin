@@ -82,6 +82,19 @@ import {
 } from "@codemirror/language";
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/autocomplete";
 import { oneDark } from "@codemirror/theme-one-dark";
+import {
+  githubLight,
+  githubDark,
+} from "@uiw/codemirror-theme-github";
+import { dracula } from "@uiw/codemirror-theme-dracula";
+import { material, materialDark } from "@uiw/codemirror-theme-material";
+import { monokai } from "@uiw/codemirror-theme-monokai";
+import { nord } from "@uiw/codemirror-theme-nord";
+import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
+import {
+  solarizedLight,
+  solarizedDark,
+} from "@uiw/codemirror-theme-solarized";
 import { json, jsonParseLinter } from "@codemirror/lang-json";
 import { javascript } from "@codemirror/lang-javascript";
 import { html } from "@codemirror/lang-html";
@@ -122,6 +135,21 @@ export type SupportedLanguage =
   | "rust"
   | "go";
 
+export type EditorTheme =
+  | "auto"
+  | "light"
+  | "dark"
+  | "github"
+  | "githubDark"
+  | "dracula"
+  | "material"
+  | "materialDark"
+  | "monokai"
+  | "nord"
+  | "tokyoNight"
+  | "solarized"
+  | "solarizedDark";
+
 const props = defineProps({
   modelValue: {
     type: String,
@@ -132,7 +160,7 @@ const props = defineProps({
     default: "json",
   },
   theme: {
-    type: String as PropType<"light" | "dark" | "auto">,
+    type: String as PropType<EditorTheme>,
     default: "auto",
   },
   readonly: {
@@ -205,7 +233,8 @@ const computedTheme = computed<"light" | "dark">(() => {
   if (props.theme === "auto") {
     return themeStore.isDark ? "dark" : "light";
   }
-  return props.theme;
+  const lightThemes = ["light", "github", "material", "solarized"];
+  return lightThemes.includes(props.theme) ? "light" : "dark";
 });
 
 const showDefaultToolbar = computed(() => {
@@ -267,6 +296,27 @@ function getLanguageExtension(lang: SupportedLanguage) {
   }
 }
 
+function getThemeExtension(theme: EditorTheme): Extension[] {
+  const themeMap: Record<string, Extension | undefined> = {
+    github: githubLight,
+    githubDark,
+    dracula,
+    material,
+    materialDark,
+    monokai,
+    nord,
+    tokyoNight,
+    solarized: solarizedLight,
+    solarizedDark,
+  };
+
+  if (theme === "light") return [];
+  if (theme === "dark") return [oneDark];
+
+  const ext = themeMap[theme];
+  return ext ? [ext] : [];
+}
+
 const baseExtensions = computed<Extension[]>(() => {
   const ext: Extension[] = [
     highlightSpecialChars(),
@@ -297,8 +347,12 @@ const baseExtensions = computed<Extension[]>(() => {
     ext.push(foldGutter());
   }
 
-  if (computedTheme.value === "dark") {
+  if (props.theme === "auto") {
+    if (themeStore.isDark) ext.push(oneDark);
+  } else if (props.theme === "dark") {
     ext.push(oneDark);
+  } else {
+    ext.push(...getThemeExtension(props.theme));
   }
 
   ext.push(getLanguageExtension(emitLanguage.value));

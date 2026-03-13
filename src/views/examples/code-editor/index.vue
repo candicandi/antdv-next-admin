@@ -6,97 +6,89 @@
         {{ $t("examples.codeEditor.description") }}
       </p>
 
-      <a-divider orientation="left">{{
-        $t("examples.codeEditor.jsonEditor")
-      }}</a-divider>
-      <div class="example-section">
-        <ProCodeEditor
-          v-model="jsonContent"
-          language="json"
-          :height="300"
-          :show-toolbar="true"
-        />
-      </div>
+      <a-row :gutter="[16, 16]">
+        <a-col :xs="24" :sm="24" :md="12">
+          <div class="editor-card">
+            <div class="editor-header">
+              <span class="editor-title">{{ $t("examples.codeEditor.themePreview") }}</span>
+              <a-select
+                v-model:value="selectedTheme"
+                style="width: 140px"
+                size="small"
+                :options="themeOptions"
+              />
+            </div>
+            <ProCodeEditor
+              v-model="themePreviewContent"
+              language="typescript"
+              :height="250"
+              :theme="selectedTheme"
+            />
+          </div>
+        </a-col>
 
-      <a-divider orientation="left">{{
-        $t("examples.codeEditor.jsEditor")
-      }}</a-divider>
-      <div class="example-section">
-        <ProCodeEditor
-          v-model="jsContent"
-          language="javascript"
-          :height="250"
-        />
-      </div>
+        <a-col :xs="24" :sm="24" :md="12">
+          <div class="editor-card">
+            <div class="editor-title">{{ $t("examples.codeEditor.jsEditor") }}</div>
+            <ProCodeEditor
+              v-model="jsContent"
+              language="javascript"
+              :height="250"
+            />
+          </div>
+        </a-col>
 
-      <a-divider orientation="left">{{
-        $t("examples.codeEditor.multiLanguage")
-      }}</a-divider>
-      <div class="example-section">
-        <a-space direction="vertical" style="width: 100%">
-          <a-select
-            v-model:value="selectedLanguage"
-            style="width: 200px"
-            :options="languageOptions"
-          />
-          <ProCodeEditor
-            v-model="multiLangContent"
-            :language="selectedLanguage"
-            :height="200"
-            :show-language-select="true"
-            @language-change="handleLanguageChange"
-          />
-        </a-space>
-      </div>
+        <a-col :xs="24" :sm="24" :md="12">
+          <div class="editor-card">
+            <div class="editor-title">{{ $t("examples.codeEditor.jsonEditor") }}</div>
+            <ProCodeEditor
+              v-model="jsonContent"
+              language="json"
+              :height="250"
+              :show-toolbar="true"
+            />
+          </div>
+        </a-col>
 
-      <a-divider orientation="left">{{
-        $t("examples.codeEditor.readonlyMode")
-      }}</a-divider>
-      <div class="example-section">
-        <ProCodeEditor
-          v-model="readonlyContent"
-          language="typescript"
-          :height="200"
-          :readonly="true"
-        />
-      </div>
+        <a-col :xs="24" :sm="24" :md="12">
+          <div class="editor-card">
+            <div class="editor-title">{{ $t("examples.codeEditor.multiLanguage") }}</div>
+            <ProCodeEditor
+              v-model="multiLangContent"
+              :language="selectedLanguage"
+              :height="250"
+              :show-language-select="true"
+              @language-change="handleLanguageChange"
+            />
+          </div>
+        </a-col>
 
-      <a-divider orientation="left">{{
-        $t("examples.codeEditor.darkTheme")
-      }}</a-divider>
-      <div class="example-section">
-        <a-space direction="vertical" style="width: 100%">
-          <a-radio-group v-model:value="editorTheme">
-            <a-radio value="auto">{{
-              $t("examples.codeEditor.themeAuto")
-            }}</a-radio>
-            <a-radio value="light">{{
-              $t("examples.codeEditor.themeLight")
-            }}</a-radio>
-            <a-radio value="dark">{{
-              $t("examples.codeEditor.themeDark")
-            }}</a-radio>
-          </a-radio-group>
-          <ProCodeEditor
-            v-model="darkContent"
-            language="python"
-            :height="200"
-            :theme="editorTheme"
-          />
-        </a-space>
-      </div>
+        <a-col :xs="24" :sm="24" :md="12">
+          <div class="editor-card">
+            <div class="editor-title">{{ $t("examples.codeEditor.readonlyMode") }}</div>
+            <ProCodeEditor
+              v-model="readonlyContent"
+              language="typescript"
+              :height="250"
+              :readonly="true"
+            />
+          </div>
+        </a-col>
 
-      <a-divider orientation="left">{{
-        $t("examples.codeEditor.autoHeight")
-      }}</a-divider>
-      <div class="example-section">
-        <ProCodeEditor
-          v-model="autoHeightContent"
-          language="markdown"
-          height="auto"
-          :line-numbers="false"
-        />
-      </div>
+        <a-col :xs="24" :sm="24" :md="12">
+          <div class="editor-card">
+            <div class="editor-title">{{ $t("examples.codeEditor.autoHeight") }}</div>
+            <div class="auto-height-wrapper">
+              <ProCodeEditor
+                v-model="autoHeightContent"
+                language="markdown"
+                :height="250"
+                :line-numbers="false"
+              />
+            </div>
+          </div>
+        </a-col>
+      </a-row>
 
       <a-divider orientation="left">{{ $t("common.preview") }}</a-divider>
       <a-card :title="$t('examples.codeEditor.outputPreview')" size="small">
@@ -109,7 +101,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import type { SupportedLanguage } from "@/components/Pro/ProCodeEditor/index.vue";
+import type {
+  EditorTheme,
+  SupportedLanguage,
+} from "@/components/Pro/ProCodeEditor/index.vue";
 
 import ProCodeEditor from "@/components/Pro/ProCodeEditor/index.vue";
 
@@ -163,19 +158,29 @@ async function fetchUser(id: string): Promise<ApiResponse<User>> {
   return response.json();
 }`);
 
-const darkContent = ref(`# Python Example
-from typing import List, Optional
+const themePreviewContent = ref(`// TypeScript Theme Preview
+interface ThemeConfig {
+  name: string;
+  colors: {
+    primary: string;
+    background: string;
+    text: string;
+  };
+}
 
-class User:
-    def __init__(self, name: str, age: int):
-        self.name = name
-        self.age = age
+const themes: ThemeConfig[] = [
+  { name: 'light', colors: { primary: '#1890ff', background: '#fff', text: '#333' } },
+  { name: 'dark', colors: { primary: '#177ddc', background: '#141414', text: '#fff' } },
+  { name: 'github', colors: { primary: '#0366d6', background: '#fff', text: '#24292e' } },
+  { name: 'dracula', colors: { primary: '#bd93f9', background: '#282a36', text: '#f8f8f2' } },
+  { name: 'nord', colors: { primary: '#88c0d0', background: '#2e3440', text: '#d8dee9' } },
+];
 
-    def greet(self) -> str:
-        return f"Hello, I'm {self.name}!"
-
-def process_users(users: List[User]) -> List[str]:
-    return [user.greet() for user in users if user.age >= 18]`);
+function applyTheme(theme: ThemeConfig) {
+  document.documentElement.style.setProperty('--color-primary', theme.colors.primary);
+  document.documentElement.style.setProperty('--color-bg', theme.colors.background);
+  document.documentElement.style.setProperty('--color-text', theme.colors.text);
+}`);
 
 const autoHeightContent = ref(`# Markdown Example
 
@@ -202,9 +207,25 @@ console.log(greeting);
 `);
 
 const selectedLanguage = ref<SupportedLanguage>("javascript");
-const multiLangContent = ref(`// Select a language from the dropdown above`);
+const multiLangContent = ref(`// JavaScript code\nconst hello = 'world';\nconsole.log(hello);`);
 
-const editorTheme = ref<"auto" | "light" | "dark">("auto");
+const selectedTheme = ref<EditorTheme>("auto");
+
+const themeOptions = [
+  { label: "跟随系统", value: "auto" },
+  { label: "亮色", value: "light" },
+  { label: "暗色", value: "dark" },
+  { label: "GitHub", value: "github" },
+  { label: "GitHub Dark", value: "githubDark" },
+  { label: "Dracula", value: "dracula" },
+  { label: "Material", value: "material" },
+  { label: "Material Dark", value: "materialDark" },
+  { label: "Monokai", value: "monokai" },
+  { label: "Nord", value: "nord" },
+  { label: "Tokyo Night", value: "tokyoNight" },
+  { label: "Solarized Light", value: "solarized" },
+  { label: "Solarized Dark", value: "solarizedDark" },
+];
 
 const languageOptions = [
   { label: "JSON", value: "json" },
@@ -228,15 +249,15 @@ const languageExamples: Record<SupportedLanguage, string> = {
     "// TypeScript code\ninterface Config {\n  apiUrl: string;\n}\nconst config: Config = { apiUrl: '/api' };",
   html: "<!DOCTYPE html>\n<html>\n<head>\n  <title>Hello</title>\n</head>\n<body>\n  <h1>Hello World</h1>\n</body>\n</html>",
   css: "/* CSS Example */\n.container {\n  display: flex;\n  gap: 16px;\n  padding: 20px;\n}",
-  markdown: "# Heading\\n\\nParagraph text here.",
-  sql: "-- SQL Example\\nSELECT * FROM users WHERE age > 18;",
-  yaml: "name: example\\nversion: 1.0\\nenvironment: development",
-  xml: '<?xml version="1.0"?>\\n<root>\\n  <item>value</item>\\n</root>',
-  python: "# Python Example\\ndef greet(name):\\n    return f'Hello, {name}!'",
-  java: "// Java Example\\npublic class Main {\\n    public static void main(String[] args) {\\n    }\\n}",
-  php: "<?php\\n// PHP Example\\necho 'Hello World';",
-  rust: '// Rust Example\\nfn main() {\\n    println!("Hello, world!");\\n}',
-  go: '// Go Example\\npackage main\\n\\nfunc main() {\\n    println("Hello")\\n}',
+  markdown: "# Heading\n\nParagraph text here.",
+  sql: "-- SQL Example\nSELECT * FROM users WHERE age > 18;",
+  yaml: "name: example\nversion: 1.0\nenvironment: development",
+  xml: '<?xml version="1.0"?>\n<root>\n  <item>value</item>\n</root>',
+  python: "# Python Example\ndef greet(name):\n    return f'Hello, {name}!'",
+  java: "// Java Example\npublic class Main {\n    public static void main(String[] args) {\n    }\n}",
+  php: "<?php\n// PHP Example\necho 'Hello World';",
+  rust: '// Rust Example\nfn main() {\n    println!("Hello, world!");\n}',
+  go: '// Go Example\npackage main\n\nfunc main() {\n    println("Hello")\n}',
 };
 
 function handleLanguageChange(lang: SupportedLanguage) {
@@ -265,8 +286,33 @@ function handleLanguageChange(lang: SupportedLanguage) {
   color: var(--color-text-secondary);
 }
 
-.example-section {
-  margin-bottom: 16px;
+.editor-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-title {
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: var(--color-text);
+}
+
+.editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+
+  .editor-title {
+    margin-bottom: 0;
+  }
+}
+
+.auto-height-wrapper {
+  flex: 1;
+  max-height: 250px;
+  overflow: auto;
 }
 
 .output-preview {
@@ -283,6 +329,6 @@ function handleLanguageChange(lang: SupportedLanguage) {
 }
 
 :deep(.ant-divider) {
-  margin: 24px 0;
+  margin: 24px 0 16px;
 }
 </style>

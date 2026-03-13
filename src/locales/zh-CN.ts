@@ -1405,6 +1405,7 @@ export default {
       multiLanguage: "多语言切换",
       readonlyMode: "只读预览模式",
       darkTheme: "主题切换",
+      themePreview: "主题预览",
       themeAuto: "跟随系统",
       themeLight: "亮色",
       themeDark: "暗色",

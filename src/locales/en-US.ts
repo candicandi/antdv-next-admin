@@ -1454,6 +1454,7 @@ export default {
       multiLanguage: "Multi-language Switching",
       readonlyMode: "Read-only Preview Mode",
       darkTheme: "Theme Switching",
+      themePreview: "Theme Preview",
       themeAuto: "Follow System",
       themeLight: "Light",
       themeDark: "Dark",
