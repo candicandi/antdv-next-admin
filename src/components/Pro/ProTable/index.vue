@@ -2217,6 +2217,7 @@ defineExpose({
 
       :deep(.ant-table-wrapper),
       :deep(.ant-spin-nested-loading),
+      :deep(.ant-spin),
       :deep(.ant-spin-container),
       :deep(.ant-table),
       :deep(.ant-table-container) {
