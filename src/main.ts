@@ -8,11 +8,12 @@ import { setupDirectives } from './directives';
 import i18n from './locales';
 import router from './router';
 // Import global styles
+// Tailwind CSS with @layer configuration (must come after reset.css)
 import 'antdv-next/dist/reset.css';
-import './assets/styles/global.css';
+import './assets/styles/tailwind.css';
 import './assets/styles/variables.css';
 import './assets/styles/animations.css';
-import './assets/styles/tailwind.css'
+import './assets/styles/global.css';
 
 const app = createApp(App);
 
