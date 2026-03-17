@@ -1,8 +1,8 @@
 <template>
-  <div class="page-container">
-    <div class="card mb-md">
-      <h2 class="text-xl font-bold mb-sm">{{ $t('exampleSpin.title') }}</h2>
-      <p class="text-secondary">{{ $t('exampleSpin.description') }}</p>
+  <div class="page-container overflow-hidden">
+    <div class="card mb-4">
+      <h2 class="text-xl font-bold mb-2">{{ $t('exampleSpin.title') }}</h2>
+      <p class="text-[var(--color-text-secondary)]">{{ $t('exampleSpin.description') }}</p>
     </div>
 
     <a-row :gutter="[16, 16]">
@@ -22,13 +22,13 @@
         <a-card :title="$t('exampleSpin.tip')" :bordered="false">
           <a-flex gap="middle">
             <a-spin :tip="$t('common.loading')" size="small">
-              <div class="spin-placeholder" />
+              <div class="p-[50px] bg-black/5 rounded" />
             </a-spin>
             <a-spin :tip="$t('common.loading')">
-              <div class="spin-placeholder" />
+              <div class="p-[50px] bg-black/5 rounded" />
             </a-spin>
             <a-spin :tip="$t('common.loading')" size="large">
-              <div class="spin-placeholder" />
+              <div class="p-[50px] bg-black/5 rounded" />
             </a-spin>
           </a-flex>
         </a-card>
@@ -224,19 +224,3 @@ onUnmounted(() => {
   }
 });
 </script>
-
-<style scoped lang="scss">
-.page-container {
-  overflow: hidden;
-}
-
-.mb-md {
-  margin-bottom: var(--spacing-md);
-}
-
-.spin-placeholder {
-  padding: 50px;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-}
-</style>

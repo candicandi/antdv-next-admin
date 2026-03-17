@@ -1,9 +1,13 @@
 <template>
-  <div class="error-page">
-    <div class="error-content">
-      <div class="error-code">404</div>
-      <h1 class="error-title">{{ $t('error.404') }}</h1>
-      <p class="error-description">{{ $t('error.pageNotFound') }}</p>
+  <div class="flex min-h-screen items-center justify-center bg-[var(--color-bg-layout)]">
+    <div class="text-center">
+      <div class="text-[120px] font-bold leading-none text-primary mb-6">404</div>
+      <h1 class="text-3xl font-semibold mb-4 text-[var(--color-text-primary)]">
+        {{ $t('error.404') }}
+      </h1>
+      <p class="text-lg text-[var(--color-text-secondary)] mb-8">
+        {{ $t('error.pageNotFound') }}
+      </p>
       <a-button type="primary" size="large" @click="goHome">
         {{ $t('error.backHome') }}
       </a-button>
@@ -20,38 +24,3 @@ const goHome = () => {
   router.push('/');
 };
 </script>
-
-<style scoped lang="scss">
-.error-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: var(--color-bg-layout);
-
-  .error-content {
-    text-align: center;
-
-    .error-code {
-      font-size: 120px;
-      font-weight: var(--font-weight-bold);
-      color: var(--color-primary);
-      line-height: 1;
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .error-title {
-      font-size: var(--font-size-3xl);
-      font-weight: var(--font-weight-semibold);
-      margin-bottom: var(--spacing-md);
-      color: var(--color-text-primary);
-    }
-
-    .error-description {
-      font-size: var(--font-size-lg);
-      color: var(--color-text-secondary);
-      margin-bottom: var(--spacing-xl);
-    }
-  }
-}
-</style>

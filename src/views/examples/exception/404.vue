@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <div class="card exception-card">
+    <div class="card flex flex-1 min-h-[500px] items-center justify-center">
       <a-result
         status="404"
         :title="$t('exampleException.404title')"
@@ -21,13 +21,3 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 </script>
-
-<style scoped lang="scss">
-.exception-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  min-height: 500px;
-}
-</style>
