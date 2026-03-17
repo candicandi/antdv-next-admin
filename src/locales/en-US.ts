@@ -112,6 +112,7 @@ export default {
     spin: "Spin Example",
     watermark: "Watermark",
     splitter: "Splitter",
+    tour: "Tour Guide",
     requestAuth: "Request/Auth Flow",
     rbacFlow: "RBAC Flow",
     proTableAdvanced: "ProTable Advanced",
@@ -673,6 +674,44 @@ export default {
     configurablePanel: "Configurable Panel",
     autoPanel: "Auto Panel",
     codeEditorLayout: "Code Editor Layout Example",
+  },
+
+  exampleTour: {
+    title: "Tour Guide Example",
+    description:
+      "Tour component creates step-by-step guides to help users understand product features and workflows.",
+    startBasicTour: "Start Basic Tour",
+    startCustomTour: "Start Custom Tour",
+    searchButton: "Search",
+    createButton: "Create",
+    settingsButton: "Settings",
+    exportButton: "Export",
+    tourConfig: "Tour Configuration",
+    showMask: "Show Mask",
+    showArrow: "Show Arrow",
+    scrollIntoView: "Scroll Into View",
+    indicatorType: "Indicator Type",
+    step1Title: "Search Feature",
+    step1Desc:
+      "Click this button to search data in the system, supporting fuzzy matching and advanced filtering.",
+    step2Title: "Create Action",
+    step2Desc:
+      "Click this button to create new data records, supporting multiple data types.",
+    step3Title: "System Settings",
+    step3Desc:
+      "Click this button to access system settings and configure system parameters.",
+    step4Title: "Export Data",
+    step4Desc:
+      "Click this button to export current data to Excel, CSV, or other formats.",
+    customStep1Title: "Right Placement",
+    customStep1Desc: "The tour panel is displayed on the right of the target.",
+    customStep2Title: "Bottom Placement",
+    customStep2Desc: "The tour panel is displayed at the bottom of the target.",
+    customStep3Title: "Left Placement",
+    customStep3Desc: "The tour panel is displayed on the left of the target.",
+    customStep4Title: "Top Placement",
+    customStep4Desc:
+      "The tour panel is displayed on top of the target with a custom indicator.",
   },
 
   exampleModal: {

@@ -507,6 +507,17 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
               order: 7,
             },
           },
+          {
+            path: "/examples/tour",
+            name: "ExamplesTour",
+            component: () => import("@/views/examples/tour/index.vue"),
+            meta: {
+              title: "menu.tour",
+              icon: "GuideOutlined",
+              requiresAuth: true,
+              order: 8,
+            },
+          },
         ],
       },
       {
