@@ -2,9 +2,9 @@
   <div class="page-container">
     <div class="card">
       <h2>{{ $t('exampleModal.title') }}</h2>
-      <p class="mb-lg">{{ $t('exampleModal.description') }}</p>
+      <p class="mb-6">{{ $t('exampleModal.description') }}</p>
 
-      <a-space wrap :size="12" class="mb-lg">
+      <a-space wrap :size="12" class="mb-6">
         <a-button type="primary" @click="openDefaultModal">
           {{ $t('exampleModal.openDefault') }}
         </a-button>
@@ -13,7 +13,7 @@
         </a-button>
       </a-space>
 
-      <div class="config-grid">
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-3">
         <div class="config-item">
           <span>{{ $t('exampleModal.width') }}</span>
           <a-input-number
@@ -88,7 +88,7 @@
         style="margin-bottom: 16px"
       />
 
-      <div class="modal-content">
+      <div class="flex flex-col gap-3">
         <h3>{{ $t('exampleModal.contentTitle') }}</h3>
         <p>{{ $t('exampleModal.contentDescription') }}</p>
 
@@ -101,7 +101,7 @@
           </a-form-item>
         </a-form>
 
-        <div class="inline-config">
+        <div class="flex items-center gap-3 whitespace-nowrap">
           <span>{{ $t('exampleModal.dataCount') }}</span>
           <a-slider v-model:value="dataCount" :min="1" :max="300" style="flex: 1" />
           <a-input-number
@@ -113,8 +113,12 @@
           />
         </div>
 
-        <div class="scroll-list">
-          <div v-for="row in mockRows" :key="row" class="scroll-row">
+        <div class="border border-[var(--color-border-secondary)] rounded-lg overflow-hidden">
+          <div
+            v-for="row in mockRows"
+            :key="row"
+            class="py-2.5 px-3 border-b border-[var(--color-border-secondary)] last:border-b-0"
+          >
             {{ $t('exampleModal.rowText', { index: row }) }}
           </div>
         </div>
@@ -172,16 +176,6 @@ const handleConfirm = () => {
 </script>
 
 <style scoped lang="scss">
-.mb-lg {
-  margin-bottom: var(--spacing-lg);
-}
-
-.config-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-}
-
 .config-item {
   display: flex;
   align-items: center;
@@ -192,33 +186,5 @@ const handleConfirm = () => {
   border-radius: 10px;
   background: var(--color-bg-container);
   white-space: nowrap;
-}
-
-.modal-content {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.inline-config {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  white-space: nowrap;
-}
-
-.scroll-list {
-  border: 1px solid var(--color-border-secondary);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.scroll-row {
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--color-border-secondary);
-
-  &:last-child {
-    border-bottom: none;
-  }
 }
 </style>
