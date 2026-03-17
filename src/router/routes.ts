@@ -540,6 +540,17 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
               order: 10,
             },
           },
+          {
+            path: "/examples/color-picker",
+            name: "ExamplesColorPicker",
+            component: () => import("@/views/examples/color-picker/index.vue"),
+            meta: {
+              title: "menu.colorPicker",
+              icon: "BgColorsOutlined",
+              requiresAuth: true,
+              order: 11,
+            },
+          },
         ],
       },
       {
