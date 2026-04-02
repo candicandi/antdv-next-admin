@@ -1,18 +1,18 @@
 import axios, {
+  AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
-  AxiosError,
   InternalAxiosRequestConfig,
 } from "axios";
+
+import { message } from "antdv-next";
 
 import router from "@/router";
 import { useAuthStore } from "@/stores/auth";
 
-// Token refresh state
 let refreshPromise: Promise<string> | null = null;
 
-// Create axios instance
 const service: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 15000,
@@ -21,12 +21,10 @@ const service: AxiosInstance = axios.create({
   },
 });
 
-// Request interceptor
 service.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore();
 
-    // Add token to headers
     if (authStore.token) {
       config.headers.Authorization = `Bearer ${authStore.token}`;
     }
@@ -35,24 +33,23 @@ service.interceptors.request.use(
   },
   (error: AxiosError) => {
     console.error("Request error:", error);
+    message.error("请求发送失败");
     return Promise.reject(error);
   },
 );
 
-// Response interceptor
 service.interceptors.response.use(
   (response: AxiosResponse) => {
     const res = response.data;
 
-    // If the custom code is not 200, it is judged as an error
     if (res.code !== undefined && res.code !== 200) {
-      // Handle specific error codes
       if (res.code === 401) {
-        // Will be handled in error interceptor
         return Promise.reject(new Error(res.message || "Unauthorized"));
       } else if (res.code === 403) {
-        // Forbidden - no permission
         console.error("No permission:", res.message);
+        message.error(res.message || "没有访问权限");
+      } else {
+        message.error(res.message || "请求失败");
       }
 
       return Promise.reject(new Error(res.message || "Error"));
@@ -65,7 +62,6 @@ service.interceptors.response.use(
       _retry?: boolean;
     };
 
-    // Handle 401 errors with token refresh
     if (
       error.response?.status === 401 &&
       originalRequest &&
@@ -74,7 +70,6 @@ service.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // Ensure only one refresh request is made
         if (!refreshPromise) {
           const authStore = useAuthStore();
 
@@ -83,26 +78,22 @@ service.interceptors.response.use(
           });
         }
 
-        // Wait for token refresh to complete
         const newToken = await refreshPromise;
 
-        // Update the original request with new token
         if (originalRequest.headers) {
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
         }
 
-        // Retry the original request
         return service(originalRequest);
       } catch (refreshError) {
-        // Refresh failed - logout and redirect to login
         const authStore = useAuthStore();
         authStore.logout();
+        message.error("登录已过期，请重新登录");
         router.push("/login");
         return Promise.reject(refreshError);
       }
     }
 
-    // Handle other errors
     console.error("Response error:", error);
 
     if (error.response) {
@@ -110,33 +101,35 @@ service.interceptors.response.use(
 
       switch (status) {
         case 403:
-          // Forbidden
           console.error("Access forbidden");
+          message.error("没有访问权限");
           router.push("/403");
           break;
         case 404:
-          // Not found
           console.error("Resource not found");
+          message.error("请求的资源不存在");
           break;
         case 500:
-          // Server error
           console.error("Server error");
+          message.error("服务器错误，请稍后重试");
           router.push("/500");
           break;
         default:
           console.error(`Error ${status}:`, error.message);
+          message.error(error.message || "请求失败");
       }
     } else if (error.request) {
       console.error("No response received:", error.request);
+      message.error("网络连接失败，请检查网络");
     } else {
       console.error("Request setup error:", error.message);
+      message.error("请求配置错误");
     }
 
     return Promise.reject(error);
   },
 );
 
-// Export request methods
 export const request = {
   get<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return service.get(url, config);

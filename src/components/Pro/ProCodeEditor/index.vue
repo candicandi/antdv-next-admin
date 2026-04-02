@@ -82,19 +82,13 @@ import {
 } from "@codemirror/language";
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/autocomplete";
 import { oneDark } from "@codemirror/theme-one-dark";
-import {
-  githubLight,
-  githubDark,
-} from "@uiw/codemirror-theme-github";
+import { githubLight, githubDark } from "@uiw/codemirror-theme-github";
 import { dracula } from "@uiw/codemirror-theme-dracula";
 import { material, materialDark } from "@uiw/codemirror-theme-material";
 import { monokai } from "@uiw/codemirror-theme-monokai";
 import { nord } from "@uiw/codemirror-theme-nord";
 import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
-import {
-  solarizedLight,
-  solarizedDark,
-} from "@uiw/codemirror-theme-solarized";
+import { solarizedLight, solarizedDark } from "@uiw/codemirror-theme-solarized";
 import { json, jsonParseLinter } from "@codemirror/lang-json";
 import { javascript } from "@codemirror/lang-javascript";
 import { html } from "@codemirror/lang-html";
@@ -113,6 +107,7 @@ import { linter } from "@codemirror/lint";
 import { message } from "antdv-next";
 import { computed, ref, watch, type CSSProperties, type PropType } from "vue";
 
+import { $t } from "@/locales";
 import { useThemeStore } from "@/stores/theme";
 
 defineOptions({
@@ -386,8 +381,8 @@ function handleBlur() {
       const formatted = JSON.stringify(parsed, null, 2);
       emit("update:modelValue", formatted);
       emit("change", formatted);
-    } catch {
-      // Invalid JSON, do nothing
+    } catch (error) {
+      console.warn("JSON format on blur failed:", error);
     }
   }
   emit("blur");
@@ -405,9 +400,10 @@ function formatJson() {
     const formatted = JSON.stringify(parsed, null, 2);
     emit("update:modelValue", formatted);
     emit("change", formatted);
-    message.success("格式化成功");
-  } catch {
-    message.error("JSON 格式错误");
+    message.success($t("codeEditor.formatSuccess"));
+  } catch (error) {
+    console.warn("JSON format failed:", error);
+    message.error($t("codeEditor.jsonError"));
   }
 }
 
@@ -418,9 +414,10 @@ function minifyJson() {
     const minified = JSON.stringify(parsed);
     emit("update:modelValue", minified);
     emit("change", minified);
-    message.success("压缩成功");
-  } catch {
-    message.error("JSON 格式错误");
+    message.success($t("codeEditor.minifySuccess"));
+  } catch (error) {
+    console.warn("JSON minify failed:", error);
+    message.error($t("codeEditor.jsonError"));
   }
 }
 
@@ -428,9 +425,10 @@ async function copyToClipboard() {
   if (!props.modelValue) return;
   try {
     await navigator.clipboard.writeText(props.modelValue);
-    message.success("复制成功");
-  } catch {
-    message.error("复制失败");
+    message.success($t("codeEditor.copySuccess"));
+  } catch (error) {
+    console.warn("Copy to clipboard failed:", error);
+    message.error($t("codeEditor.copyFailed"));
   }
 }
 

@@ -76,6 +76,11 @@ export default {
     format: "格式化",
     minify: "压缩",
     copy: "复制",
+    formatSuccess: "格式化成功",
+    minifySuccess: "压缩成功",
+    copySuccess: "复制成功",
+    copyFailed: "复制失败",
+    jsonError: "JSON 格式错误",
   },
 
   menu: {
@@ -635,7 +640,8 @@ export default {
 
   exampleSplitter: {
     title: "分割面板示例",
-    description: "Splitter 组件用于创建可拖拽调整大小的分割面板布局，支持水平/垂直分割、嵌套布局和面板配置。",
+    description:
+      "Splitter 组件用于创建可拖拽调整大小的分割面板布局，支持水平/垂直分割、嵌套布局和面板配置。",
     basicTab: "基础分割",
     nestedTab: "嵌套布局",
     configTab: "面板配置",
@@ -694,7 +700,8 @@ export default {
 
   exampleQRCode: {
     title: "二维码示例",
-    description: "QRCode 组件用于生成二维码，支持自定义样式、Logo、状态显示和下载功能。",
+    description:
+      "QRCode 组件用于生成二维码，支持自定义样式、Logo、状态显示和下载功能。",
     basicTab: "基础用法",
     styleTab: "样式配置",
     logoTab: "带 Logo",
@@ -717,7 +724,8 @@ export default {
 
   exampleSegmented: {
     title: "分段控制器示例",
-    description: "Segmented 组件用于在多个选项之间切换，常用于视图切换、筛选条件等场景。",
+    description:
+      "Segmented 组件用于在多个选项之间切换，常用于视图切换、筛选条件等场景。",
     basicTab: "基础用法",
     iconTab: "图标选项",
     blockTab: "块级样式",
@@ -741,7 +749,8 @@ export default {
 
   exampleColorPicker: {
     title: "颜色选择器示例",
-    description: "ColorPicker 组件用于颜色选择，支持多种格式、预设颜色和透明度。",
+    description:
+      "ColorPicker 组件用于颜色选择，支持多种格式、预设颜色和透明度。",
     basicTab: "基础用法",
     presetTab: "预设颜色",
     formatTab: "格式支持",

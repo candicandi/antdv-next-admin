@@ -76,6 +76,11 @@ export default {
     format: "Format",
     minify: "Minify",
     copy: "Copy",
+    formatSuccess: "Formatted successfully",
+    minifySuccess: "Minified successfully",
+    copySuccess: "Copied to clipboard",
+    copyFailed: "Failed to copy",
+    jsonError: "Invalid JSON format",
   },
 
   menu: {

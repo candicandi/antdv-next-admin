@@ -261,11 +261,15 @@
           <template v-if="shouldRenderBuiltInFilterIcon(slotProps.column)">
             <SearchOutlined
               v-if="getBuiltInFilterIconType(slotProps.column) === 'search'"
-              :style="{ color: slotProps.filtered ? '#1677ff' : undefined }"
+              :style="{
+                color: slotProps.filtered ? 'var(--color-primary)' : undefined,
+              }"
             />
             <FilterFilled
               v-else
-              :style="{ color: slotProps.filtered ? '#1677ff' : undefined }"
+              :style="{
+                color: slotProps.filtered ? 'var(--color-primary)' : undefined,
+              }"
             />
           </template>
           <slot
@@ -702,7 +706,11 @@ const normalizeSelectedFilterValues = (
   if (value === undefined || value === null || value === "") {
     return [];
   }
-  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+  if (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  ) {
     return [value];
   }
   return [];
@@ -1215,7 +1223,7 @@ const tableColumns = computed(() => {
           const IconComp =
             currentFilterIconType === "search" ? SearchOutlined : FilterFilled;
           return h(IconComp, {
-            style: { color: filtered ? "#1677ff" : undefined },
+            style: { color: filtered ? "var(--color-primary)" : undefined },
           });
         });
 

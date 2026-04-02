@@ -16,7 +16,7 @@
       <div class="notification-panel">
         <div class="panel-header">
           <div class="header-left">
-            <span class="title">{{ $t('layout.notifications') }}</span>
+            <span class="title">{{ $t("layout.notifications") }}</span>
             <span v-if="notificationStore.unreadCount > 0" class="unread-pill">
               {{ notificationStore.unreadCount }}
             </span>
@@ -28,7 +28,7 @@
               :disabled="notificationStore.unreadCount === 0"
               @click="handleMarkAllRead"
             >
-              {{ $t('layout.markAllRead') }}
+              {{ $t("layout.markAllRead") }}
             </a-button>
             <a-button
               type="link"
@@ -36,7 +36,7 @@
               :disabled="notificationStore.notifications.length === 0"
               @click="handleClearAll"
             >
-              {{ $t('layout.clearAll') }}
+              {{ $t("layout.clearAll") }}
             </a-button>
           </a-space>
         </div>
@@ -61,14 +61,20 @@
               <div class="notification-content">
                 <div class="notification-meta">
                   <div class="notification-title-row">
-                    <div class="notification-title">{{ notification.title }}</div>
+                    <div class="notification-title">
+                      {{ notification.title }}
+                    </div>
                   </div>
                   <div class="notification-time">
                     {{ formatTime(notification.timestamp) }}
                   </div>
                 </div>
-                <div class="notification-message">{{ notification.message }}</div>
-                <div class="notification-detail-hint">{{ $t('layout.viewDetails') }}</div>
+                <div class="notification-message">
+                  {{ notification.message }}
+                </div>
+                <div class="notification-detail-hint">
+                  {{ $t("layout.viewDetails") }}
+                </div>
               </div>
 
               <a-button
@@ -87,14 +93,16 @@
               <BellOutlined class="empty-icon" />
               <span class="empty-dot" />
             </div>
-            <div class="empty-title">{{ $t('layout.noNotifications') }}</div>
-            <div class="empty-subtitle">{{ $t('layout.notificationsEmptyHint') }}</div>
+            <div class="empty-title">{{ $t("layout.noNotifications") }}</div>
+            <div class="empty-subtitle">
+              {{ $t("layout.notificationsEmptyHint") }}
+            </div>
           </div>
         </div>
 
         <div class="panel-footer">
           <a-button type="link" class="view-all-btn" @click="handleViewAll">
-            {{ $t('layout.viewAllNotifications') }}
+            {{ $t("layout.viewAllNotifications") }}
             <RightOutlined />
           </a-button>
         </div>
@@ -104,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Notification } from '@/types/layout';
+import type { Notification } from "@/types/layout";
 
 import {
   BellOutlined,
@@ -115,13 +123,13 @@ import {
   ExclamationCircleOutlined,
   CloseOutlined,
   RightOutlined,
-} from '@antdv-next/icons';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import { computed, ref } from 'vue';
+} from "@antdv-next/icons";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { computed, ref } from "vue";
 
-import router from '@/router';
-import { useNotificationStore } from '@/stores/notification';
+import router from "@/router";
+import { useNotificationStore } from "@/stores/notification";
 
 dayjs.extend(relativeTime);
 
@@ -144,25 +152,25 @@ const getNotificationTone = (notification: Notification) => {
 
   // Fallback to type-based classification
   switch (notification.type) {
-    case 'success':
-      return 'task';
-    case 'warning':
-      return 'security';
-    case 'error':
-      return 'error';
+    case "success":
+      return "task";
+    case "warning":
+      return "security";
+    case "error":
+      return "error";
     default:
-      return 'system';
+      return "system";
   }
 };
 
 const getNotificationIcon = (notification: Notification) => {
   const tone = getNotificationTone(notification);
 
-  if (tone === 'system') return RocketOutlined;
-  if (tone === 'message') return MailOutlined;
-  if (tone === 'security') return SafetyCertificateOutlined;
-  if (tone === 'task') return CheckCircleOutlined;
-  if (tone === 'error') return ExclamationCircleOutlined;
+  if (tone === "system") return RocketOutlined;
+  if (tone === "message") return MailOutlined;
+  if (tone === "security") return SafetyCertificateOutlined;
+  if (tone === "task") return CheckCircleOutlined;
+  if (tone === "error") return ExclamationCircleOutlined;
   return BellOutlined;
 };
 
@@ -170,7 +178,7 @@ const handleNotificationClick = (notification: Notification) => {
   notificationStore.markAsRead(notification.id);
   popoverOpen.value = false;
   router.push({
-    path: '/notifications',
+    path: "/notifications",
     query: {
       id: notification.id,
     },
@@ -191,14 +199,14 @@ const handleClearAll = () => {
 
 const handleViewAll = () => {
   popoverOpen.value = false;
-  router.push('/notifications');
+  router.push("/notifications");
 };
 </script>
 
 <style scoped lang="scss">
 .notification-panel {
-  width: 392px;
-  max-height: 560px;
+  width: min(392px, calc(100vw - 32px));
+  max-height: min(560px, calc(100vh - 120px));
   background: var(--color-bg-container);
   border-radius: 12px;
   overflow: hidden;
@@ -235,7 +243,8 @@ const handleViewAll = () => {
       font-weight: 600;
       color: var(--color-primary);
       background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-      border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+      border: 1px solid
+        color-mix(in srgb, var(--color-primary) 20%, transparent);
     }
   }
 
@@ -370,12 +379,13 @@ const handleViewAll = () => {
         margin-top: -2px;
         border-radius: 999px;
         color: var(--color-text-tertiary);
-        opacity: 0;
+        opacity: 0.5;
         transition:
           opacity var(--duration-base) var(--ease-out),
           background var(--duration-base) var(--ease-out);
 
         &:hover {
+          opacity: 1;
           color: var(--color-text-secondary);
           background: var(--color-bg-layout);
         }
@@ -432,7 +442,11 @@ const handleViewAll = () => {
         width: 72px;
         height: 72px;
         border-radius: 20px;
-        background: linear-gradient(145deg, rgba(22, 119, 255, 0.16), rgba(22, 119, 255, 0.04));
+        background: linear-gradient(
+          145deg,
+          rgba(22, 119, 255, 0.16),
+          rgba(22, 119, 255, 0.04)
+        );
         display: flex;
         align-items: center;
         justify-content: center;

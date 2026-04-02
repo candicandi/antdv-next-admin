@@ -2,13 +2,8 @@ import type { App, Directive, DirectiveBinding } from "vue";
 
 import { useAuthStore } from "@/stores/auth";
 
-/**
- * Permission directive
- * Usage:
- * v-permission="'user.create'"
- * v-permission="['user.create', 'user.edit']"
- * v-permission.all="['user.create', 'user.edit']"
- */
+const placeholderMap = new WeakMap<HTMLElement, Comment>();
+
 export const vPermission: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     checkPermission(el, binding);
@@ -32,26 +27,28 @@ function checkPermission(el: HTMLElement, binding: DirectiveBinding) {
   let hasPermission = false;
 
   if (modifiers.all) {
-    // Check if user has all permissions
     hasPermission = permissions.every((perm) => authStore.hasPermission(perm));
   } else {
-    // Check if user has any permission (OR logic)
     hasPermission = permissions.some((perm) => authStore.hasPermission(perm));
   }
 
   if (!hasPermission) {
-    // Remove element if no permission
-    el.style.display = "none";
-    // Or completely remove from DOM
-    // el.parentNode?.removeChild(el)
+    const placeholder =
+      placeholderMap.get(el) ?? document.createComment("v-permission");
+
+    if (el.parentNode && !placeholderMap.has(el)) {
+      placeholderMap.set(el, placeholder);
+      el.parentNode.replaceChild(placeholder, el);
+    }
   } else {
-    el.style.display = "";
+    const placeholder = placeholderMap.get(el);
+    if (placeholder?.parentNode) {
+      placeholder.parentNode.replaceChild(el, placeholder);
+      placeholderMap.delete(el);
+    }
   }
 }
 
-/**
- * Register permission directive globally
- */
 export function setupPermissionDirective(app: App) {
   app.directive("permission", vPermission);
 }

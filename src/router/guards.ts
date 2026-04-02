@@ -6,10 +6,9 @@ import { useAuthStore } from "@/stores/auth";
 import { useDictStore } from "@/stores/dict";
 import { usePermissionStore } from "@/stores/permission";
 import { useTabsStore } from "@/stores/tabs";
-import { isLoggedIn } from "@/utils/auth";
 import { resolveLocaleText } from "@/utils/i18n";
 
-import { basicRoutes } from "./routes";
+import { basicRoutes, notFoundRoute } from "./routes";
 
 const MENU_HISTORY_KEY = "app-menu-history";
 const MAX_HISTORY_ITEMS = 10;
@@ -77,7 +76,12 @@ export function setupRouterGuards(router: Router) {
         router.addRoute(route);
       });
 
-      // 加载字典数据
+      if (!router.hasRoute("NotFound")) {
+        router.addRoute(
+          notFoundRoute as unknown as import("vue-router").RouteRecordRaw,
+        );
+      }
+
       dictStore.loadDictData();
     };
 
@@ -112,7 +116,7 @@ export function setupRouterGuards(router: Router) {
       to.path === "/404" &&
       !!redirectedFromPath &&
       redirectedFromPath !== "/404" &&
-      isLoggedIn() &&
+      !!authStore.token &&
       !permissionStore.isRoutesGenerated;
 
     if (shouldRecoverFromNotFound) {
@@ -137,7 +141,7 @@ export function setupRouterGuards(router: Router) {
       to.path === "/404" &&
       !!redirectedFromPath &&
       redirectedFromPath !== "/404" &&
-      !isLoggedIn()
+      !authStore.token
     ) {
       next({ path: "/login", query: { redirect: redirectedFromPath } });
       return;
@@ -148,7 +152,7 @@ export function setupRouterGuards(router: Router) {
 
     if (requiresAuth) {
       // Check if user is logged in
-      if (!isLoggedIn()) {
+      if (!authStore.token) {
         // Redirect to login page
         next({
           path: "/login",

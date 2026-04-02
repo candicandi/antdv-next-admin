@@ -6,6 +6,9 @@
         v-if="showCollapseButton"
         type="text"
         class="collapse-btn"
+        :aria-label="
+          layoutStore.collapsed ? 'Expand sidebar' : 'Collapse sidebar'
+        "
         @click="layoutStore.toggleSidebar"
       >
         <MenuFoldOutlined v-if="!layoutStore.collapsed" />
@@ -21,6 +24,7 @@
       <a-button
         type="text"
         class="header-action search-btn"
+        aria-label="Search"
         @click="openGlobalSearch"
       >
         <SearchOutlined />
