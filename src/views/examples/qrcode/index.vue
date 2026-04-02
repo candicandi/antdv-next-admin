@@ -113,7 +113,7 @@
 <script setup lang="ts">
 import { DownloadOutlined } from '@antdv-next/icons'
 import type { QRCodeProps } from 'antdv-next'
-import { message, QRCode } from 'antdv-next'
+import { message } from 'antdv-next'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 

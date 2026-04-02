@@ -103,7 +103,6 @@
 import {
   AppstoreOutlined,
   BarsOutlined,
-  CalendarOutlined,
   CloudOutlined,
   DesktopOutlined,
   MobileOutlined,
